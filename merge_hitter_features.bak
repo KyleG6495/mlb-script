@@ -1,0 +1,28 @@
+import pandas as pd
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# File paths
+SEASON_FILE = "../data/aggregated_hitter_features.csv"
+ROLLING_FILE = "../data/hitter_rolling_5game_features.csv"
+OUTPUT_FILE = "../data/hitter_features_merged.csv"
+
+# Load both files
+logging.info(f"📥 Loading season features from {SEASON_FILE}")
+season_df = pd.read_csv(SEASON_FILE)
+
+logging.info(f"📥 Loading rolling 5-game features from {ROLLING_FILE}")
+rolling_df = pd.read_csv(ROLLING_FILE)
+
+# Remove duplicate columns before merging
+cols_to_exclude = ["name"]
+rolling_df = rolling_df.drop(columns=[col for col in cols_to_exclude if col in rolling_df.columns])
+
+# Merge on player_id
+merged_df = pd.merge(season_df, rolling_df, on="player_id", how="left")
+
+# Save merged output
+merged_df.to_csv(OUTPUT_FILE, index=False)
+logging.info(f"✅ Saved merged hitter features → {OUTPUT_FILE} with {len(merged_df)} rows")

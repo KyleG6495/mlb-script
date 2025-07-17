@@ -1,0 +1,939 @@
+player_id,name,date,actual,predicted
+656941,Kyle Schwarber,2025-03-29,1,0
+677594,Julio Rodriguez,2025-04-29,0,0
+670623,Isaac Paredes,2025-07-08,0,0
+663656,Kyle Tucker,2025-05-06,0,0
+677951,Bobby Witt Jr.,2025-06-05,0,0
+691406,Junior Caminero,2025-05-30,0,0
+621566,Matt Olson,2025-05-29,0,0
+608070,Jose Ramirez,2024-09-10,0,0
+672580,Maikel Garcia,2025-05-25,0,0
+663728,Cal Raleigh,2025-07-05,0,1
+668227,Randy Arozarena,2024-09-27,0,0
+672386,Alejandro Kirk,2025-04-12,0,0
+665489,Vladimir Guerrero Jr.,2025-07-05,0,0
+518692,Freddie Freeman,2025-06-11,0,0
+682985,Riley Greene,2025-04-04,1,0
+656716,Zach McKinstry,2025-06-17,0,0
+663656,Kyle Tucker,2025-05-23,0,0
+664040,Brandon Lowe,2025-04-22,0,0
+663656,Kyle Tucker,2025-04-08,0,0
+677951,Bobby Witt Jr.,2025-05-04,1,0
+592518,Manny Machado,2024-09-20,0,1
+606466,Ketel Marte,2025-06-13,0,0
+677594,Julio Rodriguez,2025-06-22,0,0
+663728,Cal Raleigh,2025-05-29,0,0
+677951,Bobby Witt Jr.,2025-05-08,0,1
+669065,Kyle Stowers,2024-09-13,0,0
+682985,Riley Greene,2024-09-22,0,0
+656716,Zach McKinstry,2025-05-19,0,0
+592450,Aaron Judge,2025-04-07,0,0
+691718,Pete Crow-Armstrong,2025-05-03,1,1
+667670,Brent Rooker,2024-09-20,0,0
+595879,Javier Baez,2025-05-24,0,0
+606466,Ketel Marte,2025-04-02,0,0
+695578,James Wood,2025-07-03,1,0
+596019,Francisco Lindor,2025-05-31,0,0
+592518,Manny Machado,2024-09-22,0,0
+696100,Hunter Goodman,2025-07-02,0,0
+696100,Hunter Goodman,2024-09-03,0,0
+695578,James Wood,2025-06-12,0,0
+596019,Francisco Lindor,2025-06-07,0,0
+691718,Pete Crow-Armstrong,2025-05-24,0,0
+595879,Javier Baez,2025-04-30,1,0
+660670,Ronald Acuna Jr.,2025-06-19,0,0
+596019,Francisco Lindor,2025-04-28,0,0
+663656,Kyle Tucker,2024-09-06,0,0
+672386,Alejandro Kirk,2025-06-10,1,0
+624413,Pete Alonso,2025-07-02,0,0
+656811,Ryan O'Hearn,2025-03-29,0,0
+592450,Aaron Judge,2024-09-28,0,1
+621566,Matt Olson,2025-05-02,1,0
+663728,Cal Raleigh,2025-04-29,0,0
+663728,Cal Raleigh,2025-06-30,1,0
+624413,Pete Alonso,2025-07-11,0,0
+682829,Elly De La Cruz,2025-04-03,0,0
+621566,Matt Olson,2024-09-28,0,0
+669065,Kyle Stowers,2025-07-11,0,0
+592518,Manny Machado,2025-04-23,0,0
+682985,Riley Greene,2024-09-16,0,0
+624413,Pete Alonso,2025-05-30,0,0
+608324,Alex Bregman,2024-09-21,0,0
+656716,Zach McKinstry,2024-09-14,0,0
+672580,Maikel Garcia,2025-05-06,0,0
+650402,Gleyber Torres,2025-04-28,0,0
+518692,Freddie Freeman,2025-07-02,0,0
+621439,Byron Buxton,2025-04-03,0,0
+650402,Gleyber Torres,2025-06-20,0,0
+805779,Jacob Wilson,2025-04-24,0,0
+691718,Pete Crow-Armstrong,2025-06-10,0,0
+656811,Ryan O'Hearn,2024-09-03,0,0
+621439,Byron Buxton,2025-07-05,0,0
+691406,Junior Caminero,2025-06-18,0,0
+669065,Kyle Stowers,2025-04-01,1,0
+667670,Brent Rooker,2025-03-31,0,0
+665161,Jeremy Pena,2025-04-08,0,0
+682985,Riley Greene,2024-09-02,0,0
+672580,Maikel Garcia,2025-04-22,0,0
+663728,Cal Raleigh,2025-05-21,1,0
+592518,Manny Machado,2025-04-05,0,0
+608324,Alex Bregman,2024-09-24,1,1
+656811,Ryan O'Hearn,2025-07-02,0,0
+660271,Shohei Ohtani,2025-05-26,1,0
+621439,Byron Buxton,2025-07-12,1,0
+608070,Jose Ramirez,2025-05-09,1,0
+665489,Vladimir Guerrero Jr.,2025-06-19,0,0
+669257,Will Smith,2025-05-04,0,0
+665487,Fernando Tatis Jr.,2025-04-07,1,0
+592518,Manny Machado,2024-09-18,1,1
+682985,Riley Greene,2025-05-26,0,0
+805779,Jacob Wilson,2024-09-25,0,0
+691406,Junior Caminero,2025-07-01,0,0
+608070,Jose Ramirez,2025-03-31,1,0
+621566,Matt Olson,2025-07-06,0,0
+669257,Will Smith,2025-07-09,0,0
+553882,Eugenio Suarez,2025-04-11,0,0
+672386,Alejandro Kirk,2024-09-22,0,0
+621566,Matt Olson,2024-09-03,0,0
+668227,Randy Arozarena,2025-07-09,1,0
+805779,Jacob Wilson,2025-05-01,0,0
+656811,Ryan O'Hearn,2025-06-20,0,0
+608324,Alex Bregman,2025-04-02,0,0
+608070,Jose Ramirez,2025-04-01,0,0
+596019,Francisco Lindor,2025-05-11,1,0
+664040,Brandon Lowe,2025-06-18,1,0
+664040,Brandon Lowe,2024-09-05,0,0
+665161,Jeremy Pena,2025-05-22,0,0
+663728,Cal Raleigh,2025-04-30,0,0
+672580,Maikel Garcia,2025-06-05,1,0
+656941,Kyle Schwarber,2024-09-25,0,1
+656811,Ryan O'Hearn,2024-09-22,0,0
+660271,Shohei Ohtani,2025-05-04,0,0
+805779,Jacob Wilson,2025-05-22,0,0
+670623,Isaac Paredes,2025-04-11,1,0
+670623,Isaac Paredes,2025-06-25,0,0
+592450,Aaron Judge,2025-05-16,0,0
+656716,Zach McKinstry,2025-07-04,1,0
+696100,Hunter Goodman,2025-05-26,0,0
+665489,Vladimir Guerrero Jr.,2025-05-02,0,0
+677594,Julio Rodriguez,2024-09-15,0,0
+677951,Bobby Witt Jr.,2025-04-06,0,0
+518692,Freddie Freeman,2025-07-05,0,0
+656811,Ryan O'Hearn,2025-06-16,0,0
+656941,Kyle Schwarber,2024-09-10,1,1
+672386,Alejandro Kirk,2025-06-19,1,0
+608324,Alex Bregman,2024-09-14,0,0
+656811,Ryan O'Hearn,2025-05-06,0,0
+592450,Aaron Judge,2025-03-30,1,1
+608070,Jose Ramirez,2025-07-08,1,0
+680757,Steven Kwan,2025-04-11,0,0
+518692,Freddie Freeman,2025-06-24,0,0
+691718,Pete Crow-Armstrong,2025-06-06,0,0
+656811,Ryan O'Hearn,2024-09-28,1,0
+665161,Jeremy Pena,2025-03-29,1,0
+667670,Brent Rooker,2024-09-21,0,0
+669257,Will Smith,2025-06-21,1,0
+669065,Kyle Stowers,2025-06-20,0,0
+663728,Cal Raleigh,2025-04-23,0,0
+665487,Fernando Tatis Jr.,2025-04-08,0,0
+677951,Bobby Witt Jr.,2025-06-27,1,0
+682829,Elly De La Cruz,2025-07-06,0,0
+621439,Byron Buxton,2025-07-08,0,0
+656811,Ryan O'Hearn,2025-05-24,0,0
+592450,Aaron Judge,2025-05-27,0,0
+596019,Francisco Lindor,2025-04-16,0,0
+682998,Corbin Carroll,2025-04-19,1,0
+624413,Pete Alonso,2025-07-12,0,0
+691718,Pete Crow-Armstrong,2025-05-06,0,0
+672386,Alejandro Kirk,2025-04-06,0,0
+656811,Ryan O'Hearn,2025-05-14,0,0
+677594,Julio Rodriguez,2025-04-25,0,0
+677594,Julio Rodriguez,2025-05-20,0,0
+672386,Alejandro Kirk,2024-09-06,0,0
+621566,Matt Olson,2025-05-29,0,0
+665161,Jeremy Pena,2025-06-24,0,0
+663656,Kyle Tucker,2025-05-09,1,0
+672386,Alejandro Kirk,2024-09-07,0,0
+592450,Aaron Judge,2024-09-14,0,0
+664040,Brandon Lowe,2025-04-30,0,0
+660271,Shohei Ohtani,2025-05-02,0,0
+660271,Shohei Ohtani,2025-06-26,1,0
+650402,Gleyber Torres,2025-07-06,0,0
+672386,Alejandro Kirk,2025-03-29,0,0
+669065,Kyle Stowers,2025-07-10,0,0
+663656,Kyle Tucker,2025-07-03,0,0
+696100,Hunter Goodman,2025-06-21,0,1
+660271,Shohei Ohtani,2024-09-26,0,0
+656811,Ryan O'Hearn,2025-06-22,0,0
+665489,Vladimir Guerrero Jr.,2025-05-30,0,0
+656716,Zach McKinstry,2025-04-30,0,0
+592450,Aaron Judge,2024-09-10,0,0
+695578,James Wood,2024-09-20,1,0
+665489,Vladimir Guerrero Jr.,2025-05-10,0,0
+518692,Freddie Freeman,2025-05-04,0,0
+595879,Javier Baez,2025-04-26,0,0
+665487,Fernando Tatis Jr.,2025-06-20,0,0
+665489,Vladimir Guerrero Jr.,2025-06-20,0,0
+677594,Julio Rodriguez,2024-09-22,0,1
+682985,Riley Greene,2025-06-19,0,0
+595879,Javier Baez,2025-06-01,0,0
+621439,Byron Buxton,2025-06-14,0,0
+592518,Manny Machado,2024-09-16,0,0
+592450,Aaron Judge,2025-06-20,1,0
+621566,Matt Olson,2025-05-16,1,0
+663656,Kyle Tucker,2025-04-01,1,1
+680757,Steven Kwan,2025-07-11,0,0
+682998,Corbin Carroll,2025-05-23,0,0
+667670,Brent Rooker,2025-06-27,0,0
+665487,Fernando Tatis Jr.,2025-07-12,0,0
+518692,Freddie Freeman,2025-06-16,0,0
+680757,Steven Kwan,2025-07-04,0,0
+691718,Pete Crow-Armstrong,2024-09-08,0,0
+669257,Will Smith,2024-09-09,0,0
+518692,Freddie Freeman,2025-07-03,0,0
+660271,Shohei Ohtani,2025-06-29,0,0
+682998,Corbin Carroll,2025-04-03,0,0
+660271,Shohei Ohtani,2025-04-05,0,0
+677594,Julio Rodriguez,2025-05-28,0,0
+677594,Julio Rodriguez,2025-03-29,0,0
+677951,Bobby Witt Jr.,2025-04-02,0,0
+677951,Bobby Witt Jr.,2025-04-10,0,0
+656811,Ryan O'Hearn,2025-06-05,0,0
+656941,Kyle Schwarber,2025-07-09,1,1
+608324,Alex Bregman,2025-04-20,0,0
+621566,Matt Olson,2025-06-17,0,0
+650402,Gleyber Torres,2024-09-11,0,0
+664040,Brandon Lowe,2025-05-27,0,0
+682985,Riley Greene,2025-04-27,0,0
+682829,Elly De La Cruz,2025-06-17,0,1
+624413,Pete Alonso,2024-09-30,0,0
+518692,Freddie Freeman,2025-05-26,0,0
+595879,Javier Baez,2025-07-02,0,0
+669257,Will Smith,2024-09-10,0,0
+682985,Riley Greene,2024-09-24,0,0
+621439,Byron Buxton,2024-09-13,1,1
+665161,Jeremy Pena,2025-04-27,0,0
+677594,Julio Rodriguez,2025-05-12,1,0
+596019,Francisco Lindor,2025-05-17,0,0
+667670,Brent Rooker,2025-05-27,0,0
+668227,Randy Arozarena,2025-05-19,0,0
+665161,Jeremy Pena,2025-06-08,0,0
+672386,Alejandro Kirk,2025-06-14,0,0
+606466,Ketel Marte,2025-05-25,0,0
+663728,Cal Raleigh,2024-09-06,0,0
+518692,Freddie Freeman,2024-09-22,0,0
+669257,Will Smith,2025-03-27,0,0
+608070,Jose Ramirez,2025-07-03,0,0
+592518,Manny Machado,2025-04-22,0,0
+663656,Kyle Tucker,2024-09-16,0,0
+695578,James Wood,2025-06-19,1,0
+624413,Pete Alonso,2025-03-31,1,0
+677594,Julio Rodriguez,2024-09-05,1,0
+663656,Kyle Tucker,2025-04-29,0,0
+592518,Manny Machado,2025-05-28,0,0
+665489,Vladimir Guerrero Jr.,2024-09-03,1,1
+660271,Shohei Ohtani,2024-09-16,0,0
+608070,Jose Ramirez,2024-09-27,0,0
+608070,Jose Ramirez,2025-04-10,0,0
+682998,Corbin Carroll,2024-09-08,0,0
+660670,Ronald Acuna Jr.,2025-06-03,0,0
+696100,Hunter Goodman,2025-05-20,0,0
+621439,Byron Buxton,2025-05-14,0,0
+805779,Jacob Wilson,2025-06-13,0,0
+682985,Riley Greene,2025-05-20,1,0
+592450,Aaron Judge,2025-04-03,1,1
+670623,Isaac Paredes,2024-09-08,0,0
+621566,Matt Olson,2025-06-21,0,0
+606466,Ketel Marte,2025-07-01,0,0
+677594,Julio Rodriguez,2025-05-16,0,0
+669065,Kyle Stowers,2025-06-01,0,0
+665487,Fernando Tatis Jr.,2025-04-21,0,0
+670623,Isaac Paredes,2025-05-07,0,0
+608070,Jose Ramirez,2025-06-05,0,0
+696100,Hunter Goodman,2025-07-01,1,0
+665161,Jeremy Pena,2025-04-05,0,0
+518692,Freddie Freeman,2025-04-14,0,0
+656811,Ryan O'Hearn,2025-04-24,0,0
+677951,Bobby Witt Jr.,2024-09-01,1,1
+656941,Kyle Schwarber,2025-07-05,1,0
+691718,Pete Crow-Armstrong,2025-05-14,0,0
+621439,Byron Buxton,2025-05-11,0,0
+663728,Cal Raleigh,2025-04-18,0,1
+677594,Julio Rodriguez,2024-09-19,0,0
+691718,Pete Crow-Armstrong,2025-04-02,0,0
+805779,Jacob Wilson,2025-03-28,0,0
+608324,Alex Bregman,2025-04-19,0,0
+664040,Brandon Lowe,2024-09-12,1,0
+624413,Pete Alonso,2025-05-24,0,0
+663656,Kyle Tucker,2025-05-20,1,0
+695578,James Wood,2025-07-02,0,0
+663728,Cal Raleigh,2024-09-11,0,0
+624413,Pete Alonso,2024-09-08,0,0
+663656,Kyle Tucker,2024-09-12,0,0
+624413,Pete Alonso,2025-06-02,0,0
+695578,James Wood,2024-09-17,0,0
+592450,Aaron Judge,2025-05-06,1,0
+660271,Shohei Ohtani,2025-07-11,1,0
+691406,Junior Caminero,2025-05-25,0,0
+656941,Kyle Schwarber,2025-05-11,1,0
+670623,Isaac Paredes,2025-04-29,0,0
+691406,Junior Caminero,2025-07-13,0,0
+592450,Aaron Judge,2025-05-17,0,0
+667670,Brent Rooker,2025-05-05,0,0
+695578,James Wood,2025-06-21,1,0
+595879,Javier Baez,2025-05-20,0,0
+656716,Zach McKinstry,2025-05-07,0,0
+672580,Maikel Garcia,2024-09-20,0,0
+621566,Matt Olson,2025-05-13,0,0
+691718,Pete Crow-Armstrong,2024-09-09,0,0
+650402,Gleyber Torres,2025-04-14,0,0
+592518,Manny Machado,2024-09-11,0,1
+656811,Ryan O'Hearn,2025-06-01,0,0
+805779,Jacob Wilson,2024-09-08,0,0
+677594,Julio Rodriguez,2025-07-02,0,0
+691406,Junior Caminero,2025-05-28,1,0
+677594,Julio Rodriguez,2025-04-30,0,0
+672580,Maikel Garcia,2025-04-18,0,0
+669065,Kyle Stowers,2024-09-21,0,0
+624413,Pete Alonso,2025-05-16,0,0
+660271,Shohei Ohtani,2025-03-28,0,0
+682985,Riley Greene,2024-09-07,0,0
+665489,Vladimir Guerrero Jr.,2025-05-23,0,0
+805779,Jacob Wilson,2025-05-28,1,0
+667670,Brent Rooker,2025-05-25,0,0
+664040,Brandon Lowe,2025-05-16,0,0
+518692,Freddie Freeman,2025-03-28,1,0
+665487,Fernando Tatis Jr.,2025-05-23,0,0
+677951,Bobby Witt Jr.,2025-07-08,0,0
+667670,Brent Rooker,2025-07-06,0,0
+624413,Pete Alonso,2024-09-06,0,0
+660670,Ronald Acuna Jr.,2025-05-31,1,0
+691406,Junior Caminero,2025-04-11,0,0
+665487,Fernando Tatis Jr.,2025-05-17,0,0
+664040,Brandon Lowe,2025-04-27,0,0
+595879,Javier Baez,2025-05-22,0,0
+672580,Maikel Garcia,2025-05-26,0,0
+596019,Francisco Lindor,2025-06-19,0,0
+682998,Corbin Carroll,2025-05-27,1,0
+656811,Ryan O'Hearn,2025-07-10,0,0
+677951,Bobby Witt Jr.,2025-06-20,1,0
+669257,Will Smith,2024-09-11,1,0
+665489,Vladimir Guerrero Jr.,2025-05-29,1,0
+592518,Manny Machado,2025-05-14,0,0
+691718,Pete Crow-Armstrong,2024-09-07,0,0
+606466,Ketel Marte,2025-05-16,0,0
+680757,Steven Kwan,2025-05-30,0,0
+665489,Vladimir Guerrero Jr.,2025-04-08,0,0
+664040,Brandon Lowe,2024-09-28,0,0
+596019,Francisco Lindor,2025-05-06,0,0
+665487,Fernando Tatis Jr.,2025-06-27,0,0
+670623,Isaac Paredes,2025-04-02,0,0
+656716,Zach McKinstry,2025-05-12,0,0
+596019,Francisco Lindor,2025-06-23,0,0
+596019,Francisco Lindor,2025-06-03,0,1
+595879,Javier Baez,2025-05-07,0,0
+595879,Javier Baez,2025-04-11,0,0
+660271,Shohei Ohtani,2025-07-08,1,0
+665862,Jazz Chisholm Jr.,2025-04-07,0,0
+682998,Corbin Carroll,2024-09-14,0,0
+596019,Francisco Lindor,2025-06-17,0,0
+682985,Riley Greene,2025-05-28,0,0
+677951,Bobby Witt Jr.,2025-03-27,0,0
+670623,Isaac Paredes,2025-03-27,0,0
+656716,Zach McKinstry,2025-06-26,0,0
+650402,Gleyber Torres,2025-05-12,1,0
+665862,Jazz Chisholm Jr.,2025-03-30,1,1
+670623,Isaac Paredes,2025-06-10,0,0
+608324,Alex Bregman,2024-09-13,1,0
+665161,Jeremy Pena,2025-05-20,0,0
+691718,Pete Crow-Armstrong,2025-05-07,0,0
+665489,Vladimir Guerrero Jr.,2025-04-07,0,0
+596019,Francisco Lindor,2025-05-20,0,0
+518692,Freddie Freeman,2025-06-04,0,0
+682985,Riley Greene,2024-09-12,0,0
+691406,Junior Caminero,2025-06-05,1,1
+608324,Alex Bregman,2024-09-17,0,0
+656941,Kyle Schwarber,2025-04-03,1,0
+592450,Aaron Judge,2025-06-30,0,0
+608324,Alex Bregman,2025-04-15,1,0
+518692,Freddie Freeman,2025-04-30,1,0
+596019,Francisco Lindor,2025-07-04,0,0
+624413,Pete Alonso,2025-04-27,0,0
+656716,Zach McKinstry,2025-06-03,0,0
+665161,Jeremy Pena,2025-04-25,0,0
+672580,Maikel Garcia,2025-04-09,0,0
+663656,Kyle Tucker,2025-07-13,0,0
+680757,Steven Kwan,2025-04-26,0,0
+592450,Aaron Judge,2025-04-27,0,0
+672386,Alejandro Kirk,2025-05-27,0,0
+669065,Kyle Stowers,2025-06-18,0,0
+667670,Brent Rooker,2025-06-03,0,0
+621566,Matt Olson,2024-09-06,0,0
+672386,Alejandro Kirk,2024-09-04,0,0
+660271,Shohei Ohtani,2025-07-03,0,0
+670623,Isaac Paredes,2025-06-17,0,0
+665161,Jeremy Pena,2025-04-01,0,0
+682998,Corbin Carroll,2024-09-24,0,0
+624413,Pete Alonso,2024-09-30,0,0
+672386,Alejandro Kirk,2025-04-19,0,0
+608070,Jose Ramirez,2025-06-25,0,0
+663728,Cal Raleigh,2025-04-22,0,0
+608324,Alex Bregman,2025-07-13,0,0
+669065,Kyle Stowers,2024-09-20,0,0
+668227,Randy Arozarena,2025-04-18,0,0
+608324,Alex Bregman,2025-04-06,1,0
+660670,Ronald Acuna Jr.,2025-06-25,0,0
+668227,Randy Arozarena,2025-05-23,0,0
+670623,Isaac Paredes,2024-09-09,0,0
+596019,Francisco Lindor,2025-04-11,0,0
+660271,Shohei Ohtani,2024-09-13,0,0
+691718,Pete Crow-Armstrong,2024-09-23,0,0
+596019,Francisco Lindor,2025-05-23,0,0
+621566,Matt Olson,2024-09-08,0,0
+608070,Jose Ramirez,2024-09-19,0,0
+592450,Aaron Judge,2025-07-12,1,0
+669257,Will Smith,2025-05-03,0,0
+608070,Jose Ramirez,2025-07-13,0,0
+677951,Bobby Witt Jr.,2025-04-24,0,0
+650402,Gleyber Torres,2025-04-11,0,0
+665161,Jeremy Pena,2024-09-02,0,0
+608324,Alex Bregman,2025-04-30,1,0
+608324,Alex Bregman,2025-05-02,1,0
+665489,Vladimir Guerrero Jr.,2024-09-07,0,0
+677594,Julio Rodriguez,2024-09-24,0,0
+656941,Kyle Schwarber,2025-04-30,1,0
+660271,Shohei Ohtani,2024-09-15,0,0
+665489,Vladimir Guerrero Jr.,2025-06-25,1,0
+656941,Kyle Schwarber,2025-05-02,1,1
+682998,Corbin Carroll,2025-04-07,0,0
+677594,Julio Rodriguez,2025-03-30,1,0
+668227,Randy Arozarena,2024-09-29,0,0
+667670,Brent Rooker,2025-04-18,0,0
+669065,Kyle Stowers,2025-04-13,0,0
+660271,Shohei Ohtani,2025-03-19,1,0
+696100,Hunter Goodman,2025-04-03,0,0
+665489,Vladimir Guerrero Jr.,2025-06-30,0,0
+592450,Aaron Judge,2024-09-20,0,0
+656716,Zach McKinstry,2025-04-07,0,0
+621566,Matt Olson,2025-06-10,0,0
+669257,Will Smith,2025-04-04,0,0
+805779,Jacob Wilson,2025-06-08,0,0
+695578,James Wood,2025-05-22,0,0
+656716,Zach McKinstry,2025-04-08,1,0
+595879,Javier Baez,2025-04-09,0,0
+677594,Julio Rodriguez,2025-04-13,0,0
+621439,Byron Buxton,2024-09-25,1,0
+682985,Riley Greene,2025-04-19,0,0
+660271,Shohei Ohtani,2024-09-01,0,0
+621566,Matt Olson,2024-09-11,0,0
+608324,Alex Bregman,2025-05-10,0,0
+663656,Kyle Tucker,2024-09-23,0,0
+696100,Hunter Goodman,2025-05-17,1,0
+656811,Ryan O'Hearn,2025-04-28,1,0
+672580,Maikel Garcia,2025-03-31,1,0
+677951,Bobby Witt Jr.,2024-09-15,0,0
+592518,Manny Machado,2025-05-30,0,0
+672580,Maikel Garcia,2025-04-07,0,0
+668227,Randy Arozarena,2025-04-23,0,0
+695578,James Wood,2025-04-24,0,0
+663656,Kyle Tucker,2024-09-11,0,0
+682998,Corbin Carroll,2025-03-28,0,0
+663656,Kyle Tucker,2025-04-15,0,0
+656716,Zach McKinstry,2025-04-04,0,0
+672580,Maikel Garcia,2024-09-22,0,0
+621566,Matt Olson,2025-05-11,0,0
+691718,Pete Crow-Armstrong,2025-06-15,0,0
+656811,Ryan O'Hearn,2025-06-30,0,0
+664040,Brandon Lowe,2024-09-03,0,0
+682985,Riley Greene,2025-05-17,0,0
+680757,Steven Kwan,2025-05-13,0,0
+656941,Kyle Schwarber,2024-09-18,0,0
+696100,Hunter Goodman,2024-09-18,0,1
+668227,Randy Arozarena,2024-09-20,0,0
+682985,Riley Greene,2025-04-15,0,0
+624413,Pete Alonso,2024-09-19,1,0
+667670,Brent Rooker,2024-09-24,0,0
+669257,Will Smith,2025-05-26,1,0
+663728,Cal Raleigh,2025-05-24,0,0
+665487,Fernando Tatis Jr.,2024-09-22,1,0
+621566,Matt Olson,2025-04-22,1,0
+663728,Cal Raleigh,2025-04-02,0,0
+624413,Pete Alonso,2025-06-04,1,1
+672580,Maikel Garcia,2024-09-26,0,0
+691718,Pete Crow-Armstrong,2025-04-30,0,0
+667670,Brent Rooker,2024-09-15,1,0
+665487,Fernando Tatis Jr.,2025-07-05,0,0
+592450,Aaron Judge,2025-06-13,1,1
+672386,Alejandro Kirk,2024-09-03,0,0
+621566,Matt Olson,2025-04-29,0,0
+592518,Manny Machado,2025-03-29,0,0
+595879,Javier Baez,2025-06-13,1,0
+672580,Maikel Garcia,2024-09-06,0,0
+663656,Kyle Tucker,2025-05-04,0,0
+805779,Jacob Wilson,2025-06-15,0,0
+677594,Julio Rodriguez,2025-05-10,0,0
+667670,Brent Rooker,2024-09-18,0,0
+656716,Zach McKinstry,2025-05-11,0,0
+664040,Brandon Lowe,2025-07-05,0,0
+695578,James Wood,2024-09-10,0,0
+667670,Brent Rooker,2024-09-16,1,1
+663728,Cal Raleigh,2025-05-02,1,0
+680757,Steven Kwan,2025-04-21,0,0
+677594,Julio Rodriguez,2025-04-24,0,0
+665161,Jeremy Pena,2025-06-22,1,0
+696100,Hunter Goodman,2025-04-13,0,0
+677951,Bobby Witt Jr.,2025-05-23,0,0
+677594,Julio Rodriguez,2025-06-09,0,0
+805779,Jacob Wilson,2025-07-05,0,0
+606466,Ketel Marte,2025-06-28,1,0
+665862,Jazz Chisholm Jr.,2025-04-04,0,0
+656716,Zach McKinstry,2025-07-02,0,0
+669065,Kyle Stowers,2024-09-15,0,0
+672386,Alejandro Kirk,2025-05-21,0,0
+596019,Francisco Lindor,2025-07-06,0,0
+621566,Matt Olson,2024-09-13,0,0
+680757,Steven Kwan,2025-05-16,0,0
+596019,Francisco Lindor,2025-06-01,1,1
+682985,Riley Greene,2025-06-19,0,0
+665489,Vladimir Guerrero Jr.,2025-07-06,0,0
+660670,Ronald Acuna Jr.,2025-06-06,0,0
+606466,Ketel Marte,2025-04-04,0,0
+665487,Fernando Tatis Jr.,2024-09-25,1,0
+621439,Byron Buxton,2025-06-23,0,1
+670623,Isaac Paredes,2025-06-28,1,0
+669065,Kyle Stowers,2025-07-06,0,0
+664040,Brandon Lowe,2025-06-11,0,0
+664040,Brandon Lowe,2025-04-24,0,0
+606466,Ketel Marte,2024-09-23,0,0
+665489,Vladimir Guerrero Jr.,2024-09-17,0,0
+650402,Gleyber Torres,2025-05-21,0,0
+677594,Julio Rodriguez,2025-06-16,0,0
+665489,Vladimir Guerrero Jr.,2025-05-15,1,0
+665489,Vladimir Guerrero Jr.,2025-05-20,1,0
+677594,Julio Rodriguez,2024-09-01,0,0
+656811,Ryan O'Hearn,2025-04-03,0,0
+695578,James Wood,2025-05-01,0,0
+595879,Javier Baez,2025-05-12,0,0
+518692,Freddie Freeman,2025-05-03,1,0
+667670,Brent Rooker,2025-04-11,0,0
+672580,Maikel Garcia,2025-04-04,0,0
+669065,Kyle Stowers,2025-05-07,0,0
+677951,Bobby Witt Jr.,2025-05-24,0,0
+660271,Shohei Ohtani,2025-04-29,1,0
+695578,James Wood,2025-06-16,1,0
+592450,Aaron Judge,2025-04-20,0,0
+682998,Corbin Carroll,2025-05-30,0,0
+672580,Maikel Garcia,2025-05-01,0,0
+665489,Vladimir Guerrero Jr.,2025-03-29,0,0
+695578,James Wood,2025-06-23,1,1
+669065,Kyle Stowers,2024-09-14,0,0
+672386,Alejandro Kirk,2025-05-07,0,0
+656811,Ryan O'Hearn,2024-09-21,0,0
+669257,Will Smith,2025-05-16,0,0
+670623,Isaac Paredes,2024-09-24,0,0
+667670,Brent Rooker,2025-06-10,0,0
+669065,Kyle Stowers,2025-05-10,1,0
+669065,Kyle Stowers,2025-05-23,0,0
+670623,Isaac Paredes,2025-05-29,0,0
+691406,Junior Caminero,2025-06-17,0,0
+656941,Kyle Schwarber,2025-05-14,1,0
+592518,Manny Machado,2025-04-02,0,0
+665487,Fernando Tatis Jr.,2024-09-17,0,0
+667670,Brent Rooker,2025-06-01,0,0
+606466,Ketel Marte,2025-05-09,1,0
+672386,Alejandro Kirk,2025-06-11,0,0
+664040,Brandon Lowe,2025-04-18,0,0
+656811,Ryan O'Hearn,2025-05-14,0,0
+682985,Riley Greene,2025-04-01,1,0
+518692,Freddie Freeman,2025-06-25,0,0
+656716,Zach McKinstry,2024-09-28,0,0
+596019,Francisco Lindor,2025-06-18,0,0
+624413,Pete Alonso,2025-07-02,0,0
+672580,Maikel Garcia,2025-07-06,0,0
+682998,Corbin Carroll,2025-05-10,0,0
+606466,Ketel Marte,2025-05-30,0,0
+663656,Kyle Tucker,2025-06-25,1,1
+682998,Corbin Carroll,2025-04-08,1,0
+663728,Cal Raleigh,2025-05-13,0,0
+682985,Riley Greene,2025-04-22,0,0
+665487,Fernando Tatis Jr.,2025-04-19,1,0
+606466,Ketel Marte,2024-09-21,1,0
+650402,Gleyber Torres,2025-04-26,0,0
+667670,Brent Rooker,2024-09-10,0,0
+669065,Kyle Stowers,2025-04-09,0,0
+665489,Vladimir Guerrero Jr.,2025-05-25,0,0
+592450,Aaron Judge,2024-09-22,1,0
+664040,Brandon Lowe,2025-04-19,0,0
+650402,Gleyber Torres,2025-06-02,0,0
+621566,Matt Olson,2025-05-17,1,0
+656811,Ryan O'Hearn,2024-09-19,0,0
+691718,Pete Crow-Armstrong,2025-03-28,0,0
+624413,Pete Alonso,2025-05-05,1,0
+518692,Freddie Freeman,2025-06-09,0,0
+624413,Pete Alonso,2025-05-07,0,0
+608070,Jose Ramirez,2025-05-02,0,0
+677594,Julio Rodriguez,2025-06-10,0,0
+595879,Javier Baez,2025-04-14,0,0
+672580,Maikel Garcia,2025-05-14,1,0
+682829,Elly De La Cruz,2024-09-21,1,0
+660271,Shohei Ohtani,2025-05-31,0,1
+592518,Manny Machado,2025-06-24,0,0
+682998,Corbin Carroll,2025-06-13,1,0
+606466,Ketel Marte,2025-05-08,1,0
+805779,Jacob Wilson,2025-06-16,0,0
+664040,Brandon Lowe,2025-04-26,1,0
+592518,Manny Machado,2024-09-25,0,0
+518692,Freddie Freeman,2025-06-21,0,0
+621566,Matt Olson,2024-09-30,0,0
+656811,Ryan O'Hearn,2025-07-05,0,0
+672580,Maikel Garcia,2024-09-15,0,0
+665161,Jeremy Pena,2025-06-27,0,0
+664040,Brandon Lowe,2025-06-10,0,0
+672386,Alejandro Kirk,2025-07-02,0,0
+664040,Brandon Lowe,2025-06-16,1,0
+665161,Jeremy Pena,2024-09-25,0,0
+663656,Kyle Tucker,2025-06-20,0,0
+672580,Maikel Garcia,2025-07-12,0,0
+621566,Matt Olson,2025-03-28,0,0
+665862,Jazz Chisholm Jr.,2025-03-29,1,0
+680757,Steven Kwan,2025-05-22,0,0
+672386,Alejandro Kirk,2025-04-05,0,0
+656941,Kyle Schwarber,2025-06-05,0,0
+677594,Julio Rodriguez,2025-06-24,0,0
+682985,Riley Greene,2025-06-21,0,0
+691406,Junior Caminero,2024-09-04,0,0
+660271,Shohei Ohtani,2025-06-11,0,0
+624413,Pete Alonso,2025-06-21,0,0
+677951,Bobby Witt Jr.,2025-06-05,0,0
+695578,James Wood,2025-05-13,0,0
+650402,Gleyber Torres,2024-09-08,0,0
+668227,Randy Arozarena,2024-09-14,0,0
+691406,Junior Caminero,2025-05-15,0,0
+596019,Francisco Lindor,2025-05-14,0,0
+595879,Javier Baez,2025-06-04,0,0
+660271,Shohei Ohtani,2025-05-23,0,0
+592518,Manny Machado,2025-06-05,1,0
+669065,Kyle Stowers,2024-09-17,0,0
+665161,Jeremy Pena,2025-06-01,0,0
+621439,Byron Buxton,2025-04-28,0,0
+596019,Francisco Lindor,2025-07-05,0,0
+670623,Isaac Paredes,2025-05-18,1,0
+518692,Freddie Freeman,2024-09-21,0,0
+672580,Maikel Garcia,2025-06-05,0,0
+663656,Kyle Tucker,2025-04-16,0,0
+672386,Alejandro Kirk,2025-04-27,0,0
+592450,Aaron Judge,2025-06-16,0,0
+682829,Elly De La Cruz,2025-04-06,0,0
+660271,Shohei Ohtani,2024-09-20,1,1
+656811,Ryan O'Hearn,2025-06-19,0,0
+596019,Francisco Lindor,2024-09-13,0,0
+621439,Byron Buxton,2025-04-24,0,0
+656716,Zach McKinstry,2025-07-12,1,0
+691406,Junior Caminero,2025-06-08,0,0
+621566,Matt Olson,2025-04-25,0,0
+665487,Fernando Tatis Jr.,2025-06-15,0,0
+691718,Pete Crow-Armstrong,2025-04-27,0,0
+682829,Elly De La Cruz,2025-05-25,0,0
+669257,Will Smith,2025-04-06,0,0
+656941,Kyle Schwarber,2025-05-20,1,0
+663656,Kyle Tucker,2025-05-18,0,0
+663656,Kyle Tucker,2025-06-24,0,0
+608324,Alex Bregman,2025-04-03,1,0
+682985,Riley Greene,2025-04-11,0,0
+665489,Vladimir Guerrero Jr.,2024-09-21,0,0
+621439,Byron Buxton,2025-05-30,0,0
+608324,Alex Bregman,2025-04-22,0,0
+691406,Junior Caminero,2025-04-16,0,1
+621439,Byron Buxton,2025-03-27,0,0
+668227,Randy Arozarena,2025-05-24,0,0
+660271,Shohei Ohtani,2025-03-27,1,0
+682829,Elly De La Cruz,2025-04-27,0,0
+656941,Kyle Schwarber,2025-06-19,1,0
+682998,Corbin Carroll,2024-09-25,0,0
+608070,Jose Ramirez,2025-04-21,1,0
+691718,Pete Crow-Armstrong,2025-04-19,0,0
+596019,Francisco Lindor,2025-07-02,0,0
+624413,Pete Alonso,2025-04-22,0,0
+592518,Manny Machado,2025-05-05,0,0
+660271,Shohei Ohtani,2025-07-09,0,0
+677594,Julio Rodriguez,2025-04-22,0,0
+805779,Jacob Wilson,2025-05-31,0,0
+665862,Jazz Chisholm Jr.,2025-04-19,0,0
+668227,Randy Arozarena,2025-04-04,0,0
+596019,Francisco Lindor,2025-04-18,1,0
+621566,Matt Olson,2025-04-05,0,0
+621566,Matt Olson,2025-07-09,0,0
+667670,Brent Rooker,2025-05-22,1,0
+696100,Hunter Goodman,2025-04-15,0,0
+665862,Jazz Chisholm Jr.,2025-06-20,0,0
+680757,Steven Kwan,2024-09-04,0,0
+592518,Manny Machado,2025-05-04,0,0
+805779,Jacob Wilson,2025-05-14,0,0
+592518,Manny Machado,2025-06-04,0,0
+621439,Byron Buxton,2025-05-10,0,0
+668227,Randy Arozarena,2025-04-27,0,0
+608070,Jose Ramirez,2025-06-29,0,0
+665862,Jazz Chisholm Jr.,2024-09-09,0,0
+592450,Aaron Judge,2025-06-19,0,0
+667670,Brent Rooker,2024-09-01,0,0
+665161,Jeremy Pena,2025-03-31,0,0
+660271,Shohei Ohtani,2025-05-17,0,1
+682829,Elly De La Cruz,2025-05-01,0,0
+665161,Jeremy Pena,2025-04-12,0,0
+672580,Maikel Garcia,2025-07-11,0,0
+665487,Fernando Tatis Jr.,2025-04-05,0,0
+672580,Maikel Garcia,2025-05-10,0,0
+695578,James Wood,2025-05-10,0,0
+664040,Brandon Lowe,2025-06-26,1,0
+682998,Corbin Carroll,2025-05-31,0,0
+650402,Gleyber Torres,2025-06-14,0,0
+595879,Javier Baez,2025-05-13,1,0
+621566,Matt Olson,2024-09-29,0,0
+695578,James Wood,2025-04-13,0,1
+665487,Fernando Tatis Jr.,2025-06-04,0,0
+650402,Gleyber Torres,2025-06-07,0,0
+656941,Kyle Schwarber,2025-04-16,0,0
+695578,James Wood,2025-05-27,1,0
+665489,Vladimir Guerrero Jr.,2025-04-21,0,0
+696100,Hunter Goodman,2025-05-01,0,0
+682829,Elly De La Cruz,2025-05-13,1,0
+668227,Randy Arozarena,2025-05-27,0,0
+669257,Will Smith,2025-05-20,0,0
+656716,Zach McKinstry,2025-07-05,0,0
+660271,Shohei Ohtani,2025-04-15,0,0
+696100,Hunter Goodman,2024-09-01,0,0
+669257,Will Smith,2025-04-15,1,0
+682985,Riley Greene,2025-05-08,0,0
+518692,Freddie Freeman,2025-06-05,0,0
+669065,Kyle Stowers,2025-06-11,0,0
+592450,Aaron Judge,2025-06-15,0,0
+682998,Corbin Carroll,2025-05-21,0,0
+682829,Elly De La Cruz,2025-04-20,1,0
+691406,Junior Caminero,2025-05-08,1,0
+596019,Francisco Lindor,2025-05-12,0,0
+592450,Aaron Judge,2025-05-28,0,0
+680757,Steven Kwan,2025-04-12,0,0
+805779,Jacob Wilson,2025-06-14,0,0
+656716,Zach McKinstry,2025-04-14,0,0
+608070,Jose Ramirez,2025-04-02,0,0
+660271,Shohei Ohtani,2025-03-29,0,0
+669257,Will Smith,2025-05-14,0,0
+677951,Bobby Witt Jr.,2024-09-18,0,0
+650402,Gleyber Torres,2025-07-11,0,0
+665489,Vladimir Guerrero Jr.,2025-05-17,0,0
+672580,Maikel Garcia,2024-09-21,0,0
+805779,Jacob Wilson,2025-05-17,0,0
+608070,Jose Ramirez,2025-04-12,0,0
+668227,Randy Arozarena,2025-06-25,0,0
+656941,Kyle Schwarber,2024-09-13,0,0
+518692,Freddie Freeman,2025-04-19,1,0
+682985,Riley Greene,2025-06-07,0,0
+672580,Maikel Garcia,2025-03-30,0,0
+691406,Junior Caminero,2025-05-10,0,0
+682829,Elly De La Cruz,2024-09-10,0,0
+621439,Byron Buxton,2025-04-25,1,0
+682829,Elly De La Cruz,2025-06-21,1,0
+663728,Cal Raleigh,2025-05-14,0,0
+668227,Randy Arozarena,2025-03-30,0,0
+656811,Ryan O'Hearn,2025-07-04,0,0
+665862,Jazz Chisholm Jr.,2025-04-27,0,0
+691718,Pete Crow-Armstrong,2025-07-11,0,0
+669065,Kyle Stowers,2025-06-21,0,0
+624413,Pete Alonso,2025-06-28,0,0
+621566,Matt Olson,2025-06-22,0,0
+592518,Manny Machado,2024-09-05,0,0
+691718,Pete Crow-Armstrong,2025-06-04,0,0
+691406,Junior Caminero,2025-06-13,0,0
+660271,Shohei Ohtani,2025-05-09,1,1
+660271,Shohei Ohtani,2025-06-02,1,0
+691718,Pete Crow-Armstrong,2024-09-02,0,0
+667670,Brent Rooker,2025-06-15,0,0
+682998,Corbin Carroll,2024-09-15,0,0
+592518,Manny Machado,2025-06-03,0,0
+682985,Riley Greene,2025-05-13,0,0
+663728,Cal Raleigh,2025-05-10,0,0
+595879,Javier Baez,2025-05-04,0,1
+660271,Shohei Ohtani,2025-04-20,0,0
+667670,Brent Rooker,2025-04-04,0,0
+592518,Manny Machado,2024-09-02,0,0
+665161,Jeremy Pena,2024-09-01,0,0
+677594,Julio Rodriguez,2025-03-27,0,0
+608324,Alex Bregman,2025-04-06,0,0
+665161,Jeremy Pena,2025-05-10,0,0
+624413,Pete Alonso,2024-09-29,0,0
+691406,Junior Caminero,2025-04-18,0,0
+660271,Shohei Ohtani,2025-06-08,0,0
+624413,Pete Alonso,2024-09-28,0,0
+592450,Aaron Judge,2025-06-03,0,0
+665489,Vladimir Guerrero Jr.,2025-05-21,0,0
+669065,Kyle Stowers,2025-04-25,0,0
+592518,Manny Machado,2024-09-28,0,0
+621439,Byron Buxton,2025-04-26,0,0
+656811,Ryan O'Hearn,2025-07-12,0,0
+608324,Alex Bregman,2025-07-11,0,0
+672580,Maikel Garcia,2025-06-29,0,0
+665487,Fernando Tatis Jr.,2025-06-28,0,0
+670623,Isaac Paredes,2024-09-16,0,0
+677951,Bobby Witt Jr.,2024-09-09,0,0
+596019,Francisco Lindor,2024-09-03,1,0
+608070,Jose Ramirez,2025-06-01,1,0
+682998,Corbin Carroll,2024-09-01,0,0
+665161,Jeremy Pena,2024-09-22,0,0
+695578,James Wood,2024-09-07,0,0
+668227,Randy Arozarena,2025-05-02,0,0
+608070,Jose Ramirez,2025-05-13,1,0
+660271,Shohei Ohtani,2025-05-05,1,0
+682998,Corbin Carroll,2024-09-18,1,0
+691718,Pete Crow-Armstrong,2024-09-27,0,0
+663728,Cal Raleigh,2025-04-20,1,0
+680757,Steven Kwan,2025-07-09,0,0
+695578,James Wood,2024-09-07,0,0
+663656,Kyle Tucker,2024-09-13,0,0
+672580,Maikel Garcia,2025-06-28,0,0
+660271,Shohei Ohtani,2025-05-14,1,0
+669065,Kyle Stowers,2025-05-05,0,1
+595879,Javier Baez,2025-07-08,0,0
+663728,Cal Raleigh,2025-04-08,0,0
+660670,Ronald Acuna Jr.,2025-05-29,0,0
+668227,Randy Arozarena,2024-09-24,0,0
+650402,Gleyber Torres,2025-05-17,0,0
+663728,Cal Raleigh,2025-03-29,0,0
+696100,Hunter Goodman,2025-05-02,0,0
+664040,Brandon Lowe,2025-06-15,0,0
+656941,Kyle Schwarber,2025-06-27,1,0
+696100,Hunter Goodman,2025-04-11,0,0
+621566,Matt Olson,2025-05-25,0,0
+592450,Aaron Judge,2025-07-02,1,0
+665161,Jeremy Pena,2025-06-12,0,0
+660670,Ronald Acuna Jr.,2025-05-29,0,0
+656941,Kyle Schwarber,2024-09-19,0,0
+660271,Shohei Ohtani,2025-06-18,0,0
+665487,Fernando Tatis Jr.,2024-09-07,0,0
+665487,Fernando Tatis Jr.,2025-06-25,0,0
+667670,Brent Rooker,2025-06-13,0,0
+656941,Kyle Schwarber,2025-04-13,0,0
+624413,Pete Alonso,2025-07-10,0,0
+665489,Vladimir Guerrero Jr.,2025-05-06,0,0
+677951,Bobby Witt Jr.,2025-05-25,0,0
+691718,Pete Crow-Armstrong,2025-04-25,0,0
+664040,Brandon Lowe,2025-03-31,0,0
+664040,Brandon Lowe,2025-04-10,0,0
+663656,Kyle Tucker,2025-03-28,0,0
+656941,Kyle Schwarber,2025-05-09,0,0
+691406,Junior Caminero,2025-04-09,0,0
+595879,Javier Baez,2025-04-19,0,0
+682829,Elly De La Cruz,2024-09-09,0,0
+677594,Julio Rodriguez,2025-05-19,1,0
+669257,Will Smith,2025-05-19,0,0
+660670,Ronald Acuna Jr.,2025-07-05,0,0
+595879,Javier Baez,2025-06-14,0,0
+695578,James Wood,2024-09-27,0,0
+656716,Zach McKinstry,2024-09-06,0,0
+621566,Matt Olson,2025-04-13,0,0
+608070,Jose Ramirez,2025-05-19,0,0
+606466,Ketel Marte,2024-09-16,1,0
+621439,Byron Buxton,2025-07-02,0,0
+680757,Steven Kwan,2024-09-06,0,0
+595879,Javier Baez,2025-06-29,0,0
+656716,Zach McKinstry,2025-04-13,0,0
+665862,Jazz Chisholm Jr.,2024-09-04,0,0
+691406,Junior Caminero,2025-04-22,0,0
+665862,Jazz Chisholm Jr.,2025-04-20,0,0
+691406,Junior Caminero,2024-09-21,0,0
+660271,Shohei Ohtani,2025-05-18,0,1
+656811,Ryan O'Hearn,2025-05-31,0,0
+672580,Maikel Garcia,2025-04-20,0,0
+682829,Elly De La Cruz,2025-05-10,1,0
+663728,Cal Raleigh,2025-05-20,0,0
+682998,Corbin Carroll,2025-03-30,0,0
+680757,Steven Kwan,2025-05-24,0,0
+672386,Alejandro Kirk,2024-09-18,0,0
+650402,Gleyber Torres,2025-06-26,1,0
+608070,Jose Ramirez,2025-06-11,0,0
+668227,Randy Arozarena,2025-07-01,1,1
+592450,Aaron Judge,2025-07-04,1,0
+672386,Alejandro Kirk,2024-09-08,0,0
+621566,Matt Olson,2025-05-24,1,1
+592450,Aaron Judge,2025-06-10,1,1
+624413,Pete Alonso,2025-06-11,0,0
+682985,Riley Greene,2025-06-15,0,0
+670623,Isaac Paredes,2025-06-27,0,0
+665487,Fernando Tatis Jr.,2025-05-05,0,0
+518692,Freddie Freeman,2024-09-08,0,0
+664040,Brandon Lowe,2024-09-15,0,0
+518692,Freddie Freeman,2024-09-01,0,0
+650402,Gleyber Torres,2025-05-01,1,0
+672580,Maikel Garcia,2025-06-07,0,0
+672580,Maikel Garcia,2024-09-11,0,0
+592518,Manny Machado,2025-06-10,0,1
+518692,Freddie Freeman,2024-09-13,0,0
+656716,Zach McKinstry,2025-06-11,0,0
+656716,Zach McKinstry,2025-04-02,0,0
+656941,Kyle Schwarber,2025-03-31,1,1
+624413,Pete Alonso,2025-06-15,0,0
+695578,James Wood,2025-05-17,0,0
+592518,Manny Machado,2025-06-16,1,0
+592518,Manny Machado,2025-07-08,0,0
+664040,Brandon Lowe,2025-06-08,0,0
+680757,Steven Kwan,2025-06-15,0,0
+665487,Fernando Tatis Jr.,2025-05-20,0,0
+682998,Corbin Carroll,2025-05-09,0,0
+682829,Elly De La Cruz,2025-06-06,0,0
+656811,Ryan O'Hearn,2025-05-19,0,0
+669065,Kyle Stowers,2025-06-09,0,0
+665489,Vladimir Guerrero Jr.,2025-04-01,0,0
+656941,Kyle Schwarber,2025-06-01,0,0
+695578,James Wood,2025-04-27,0,0
+665161,Jeremy Pena,2024-09-04,0,0
+621439,Byron Buxton,2025-06-08,0,0
+805779,Jacob Wilson,2025-06-20,0,0
+668227,Randy Arozarena,2024-09-12,0,0
+680757,Steven Kwan,2025-05-06,0,0
+691718,Pete Crow-Armstrong,2025-04-11,0,0
+624413,Pete Alonso,2025-06-14,0,0
+518692,Freddie Freeman,2025-06-18,0,0
+677594,Julio Rodriguez,2025-05-05,0,0
+677951,Bobby Witt Jr.,2024-09-06,0,0
+665489,Vladimir Guerrero Jr.,2025-05-04,0,0
+663656,Kyle Tucker,2025-05-27,0,0
+592518,Manny Machado,2024-09-04,0,0
+695578,James Wood,2025-06-29,0,0
+656811,Ryan O'Hearn,2024-09-11,0,0
+650402,Gleyber Torres,2024-09-25,0,0
+665489,Vladimir Guerrero Jr.,2025-04-06,0,0
+656811,Ryan O'Hearn,2025-04-13,0,0
+695578,James Wood,2025-07-02,0,0
+624413,Pete Alonso,2025-05-18,0,0
+663728,Cal Raleigh,2024-09-13,0,0
+592518,Manny Machado,2025-04-01,0,0
+691718,Pete Crow-Armstrong,2025-06-23,0,0
+669257,Will Smith,2024-09-20,0,0
+669065,Kyle Stowers,2025-04-17,0,0
+592450,Aaron Judge,2025-05-21,0,0
+682998,Corbin Carroll,2025-04-30,0,0
+677594,Julio Rodriguez,2025-04-12,0,0
+592450,Aaron Judge,2025-04-18,0,0
+595879,Javier Baez,2025-04-26,0,0
+621566,Matt Olson,2025-05-18,0,0
+656941,Kyle Schwarber,2025-05-12,0,0
+664040,Brandon Lowe,2025-05-09,1,0
+663656,Kyle Tucker,2025-05-24,0,0
+596019,Francisco Lindor,2025-05-04,0,0
+696100,Hunter Goodman,2025-06-11,1,0
+682998,Corbin Carroll,2024-09-13,0,0
+691406,Junior Caminero,2025-06-01,0,1
+691718,Pete Crow-Armstrong,2024-09-20,0,0
+656716,Zach McKinstry,2024-09-07,0,0
+663656,Kyle Tucker,2025-05-31,0,0
+691718,Pete Crow-Armstrong,2025-06-03,0,0
+663728,Cal Raleigh,2025-07-01,0,0
+608070,Jose Ramirez,2025-04-26,0,0
+682998,Corbin Carroll,2024-09-03,0,0
+596019,Francisco Lindor,2025-05-27,0,0
+518692,Freddie Freeman,2025-06-08,0,0
+665487,Fernando Tatis Jr.,2025-07-11,0,0
+592518,Manny Machado,2024-09-26,0,0
+677594,Julio Rodriguez,2025-05-23,0,0
+668227,Randy Arozarena,2025-03-29,0,0
+595879,Javier Baez,2025-04-15,0,0
+669257,Will Smith,2025-06-16,0,0

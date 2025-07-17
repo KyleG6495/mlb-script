@@ -1,0 +1,18 @@
+import pandas as pd
+from pathlib import Path
+
+DATA = Path(__file__).parent.parent / "data"
+slate = pd.read_csv(DATA / "fd_hitter_features_today.csv", dtype={"player_id": str})
+slate["name_key"] = (slate["First Name"].str.lower() + " " + slate["Last Name"].str.lower()).str.strip()
+
+id_map = pd.read_csv(DATA / "hitter_games_with_gamepk.csv", dtype={"player_id": str})
+id_map["name_key"] = id_map["target_name"].str.lower().str.strip()
+
+# First-pass match on name_key
+merged = slate.merge(id_map[["name_key", "game_pk"]], on="name_key", how="left")
+missing = merged[merged["game_pk"].isna()]
+
+# Output the unique hitters missing a game_pk
+missing_hitters = missing[["player_id", "First Name", "Last Name", "name_key"]].drop_duplicates()
+missing_hitters.to_csv(DATA / "missing_gamepk_debug.csv", index=False)
+print(f"Wrote {len(missing_hitters)} unmatched hitters to missing_gamepk_debug.csv")

@@ -1,0 +1,29 @@
+import pandas as pd
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+# Paths
+MERGED_FEATURES_PATH = "../data/hitter_features_with_game_pk.csv"
+FD_SLATE_PATH = "../fd_current_slate/fd_slate_today.csv"
+OUTPUT_PATH = "../data/fd_hitter_features_today.csv"
+
+# Load data
+logging.info("📥 Loading hitter features and FanDuel slate")
+hitter_df = pd.read_csv(MERGED_FEATURES_PATH)
+slate_df = pd.read_csv(FD_SLATE_PATH)
+
+# Normalize names
+hitter_df["name_key"] = hitter_df["name"].astype(str).str.strip().str.lower()
+slate_df["name_key"] = slate_df["Nickname"].astype(str).str.strip().str.lower()
+
+# Filter to hitters in the slate
+filtered_hitters = pd.merge(hitter_df, slate_df[["name_key"]], how="inner", on="name_key")
+
+# Drop duplicates
+filtered_hitters = filtered_hitters.drop_duplicates(subset="name_key")
+
+# Save the result
+filtered_hitters.to_csv(OUTPUT_PATH, index=False)
+logging.info(f"✅ Saved filtered hitter features → {OUTPUT_PATH} with {len(filtered_hitters)} rows")
