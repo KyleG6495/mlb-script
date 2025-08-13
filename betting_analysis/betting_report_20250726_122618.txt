@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 12:26:18
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Nathan Eovaldi            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   2.5 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 2. Nathan Eovaldi            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   2.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 3. Nathan Eovaldi            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   2.8 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 4. Nathan Eovaldi            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   1.2 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 5. Nathan Eovaldi            | pitcher_strikeouts | underdog  
+    Line:   5.5 | Prediction:   1.2 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 6. Logan Webb                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.3 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 7. Logan Webb                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 8. Logan Webb                | pitcher_strikeouts | underdog  
+    Line:   5.5 | Prediction:   0.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 9. Logan Webb                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.7 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+10. Logan Webb                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 13670
+Average Edge: 86.16%
+Total Expected Value: $11778.43
+
+By Confidence Level:
+  HIGH: 83
+  LOW: 106
+  MEDIUM: 141
+  VERY_HIGH: 13340
+
+By Category:
+  hits: 1257
+  hitter_strikeouts: 645
+  home_runs: 872
+  pitcher_strikeouts: 5888
+  rbi: 1678
+  runs: 1661
+  total_bases: 1669
+
+By Sportsbook:
+  prizepicks: 6221
+  underdog: 7449

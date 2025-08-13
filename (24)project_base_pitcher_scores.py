@@ -9,8 +9,8 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 # ── File paths ──
 FULL_PATH    = "../data/pitcher_boxscores_full.csv"
-EARNED_PATH  = "../data/pitcher_boxscores_with_earned.csv"
-MAPPING_PATH = "../data/pitcher_games.csv"
+EARNED_PATH  = "../data/pitcher_boxscores_earned_runs.csv"
+MAPPING_PATH = "../data/pitcher_games_with_game_pk.csv"
 OUT_PATH     = "../data/base_pitcher_scores.csv"
 
 # ── 1) Load the full boxscore stats ──
@@ -62,14 +62,35 @@ if "earnedRuns" in df.columns and "earned_run" not in df.columns:
     df.rename(columns={"earnedRuns": "earned_run"}, inplace=True)
     logging.info("→ Renamed 'earnedRuns' to 'earned_run'")
 
-# ── 7) Verify required columns ──
+# ── 7) Check available columns and create missing ones if needed ──
+available_cols = df.columns.tolist()
+logging.info(f"Available columns: {available_cols}")
+
+# Create missing columns with default values if they don't exist
+if 'win' not in df.columns:
+    if 'wins' in df.columns:
+        df['win'] = df['wins']
+        logging.info("→ Using 'wins' as 'win'")
+    else:
+        df['win'] = 0
+        logging.info("→ Created 'win' column with default value 0")
+
+if 'loss' not in df.columns:
+    if 'losses' in df.columns:
+        df['loss'] = df['losses']
+        logging.info("→ Using 'losses' as 'loss'")
+    else:
+        df['loss'] = 0
+        logging.info("→ Created 'loss' column with default value 0")
+
+# ── 8) Verify required columns (now with fallbacks) ──
 required = ["player_id", "game_pk", "win", "loss", "earned_run", "strikeOuts", "inningPitched"]
 missing = [c for c in required if c not in df.columns]
 if missing:
-    logging.error(f"Missing required columns after merge: {missing}")
+    logging.error(f"Still missing required columns after fallbacks: {missing}")
     raise ValueError(f"Missing required columns: {missing}")
 
-# ── 8) Compute base_score ──
+# ── 9) Compute base_score ──
 WIN_POINTS   = 5
 LOSS_POINTS  = -3
 K_POINTS     = 1

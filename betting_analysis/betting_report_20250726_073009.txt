@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 07:30:09
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Michael Tonkin            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:  -0.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. Logan Gillaspie           | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. Logan Gillaspie           | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. Logan Webb                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.9 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. Logan Gillaspie           | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.9 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. Ryan Fernandez            | pitcher_strikeouts | underdog  
+    Line:   6.5 | Prediction:  -0.0 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. Michael Tonkin            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:  -0.0 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. Michael Kopech            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.0 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. Logan Gillaspie           | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   1.0 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. Logan Gillaspie           | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   1.0 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 14472
+Average Edge: 75.10%
+Total Expected Value: $10868.41
+
+By Confidence Level:
+  HIGH: 79
+  LOW: 145
+  MEDIUM: 116
+  VERY_HIGH: 14132
+
+By Category:
+  hits: 1257
+  hitter_strikeouts: 1382
+  home_runs: 875
+  pitcher_strikeouts: 5950
+  rbi: 1678
+  runs: 1661
+  total_bases: 1669
+
+By Sportsbook:
+  prizepicks: 6866
+  underdog: 7606

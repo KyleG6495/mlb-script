@@ -1,7 +1,7 @@
 param(
     [string]$PythonExe = "C:/Users/kgone/AppData/Local/Programs/Python/Python311/python.exe",
     [switch]$Tune,
-    [datetime]$CutoffDate = (Get-Date)
+    [datetime]$CutoffDate = "2025-07-10"
 )
 
 # Define your log & feature files
@@ -21,7 +21,7 @@ $categories = @(
 )
 
 foreach ($cat in $categories) {
-    Write-Host "`n=== Training $cat (with holdout, cutoff=$($CutoffDate.ToString('7/01/2025'))) ==="
+    Write-Host "`n=== Training $cat (with holdout, cutoff=$($CutoffDate.ToString('yyyy-MM-dd'))) ==="
 
     if ($cat -in "strikeouts","outs","win_binary") {
         $gameLog  = $pitchersLog
@@ -51,3 +51,4 @@ foreach ($cat in $categories) {
 }
 
 Write-Host "`nAll done!"
+

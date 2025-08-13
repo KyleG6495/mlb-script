@@ -1,0 +1,78 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-06 12:29:39
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Glasnow             | pitcher_strikeouts | prizepicks
+    Line:   4.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Michael Soroka            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Jonathan Cannon           | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Tyler Glasnow             | pitcher_strikeouts | underdog  
+    Line:   4.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 134.23% | EV: $ +1.34 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 57.7%
+
+ 5. Michael Soroka            | pitcher_strikeouts | underdog  
+    Line:   4.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 134.23% | EV: $ +1.34 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 57.7%
+
+ 6. Jonathan Cannon           | pitcher_strikeouts | underdog  
+    Line:   4.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 134.23% | EV: $ +1.34 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 57.7%
+
+ 7. Andrew Abbott             | total_bases  | prizepicks
+    Line:   3.5 | Prediction:  20.3 | Bet: OVER 
+    Edge: 81.50% | EV: $ +0.82 | Confidence: VERY_HIGH
+    Model Prob: 99.0% | Implied Prob: 54.5%
+
+ 8. Andrew Abbott             | total_bases  | prizepicks
+    Line:   2.5 | Prediction:  20.3 | Bet: OVER 
+    Edge: 81.50% | EV: $ +0.82 | Confidence: VERY_HIGH
+    Model Prob: 99.0% | Implied Prob: 54.5%
+
+ 9. Andrew Abbott             | total_bases  | prizepicks
+    Line:   3.5 | Prediction:  20.3 | Bet: OVER 
+    Edge: 81.50% | EV: $ +0.82 | Confidence: VERY_HIGH
+    Model Prob: 99.0% | Implied Prob: 54.5%
+
+10. Andrew Abbott             | total_bases  | prizepicks
+    Line:   3.5 | Prediction:  20.3 | Bet: OVER 
+    Edge: 81.50% | EV: $ +0.82 | Confidence: VERY_HIGH
+    Model Prob: 99.0% | Implied Prob: 54.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 8883
+Average Edge: 70.90%
+Total Expected Value: $6298.13
+
+By Confidence Level:
+  HIGH: 1057
+  VERY_HIGH: 7826
+
+By Category:
+  hits: 1096
+  hitter_strikeouts: 1230
+  home_runs: 941
+  pitcher_strikeouts: 6
+  rbi: 1882
+  runs: 1855
+  total_bases: 1873
+
+By Sportsbook:
+  prizepicks: 4680
+  underdog: 4203

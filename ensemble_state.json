@@ -1,0 +1,25 @@
+{
+  "performance_tracker": {},
+  "model_weights": {
+    "hits": {},
+    "total_bases": {},
+    "runs": {},
+    "rbi": {},
+    "home_runs": {},
+    "hitter_strikeouts": {},
+    "pitcher_strikeouts": {},
+    "stolen_bases": {},
+    "hrr": {}
+  },
+  "historical_performance": {
+    "hits": {},
+    "total_bases": {},
+    "runs": {},
+    "rbi": {},
+    "home_runs": {},
+    "hitter_strikeouts": {},
+    "pitcher_strikeouts": {},
+    "stolen_bases": {},
+    "hrr": {}
+  }
+}

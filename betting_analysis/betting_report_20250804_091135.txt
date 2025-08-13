@@ -1,0 +1,70 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-04 09:11:35
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Glasnow             | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Max Fried                 | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Nick Lodolo               | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Yusei Kikuchi             | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Sonny Gray                | pitcher_strikeouts | prizepicks
+    Line:   5.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Quinn Priester            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Sean Manaea               | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Patrick Corbin            | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 9. Michael Soroka            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+10. Sandy Alcantara           | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 14
+Average Edge: 138.59%
+Total Expected Value: $19.40
+
+By Confidence Level:
+  VERY_HIGH: 14
+
+By Category:
+  pitcher_strikeouts: 14
+
+By Sportsbook:
+  prizepicks: 14

@@ -1,0 +1,75 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-09 13:43:11
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Matt Olson                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Spencer Steer             | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Matt McLain               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Spencer Steer             | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Elly De La Cruz           | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Matt McLain               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Spencer Steer             | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 9. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+10. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 571
+Average Edge: 87.78%
+Total Expected Value: $501.21
+
+By Confidence Level:
+  VERY_HIGH: 571
+
+By Category:
+  hits: 112
+  hitter_strikeouts: 79
+  rbi: 128
+  runs: 124
+  total_bases: 128
+
+By Sportsbook:
+  prizepicks: 334
+  underdog: 237

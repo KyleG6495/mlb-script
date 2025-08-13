@@ -1,0 +1,91 @@
+Id,Position,First Name,Nickname,Last Name,FPPG,Played,Salary,Game,Team,Opponent,Injury Indicator,Injury Details,Tier,Rostership %,Probable Pitcher,lineup_id,strategy
+119385-197980,P,Paul,Paul Skenes,Skenes,38.625,24,10800,PIT@MIL,PIT,MIL,,,,,Yes,1,balanced
+119385-119303,C,Shea,Shea Langeliers,Langeliers,11.29775281,89,3500,TB@ATH,ATH,TB,,,,,,1,balanced
+119385-222794,1B,Nick,Nick Kurtz,Kurtz,13.38999939,80,4200,TB@ATH,ATH,TB,,,,,,1,balanced
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,1,balanced
+119385-68522,3B,Alex,Alex Bregman,Bregman,11.91891892,74,3400,BOS@HOU,BOS,HOU,,,,,,1,balanced
+119385-185300,SS,Zach,Zach Neto,Neto,12.02400024,100,3300,LAD@LAA,LAA,LAD,,,,,,1,balanced
+119385-82440,OF,Shohei,Shohei Ohtani,Ohtani,15.65299166,117,4800,LAD@LAA,LAD,LAA,,,,,,1,balanced
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,1,balanced
+119385-102537,OF,Everson,Everson Pereira,Pereira,12.19999981,1,2000,TB@ATH,TB,ATH,,,,,,1,balanced
+119385-53029,P,Robbie,Robbie Ray,Ray,35.375,24,9900,SD@SF,SF,SD,,,,,Yes,2,balanced
+119385-119303,C,Shea,Shea Langeliers,Langeliers,11.29775281,89,3500,TB@ATH,ATH,TB,,,,,,2,balanced
+119385-222794,1B,Nick,Nick Kurtz,Kurtz,13.38999939,80,4200,TB@ATH,ATH,TB,,,,,,2,balanced
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,2,balanced
+119385-68522,3B,Alex,Alex Bregman,Bregman,11.91891892,74,3400,BOS@HOU,BOS,HOU,,,,,,2,balanced
+119385-185300,SS,Zach,Zach Neto,Neto,12.02400024,100,3300,LAD@LAA,LAA,LAD,,,,,,2,balanced
+119385-82440,OF,Shohei,Shohei Ohtani,Ohtani,15.65299166,117,4800,LAD@LAA,LAD,LAA,,,,,,2,balanced
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,2,balanced
+119385-102537,OF,Everson,Everson Pereira,Pereira,12.19999981,1,2000,TB@ATH,TB,ATH,,,,,,2,balanced
+119385-60633,P,Carlos,Carlos Rodon,Rodon,35.25,24,10500,MIN@NYY,NYY,MIN,,,,,Yes,3,balanced
+119385-119303,C,Shea,Shea Langeliers,Langeliers,11.29775281,89,3500,TB@ATH,ATH,TB,,,,,,3,balanced
+119385-222794,1B,Nick,Nick Kurtz,Kurtz,13.38999939,80,4200,TB@ATH,ATH,TB,,,,,,3,balanced
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,3,balanced
+119385-68522,3B,Alex,Alex Bregman,Bregman,11.91891892,74,3400,BOS@HOU,BOS,HOU,,,,,,3,balanced
+119385-185300,SS,Zach,Zach Neto,Neto,12.02400024,100,3300,LAD@LAA,LAA,LAD,,,,,,3,balanced
+119385-82440,OF,Shohei,Shohei Ohtani,Ohtani,15.65299166,117,4800,LAD@LAA,LAD,LAA,,,,,,3,balanced
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,3,balanced
+119385-102537,OF,Everson,Everson Pereira,Pereira,12.19999981,1,2000,TB@ATH,TB,ATH,,,,,,3,balanced
+119385-197980,P,Paul,Paul Skenes,Skenes,38.625,24,10800,PIT@MIL,PIT,MIL,,,,,Yes,4,ceiling
+119385-119303,C,Shea,Shea Langeliers,Langeliers,11.29775281,89,3500,TB@ATH,ATH,TB,,,,,,4,ceiling
+119385-222794,1B,Nick,Nick Kurtz,Kurtz,13.38999939,80,4200,TB@ATH,ATH,TB,,,,,,4,ceiling
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,4,ceiling
+119385-68522,3B,Alex,Alex Bregman,Bregman,11.91891892,74,3400,BOS@HOU,BOS,HOU,,,,,,4,ceiling
+119385-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.24321993,118,4100,WSH@KC,KC,WSH,,,,,,4,ceiling
+119385-82440,OF,Shohei,Shohei Ohtani,Ohtani,15.65299166,117,4800,LAD@LAA,LAD,LAA,,,,,,4,ceiling
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,4,ceiling
+119385-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@NYM,ATL,NYM,IL,Calf,,,,4,ceiling
+119385-53029,P,Robbie,Robbie Ray,Ray,35.375,24,9900,SD@SF,SF,SD,,,,,Yes,5,ceiling
+119385-119303,C,Shea,Shea Langeliers,Langeliers,11.29775281,89,3500,TB@ATH,ATH,TB,,,,,,5,ceiling
+119385-222794,1B,Nick,Nick Kurtz,Kurtz,13.38999939,80,4200,TB@ATH,ATH,TB,,,,,,5,ceiling
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,5,ceiling
+119385-68522,3B,Alex,Alex Bregman,Bregman,11.91891892,74,3400,BOS@HOU,BOS,HOU,,,,,,5,ceiling
+119385-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.24321993,118,4100,WSH@KC,KC,WSH,,,,,,5,ceiling
+119385-82440,OF,Shohei,Shohei Ohtani,Ohtani,15.65299166,117,4800,LAD@LAA,LAD,LAA,,,,,,5,ceiling
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,5,ceiling
+119385-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@NYM,ATL,NYM,IL,Calf,,,,5,ceiling
+119385-60633,P,Carlos,Carlos Rodon,Rodon,35.25,24,10500,MIN@NYY,NYY,MIN,,,,,Yes,6,ceiling
+119385-119303,C,Shea,Shea Langeliers,Langeliers,11.29775281,89,3500,TB@ATH,ATH,TB,,,,,,6,ceiling
+119385-222794,1B,Nick,Nick Kurtz,Kurtz,13.38999939,80,4200,TB@ATH,ATH,TB,,,,,,6,ceiling
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,6,ceiling
+119385-68522,3B,Alex,Alex Bregman,Bregman,11.91891892,74,3400,BOS@HOU,BOS,HOU,,,,,,6,ceiling
+119385-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.24321993,118,4100,WSH@KC,KC,WSH,,,,,,6,ceiling
+119385-82440,OF,Shohei,Shohei Ohtani,Ohtani,15.65299166,117,4800,LAD@LAA,LAD,LAA,,,,,,6,ceiling
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,6,ceiling
+119385-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@NYM,ATL,NYM,IL,Calf,,,,6,ceiling
+119385-197980,P,Paul,Paul Skenes,Skenes,38.625,24,10800,PIT@MIL,PIT,MIL,,,,,Yes,7,value
+119385-85279,C,Miguel,Miguel Amaya,Amaya,10.67777733,27,2600,CHC@TOR,CHC,TOR,IL,Oblique,,,,7,value
+119385-162509,1B/OF,Juan,Juan Yepez,Yepez,8.784127372,63,2000,WSH@KC,WSH,KC,,,,,,7,value
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,7,value
+119385-232219,3B,Kyle,Kyle Karros,Karros,10.22500038,4,2500,COL@STL,COL,STL,,,,,,7,value
+119385-174963,SS,Charles,Charles Leblanc,Leblanc,8.290908813,11,2000,ATL@NYM,ATL,NYM,,,,,,7,value
+119385-102537,OF,Everson,Everson Pereira,Pereira,12.19999981,1,2000,TB@ATH,TB,ATH,,,,,,7,value
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,7,value
+119385-79151,OF,Taylor,Taylor Ward,Ward,11.37692287,117,3200,LAD@LAA,LAA,LAD,,,,,,7,value
+119385-53029,P,Robbie,Robbie Ray,Ray,35.375,24,9900,SD@SF,SF,SD,,,,,Yes,8,value
+119385-85279,C,Miguel,Miguel Amaya,Amaya,10.67777733,27,2600,CHC@TOR,CHC,TOR,IL,Oblique,,,,8,value
+119385-162509,1B/OF,Juan,Juan Yepez,Yepez,8.784127372,63,2000,WSH@KC,WSH,KC,,,,,,8,value
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,8,value
+119385-232219,3B,Kyle,Kyle Karros,Karros,10.22500038,4,2500,COL@STL,COL,STL,,,,,,8,value
+119385-174963,SS,Charles,Charles Leblanc,Leblanc,8.290908813,11,2000,ATL@NYM,ATL,NYM,,,,,,8,value
+119385-102537,OF,Everson,Everson Pereira,Pereira,12.19999981,1,2000,TB@ATH,TB,ATH,,,,,,8,value
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,8,value
+119385-79151,OF,Taylor,Taylor Ward,Ward,11.37692287,117,3200,LAD@LAA,LAA,LAD,,,,,,8,value
+119385-60633,P,Carlos,Carlos Rodon,Rodon,35.25,24,10500,MIN@NYY,NYY,MIN,,,,,Yes,9,value
+119385-85279,C,Miguel,Miguel Amaya,Amaya,10.67777733,27,2600,CHC@TOR,CHC,TOR,IL,Oblique,,,,9,value
+119385-162509,1B/OF,Juan,Juan Yepez,Yepez,8.784127372,63,2000,WSH@KC,WSH,KC,,,,,,9,value
+119385-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@ATH,TB,ATH,IL,Knee,,,,9,value
+119385-232219,3B,Kyle,Kyle Karros,Karros,10.22500038,4,2500,COL@STL,COL,STL,,,,,,9,value
+119385-174963,SS,Charles,Charles Leblanc,Leblanc,8.290908813,11,2000,ATL@NYM,ATL,NYM,,,,,,9,value
+119385-102537,OF,Everson,Everson Pereira,Pereira,12.19999981,1,2000,TB@ATH,TB,ATH,,,,,,9,value
+119385-39086,OF,Byron,Byron Buxton,Buxton,13.86976801,86,3800,MIN@NYY,MIN,NYY,,,,,,9,value
+119385-79151,OF,Taylor,Taylor Ward,Ward,11.37692287,117,3200,LAD@LAA,LAA,LAD,,,,,,9,value
+119385-197980,P,Paul,Paul Skenes,Skenes,38.625,24,10800,PIT@MIL,PIT,MIL,,,,,Yes,10,contrarian
+119385-222849,C,Eduardo,Eduardo Tait,Tait,,0,2000,MIN@NYY,MIN,NYY,,,,,,10,contrarian
+119385-119412,2B/3B/1B,Owen,Owen Miller,Miller,2.722222222,9,2000,COL@STL,COL,STL,,,,,,10,contrarian
+119385-135207,2B,Alex,Alex De Goti,De Goti,,0,2000,ARI@TEX,TEX,ARI,,,,,,10,contrarian
+119385-181856,3B,Andre,Andre Lipcius,Lipcius,,0,2000,DET@CWS,CWS,DET,,,,,,10,contrarian
+119385-119362,SS,Eduardo,Eduardo Garcia,Garcia,,0,2000,PIT@MIL,MIL,PIT,,,,,,10,contrarian
+119385-102390,OF,Travis,Travis Swaggerty,Swaggerty,,0,2000,ATL@NYM,NYM,ATL,,,,,,10,contrarian
+119385-102360,OF,Connor,Connor Scott,Scott,,0,2000,WSH@KC,KC,WSH,IL,Undisclosed,,,,10,contrarian
+119385-198902,OF,Ryan,Ryan Clifford,Clifford,,0,2000,ATL@NYM,NYM,ATL,,,,,,10,contrarian

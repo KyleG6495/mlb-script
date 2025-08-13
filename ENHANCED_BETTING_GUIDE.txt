@@ -1,0 +1,116 @@
+🎯 ENHANCED BETTING SYSTEM GUIDE
+=====================================
+
+Your betting analysis now includes THREE powerful tools:
+
+## 📊 1. SINGLE PROP ANALYZER (enhanced_betting_analyzer.py)
+✅ Clear YES/NO recommendations  
+✅ Expected value calculations
+✅ Confidence levels (VERY HIGH, HIGH, MEDIUM, LOW)
+✅ Win probabilities
+
+### Sample Output:
+```
+🟢 YES OVER - Aaron Judge
+HITS: Model predicts 5.6, line is 1.5  
+EV: $0.90 | 🔥 VERY HIGH
+Win Probability: 99.3%
+```
+
+## 🎰 2. COMBO PROP OPTIMIZER (combo_prop_optimizer.py)  
+✅ Multi-player combinations
+✅ 3x, 6x, 10x payout calculations
+✅ Risk assessment
+✅ PrizePicks/Underdog format
+
+### Sample Output:
+```
+Shohei Ohtani Runs + Cal Raleigh Runs + Ronald Acuna Jr. Runs
+💰 EV: $2.68 | Win: 61.4% | 🔥 VERY HIGH
+6.0x payout | MEDIUM RISK
+```
+
+## 🏟️ 3. FANDUEL LINEUP OPTIMIZER (with pitcher!)
+✅ Complete 9-player lineups
+✅ Salary cap optimization  
+✅ Verified starters only
+✅ Ready-to-submit format
+
+---
+
+## 🚀 HOW TO USE YOUR ENHANCED SYSTEM:
+
+### Daily Workflow:
+```batch
+RUN_DAILY_ANALYSIS.bat
+```
+
+This now runs 7 steps:
+1. Process FD slate
+2. Add pitcher features  
+3. Apply real player stats
+4. ML analysis
+5. Optimize FanDuel lineup
+6. Create FanDuel submission
+7. **NEW: Enhanced betting analysis**
+
+### Your Output Files:
+📁 **betting_analysis/**
+- `enhanced_betting_report_*.txt` - YES/NO recommendations
+- `combo_prop_report_*.txt` - Multi-player combos
+- `betting_report_*.txt` - Original detailed analysis
+
+📁 **data/**  
+- `fanduel_lineup_card.csv` - Your optimal lineup
+- `fanduel_submission_names.csv` - Copy to FanDuel
+
+---
+
+## 💡 BETTING STRATEGY RECOMMENDATIONS:
+
+### Single Props:
+- ✅ Bet any recommendation with "🔥 VERY HIGH" confidence
+- ✅ Focus on EV > $0.15  
+- ✅ Only bet clear YES recommendations
+
+### Combo Props:
+- ✅ Start with 2-player combos (3x payout)
+- ✅ Use 3-player combos for big scores (6x payout)
+- ✅ Only bet combos with 60%+ win probability
+- ✅ Diversify across multiple smaller combos
+
+### Risk Management:
+- 💰 Bet 1-2% of bankroll per prop
+- 📊 Track results in Excel
+- 🎯 Focus on volume of +EV bets
+- ⏰ Place bets early (lines move)
+
+---
+
+## 🔧 ADVANCED FEATURES:
+
+### Real Player Stats Integration:
+Your system now uses actual 2024-2025 player statistics for more accurate predictions instead of synthetic data.
+
+### Pitcher Context:
+Predictions now factor in opposing pitcher strength, ERA, WHIP, K/9 rate, etc.
+
+### Starter Verification:  
+Only players with confirmed batting orders are included in lineups.
+
+### Combo Recognition:
+Automatically identifies players strong in multiple categories for profitable combinations.
+
+---
+
+## 📞 QUICK REFERENCE:
+
+**Best Single Props:** Look for 🟢 YES recommendations with EV > $0.15
+
+**Best Combos:** 3-player combinations with 60%+ win probability  
+
+**FanDuel:** Use fanduel_submission_names.csv for quick entry
+
+**Daily Process:** Just run RUN_DAILY_ANALYSIS.bat each morning
+
+🎯 **Your system now provides ACTIONABLE betting recommendations with clear YES/NO decisions and expected values!**

@@ -1,0 +1,79 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 11:43:05
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Shohei Ohtani             | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 2. Bobby Witt Jr.            | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 3. Jordan Beck               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 4. Kyle Stowers              | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 5. Freddie Freeman           | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 6. Bo Bichette               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 7. Bo Bichette               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 8. Jordan Westburg           | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 9. Andy Pages                | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+10. Yandy Diaz                | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 13535
+Average Edge: 74.88%
+Total Expected Value: $10135.19
+
+By Confidence Level:
+  HIGH: 79
+  LOW: 95
+  MEDIUM: 116
+  VERY_HIGH: 13245
+
+By Category:
+  hits: 1257
+  hitter_strikeouts: 1382
+  pitcher_strikeouts: 5888
+  rbi: 1678
+  runs: 1661
+  total_bases: 1669
+
+By Sportsbook:
+  prizepicks: 6831
+  underdog: 6704
