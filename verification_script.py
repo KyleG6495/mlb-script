@@ -1,8 +1,8 @@
 import pandas as pd
 df = pd.read_csv('C:/Users/kgone/OneDrive/Personal_Information/MLB/data/finalize_hitter_features.csv')
 print(df[['rolling_avg_hits', 'rolling_avg_OBP']].describe())
-print("Non-default rolling_avg_hits:", len(df[df['rolling_avg_hits'] != 0.25]))
-print("Non-default rolling_avg_OBP:", len(df[df['rolling_avg_OBP'] != 0.32]))
+print("Non-default rolling_avg_hits:", len(df[df['rolling_avg_hits'] != 0.229]))
+print("Non-default rolling_avg_OBP:", len(df[df['rolling_avg_OBP'] != 0.298]))
 print("Rows with league average AVG (0.229):", len(df[df['rolling_avg_hits'] == 0.229]))
 print("Rows with league average OBP (0.298):", len(df[df['rolling_avg_OBP'] == 0.298]))
 print("Zero-value rows:")
