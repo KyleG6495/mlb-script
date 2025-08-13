@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 15:44:58
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 2. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   1.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 3. Hunter Brown              | pitcher_strikeouts | underdog  
+    Line:   7.5 | Prediction:   1.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 4. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.1 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 5. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.0 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 6. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   3.8 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 7. Hunter Brown              | pitcher_strikeouts | underdog  
+    Line:   7.5 | Prediction:   3.8 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 8. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 9. Hunter Brown              | pitcher_strikeouts | underdog  
+    Line:   7.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+10. Robbie Ray                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 15758
+Average Edge: 89.45%
+Total Expected Value: $14095.43
+
+By Confidence Level:
+  HIGH: 69
+  LOW: 106
+  MEDIUM: 95
+  VERY_HIGH: 15488
+
+By Category:
+  hits: 1568
+  hitter_strikeouts: 387
+  home_runs: 922
+  pitcher_strikeouts: 7112
+  rbi: 1929
+  runs: 1909
+  total_bases: 1931
+
+By Sportsbook:
+  prizepicks: 7753
+  underdog: 8005

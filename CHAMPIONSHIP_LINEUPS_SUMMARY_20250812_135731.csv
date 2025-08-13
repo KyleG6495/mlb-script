@@ -1,0 +1,11 @@
+lineup_id,strategy,pitcher,total_salary,total_fppg,summary
+1,balanced,Paul Skenes,38100,150.1784316,"$38,100 - 150.2 FPPG"
+2,balanced,Robbie Ray,37200,146.9284316,"$37,200 - 146.9 FPPG"
+3,balanced,Carlos Rodon,37800,146.8034316,"$37,800 - 146.8 FPPG"
+4,ceiling,Paul Skenes,40900,151.53583285,"$40,900 - 151.5 FPPG"
+5,ceiling,Robbie Ray,40000,148.28583285,"$40,000 - 148.3 FPPG"
+6,ceiling,Carlos Rodon,40600,148.16083285,"$40,600 - 148.2 FPPG"
+7,value,Paul Skenes,31200,135.249505345,"$31,200 - 135.2 FPPG"
+8,value,Robbie Ray,30300,131.999505345,"$30,300 - 132.0 FPPG"
+9,value,Carlos Rodon,30900,131.874505345,"$30,900 - 131.9 FPPG"
+10,contrarian,Paul Skenes,26800,,"$26,800 - nan FPPG"

@@ -1,0 +1,35 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-06 06:41:49
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Glasnow             | pitcher_strikeouts | prizepicks
+    Line:   4.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Michael Soroka            | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Jonathan Cannon           | pitcher_strikeouts | prizepicks
+    Line:   4.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 3
+Average Edge: 138.59%
+Total Expected Value: $4.16
+
+By Confidence Level:
+  VERY_HIGH: 3
+
+By Category:
+  pitcher_strikeouts: 3
+
+By Sportsbook:
+  prizepicks: 3

@@ -1,0 +1,79 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-25 18:44:39
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Carlos Correa             | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 2. Carlos Correa             | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 3. Wenceel Perez             | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 4. Mike Yastrzemski          | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 5. Zac Veen                  | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 6. Dylan Moore               | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 7. Tyler Naquin              | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 8. Daniel Vellojin           | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+ 9. Carlos Colmenares         | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+10. Carlos Colmenares         | total_bases  | underdog  
+    Line:   0.5 | Prediction:  20.8 | Bet: UNDER
+    Edge: 90.40% | EV: $ +0.90 | Confidence: VERY_HIGH
+    Model Prob: 99.7% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 3971
+Average Edge: 84.55%
+Total Expected Value: $3357.63
+
+By Confidence Level:
+  HIGH: 2
+  LOW: 3
+  MEDIUM: 12
+  VERY_HIGH: 3954
+
+By Category:
+  hits: 542
+  hitter_strikeouts: 146
+  home_runs: 768
+  rbi: 859
+  runs: 839
+  total_bases: 817
+
+By Sportsbook:
+  prizepicks: 1942
+  underdog: 2029

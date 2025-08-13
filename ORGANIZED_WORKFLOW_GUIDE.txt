@@ -1,0 +1,135 @@
+MLB AUTOMATED SYSTEM - ORGANIZED WORKFLOW
+==========================================
+
+🎯 NEW ORGANIZED STRUCTURE:
+==========================
+
+You now have THREE separate, focused .bat files that organize your entire workflow:
+
+1️⃣ **RUN_DATA_PIPELINE.bat** 
+   • Steps 1-20: Pull & scrape all fresh data
+   • Time: ~35-45 minutes
+   • Run: Once daily (morning)
+
+2️⃣ **RUN_DFS_MODELS.bat**
+   • DFS lineup optimization with ML models  
+   • Time: ~8-12 minutes
+   • Run: After data pipeline + when you get today's slate
+
+3️⃣ **RUN_PROP_MODELS.bat**
+   • Prop betting analysis (Underdog + PrizePicks)
+   • Time: ~10-15 minutes  
+   • Run: After data pipeline + when props are posted
+
+📋 DAILY WORKFLOW OPTIONS:
+=========================
+
+OPTION A - Full Daily Analysis (60-70 minutes):
+-----------------------------------------------
+1. Run RUN_DATA_PIPELINE.bat (fresh data)
+2. Run RUN_DFS_MODELS.bat (lineups)  
+3. Run RUN_PROP_MODELS.bat (betting)
+
+OPTION B - Quick Updates (20-30 minutes):
+-----------------------------------------
+1. Skip data pipeline (use yesterday's data)
+2. Run RUN_DFS_MODELS.bat (new lineups)
+3. Run RUN_PROP_MODELS.bat (new props)
+
+OPTION C - Targeted Analysis:
+----------------------------
+• Just lineups: RUN_DFS_MODELS.bat only
+• Just props: RUN_PROP_MODELS.bat only
+• Just data refresh: RUN_DATA_PIPELINE.bat only
+
+🗂️ WHAT EACH .BAT DOES:
+=======================
+
+**RUN_DATA_PIPELINE.bat (Steps 1-20):**
+---------------------------------------
+✅ Generates hitter/pitcher games
+✅ Assigns player IDs and game PKs  
+✅ Scrapes fresh stats from websites
+✅ Builds rolling features and aggregations
+✅ Merges weather and park factors
+✅ Creates final feature files
+
+**Outputs:** 
+- Updated data files in data/ folder
+- Fresh player features and stats
+- Weather/park factor integrations
+
+**RUN_DFS_MODELS.bat (Steps 21-24 + DFS):**
+------------------------------------------
+✅ Finalizes hitter/pitcher features
+✅ Applies real player stats
+✅ Runs UNIFIED DFS optimization  
+✅ Creates FanDuel submission files
+
+**Outputs:**
+- unified_dfs_lineups_*.csv (20 optimized lineups)
+- fanduel_submission_*.csv (ready to upload)
+- Lineup summaries and analysis
+
+**RUN_PROP_MODELS.bat (Betting Analysis):**
+------------------------------------------
+✅ Runs core ML betting analysis
+✅ Scrapes PrizePicks and Underdog props
+✅ Analyzes EV and opportunities
+✅ Creates betting recommendations
+
+**Outputs:**
+- betting_report_*.txt (daily picks)
+- betting_opportunities_*.csv (detailed analysis)
+- Platform-specific recommendation files
+
+💡 ADVANTAGES OF NEW STRUCTURE:
+==============================
+
+✅ **Modular**: Run only what you need
+✅ **Efficient**: Skip data refresh when not needed  
+✅ **Clear**: Each .bat has focused purpose
+✅ **Fast**: Targeted runs save time
+✅ **Organized**: No more confusion about what to run
+✅ **Flexible**: Mix and match based on daily needs
+
+🚀 QUICK START GUIDE:
+====================
+
+**First Time Setup:**
+1. Run RUN_DATA_PIPELINE.bat (get fresh data)
+2. Add today's FanDuel slate to data/fd_slate_today.csv
+3. Run RUN_DFS_MODELS.bat (get lineups)
+4. Run RUN_PROP_MODELS.bat (get betting picks)
+
+**Daily Routine:**
+1. Morning: RUN_DATA_PIPELINE.bat
+2. When slate drops: RUN_DFS_MODELS.bat  
+3. When props post: RUN_PROP_MODELS.bat
+
+**Quick Updates:**
+1. Skip data pipeline if recent
+2. Run DFS and/or Prop models as needed
+
+🎯 FILE OUTPUTS SUMMARY:
+========================
+
+**DFS Files:**
+- fanduel_submission_*.csv ← UPLOAD TO FANDUEL
+- unified_dfs_lineups_*.csv (detailed)
+- unified_dfs_summary_*.csv (overview)
+
+**Prop Betting Files:**
+- betting_report_*.txt (summary)
+- betting_opportunities_*.csv (detailed)
+- enhanced_betting_report_*.txt (YES/NO picks)
+- uf_mlb_picks.xlsx (Underdog analysis)
+- prizepicks_real_ev_*.csv (PrizePicks picks)
+
+**Data Files:**
+- fd_hitter_features_final.csv
+- fd_pitcher_features_final.csv  
+- merged_weather_park.csv
+- Various aggregated stat files
+
+This organization gives you complete control over your workflow while keeping everything clean and focused!

@@ -1,0 +1,50 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-01 14:31:26
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Glasnow             | pitcher_strikeouts | prizepicks
+    Line:   5.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Nick Lodolo               | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Joe Boyle                 | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Michael Soroka            | pitcher_strikeouts | prizepicks
+    Line:   5.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Logan Evans               | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Ryan Bergert              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 6
+Average Edge: 138.59%
+Total Expected Value: $8.32
+
+By Confidence Level:
+  VERY_HIGH: 6
+
+By Category:
+  pitcher_strikeouts: 6
+
+By Sportsbook:
+  prizepicks: 6

@@ -1,0 +1,75 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-11 17:34:45
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Stephenson          | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Noelvi Marte              | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Elly De La Cruz           | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 6. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 7. Matt Olson                | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 8. Spencer Steer             | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 9. Josh Smith                | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+10. Josh Smith                | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 467
+Average Edge: 83.41%
+Total Expected Value: $389.54
+
+By Confidence Level:
+  VERY_HIGH: 467
+
+By Category:
+  hits: 71
+  hitter_strikeouts: 71
+  rbi: 108
+  runs: 108
+  total_bases: 109
+
+By Sportsbook:
+  prizepicks: 235
+  underdog: 232

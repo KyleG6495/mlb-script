@@ -1,0 +1,56 @@
+📋 DAILY MLB DFS CHECKLIST
+==========================
+
+**MORNING (9:00-10:40 AM)**
+
+□ **9:00 AM** - Download FanDuel slate → `fd_current_slate/fd_slate_today.csv`
+
+□ **9:15 AM** - Run data pipeline:
+   ```
+   cd DAILY_RUNNERS
+   1_DATA_PIPELINE.bat
+   ```
+
+□ **10:00 AM** - Verify data files exist:
+   - aggregated_hitter_features_2025.csv ✓
+   - aggregated_pitcher_features_2025.csv ✓  
+   - real_weather_enhanced_*.csv ✓
+   - weather_enhanced_projections_*.csv ✓
+
+□ **10:15 AM** - Generate ULTIMATE lineups:
+   ```
+   cd Scripts
+   python ULTIMATE_FANDUEL_OPTIMIZER.py
+   ```
+
+□ **10:20 AM** - Review generated files:
+   - ULTIMATE_FANDUEL_LINEUPS_*.csv ← **SUBMIT THIS**
+   - ULTIMATE_FANDUEL_SUMMARY_*.csv ← **REVIEW PROJECTIONS**
+
+□ **10:25 AM** - Manual checks:
+   - No injury news ✓
+   - Weather data current ✓
+   - Projections look reasonable (140+ FPPG) ✓
+
+□ **10:30 AM** - Upload to FanDuel
+   - Login to FanDuel DFS ✓
+   - Upload CSV file ✓
+   - Verify successful import ✓
+
+□ **10:35 AM** - Log results:
+   - Date: ___________
+   - Lineups: 5
+   - Top projection: _______ FPPG
+   - Entry fees: $______
+
+**OPTIONAL UPDATES**
+
+□ **2:00 PM** - Weather check (if needed)
+□ **5:00 PM** - Final weather/news check
+□ **Game time** - Monitor results for learning
+
+**FILES TO WATCH FOR ISSUES:**
+- fd_slate_today.csv (must exist first!)
+- ULTIMATE_FANDUEL_LINEUPS_*.csv (final output)
+
+**SUCCESS = 5 elite lineups submitted to FanDuel by 10:40 AM daily**

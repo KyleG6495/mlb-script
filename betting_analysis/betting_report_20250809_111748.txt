@@ -1,0 +1,75 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-09 11:17:48
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Drake Baldwin             | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Matt Olson                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Matt McLain               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Elly De La Cruz           | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Matt McLain               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Sean Murphy               | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 8. Tyler Stephenson          | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+ 9. Matt Olson                | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+10. Matt Olson                | total_bases  | prizepicks
+    Line:   3.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.24% | EV: $ +1.38 | Confidence: VERY_HIGH
+    Model Prob:  1.1% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 587
+Average Edge: 88.00%
+Total Expected Value: $516.55
+
+By Confidence Level:
+  VERY_HIGH: 587
+
+By Category:
+  hits: 101
+  hitter_strikeouts: 109
+  rbi: 126
+  runs: 126
+  total_bases: 125
+
+By Sportsbook:
+  prizepicks: 347
+  underdog: 240

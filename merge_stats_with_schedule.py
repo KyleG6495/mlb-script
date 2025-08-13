@@ -176,8 +176,8 @@ def compute_rolling_features(df, rolling_df, agg_df):
         logging.info(f"Manual stats applied: {len(merged[merged['AVG_manual'].notna()])} rows")
 
     # Compute league averages as fallback
-    avg_avg = agg_df['AVG'].mean() if not agg_df['AVG'].isna().all() else 0.250
-    avg_obp = agg_df['OBP'].mean() if not agg_df['OBP'].isna().all() else 0.320
+    avg_avg = agg_df['AVG'].mean() if not agg_df['AVG'].isna().all() else 0.229
+    avg_obp = agg_df['OBP'].mean() if not agg_df['OBP'].isna().all() else 0.298
     logging.info(f"League average AVG: {avg_avg:.3f}, OBP: {avg_obp:.3f}")
 
     # Use rolling stats, then manual stats, then aggregated stats, then league averages

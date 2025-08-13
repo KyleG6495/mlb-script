@@ -1,0 +1,7 @@
+player,category,source,line,prediction,model_prob_over,implied_prob,recommended_bet,expected_value,edge,confidence,optimal_entry_size,kelly_bet_pct,kelly_bet_amount,odds
+Tyler Glasnow,pitcher_strikeouts,prizepicks,5.5,0.5011592632981895,0.01,0.5850622406639004,UNDER,1.3859000000000001,1.3859000000000001,VERY_HIGH,3,0.25,250.0,3-pick entry (~58.5% per leg)
+Nick Lodolo,pitcher_strikeouts,prizepicks,8.5,0.5011592632981895,0.01,0.5850622406639004,UNDER,1.3859000000000001,1.3859000000000001,VERY_HIGH,3,0.25,250.0,3-pick entry (~58.5% per leg)
+Joe Boyle,pitcher_strikeouts,prizepicks,8.5,0.5011592632981895,0.01,0.5850622406639004,UNDER,1.3859000000000001,1.3859000000000001,VERY_HIGH,3,0.25,250.0,3-pick entry (~58.5% per leg)
+Michael Soroka,pitcher_strikeouts,prizepicks,5.5,0.5011592632981895,0.01,0.5850622406639004,UNDER,1.3859000000000001,1.3859000000000001,VERY_HIGH,3,0.25,250.0,3-pick entry (~58.5% per leg)
+Logan Evans,pitcher_strikeouts,prizepicks,8.5,0.5011592632981895,0.01,0.5850622406639004,UNDER,1.3859000000000001,1.3859000000000001,VERY_HIGH,3,0.25,250.0,3-pick entry (~58.5% per leg)
+Ryan Bergert,pitcher_strikeouts,prizepicks,8.5,0.5011592632981895,0.01,0.5850622406639004,UNDER,1.3859000000000001,1.3859000000000001,VERY_HIGH,3,0.25,250.0,3-pick entry (~58.5% per leg)

@@ -1,0 +1,75 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-20 10:43:18
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Logan O'Hoppe             | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. Will Wagner               | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. Logan O'Hoppe             | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. Evan White                | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. Mike Brosseau             | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. Nick Kurtz                | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -2.0 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. Logan Porter              | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.6 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. Logan Davidson            | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.6 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. Will Smith                | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.9 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. Adrian Placencia          | strikeouts   | prizepicks
+    Line:   4.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 1555
+Average Edge: 89.80%
+Total Expected Value: $1396.46
+
+By Confidence Level:
+  VERY_HIGH: 1555
+
+By Category:
+  hits: 332
+  home_runs: 270
+  rbi: 295
+  runs: 295
+  strikeouts: 35
+  total_bases: 328
+
+By Sportsbook:
+  prizepicks: 1555
