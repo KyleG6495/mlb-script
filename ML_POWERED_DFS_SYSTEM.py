@@ -104,9 +104,9 @@ class MLProjectionEngine:
             if model_path.exists():
                 try:
                     self.hitter_models[prop] = joblib.load(model_path)
-                    logger.info(f"✅ Loaded {prop} model")
+                    logger.info(f"SUCCESS: Loaded {prop} model")
                 except Exception as e:
-                    logger.warning(f"❌ Failed to load {prop} model: {e}")
+                    logger.warning(f"ERROR: Failed to load {prop} model: {e}")
         
         # Pitcher models  
         pitcher_props = ['strikeouts', 'outs', 'win_binary']
@@ -115,9 +115,9 @@ class MLProjectionEngine:
             if model_path.exists():
                 try:
                     self.pitcher_models[prop] = joblib.load(model_path)
-                    logger.info(f"✅ Loaded {prop} model")
+                    logger.info(f"SUCCESS: Loaded {prop} model")
                 except Exception as e:
-                    logger.warning(f"❌ Failed to load {prop} model: {e}")
+                    logger.warning(f"ERROR: Failed to load {prop} model: {e}")
         
         logger.info(f"Loaded {len(self.hitter_models)} hitter models, {len(self.pitcher_models)} pitcher models")
     
@@ -434,13 +434,13 @@ def main():
         
         # Print summary
         print("\n" + "="*60)
-        print("🤖 ML-POWERED DFS OPTIMIZATION COMPLETE!")
+        print(" ML-POWERED DFS OPTIMIZATION COMPLETE!")
         print("="*60)
-        print(f"✅ Generated {len(lineups_df['lineup_id'].unique())} lineups using ML models")
-        print(f"📊 Average ML projected FPPG: {lineups_df.groupby('lineup_id')['ml_projected_fppg'].sum().mean():.1f}")
-        print(f"💰 Salary range: ${lineups_df.groupby('lineup_id')['salary'].sum().min():,} - ${lineups_df.groupby('lineup_id')['salary'].sum().max():,}")
-        print(f"🎯 File saved: {OUTPUT_LINEUPS.name}")
-        print("\n🚀 Using the SAME ML models as your prop betting system!")
+        print(f"SUCCESS: Generated {len(lineups_df['lineup_id'].unique())} lineups using ML models")
+        print(f"DATA: Average ML projected FPPG: {lineups_df.groupby('lineup_id')['ml_projected_fppg'].sum().mean():.1f}")
+        print(f"MONEY: Salary range: ${lineups_df.groupby('lineup_id')['salary'].sum().min():,} - ${lineups_df.groupby('lineup_id')['salary'].sum().max():,}")
+        print(f"TARGET: File saved: {OUTPUT_LINEUPS.name}")
+        print("\nSTART: Using the SAME ML models as your prop betting system!")
         print("="*60)
         
     except Exception as e:

@@ -104,11 +104,11 @@ if __name__ == "__main__":
     slate = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
     
     # CRITICAL: Filter for only ACTIVE players who are actually playing
-    print(f"📊 Total players in slate: {len(slate)}")
+    print(f"DATA: Total players in slate: {len(slate)}")
     
     # Filter out injured players
     active_slate = slate[slate['Injury Indicator'].fillna('') == ''].copy()
-    print(f"🏥 After removing injured: {len(active_slate)}")
+    print(f" After removing injured: {len(active_slate)}")
     
     # Filter for players with batting orders (actually starting)
     # Batting order > 0 means they're in the starting lineup
@@ -126,17 +126,17 @@ if __name__ == "__main__":
     # Combine starting hitters and probable pitchers
     playing_only = pd.concat([starting_hitters, probable_pitchers], ignore_index=True)
     
-    print(f"⚾ Starting hitters: {len(starting_hitters)}")
-    print(f"🥎 Probable pitchers: {len(probable_pitchers)}")
-    print(f"✅ Total PLAYING players: {len(playing_only)}")
+    print(f"BASEBALL: Starting hitters: {len(starting_hitters)}")
+    print(f" Probable pitchers: {len(probable_pitchers)}")
+    print(f"SUCCESS: Total PLAYING players: {len(playing_only)}")
     
     if len(playing_only) < 50:  # Need enough players to build lineups
-        print("⚠️ WARNING: Very few confirmed players found")
-        print("🕐 This usually means batting orders haven't been posted yet")
-        print("💡 Consider waiting for lineups to be announced")
-        print("❌ CANNOT generate reliable ceiling lineups without confirmed starters")
-        print("❌ Enhanced ceiling optimizer requires batting orders to be posted")
-        print("🔄 Please re-run after batting orders are available (usually 2-3 hours before games)")
+        print("WARNING: WARNING: Very few confirmed players found")
+        print("TIME: This usually means batting orders haven't been posted yet")
+        print("TIP: Consider waiting for lineups to be announced")
+        print("ERROR: CANNOT generate reliable ceiling lineups without confirmed starters")
+        print("ERROR: Enhanced ceiling optimizer requires batting orders to be posted")
+        print("SWAP: Please re-run after batting orders are available (usually 2-3 hours before games)")
         exit(1)  # Exit without generating lineups
     
     # Generate ceiling lineups with ONLY confirmed playing players
@@ -163,15 +163,15 @@ if __name__ == "__main__":
             ceiling_fppg = round(row['Ceiling_FPPG'], 1)
             
             # Validation check
-            status = "✅" if total_salary <= 35000 else "❌ OVER CAP"
+            status = "SUCCESS:" if total_salary <= 35000 else "ERROR: OVER CAP"
             print(f"   {row['Lineup']}: ${total_salary:,} | {total_fppg} FPPG | {ceiling_fppg} ceiling {status}")
             
         # Overall validation
         valid_lineups = lineup_summary[lineup_summary['Salary'] <= 35000]
-        print(f"\n📊 Generated {len(valid_lineups)} valid ceiling lineups under $35,000 cap")
+        print(f"\nDATA: Generated {len(valid_lineups)} valid ceiling lineups under $35,000 cap")
         
         if len(valid_lineups) > 0:
             avg_ceiling = valid_lineups['Ceiling_FPPG'].mean()
-            print(f"🎯 Average ceiling projection: {avg_ceiling:.1f} FPPG")
+            print(f"TARGET: Average ceiling projection: {avg_ceiling:.1f} FPPG")
     else:
         print("Failed to generate ceiling lineups")

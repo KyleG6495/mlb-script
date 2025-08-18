@@ -17,25 +17,25 @@ logger = logging.getLogger(__name__)
 def analyze_lineup_performance():
     """Analyze your recent lineup performance vs actual results"""
     
-    print("🔍 LINEUP PERFORMANCE DIAGNOSTIC")
+    print(" LINEUP PERFORMANCE DIAGNOSTIC")
     print("=" * 50)
     
     # Load actual results
     try:
         actual = pd.read_csv("../data/actual_results_latest.csv")
-        print(f"✅ Loaded {len(actual)} actual player results")
+        print(f"SUCCESS: Loaded {len(actual)} actual player results")
         
         # Show top performers from actual results
         actual['total_fanduel_points'] = actual['fanduel_points']
         top_performers = actual.nlargest(15, 'total_fanduel_points')
         
-        print(f"\n🏆 TOP ACTUAL PERFORMERS:")
+        print(f"\nLINEUP: TOP ACTUAL PERFORMERS:")
         print("-" * 60)
         for _, player in top_performers.iterrows():
             print(f"{player['name']:<20} {player['position']:<3} {player['team']:<4} {player['total_fanduel_points']:6.1f} pts")
         
     except Exception as e:
-        print(f"❌ Error loading actual results: {e}")
+        print(f"ERROR: Error loading actual results: {e}")
         return
     
     # Load your recent lineups
@@ -43,15 +43,15 @@ def analyze_lineup_performance():
         import glob
         lineup_files = glob.glob("../data/CHAMPIONSHIP_LINEUPS_SUMMARY_*.csv")
         if not lineup_files:
-            print("❌ No championship lineup files found")
+            print("ERROR: No championship lineup files found")
             return
             
         latest_lineup = sorted(lineup_files)[-1]
         lineups = pd.read_csv(latest_lineup)
-        print(f"\n📊 Analyzing your lineups from: {latest_lineup}")
+        print(f"\nDATA: Analyzing your lineups from: {latest_lineup}")
         
         # Show your lineup selections
-        print(f"\n🎯 YOUR LINEUP SELECTIONS:")
+        print(f"\nTARGET: YOUR LINEUP SELECTIONS:")
         print("-" * 60)
         for _, lineup in lineups.head(3).iterrows():
             total_proj = lineup.get('Total_FPPG', 0)
@@ -62,11 +62,11 @@ def analyze_lineup_performance():
             print()
         
     except Exception as e:
-        print(f"❌ Error loading lineups: {e}")
+        print(f"ERROR: Error loading lineups: {e}")
         return
     
     # Analyze the gaps
-    print(f"\n🔍 PERFORMANCE GAP ANALYSIS:")
+    print(f"\n PERFORMANCE GAP ANALYSIS:")
     print("-" * 60)
     
     # 1. Player overlap analysis
@@ -86,16 +86,16 @@ def analyze_lineup_performance():
     
     print(f"Top performers you selected: {len(your_top_picks)}")
     if your_top_picks:
-        print(f"  ✅ You had: {', '.join(your_top_picks)}")
+        print(f"  SUCCESS: You had: {', '.join(your_top_picks)}")
     else:
-        print(f"  ❌ You missed ALL top performers!")
+        print(f"  ERROR: You missed ALL top performers!")
     
     # 3. Identify the players you missed
     missed_studs = top_performer_names - your_players
-    print(f"\n💸 MISSED OPPORTUNITIES:")
+    print(f"\n MISSED OPPORTUNITIES:")
     for name in list(missed_studs)[:10]:
         player_data = actual[actual['name'] == name].iloc[0]
-        print(f"  💔 {name}: {player_data['total_fanduel_points']:.1f} pts ({player_data['position']}/{player_data['team']})")
+        print(f"   {name}: {player_data['total_fanduel_points']:.1f} pts ({player_data['position']}/{player_data['team']})")
     
     return {
         'your_players': your_players,
@@ -107,7 +107,7 @@ def analyze_lineup_performance():
 def identify_core_problems():
     """Identify the core problems with your lineup generation"""
     
-    print(f"\n🚨 CORE PROBLEMS IDENTIFIED:")
+    print(f"\n CORE PROBLEMS IDENTIFIED:")
     print("=" * 50)
     
     problems = []
@@ -160,7 +160,7 @@ def identify_core_problems():
 def generate_improvement_plan():
     """Generate specific improvement recommendations"""
     
-    print(f"\n🚀 IMPROVEMENT PLAN - MAKE YOUR LINEUPS COMPETITIVE")
+    print(f"\nSTART: IMPROVEMENT PLAN - MAKE YOUR LINEUPS COMPETITIVE")
     print("=" * 70)
     
     improvements = [
@@ -211,17 +211,17 @@ def generate_improvement_plan():
     ]
     
     for improvement in improvements:
-        print(f"\n🎯 {improvement['priority']}: {improvement['action']}")
+        print(f"\nTARGET: {improvement['priority']}: {improvement['action']}")
         print(f"   Timeline: {improvement['timeline']}")
         for step in improvement['steps']:
-            print(f"   • {step}")
+            print(f"    {step}")
     
     return improvements
 
 def create_quick_fixes():
     """Create immediate fixes you can implement today"""
     
-    print(f"\n⚡ QUICK FIXES - IMPLEMENT TODAY")
+    print(f"\n QUICK FIXES - IMPLEMENT TODAY")
     print("=" * 50)
     
     # Quick fix 1: Recent performance weighting
@@ -233,17 +233,17 @@ def create_quick_fixes():
     # Quick fix 2: Matchup bonuses
     print(f"\n2. MATCHUP BONUSES:")
     print(f"   Add bonuses for:")
-    print(f"   • vs LHP when player has high vs LHP stats (+10%)")
-    print(f"   • vs bad pitchers (ERA > 5.00) (+15%)")
-    print(f"   • in hitter parks (Coors, TEX, etc.) (+10%)")
-    print(f"   • high O/U games (>9 runs) (+10%)")
+    print(f"    vs LHP when player has high vs LHP stats (+10%)")
+    print(f"    vs bad pitchers (ERA > 5.00) (+15%)")
+    print(f"    in hitter parks (Coors, TEX, etc.) (+10%)")
+    print(f"    high O/U games (>9 runs) (+10%)")
     
     # Quick fix 3: Hot streak identification
     print(f"\n3. HOT STREAK DETECTION:")
     print(f"   Boost players with:")
-    print(f"   • 3+ multi-hit games in last 7 (+20%)")
-    print(f"   • HR in last 3 games (+15%)")
-    print(f"   • 5+ RBI in last 3 games (+15%)")
+    print(f"    3+ multi-hit games in last 7 (+20%)")
+    print(f"    HR in last 3 games (+15%)")
+    print(f"    5+ RBI in last 3 games (+15%)")
     
     return "Quick fixes ready to implement"
 
@@ -263,12 +263,12 @@ def main():
     quick_fixes = create_quick_fixes()
     
     print(f"\n" + "=" * 70)
-    print(f"📋 DIAGNOSTIC COMPLETE - YOUR LINEUPS CAN BE FIXED!")
+    print(f"INFO: DIAGNOSTIC COMPLETE - YOUR LINEUPS CAN BE FIXED!")
     print(f"=" * 70)
-    print(f"🎯 Start with CRITICAL items first")
-    print(f"⚡ Implement quick fixes today")
-    print(f"📈 Track improvement over next week")
-    print(f"🏆 Goal: Consistently hit 180+ FPPG lineups")
+    print(f"TARGET: Start with CRITICAL items first")
+    print(f" Implement quick fixes today")
+    print(f"PROGRESS: Track improvement over next week")
+    print(f"LINEUP: Goal: Consistently hit 180+ FPPG lineups")
 
 if __name__ == "__main__":
     main()

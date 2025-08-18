@@ -3,7 +3,7 @@ import glob
 import os
 from datetime import datetime
 
-print("📋 Creating FanDuel Submission CSV...")
+print("INFO: Creating FanDuel Submission CSV...")
 
 # Find the most recent Enhanced ML DFS lineup file
 enhanced_files = glob.glob("../data/enhanced_ml_dfs_lineups_*.csv")
@@ -31,36 +31,36 @@ if enhanced_files:
     
     lineup = pd.DataFrame(lineup)
     total_projection = best_lineup_rows['lineup_total_projection'].iloc[0]
-    print(f"✅ Loaded ENHANCED ML lineup: {len(lineup)} players from {os.path.basename(most_recent_file)}")
-    print(f"✅ Best lineup projection: {total_projection:.1f} FPPG")
+    print(f"SUCCESS: Loaded ENHANCED ML lineup: {len(lineup)} players from {os.path.basename(most_recent_file)}")
+    print(f"SUCCESS: Best lineup projection: {total_projection:.1f} FPPG")
     
 else:
     # Fallback to old method
     try:
         lineup = pd.read_csv("../data/todays_actual_lineup.csv")
-        print(f"✅ Loaded TODAY'S optimized lineup: {len(lineup)} players")
+        print(f"SUCCESS: Loaded TODAY'S optimized lineup: {len(lineup)} players")
     except FileNotFoundError:
-        print("❌ todays_actual_lineup.csv not found! Run Script 23 first.")
-        print("📋 Falling back to ml_optimized_lineup.csv...")
+        print("ERROR: todays_actual_lineup.csv not found! Run Script 23 first.")
+        print("INFO: Falling back to ml_optimized_lineup.csv...")
         lineup = pd.read_csv("../data/ml_optimized_lineup.csv")
 
 # Load today's FanDuel slate to verify players are actually starting
-print("🔍 Verifying players are in today's slate...")
+print(" Verifying players are in today's slate...")
 try:
     todays_slate = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
     
     # Check if all lineup players are in today's slate
     players_in_slate = lineup['Nickname'].isin(todays_slate['Nickname'])
     if not players_in_slate.all():
-        print("⚠️ WARNING: Some lineup players are NOT in today's slate!")
+        print("WARNING: WARNING: Some lineup players are NOT in today's slate!")
         missing_players = lineup[~players_in_slate]['Nickname'].tolist()
-        print(f"❌ Missing players: {missing_players}")
+        print(f"ERROR: Missing players: {missing_players}")
         
         # Filter to only players actually in today's slate
         lineup = lineup[players_in_slate].copy()
-        print(f"✅ Filtered to {len(lineup)} players confirmed in today's slate")
+        print(f"SUCCESS: Filtered to {len(lineup)} players confirmed in today's slate")
     else:
-        print(f"✅ All {len(lineup)} players confirmed in today's slate")
+        print(f"SUCCESS: All {len(lineup)} players confirmed in today's slate")
         
     # Additional check: Verify players have batting orders (are starters)
     if 'Batting Order' in todays_slate.columns:
@@ -73,16 +73,16 @@ try:
         lineup_starters = lineup['Nickname'].isin(slate_starters)
         if not lineup_starters.all():
             non_starters = lineup[~lineup_starters]['Nickname'].tolist()
-            print(f"⚠️ WARNING: These players may not be starting today:")
+            print(f"WARNING: WARNING: These players may not be starting today:")
             for player in non_starters:
-                print(f"  ❌ {player} - No batting order found")
+                print(f"  ERROR: {player} - No batting order found")
         else:
-            print(f"✅ All lineup players confirmed as starters with batting orders")
+            print(f"SUCCESS: All lineup players confirmed as starters with batting orders")
             
 except FileNotFoundError:
-    print("⚠️ Could not verify against today's slate - fd_slate_today.csv not found")
+    print("WARNING: Could not verify against today's slate - fd_slate_today.csv not found")
 
-print(f"✅ Final lineup verified: {len(lineup)} players")
+print(f"SUCCESS: Final lineup verified: {len(lineup)} players")
 
 # FanDuel submission format requires specific columns and order
 # Standard FanDuel CSV format: C,1B,2B,3B,SS,OF,OF,OF,OF
@@ -95,7 +95,7 @@ lineup['pos_order'] = lineup['Primary_Position'].map(position_order)
 fppg_col = 'Projected_FPPG' if 'Projected_FPPG' in lineup.columns else 'ML_FPPG'
 lineup_sorted = lineup.sort_values(['pos_order', fppg_col], ascending=[True, False])
 
-print("\n🏆 LINEUP ORDER FOR SUBMISSION:")
+print("\nLINEUP: LINEUP ORDER FOR SUBMISSION:")
 print(lineup_sorted[['Nickname', 'Primary_Position', 'Team', 'Salary', fppg_col]].to_string(index=False))
 
 # Create FanDuel submission format
@@ -120,7 +120,7 @@ if 'player_id' in lineup.columns:
     # Reorder columns for FanDuel format
     fd_submission_ids = fd_submission_ids[['C', '1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3', 'OF4']]
     fd_submission_ids.to_csv("../data/fanduel_submission_ids.csv", index=False)
-    print("✅ Saved FanDuel submission (Player IDs): ../data/fanduel_submission_ids.csv")
+    print("SUCCESS: Saved FanDuel submission (Player IDs): ../data/fanduel_submission_ids.csv")
 
 # Method 2: Player Names format (more readable)
 of_players = lineup_sorted[lineup_sorted['Primary_Position'] == 'OF']['Nickname'].tolist()
@@ -133,7 +133,7 @@ for pos in required_positions:
         missing_positions.append(pos)
 
 if missing_positions:
-    print(f"⚠️ WARNING: Missing players for positions: {missing_positions}")
+    print(f"WARNING: WARNING: Missing players for positions: {missing_positions}")
     print("Cannot create full lineup - need players in all positions")
     print("Using available players only for partial submission...")
 
@@ -159,7 +159,7 @@ fd_submission_names = pd.DataFrame({
 })
 
 fd_submission_names.to_csv("../data/fanduel_submission_names.csv", index=False)
-print("✅ Saved FanDuel submission (Names): ../data/fanduel_submission_names.csv")
+print("SUCCESS: Saved FanDuel submission (Names): ../data/fanduel_submission_names.csv")
 
 # Method 3: Detailed lineup card for manual entry
 lineup_card = []
@@ -199,19 +199,19 @@ for i, (_, player) in enumerate(of_players_detailed.iterrows(), 1):
 
 lineup_card_df = pd.DataFrame(lineup_card)
 lineup_card_df.to_csv("../data/fanduel_lineup_card.csv", index=False)
-print("✅ Saved detailed lineup card: ../data/fanduel_lineup_card.csv")
+print("SUCCESS: Saved detailed lineup card: ../data/fanduel_lineup_card.csv")
 
 # Summary for manual entry
-print(f"\n📋 FANDUEL MANUAL ENTRY SUMMARY:")
+print(f"\nINFO: FANDUEL MANUAL ENTRY SUMMARY:")
 print(f"Total Salary: ${lineup['Salary'].sum():,} / $35,000")
 print(f"Projected Points: {lineup[fppg_col].sum():.1f}")
 print(f"Average Value: {lineup['Value'].mean():.1f} pts/$1K")
 
-print(f"\n🎯 LINEUP FOR FANDUEL ENTRY:")
+print(f"\nTARGET: LINEUP FOR FANDUEL ENTRY:")
 for _, player in lineup_card_df.iterrows():
     print(f"{player['Position']:>3}: {player['Player']:<20} ({player['Team']}) - {player['Salary']:<8} - {player['Projected']} pts")
 
-print(f"\n✅ Created 3 submission formats:")
+print(f"\nSUCCESS: Created 3 submission formats:")
 print(f"   1. fanduel_submission_ids.csv - Player ID format")
 print(f"   2. fanduel_submission_names.csv - Player names format") 
 print(f"   3. fanduel_lineup_card.csv - Detailed lineup card")

@@ -54,15 +54,15 @@ team_mapping = {
 }
 
 # Load data
-logger.info("📥 Loading data files...")
+logger.info(" Loading data files...")
 weather = pd.read_csv("../data/weather_today.csv")
-logger.info(f"✅ Loaded weather data: {len(weather)} rows")
+logger.info(f"SUCCESS: Loaded weather data: {len(weather)} rows")
 logger.info(f"Weather columns: {weather.columns.tolist()}")
 logger.info(f"Weather data sample:\n{weather.head().to_string()}")
 
 # Add home_team if not present
 if 'home_team' not in weather.columns:
-    logger.info("🔄 Fetching home team for each game_pk...")
+    logger.info("SWAP: Fetching home team for each game_pk...")
     weather['home_team'] = weather['game_pk'].apply(get_home_team)
     logger.info(f"Home teams added: {weather['home_team'].tolist()}")
     if weather['home_team'].isnull().any():
@@ -86,7 +86,7 @@ team_mapping_lower = {
 weather['team_standardized'] = weather['team_standardized'].map(team_mapping_lower).fillna(weather['team_standardized'])
 
 park_factors = pd.read_csv("../park_factors/park_factors.csv")
-logger.info(f"✅ Loaded park factor data: {len(park_factors)} rows")
+logger.info(f"SUCCESS: Loaded park factor data: {len(park_factors)} rows")
 logger.info(f"Park factor columns: {park_factors.columns.tolist()}")
 logger.info(f"Park factor teams: {park_factors['Team'].unique().tolist()}")
 
@@ -101,7 +101,7 @@ if 'Team' not in park_factors.columns:
 # Merge data
 try:
     merged_df = weather.merge(park_factors, left_on='home_team', right_on='Team', how='left')
-    logger.info(f"✅ Merged data: {len(merged_df)} rows")
+    logger.info(f"SUCCESS: Merged data: {len(merged_df)} rows")
     # Log missing park factors
     missing_park = merged_df[merged_df['Team'].isnull()]
     if not missing_park.empty:
@@ -112,4 +112,4 @@ except KeyError as e:
 
 # Save output
 merged_df.to_csv("../data/merged_weather_park.csv", index=False)
-logger.info("✅ Saved merged data")
+logger.info("SUCCESS: Saved merged data")

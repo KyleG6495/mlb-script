@@ -31,12 +31,12 @@ try:
     from ml_ensemble_system import MLEnsembleSystem
     from bankroll_manager import BankrollManager
 except ImportError as e:
-    print(f"⚠️ Import error: {e}")
-    print("📁 Make sure all enhancement scripts are in the same directory")
+    print(f"WARNING: Import error: {e}")
+    print(" Make sure all enhancement scripts are in the same directory")
 
 class MasterBettingSystem:
     def __init__(self, initial_bankroll=1000):
-        print("🚀 INITIALIZING MASTER ENHANCED BETTING SYSTEM")
+        print("START: INITIALIZING MASTER ENHANCED BETTING SYSTEM")
         print("=" * 60)
         
         # Initialize all components
@@ -49,7 +49,7 @@ class MasterBettingSystem:
         self.ml_ensemble = MLEnsembleSystem()
         self.bankroll_manager = BankrollManager(initial_bankroll=initial_bankroll)
         
-        print("✅ All components initialized successfully!")
+        print("SUCCESS: All components initialized successfully!")
     
     def run_complete_analysis(self, slate_date=None):
         """Run the complete enhanced betting analysis pipeline"""
@@ -57,52 +57,52 @@ class MasterBettingSystem:
         if slate_date is None:
             slate_date = datetime.now().strftime('%Y-%m-%d')
         
-        print(f"\n🎯 RUNNING COMPLETE ANALYSIS FOR {slate_date}")
+        print(f"\nTARGET: RUNNING COMPLETE ANALYSIS FOR {slate_date}")
         print("=" * 60)
         
         try:
             # Step 1: Load base data
-            print("\n📊 STEP 1: LOADING BASE DATA")
+            print("\nDATA: STEP 1: LOADING BASE DATA")
             base_data = self.load_base_data()
             
             # Step 2: Enhanced ML predictions with ensemble
-            print("\n🤖 STEP 2: GENERATING ENSEMBLE PREDICTIONS")
+            print("\n STEP 2: GENERATING ENSEMBLE PREDICTIONS")
             enhanced_predictions = self.generate_ensemble_predictions(base_data)
             
             # Step 3: Apply weather and ballpark adjustments
-            print("\n🌤️ STEP 3: APPLYING WEATHER & BALLPARK FACTORS")
+            print("\n STEP 3: APPLYING WEATHER & BALLPARK FACTORS")
             weather_adjusted = self.apply_weather_adjustments(enhanced_predictions)
             
             # Step 4: Incorporate injury and news analysis
-            print("\n📰 STEP 4: ANALYZING INJURY & NEWS SENTIMENT")
+            print("\n STEP 4: ANALYZING INJURY & NEWS SENTIMENT")
             news_adjusted = self.apply_news_adjustments(weather_adjusted)
             
             # Step 5: Get live odds data
-            print("\n💰 STEP 5: SCRAPING LIVE ODDS")
+            print("\nMONEY: STEP 5: SCRAPING LIVE ODDS")
             live_odds = self.get_live_odds()
             
             # Step 6: Enhanced betting analysis with confidence
-            print("\n🎯 STEP 6: ENHANCED BETTING ANALYSIS")
+            print("\nTARGET: STEP 6: ENHANCED BETTING ANALYSIS")
             betting_recommendations = self.generate_betting_recommendations(
                 news_adjusted, live_odds
             )
             
             # Step 7: Combo prop optimization
-            print("\n🔥 STEP 7: COMBO PROP OPTIMIZATION")
+            print("\n STEP 7: COMBO PROP OPTIMIZATION")
             combo_opportunities = self.find_combo_opportunities(betting_recommendations)
             
             # Step 8: Advanced model analytics
-            print("\n📈 STEP 8: ADVANCED MODEL ANALYTICS")
+            print("\nPROGRESS: STEP 8: ADVANCED MODEL ANALYTICS")
             confidence_analysis = self.run_confidence_analysis(betting_recommendations)
             
             # Step 9: Bankroll optimization
-            print("\n💰 STEP 9: BANKROLL OPTIMIZATION")
+            print("\nMONEY: STEP 9: BANKROLL OPTIMIZATION")
             optimized_portfolio = self.optimize_bankroll_allocation(
                 betting_recommendations, combo_opportunities
             )
             
             # Step 10: Generate master report
-            print("\n📋 STEP 10: GENERATING MASTER REPORT")
+            print("\nINFO: STEP 10: GENERATING MASTER REPORT")
             self.generate_master_report(
                 betting_recommendations, combo_opportunities, 
                 confidence_analysis, optimized_portfolio
@@ -116,7 +116,7 @@ class MasterBettingSystem:
             }
             
         except Exception as e:
-            print(f"❌ Error in complete analysis: {e}")
+            print(f"ERROR: Error in complete analysis: {e}")
             return None
     
     def load_base_data(self):
@@ -134,9 +134,9 @@ class MasterBettingSystem:
             hitter_scores = pd.read_csv('../data/base_hitter_scores.csv')
             pitcher_scores = pd.read_csv('../data/base_pitcher_scores.csv')
             
-            print(f"📊 Loaded {len(fd_slate)} players from FanDuel slate")
-            print(f"📈 Loaded {len(hitter_features)} hitter features")
-            print(f"⚾ Loaded {len(pitcher_features)} pitcher features")
+            print(f"DATA: Loaded {len(fd_slate)} players from FanDuel slate")
+            print(f"PROGRESS: Loaded {len(hitter_features)} hitter features")
+            print(f"BASEBALL: Loaded {len(pitcher_features)} pitcher features")
             
             return {
                 'fd_slate': fd_slate,
@@ -147,7 +147,7 @@ class MasterBettingSystem:
             }
             
         except Exception as e:
-            print(f"⚠️ Error loading base data: {e}")
+            print(f"WARNING: Error loading base data: {e}")
             return {}
     
     def generate_ensemble_predictions(self, base_data):
@@ -160,7 +160,7 @@ class MasterBettingSystem:
         ], ignore_index=True)
         
         if len(all_features) == 0:
-            print("⚠️ No features available for ensemble predictions")
+            print("WARNING: No features available for ensemble predictions")
             return pd.DataFrame()
         
         # Generate ensemble predictions
@@ -172,7 +172,7 @@ class MasterBettingSystem:
             enhanced_df[f'{target}_ensemble'] = preds
             enhanced_df[f'{target}_confidence'] = confidence[target]
         
-        print(f"✅ Generated ensemble predictions for {len(enhanced_df)} players")
+        print(f"SUCCESS: Generated ensemble predictions for {len(enhanced_df)} players")
         return enhanced_df
     
     def apply_weather_adjustments(self, predictions_df):
@@ -198,7 +198,7 @@ class MasterBettingSystem:
                 
                 adjusted_df[f'{stat}_ensemble'] *= weather_mult * ballpark_mult
         
-        print("✅ Applied weather and ballpark adjustments")
+        print("SUCCESS: Applied weather and ballpark adjustments")
         return adjusted_df
     
     def apply_news_adjustments(self, predictions_df):
@@ -210,9 +210,9 @@ class MasterBettingSystem:
         injury_alerts = self.news_analyzer.generate_injury_alerts(news_analysis)
         
         if injury_alerts:
-            print(f"🚨 {len(injury_alerts)} injury/news alerts generated")
+            print(f" {len(injury_alerts)} injury/news alerts generated")
             for alert in injury_alerts:
-                print(f"   ⚠️ {alert['player']}: {alert['recommendation']}")
+                print(f"   WARNING: {alert['player']}: {alert['recommendation']}")
         
         return adjusted_df
     
@@ -227,7 +227,7 @@ class MasterBettingSystem:
         
         live_odds = self.odds_scraper.scrape_multiple_books(sample_props)
         
-        print(f"💰 Retrieved live odds for {len(live_odds)} props")
+        print(f"MONEY: Retrieved live odds for {len(live_odds)} props")
         return live_odds
     
     def generate_betting_recommendations(self, predictions_df, live_odds):
@@ -249,7 +249,7 @@ class MasterBettingSystem:
                     rec['odds_source'] = odds_data.get('best_book', 'Default')
                     break
         
-        print(f"🎯 Generated {len(recommendations)} betting recommendations")
+        print(f"TARGET: Generated {len(recommendations)} betting recommendations")
         return recommendations
     
     def find_combo_opportunities(self, betting_recommendations):
@@ -263,13 +263,13 @@ class MasterBettingSystem:
         ]
         
         if len(high_confidence_bets) < 2:
-            print("⚠️ Not enough high-confidence bets for combo analysis")
+            print("WARNING: Not enough high-confidence bets for combo analysis")
             return []
         
         # Find combo opportunities
         combo_opportunities = self.combo_optimizer.find_combo_opportunities(high_confidence_bets)
         
-        print(f"🔥 Found {len(combo_opportunities)} combo opportunities")
+        print(f" Found {len(combo_opportunities)} combo opportunities")
         return combo_opportunities
     
     def run_confidence_analysis(self, betting_recommendations):
@@ -287,7 +287,7 @@ class MasterBettingSystem:
         # Identify outliers
         outlier_analysis = self.model_analytics.identify_outliers(rec_df)
         
-        print("📈 Completed advanced confidence analysis")
+        print("PROGRESS: Completed advanced confidence analysis")
         return {
             'confidence_intervals': confidence_analysis,
             'outlier_analysis': outlier_analysis
@@ -331,10 +331,10 @@ class MasterBettingSystem:
         # Optimize portfolio with platform-aware sizing
         if all_opportunities:
             optimized_portfolio = self.optimize_mixed_portfolio(all_opportunities)
-            print(f"💰 Optimized mixed portfolio with {len(optimized_portfolio)} bets")
+            print(f"MONEY: Optimized mixed portfolio with {len(optimized_portfolio)} bets")
             return optimized_portfolio
         else:
-            print("⚠️ No opportunities available for bankroll optimization")
+            print("WARNING: No opportunities available for bankroll optimization")
             return []
     
     def optimize_mixed_portfolio(self, opportunities):
@@ -377,7 +377,7 @@ class MasterBettingSystem:
         """Generate comprehensive master report"""
         
         print("\n" + "=" * 80)
-        print("📋 MASTER ENHANCED BETTING SYSTEM REPORT")
+        print("INFO: MASTER ENHANCED BETTING SYSTEM REPORT")
         print("=" * 80)
         
         # Summary statistics
@@ -385,14 +385,14 @@ class MasterBettingSystem:
         total_combo_ops = len(combo_ops)
         total_portfolio_value = sum([p.get('recommended_amount', 0) for p in portfolio])
         
-        print(f"\n📊 EXECUTIVE SUMMARY:")
-        print(f"   🎯 Single Bet Opportunities: {total_single_bets}")
-        print(f"   🔥 Combo Opportunities: {total_combo_ops}")
-        print(f"   💰 Total Portfolio Value: ${total_portfolio_value:.2f}")
-        print(f"   📈 Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+        print(f"\nDATA: EXECUTIVE SUMMARY:")
+        print(f"   TARGET: Single Bet Opportunities: {total_single_bets}")
+        print(f"    Combo Opportunities: {total_combo_ops}")
+        print(f"   MONEY: Total Portfolio Value: ${total_portfolio_value:.2f}")
+        print(f"   PROGRESS: Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
         
         # Top recommendations
-        print(f"\n🏆 TOP SINGLE BET RECOMMENDATIONS:")
+        print(f"\nLINEUP: TOP SINGLE BET RECOMMENDATIONS:")
         top_single = sorted(
             [b for b in betting_recs if b.get('recommendation') == 'YES'],
             key=lambda x: x.get('expected_value', 0),
@@ -401,40 +401,40 @@ class MasterBettingSystem:
         
         for i, bet in enumerate(top_single, 1):
             print(f"   {i}. {bet.get('player')} - {bet.get('prop_type')}")
-            print(f"      💰 EV: {bet.get('expected_value', 0):.1f}% | Confidence: {bet.get('confidence_level', 'UNKNOWN')}")
+            print(f"      MONEY: EV: {bet.get('expected_value', 0):.1f}% | Confidence: {bet.get('confidence_level', 'UNKNOWN')}")
         
         # Top combo opportunities
         if combo_ops:
-            print(f"\n🔥 TOP COMBO OPPORTUNITIES:")
+            print(f"\n TOP COMBO OPPORTUNITIES:")
             top_combos = sorted(combo_ops, key=lambda x: x.get('expected_value', 0), reverse=True)[:3]
             
             for i, combo in enumerate(top_combos, 1):
                 players = combo.get('players', [])
                 print(f"   {i}. {' + '.join(players[:2])}{'...' if len(players) > 2 else ''}")
-                print(f"      🎯 Payout: {combo.get('payout_multiplier', 0):.1f}x | EV: {combo.get('expected_value', 0):.1f}%")
+                print(f"      TARGET: Payout: {combo.get('payout_multiplier', 0):.1f}x | EV: {combo.get('expected_value', 0):.1f}%")
         
         # Bankroll allocation
-        print(f"\n💰 BANKROLL ALLOCATION:")
+        print(f"\nMONEY: BANKROLL ALLOCATION:")
         current_bankroll = self.bankroll_manager.current_bankroll
         total_allocation = sum([p.get('recommended_amount', 0) for p in portfolio])
         allocation_percentage = (total_allocation / current_bankroll) * 100 if current_bankroll > 0 else 0
         
-        print(f"   💵 Current Bankroll: ${current_bankroll:.2f}")
-        print(f"   📊 Total Allocation: ${total_allocation:.2f} ({allocation_percentage:.1f}%)")
-        print(f"   🛡️ Risk Level: {'HIGH' if allocation_percentage > 15 else 'MODERATE' if allocation_percentage > 8 else 'CONSERVATIVE'}")
+        print(f"    Current Bankroll: ${current_bankroll:.2f}")
+        print(f"   DATA: Total Allocation: ${total_allocation:.2f} ({allocation_percentage:.1f}%)")
+        print(f"    Risk Level: {'HIGH' if allocation_percentage > 15 else 'MODERATE' if allocation_percentage > 8 else 'CONSERVATIVE'}")
         
         # Risk alerts
-        print(f"\n⚠️ RISK ALERTS:")
+        print(f"\nWARNING: RISK ALERTS:")
         risk_alerts = []
         
         if allocation_percentage > 20:
-            risk_alerts.append("🚨 Very high daily allocation - consider reducing exposure")
+            risk_alerts.append(" Very high daily allocation - consider reducing exposure")
         
         if total_combo_ops > 5:
-            risk_alerts.append("⚡ High number of combo bets - correlation risk present")
+            risk_alerts.append(" High number of combo bets - correlation risk present")
         
         if not risk_alerts:
-            risk_alerts.append("✅ No significant risk alerts detected")
+            risk_alerts.append("SUCCESS: No significant risk alerts detected")
         
         for alert in risk_alerts:
             print(f"   {alert}")
@@ -442,8 +442,8 @@ class MasterBettingSystem:
         # Save detailed report to file
         self.save_detailed_report(betting_recs, combo_ops, confidence_analysis, portfolio)
         
-        print(f"\n📁 Detailed report saved to: enhanced_betting_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
-        print("\n🎯 MASTER ANALYSIS COMPLETE! 🎯")
+        print(f"\n Detailed report saved to: enhanced_betting_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
+        print("\nTARGET: MASTER ANALYSIS COMPLETE! TARGET:")
     
     def save_detailed_report(self, betting_recs, combo_ops, confidence_analysis, portfolio):
         """Save detailed report to file"""
@@ -492,9 +492,9 @@ def main():
     results = master_system.run_complete_analysis()
     
     if results:
-        print("\n🚀 Master Enhanced Betting System analysis completed successfully!")
+        print("\nSTART: Master Enhanced Betting System analysis completed successfully!")
     else:
-        print("\n❌ Analysis failed - check error messages above")
+        print("\nERROR: Analysis failed - check error messages above")
 
 if __name__ == "__main__":
     main()

@@ -49,7 +49,7 @@ class EnhancedModelAnalyzer:
         
     def analyze_dfs_model_gaps(self, lineup_performance_file=None):
         """Identify specific areas where DFS model needs improvement"""
-        print("🔍 ANALYZING DFS MODEL PERFORMANCE GAPS")
+        print(" ANALYZING DFS MODEL PERFORMANCE GAPS")
         print("=" * 60)
         
         if not lineup_performance_file:
@@ -57,14 +57,14 @@ class EnhancedModelAnalyzer:
             import glob
             performance_files = glob.glob("../data/dfs_lineup_performance_*.csv")
             if not performance_files:
-                print("❌ No DFS performance files found")
+                print("ERROR: No DFS performance files found")
                 return {}
                 
             lineup_performance_file = max(performance_files)
             
         try:
             df = pd.read_csv(lineup_performance_file)
-            print(f"📊 Analyzing {len(df)} lineup performances")
+            print(f"DATA: Analyzing {len(df)} lineup performances")
             
             gaps = {}
             
@@ -116,21 +116,21 @@ class EnhancedModelAnalyzer:
                 'underestimate_rate': (projection_error < 0).mean() * 100
             }
             
-            print("🎯 KEY GAPS IDENTIFIED:")
-            print(f"   💥 210+ Rate: {ceiling_rate:.1f}% (Target: 15.0%)")
-            print(f"   📍 Worst Position: {gaps['position_gaps']['worst_position']} ({gaps['position_gaps']['worst_accuracy']:.1f}%)")
-            print(f"   💰 Projection RMSE: {gaps['projection_gaps']['rmse']:.1f} points")
-            print(f"   📊 Underestimate Rate: {gaps['projection_gaps']['underestimate_rate']:.1f}%")
+            print("TARGET: KEY GAPS IDENTIFIED:")
+            print(f"    210+ Rate: {ceiling_rate:.1f}% (Target: 15.0%)")
+            print(f"    Worst Position: {gaps['position_gaps']['worst_position']} ({gaps['position_gaps']['worst_accuracy']:.1f}%)")
+            print(f"   MONEY: Projection RMSE: {gaps['projection_gaps']['rmse']:.1f} points")
+            print(f"   DATA: Underestimate Rate: {gaps['projection_gaps']['underestimate_rate']:.1f}%")
             
             return gaps
             
         except Exception as e:
-            print(f"❌ Error analyzing DFS gaps: {e}")
+            print(f"ERROR: Error analyzing DFS gaps: {e}")
             return {}
     
     def analyze_prop_model_gaps(self, backtest_files=None):
         """Identify specific areas where prop models need improvement"""
-        print("\n🔍 ANALYZING PROP MODEL PERFORMANCE GAPS")
+        print("\n ANALYZING PROP MODEL PERFORMANCE GAPS")
         print("=" * 60)
         
         gaps = {}
@@ -161,12 +161,12 @@ class EnhancedModelAnalyzer:
                     'stat_performance': stat_performance
                 }
                 
-                print(f"🎯 PrizePicks Gaps:")
-                print(f"   📊 Overall: {gaps['prizepicks_gaps']['overall_win_rate']:.1f}% (Target: 65.0%)")
-                print(f"   📉 Worst Stat: {gaps['prizepicks_gaps']['worst_stat']} ({gaps['prizepicks_gaps']['worst_win_rate']:.1f}%)")
+                print(f"TARGET: PrizePicks Gaps:")
+                print(f"   DATA: Overall: {gaps['prizepicks_gaps']['overall_win_rate']:.1f}% (Target: 65.0%)")
+                print(f"    Worst Stat: {gaps['prizepicks_gaps']['worst_stat']} ({gaps['prizepicks_gaps']['worst_win_rate']:.1f}%)")
                 
         except Exception as e:
-            print(f"⚠️ Could not analyze PrizePicks: {e}")
+            print(f"WARNING: Could not analyze PrizePicks: {e}")
         
         # Analyze recent Underdog performance  
         try:
@@ -181,17 +181,17 @@ class EnhancedModelAnalyzer:
                     'total_picks': len(ud_df)
                 }
                 
-                print(f"🎯 Underdog Gaps:")
-                print(f"   📊 Overall: {gaps['underdog_gaps']['overall_win_rate']:.1f}% (Target: 70.0%)")
+                print(f"TARGET: Underdog Gaps:")
+                print(f"   DATA: Overall: {gaps['underdog_gaps']['overall_win_rate']:.1f}% (Target: 70.0%)")
                 
         except Exception as e:
-            print(f"⚠️ Could not analyze Underdog: {e}")
+            print(f"WARNING: Could not analyze Underdog: {e}")
             
         return gaps
     
     def generate_improvement_recommendations(self, dfs_gaps, prop_gaps):
         """Generate specific actionable recommendations"""
-        print("\n🚀 GENERATING IMPROVEMENT RECOMMENDATIONS")
+        print("\nSTART: GENERATING IMPROVEMENT RECOMMENDATIONS")
         print("=" * 60)
         
         recommendations = {
@@ -205,28 +205,28 @@ class EnhancedModelAnalyzer:
             ceiling_gap = dfs_gaps['ceiling_analysis']['gap']
             if ceiling_gap > 10:
                 recommendations['dfs_improvements'].extend([
-                    "🎯 CEILING OPTIMIZATION: Implement variance-focused lineup generation",
-                    "💥 LEVERAGE PLAYS: Increase exposure to high-ceiling, low-ownership players",
-                    "🎲 CORRELATION STACKS: Build game stacks for explosive upside",
-                    "📊 CONTEST-SPECIFIC: Separate large GPP optimizer with higher risk tolerance"
+                    "TARGET: CEILING OPTIMIZATION: Implement variance-focused lineup generation",
+                    " LEVERAGE PLAYS: Increase exposure to high-ceiling, low-ownership players",
+                    " CORRELATION STACKS: Build game stacks for explosive upside",
+                    "DATA: CONTEST-SPECIFIC: Separate large GPP optimizer with higher risk tolerance"
                 ])
         
         if 'position_gaps' in dfs_gaps:
             variance = dfs_gaps['position_gaps']['accuracy_variance']
             if variance > 20:
                 recommendations['dfs_improvements'].extend([
-                    f"📍 POSITION FOCUS: Improve {dfs_gaps['position_gaps']['worst_position']} player modeling",
-                    "🔍 POSITION-SPECIFIC: Create specialized models for each position",
-                    "📈 MATCHUP WEIGHTS: Increase emphasis on position-specific matchups"
+                    f" POSITION FOCUS: Improve {dfs_gaps['position_gaps']['worst_position']} player modeling",
+                    " POSITION-SPECIFIC: Create specialized models for each position",
+                    "PROGRESS: MATCHUP WEIGHTS: Increase emphasis on position-specific matchups"
                 ])
         
         if 'projection_gaps' in dfs_gaps:
             rmse = dfs_gaps['projection_gaps']['rmse']
             if rmse > 15:
                 recommendations['dfs_improvements'].extend([
-                    "🎯 PROJECTION ACCURACY: Implement ensemble prediction averaging",
-                    "📊 FEATURE ENGINEERING: Add recent form and matchup indicators",
-                    "⚡ REAL-TIME: Incorporate live batting order and weather updates"
+                    "TARGET: PROJECTION ACCURACY: Implement ensemble prediction averaging",
+                    "DATA: FEATURE ENGINEERING: Add recent form and matchup indicators",
+                    " REAL-TIME: Incorporate live batting order and weather updates"
                 ])
         
         # Prop Recommendations
@@ -234,27 +234,27 @@ class EnhancedModelAnalyzer:
             pp_rate = prop_gaps['prizepicks_gaps']['overall_win_rate']
             if pp_rate < 60:
                 recommendations['prop_improvements'].extend([
-                    "📈 STAT-SPECIFIC: Retrain models for worst-performing stat types",
-                    "🎯 MARKET BIAS: Detect and exploit systematic line inefficiencies",
-                    "📊 ENSEMBLE: Combine multiple model predictions for better accuracy",
-                    f"🔍 FOCUS: Priority improvement for {prop_gaps['prizepicks_gaps']['worst_stat']}"
+                    "PROGRESS: STAT-SPECIFIC: Retrain models for worst-performing stat types",
+                    "TARGET: MARKET BIAS: Detect and exploit systematic line inefficiencies",
+                    "DATA: ENSEMBLE: Combine multiple model predictions for better accuracy",
+                    f" FOCUS: Priority improvement for {prop_gaps['prizepicks_gaps']['worst_stat']}"
                 ])
         
         if 'underdog_gaps' in prop_gaps:
             ud_rate = prop_gaps['underdog_gaps']['overall_win_rate']
             if ud_rate < 65:
                 recommendations['prop_improvements'].extend([
-                    "🎲 COMBO OPTIMIZATION: Improve multi-pick correlation modeling",
-                    "💰 BANKROLL: Implement Kelly Criterion for optimal bet sizing",
-                    "⚡ LIVE UPDATES: Add real-time injury and lineup change detection"
+                    " COMBO OPTIMIZATION: Improve multi-pick correlation modeling",
+                    "MONEY: BANKROLL: Implement Kelly Criterion for optimal bet sizing",
+                    " LIVE UPDATES: Add real-time injury and lineup change detection"
                 ])
         
         # Print recommendations
-        print("🎯 DFS IMPROVEMENTS:")
+        print("TARGET: DFS IMPROVEMENTS:")
         for i, rec in enumerate(recommendations['dfs_improvements'], 1):
             print(f"   {i}. {rec}")
             
-        print("\n💰 PROP IMPROVEMENTS:")
+        print("\nMONEY: PROP IMPROVEMENTS:")
         for i, rec in enumerate(recommendations['prop_improvements'], 1):
             print(f"   {i}. {rec}")
             
@@ -262,7 +262,7 @@ class EnhancedModelAnalyzer:
     
     def run_complete_analysis(self):
         """Run comprehensive model analysis and generate improvement plan"""
-        print("🔍 ENHANCED MODEL ANALYSIS STARTING")
+        print(" ENHANCED MODEL ANALYSIS STARTING")
         print("=" * 80)
         
         # Analyze DFS gaps
@@ -288,8 +288,8 @@ class EnhancedModelAnalyzer:
         with open(output_file, 'w') as f:
             json.dump(analysis_results, f, indent=2, default=str)
         
-        print(f"\n💾 Analysis saved to: {output_file}")
-        print("\n✅ ENHANCED MODEL ANALYSIS COMPLETE!")
+        print(f"\n Analysis saved to: {output_file}")
+        print("\nSUCCESS: ENHANCED MODEL ANALYSIS COMPLETE!")
         
         return analysis_results
 

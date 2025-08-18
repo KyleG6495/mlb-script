@@ -15,7 +15,7 @@ from datetime import datetime
 def get_valid_player_ids():
     slate_path = '../fd_current_slate/fd_slate_today.csv'
     if not os.path.exists(slate_path):
-        print(f"❌ Slate file not found: {slate_path}")
+        print(f"ERROR: Slate file not found: {slate_path}")
         return set()
     slate_df = pd.read_csv(slate_path)
     # Filter out players where Played == 0
@@ -36,7 +36,7 @@ def load_enhanced_lineups():
         lineup_files.append(slate_lineup_path)
 
     if not lineup_files:
-        print("❌ No enhanced or slate lineups found! Run optimizer or provide slate_lineups.csv.")
+        print("ERROR: No enhanced or slate lineups found! Run optimizer or provide slate_lineups.csv.")
         return []
 
     lineups = []
@@ -74,7 +74,7 @@ def convert_to_fanduel_positions(lineup_df, valid_ids=None):
     
     filtered_df = lineup_df[lineup_df['Id'].astype(str).isin(valid_ids)].copy()
     if len(filtered_df) < 9:
-        print(f"⚠️ Lineup has only {len(filtered_df)} eligible players after filtering out unavailable players.")
+        print(f"WARNING: Lineup has only {len(filtered_df)} eligible players after filtering out unavailable players.")
 
     # Assign players to FanDuel positions, always filling 9 unique slots
     positions = {
@@ -160,18 +160,18 @@ def populate_fanduel_template(lineups):
     template_path = "../fd_current_slate/Lineups.csv"
     
     if not os.path.exists(template_path):
-        print(f"❌ FanDuel template not found: {template_path}")
+        print(f"ERROR: FanDuel template not found: {template_path}")
         return
     
     # Read the template
     template_df = pd.read_csv(template_path)
-    print(f"✅ Loaded FanDuel template with {len(template_df)} entries")
+    print(f"SUCCESS: Loaded FanDuel template with {len(template_df)} entries")
     
     # Get the contest entries (first few rows)
     contest_rows = template_df[template_df['entry_id'].notna()].head(len(lineups))
     
     if len(contest_rows) < len(lineups):
-        print(f"⚠️ Only {len(contest_rows)} contest entries available for {len(lineups)} lineups")
+        print(f"WARNING: Only {len(contest_rows)} contest entries available for {len(lineups)} lineups")
     
     # Get valid IDs once to avoid repeated calls
     valid_ids = get_valid_player_ids()
@@ -202,16 +202,16 @@ def populate_fanduel_template(lineups):
         description = f"{strategy} Lineup {number} - {fppg:.1f} FPPG"
         template_df.loc[row_idx, 'Instructions'] = description
         
-        print(f"✅ Populated {description}")
+        print(f"SUCCESS: Populated {description}")
     
     # Save the updated template
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     output_path = f"../fd_current_slate/Lineups_Ready_To_Submit_{timestamp}.csv"
     template_df.to_csv(output_path, index=False)
     
-    print(f"\n🎉 FANDUEL SUBMISSION READY!")
-    print(f"📤 Upload this file to FanDuel: {output_path}")
-    print(f"✅ Successfully populated {len(lineups)} lineups with FanDuel player IDs")
+    print(f"\nCOMPLETE: FANDUEL SUBMISSION READY!")
+    print(f" Upload this file to FanDuel: {output_path}")
+    print(f"SUCCESS: Successfully populated {len(lineups)} lineups with FanDuel player IDs")
 
 def create_submission_summary(lineups):
     """Create a readable summary of all lineups"""
@@ -255,15 +255,15 @@ def create_submission_summary(lineups):
     summary_df = pd.DataFrame(summary_data)
     summary_df.to_csv("../data/fanduel_submission_summary.csv", index=False)
     
-    print("\n📋 FANDUEL SUBMISSION SUMMARY:")
+    print("\nINFO: FANDUEL SUBMISSION SUMMARY:")
     print("=" * 80)
     for _, row in summary_df.iterrows():
         print(f"{row['Lineup']:<15} | ${row['Total_Salary']:>5} | {row['Total_FPPG']:>5.1f} FPPG | {row['Avg_Value']:>4.1f} value")
     
-    print(f"\n✅ Detailed summary saved: ../data/fanduel_submission_summary.csv")
+    print(f"\nSUCCESS: Detailed summary saved: ../data/fanduel_submission_summary.csv")
 
 def main():
-    print("🚀 ENHANCED FANDUEL SUBMISSION CREATOR")
+    print("START: ENHANCED FANDUEL SUBMISSION CREATOR")
     print("=" * 50)
     
     # Load enhanced lineups
@@ -272,13 +272,13 @@ def main():
     if not lineups:
         return
     
-    print(f"✅ Found {len(lineups)} enhanced lineups")
+    print(f"SUCCESS: Found {len(lineups)} enhanced lineups")
     
     # Sort by strategy and number
     lineups.sort(key=lambda x: (x['strategy'], int(x['number'])))
     
     # Show lineup overview
-    print("\n📊 LINEUP OVERVIEW:")
+    print("\nDATA: LINEUP OVERVIEW:")
     for lineup_data in lineups:
         strategy = lineup_data['strategy'].upper()
         number = lineup_data['number']
@@ -311,9 +311,9 @@ def main():
                 fill_rows = fill_candidates.sort_values('Value', ascending=False).head(needed)
                 fill_rows = fill_rows.reindex(columns=eligible_lineup.columns, fill_value=None)
                 eligible_lineup = pd.concat([eligible_lineup, fill_rows], ignore_index=True)
-                print(f"⚠️ Filled lineup {lineup_data['strategy'].upper()} {lineup_data['number']} with {needed} value-based players.")
+                print(f"WARNING: Filled lineup {lineup_data['strategy'].upper()} {lineup_data['number']} with {needed} value-based players.")
             else:
-                print(f"❌ Cannot fill lineup {lineup_data['strategy'].upper()} {lineup_data['number']} (only {len(eligible_lineup)} eligible, {needed} needed, {len(fill_candidates)} available to fill)")
+                print(f"ERROR: Cannot fill lineup {lineup_data['strategy'].upper()} {lineup_data['number']} (only {len(eligible_lineup)} eligible, {needed} needed, {len(fill_candidates)} available to fill)")
                 continue
         # Now eligible_lineup has at least 9 players
         # Ensure we have all required positions before finalizing
@@ -326,7 +326,7 @@ def main():
                 missing_positions.append(pos)
         
         if missing_positions:
-            print(f"⚠️ Lineup {lineup_data['strategy'].upper()} {lineup_data['number']} missing positions: {missing_positions}")
+            print(f"WARNING: Lineup {lineup_data['strategy'].upper()} {lineup_data['number']} missing positions: {missing_positions}")
             # Try to fill missing positions from eligible players
             for pos in missing_positions:
                 pos_players = eligible_players[eligible_players['Position'] == pos]
@@ -350,7 +350,7 @@ def main():
         valid_lineups.append(new_lineup_data)
 
     if not valid_lineups:
-        print("❌ No valid lineups with 9 eligible players found!")
+        print("ERROR: No valid lineups with 9 eligible players found!")
         return
 
     # Populate FanDuel template
@@ -359,9 +359,9 @@ def main():
     # Create summary
     create_submission_summary(valid_lineups)
 
-    print(f"\n🎉 FanDuel submission ready!")
-    print(f"   📁 Main file: ../fd_current_slate/Lineups.csv")
-    print(f"   📊 Summary: ../data/fanduel_submission_summary.csv")
+    print(f"\nCOMPLETE: FanDuel submission ready!")
+    print(f"    Main file: ../fd_current_slate/Lineups.csv")
+    print(f"   DATA: Summary: ../data/fanduel_submission_summary.csv")
 
 if __name__ == "__main__":
     main()

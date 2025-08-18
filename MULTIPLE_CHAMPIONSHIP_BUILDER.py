@@ -6,25 +6,25 @@ import random
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("🏆 MULTIPLE CHAMPIONSHIP LINEUPS BUILDER")
+print("LINEUP: MULTIPLE CHAMPIONSHIP LINEUPS BUILDER")
 print("Building 10+ diverse tournament-quality lineups")
 print("="*80)
 
 # Load slate data - ALL HEALTHY PLAYERS (NO IL PLAYERS)
 # Use IL-free slate for maximum player diversity
 try:
-    print("🔍 Loading HEALTHY PLAYERS slate...")
+    print(" Loading HEALTHY PLAYERS slate...")
     df = pd.read_csv('../data/fd_slate_NO_IL_PLAYERS.csv')
-    print(f"✅ Using HEALTHY SLATE: {len(df)} players (all healthy players)")
+    print(f"SUCCESS: Using HEALTHY SLATE: {len(df)} players (all healthy players)")
 except FileNotFoundError:
-    print("⚠️  Healthy slate not found, trying confirmed starters...")
+    print("WARNING:  Healthy slate not found, trying confirmed starters...")
     try:
         df = pd.read_csv('../data/fd_slate_confirmed_starters_only.csv')
-        print(f"⚠️  Using CONFIRMED STARTERS: {len(df)} players (limited pitchers)")
+        print(f"WARNING:  Using CONFIRMED STARTERS: {len(df)} players (limited pitchers)")
     except FileNotFoundError:
-        print("❌ No safe slates found, using original slate (risky)...")
+        print("ERROR: No safe slates found, using original slate (risky)...")
         df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        print(f"❌ Using ORIGINAL slate: {len(df)} players (may include IL/non-starters)")
+        print(f"ERROR: Using ORIGINAL slate: {len(df)} players (may include IL/non-starters)")
 
 # Clean and prepare data
 df['FPPG'] = pd.to_numeric(df['FPPG'], errors='coerce')
@@ -36,7 +36,7 @@ SALARY_CAP = 35000
 def build_multiple_championship_lineups():
     """Build multiple diverse championship lineups"""
     
-    logging.info("🏆 BUILDING MULTIPLE CHAMPIONSHIP LINEUPS")
+    logging.info("LINEUP: BUILDING MULTIPLE CHAMPIONSHIP LINEUPS")
     logging.info("="*60)
     
     # Separate positions
@@ -46,30 +46,30 @@ def build_multiple_championship_lineups():
     all_lineups = []
     
     # Strategy 1: Best Pitcher + Optimal Hitters (3 variations)
-    logging.info("🎯 Strategy 1: Elite Pitcher Lineups")
+    logging.info("TARGET: Strategy 1: Elite Pitcher Lineups")
     for i, pitcher in enumerate(pitchers.head(3).itertuples()):
         lineup = build_smart_lineup_around_pitcher(pitcher, hitters, f"Elite_P_{i+1}")
         if lineup:
             all_lineups.append(lineup)
-            logging.info(f"   ✅ Elite P{i+1}: {lineup['total_fppg']:.1f} FPPG | ${lineup['total_salary']:,}")
+            logging.info(f"   SUCCESS: Elite P{i+1}: {lineup['total_fppg']:.1f} FPPG | ${lineup['total_salary']:,}")
     
     # Strategy 2: Value Pitcher + Premium Hitters (3 variations) 
-    logging.info("\n🎯 Strategy 2: Value Pitcher + Stars")
+    logging.info("\nTARGET: Strategy 2: Value Pitcher + Stars")
     value_pitchers = pitchers[(pitchers['Salary'] <= 9500) & (pitchers['FPPG'] >= 35)]
     for i, pitcher in enumerate(value_pitchers.head(3).itertuples()):
         lineup = build_smart_lineup_around_pitcher(pitcher, hitters, f"Value_P_{i+1}")
         if lineup:
             all_lineups.append(lineup)
-            logging.info(f"   ✅ Value P{i+1}: {lineup['total_fppg']:.1f} FPPG | ${lineup['total_salary']:,}")
+            logging.info(f"   SUCCESS: Value P{i+1}: {lineup['total_fppg']:.1f} FPPG | ${lineup['total_salary']:,}")
     
     # Strategy 3: Contrarian Approaches (4 variations)
-    logging.info("\n🎯 Strategy 3: Contrarian Builds")
+    logging.info("\nTARGET: Strategy 3: Contrarian Builds")
     mid_pitchers = pitchers[(pitchers['Salary'] >= 8000) & (pitchers['Salary'] <= 10000)]
     for i, pitcher in enumerate(mid_pitchers.head(4).itertuples()):
         lineup = build_contrarian_lineup(pitcher, hitters, f"Contrarian_{i+1}")
         if lineup:
             all_lineups.append(lineup)
-            logging.info(f"   ✅ Contrarian {i+1}: {lineup['total_fppg']:.1f} FPPG | ${lineup['total_salary']:,}")
+            logging.info(f"   SUCCESS: Contrarian {i+1}: {lineup['total_fppg']:.1f} FPPG | ${lineup['total_salary']:,}")
     
     return all_lineups
 
@@ -293,19 +293,19 @@ def display_all_lineups(lineups):
     """Display all championship lineups"""
     
     if not lineups:
-        logging.info("❌ No lineups generated")
+        logging.info("ERROR: No lineups generated")
         return
     
     # Sort by FPPG
     lineups.sort(key=lambda x: x['total_fppg'], reverse=True)
     
-    logging.info(f"\n🏆 CHAMPIONSHIP LINEUP COLLECTION")
-    logging.info(f"📊 Generated {len(lineups)} diverse lineups")
+    logging.info(f"\nLINEUP: CHAMPIONSHIP LINEUP COLLECTION")
+    logging.info(f"DATA: Generated {len(lineups)} diverse lineups")
     logging.info("="*80)
     
     for i, lineup in enumerate(lineups, 1):
-        logging.info(f"\n🏆 LINEUP #{i}: {lineup['strategy']}")
-        logging.info(f"📊 Projection: {lineup['total_fppg']:.1f} FPPG | Salary: ${lineup['total_salary']:,}")
+        logging.info(f"\nLINEUP: LINEUP #{i}: {lineup['strategy']}")
+        logging.info(f"DATA: Projection: {lineup['total_fppg']:.1f} FPPG | Salary: ${lineup['total_salary']:,}")
         logging.info("-" * 60)
         
         pitcher = lineup['pitcher']
@@ -319,14 +319,14 @@ def display_all_lineups(lineups):
         for pos in position_order:
             for hitter in lineup['hitters']:
                 if hitter['Position'] == pos and pos not in displayed:
-                    star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+                    star = "" if hitter['Salary'] >= 4000 else ""
                     logging.info(f"{pos:<3} | {hitter['Nickname']:<20} | {hitter['Team']} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
                     displayed.add(pos)
                     break
         
         for hitter in lineup['hitters']:
             if hitter['Position'] == 'OF':
-                star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+                star = "" if hitter['Salary'] >= 4000 else ""
                 logging.info(f"OF{of_count:<2} | {hitter['Nickname']:<20} | {hitter['Team']} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
                 of_count += 1
     
@@ -335,11 +335,11 @@ def display_all_lineups(lineups):
     max_fppg = max(l['total_fppg'] for l in lineups)
     min_fppg = min(l['total_fppg'] for l in lineups)
     
-    logging.info(f"\n📊 COLLECTION SUMMARY:")
-    logging.info(f"   🏆 Best: {max_fppg:.1f} FPPG")
-    logging.info(f"   📊 Average: {avg_fppg:.1f} FPPG")
-    logging.info(f"   📉 Lowest: {min_fppg:.1f} FPPG")
-    logging.info(f"   🎯 Total lineups: {len(lineups)}")
+    logging.info(f"\nDATA: COLLECTION SUMMARY:")
+    logging.info(f"   LINEUP: Best: {max_fppg:.1f} FPPG")
+    logging.info(f"   DATA: Average: {avg_fppg:.1f} FPPG")
+    logging.info(f"    Lowest: {min_fppg:.1f} FPPG")
+    logging.info(f"   TARGET: Total lineups: {len(lineups)}")
 
 def save_multiple_lineups(lineups):
     """Save multiple championship lineups in proper FanDuel ID:Name format"""
@@ -435,11 +435,11 @@ def save_multiple_lineups(lineups):
     summary_df = pd.DataFrame(summary_rows)
     summary_df.to_csv(summary_filename, index=False)
     
-    logging.info(f"\n💾 Multiple championship lineups saved:")
-    logging.info(f"   📊 {len(saved_files)} individual FanDuel submission files")
-    logging.info(f"   📋 Summary file: {summary_filename}")
-    logging.info(f"   🎯 Format: Proper FanDuel CSV with player IDs")
-    logging.info(f"   📁 Upload any individual file to FanDuel")
+    logging.info(f"\n Multiple championship lineups saved:")
+    logging.info(f"   DATA: {len(saved_files)} individual FanDuel submission files")
+    logging.info(f"   INFO: Summary file: {summary_filename}")
+    logging.info(f"   TARGET: Format: Proper FanDuel CSV with player IDs")
+    logging.info(f"    Upload any individual file to FanDuel")
     
     return saved_files
 
@@ -458,28 +458,28 @@ def main():
         
         # Final summary
         logging.info(f"\n" + "="*80)
-        logging.info("🏆 MULTIPLE CHAMPIONSHIP LINEUPS COMPLETE!")
+        logging.info("LINEUP: MULTIPLE CHAMPIONSHIP LINEUPS COMPLETE!")
         logging.info("="*80)
         
-        logging.info(f"🎯 Generated: {len(lineups)} diverse lineups")
-        logging.info(f"📊 FPPG Range: {min(l['total_fppg'] for l in lineups):.1f} - {max(l['total_fppg'] for l in lineups):.1f}")
+        logging.info(f"TARGET: Generated: {len(lineups)} diverse lineups")
+        logging.info(f"DATA: FPPG Range: {min(l['total_fppg'] for l in lineups):.1f} - {max(l['total_fppg'] for l in lineups):.1f}")
         if isinstance(fanduel_file, list) and fanduel_file:
-            logging.info(f"📁 FanDuel Files: {len(fanduel_file)} files created")
+            logging.info(f" FanDuel Files: {len(fanduel_file)} files created")
         elif isinstance(fanduel_file, str):
-            logging.info(f"📁 FanDuel File: {fanduel_file.split('/')[-1]}")
+            logging.info(f" FanDuel File: {fanduel_file.split('/')[-1]}")
         
         best_lineup = max(lineups, key=lambda x: x['total_fppg'])
-        logging.info(f"🏆 Best Lineup: {best_lineup['total_fppg']:.1f} FPPG ({best_lineup['strategy']})")
+        logging.info(f"LINEUP: Best Lineup: {best_lineup['total_fppg']:.1f} FPPG ({best_lineup['strategy']})")
         
-        logging.info(f"\n🚀 TOURNAMENT STRATEGY:")
-        logging.info(f"   📊 Use all {len(lineups)} lineups for maximum coverage")
-        logging.info(f"   🎯 Each lineup uses different strategy for diversity")
-        logging.info(f"   🏆 All lineups are 145+ FPPG tournament quality")
+        logging.info(f"\nSTART: TOURNAMENT STRATEGY:")
+        logging.info(f"   DATA: Use all {len(lineups)} lineups for maximum coverage")
+        logging.info(f"   TARGET: Each lineup uses different strategy for diversity")
+        logging.info(f"   LINEUP: All lineups are 145+ FPPG tournament quality")
         
-        logging.info(f"\n🎲 READY FOR MULTI-ENTRY TOURNAMENTS!")
+        logging.info(f"\n READY FOR MULTI-ENTRY TOURNAMENTS!")
         
     else:
-        logging.info("❌ CRITICAL ERROR: Unable to generate any championship lineups")
+        logging.info("ERROR: CRITICAL ERROR: Unable to generate any championship lineups")
 
 if __name__ == "__main__":
     main()

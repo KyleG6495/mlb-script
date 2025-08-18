@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def populate_fanduel_lineups():
     """Populate existing FanDuel Lineups.csv with our optimized lineups"""
     
-    logger.info("🏆 POPULATING FANDUEL LINEUPS")
+    logger.info("LINEUP: POPULATING FANDUEL LINEUPS")
     logger.info("=" * 50)
     
     # Load our lineups and FanDuel template
@@ -28,15 +28,15 @@ def populate_fanduel_lineups():
     try:
         # Load our lineup data
         df_lineups = pd.read_csv(lineup_file)
-        logger.info(f"✅ Loaded {len(df_lineups)} lineup rows")
+        logger.info(f"SUCCESS: Loaded {len(df_lineups)} lineup rows")
         
         # Load slate data for player IDs
         df_slate = pd.read_csv(slate_file)
-        logger.info(f"✅ Loaded {len(df_slate)} slate players")
+        logger.info(f"SUCCESS: Loaded {len(df_slate)} slate players")
         
         # Load FanDuel template
         df_fanduel = pd.read_csv(fanduel_template)
-        logger.info(f"✅ Loaded FanDuel template with {len(df_fanduel)} entries")
+        logger.info(f"SUCCESS: Loaded FanDuel template with {len(df_fanduel)} entries")
         
         # Get unique lineups (limit to available entry slots)
         unique_lineups = df_lineups['lineup_id'].unique()
@@ -46,7 +46,7 @@ def populate_fanduel_lineups():
         max_lineups = min(len(unique_lineups), len(available_entries))
         unique_lineups = unique_lineups[:max_lineups]
         
-        logger.info(f"✅ Processing {len(unique_lineups)} lineups for {len(available_entries)} entries")
+        logger.info(f"SUCCESS: Processing {len(unique_lineups)} lineups for {len(available_entries)} entries")
         
         # Create player mapping from slate
         slate_mapping = {}
@@ -56,7 +56,7 @@ def populate_fanduel_lineups():
             if player_name and player_id:
                 slate_mapping[player_name] = player_id
         
-        logger.info(f"✅ Created mapping for {len(slate_mapping)} players")
+        logger.info(f"SUCCESS: Created mapping for {len(slate_mapping)} players")
         
         # Process each lineup and populate FanDuel entries
         for i, lineup_id in enumerate(unique_lineups):
@@ -153,21 +153,21 @@ def populate_fanduel_lineups():
             total_salary = lineup_players['salary'].sum()
             total_proj = lineup_players['ml_projected_fppg'].sum()
             
-            logger.info(f"\n  ✅ Populated Entry {available_entries.iloc[i]['entry_id']}: ${total_salary:,} | {total_proj:.1f} FPPG")
+            logger.info(f"\n  SUCCESS: Populated Entry {available_entries.iloc[i]['entry_id']}: ${total_salary:,} | {total_proj:.1f} FPPG")
         
         # Save the populated FanDuel file
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"../fd_current_slate/Lineups_POPULATED_{timestamp}.csv"
         df_fanduel.to_csv(output_file, index=False)
         
-        logger.info("\n🎯 FANDUEL LINEUPS POPULATED!")
+        logger.info("\nTARGET: FANDUEL LINEUPS POPULATED!")
         logger.info("=" * 50)
-        logger.info(f"📁 File: {output_file}")
-        logger.info(f"📊 Populated {len(unique_lineups)} entries")
-        logger.info(f"💡 Upload this file to FanDuel or copy the rows manually")
+        logger.info(f" File: {output_file}")
+        logger.info(f"DATA: Populated {len(unique_lineups)} entries")
+        logger.info(f"TIP: Upload this file to FanDuel or copy the rows manually")
         
         # Show summary of top 3 lineups
-        logger.info("\n🏆 TOP 3 POPULATED LINEUPS:")
+        logger.info("\nLINEUP: TOP 3 POPULATED LINEUPS:")
         for i in range(min(3, len(unique_lineups))):
             lineup_id = unique_lineups[i]
             lineup_players = df_lineups[df_lineups['lineup_id'] == lineup_id]
@@ -188,7 +188,7 @@ def populate_fanduel_lineups():
         return output_file
         
     except Exception as e:
-        logger.error(f"❌ Error populating FanDuel lineups: {e}")
+        logger.error(f"ERROR: Error populating FanDuel lineups: {e}")
         import traceback
         traceback.print_exc()
         return None

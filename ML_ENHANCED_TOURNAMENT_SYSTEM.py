@@ -20,17 +20,17 @@ class MLEnhancedTournamentSystem:
         
     def run_ml_prediction_pipeline(self):
         """Run the ML prediction pipeline to get enhanced projections"""
-        print("🤖 ML-ENHANCED TOURNAMENT SYSTEM")
+        print(" ML-ENHANCED TOURNAMENT SYSTEM")
         print("Running machine learning predictions + tournament optimization")
         print("="*80)
         
-        print(f"\n🔬 STEP 1: MACHINE LEARNING PREDICTIONS")
+        print(f"\n STEP 1: MACHINE LEARNING PREDICTIONS")
         print("Running ML models to enhance player projections...")
         
         # Import and run ML prediction steps
         try:
             # Run hitter ML projections
-            print(f"  🏏 Running hitter ML projections...")
+            print(f"   Running hitter ML projections...")
             import subprocess
             import sys
             
@@ -39,95 +39,95 @@ class MLEnhancedTournamentSystem:
             ], capture_output=True, text=True, cwd=str(self.scripts_dir))
             
             if result.returncode == 0:
-                print(f"  ✅ Hitter ML projections complete")
+                print(f"  SUCCESS: Hitter ML projections complete")
             else:
-                print(f"  ⚠️ Hitter ML warning: {result.stderr[:200]}")
+                print(f"  WARNING: Hitter ML warning: {result.stderr[:200]}")
             
             # Run pitcher ML projections  
-            print(f"  ⚾ Running pitcher ML projections...")
+            print(f"  BASEBALL: Running pitcher ML projections...")
             result = subprocess.run([
                 sys.executable, str(self.scripts_dir / "(24)project_base_pitcher_scores.py")
             ], capture_output=True, text=True, cwd=str(self.scripts_dir))
             
             if result.returncode == 0:
-                print(f"  ✅ Pitcher ML projections complete")
+                print(f"  SUCCESS: Pitcher ML projections complete")
             else:
-                print(f"  ⚠️ Pitcher ML warning: {result.stderr[:200]}")
+                print(f"  WARNING: Pitcher ML warning: {result.stderr[:200]}")
             
             # Run enhanced projections
-            print(f"  🚀 Running enhanced ML projections...")
+            print(f"  START: Running enhanced ML projections...")
             result = subprocess.run([
                 sys.executable, str(self.scripts_dir / "(26)project_hitter_scores.py")
             ], capture_output=True, text=True, cwd=str(self.scripts_dir))
             
             if result.returncode == 0:
-                print(f"  ✅ Enhanced hitter projections complete")
+                print(f"  SUCCESS: Enhanced hitter projections complete")
             else:
-                print(f"  ⚠️ Enhanced hitter warning: {result.stderr[:200]}")
+                print(f"  WARNING: Enhanced hitter warning: {result.stderr[:200]}")
             
             result = subprocess.run([
                 sys.executable, str(self.scripts_dir / "(27)project_pitcher_scores.py")
             ], capture_output=True, text=True, cwd=str(self.scripts_dir))
             
             if result.returncode == 0:
-                print(f"  ✅ Enhanced pitcher projections complete")
+                print(f"  SUCCESS: Enhanced pitcher projections complete")
             else:
-                print(f"  ⚠️ Enhanced pitcher warning: {result.stderr[:200]}")
+                print(f"  WARNING: Enhanced pitcher warning: {result.stderr[:200]}")
             
-            print(f"  🎯 ML prediction pipeline complete!")
+            print(f"  TARGET: ML prediction pipeline complete!")
             return True
             
         except Exception as e:
-            print(f"  ❌ Error in ML pipeline: {e}")
+            print(f"  ERROR: Error in ML pipeline: {e}")
             return False
     
     def load_ml_projections(self):
         """Load the ML-generated projections"""
-        print(f"\n📊 STEP 2: LOADING ML PROJECTIONS")
+        print(f"\nDATA: STEP 2: LOADING ML PROJECTIONS")
         
         try:
             # Look for ML projection files
             hitter_files = list(self.data_dir.glob("*hitter*projection*.csv"))
             pitcher_files = list(self.data_dir.glob("*pitcher*projection*.csv"))
             
-            print(f"  🔍 Found {len(hitter_files)} hitter projection files")
-            print(f"  🔍 Found {len(pitcher_files)} pitcher projection files")
+            print(f"   Found {len(hitter_files)} hitter projection files")
+            print(f"   Found {len(pitcher_files)} pitcher projection files")
             
             # Load most recent projections
             if hitter_files:
                 hitter_file = max(hitter_files, key=lambda x: x.stat().st_mtime)
                 hitter_projections = pd.read_csv(hitter_file)
-                print(f"  ✅ Loaded hitter projections: {len(hitter_projections)} players from {hitter_file.name}")
+                print(f"  SUCCESS: Loaded hitter projections: {len(hitter_projections)} players from {hitter_file.name}")
             else:
-                print(f"  ⚠️ No hitter projection files found")
+                print(f"  WARNING: No hitter projection files found")
                 hitter_projections = None
             
             if pitcher_files:
                 pitcher_file = max(pitcher_files, key=lambda x: x.stat().st_mtime)
                 pitcher_projections = pd.read_csv(pitcher_file)
-                print(f"  ✅ Loaded pitcher projections: {len(pitcher_projections)} players from {pitcher_file.name}")
+                print(f"  SUCCESS: Loaded pitcher projections: {len(pitcher_projections)} players from {pitcher_file.name}")
             else:
-                print(f"  ⚠️ No pitcher projection files found")
+                print(f"  WARNING: No pitcher projection files found")
                 pitcher_projections = None
             
             return hitter_projections, pitcher_projections
             
         except Exception as e:
-            print(f"  ❌ Error loading ML projections: {e}")
+            print(f"  ERROR: Error loading ML projections: {e}")
             return None, None
     
     def enhance_slate_with_ml(self, hitter_projections, pitcher_projections):
         """Enhance FanDuel slate with ML projections"""
-        print(f"\n🔗 STEP 3: ENHANCING SLATE WITH ML PROJECTIONS")
+        print(f"\n STEP 3: ENHANCING SLATE WITH ML PROJECTIONS")
         
         # Load FanDuel slate
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print(f"  ❌ FanDuel slate not found: {slate_file}")
+            print(f"  ERROR: FanDuel slate not found: {slate_file}")
             return None
         
         slate = pd.read_csv(slate_file)
-        print(f"  📊 FanDuel slate loaded: {len(slate)} players")
+        print(f"  DATA: FanDuel slate loaded: {len(slate)} players")
         
         # Create enhanced slate
         enhanced_slate = slate.copy()
@@ -162,7 +162,7 @@ class MLEnhancedTournamentSystem:
                         )
                         if temp_merge['ML_Projection'].notna().sum() > 0:  # If we got matches
                             merged_hitters = temp_merge
-                            print(f"  ✅ Hitter ML merge successful with {col}: {temp_merge['ML_Projection'].notna().sum()} matches")
+                            print(f"  SUCCESS: Hitter ML merge successful with {col}: {temp_merge['ML_Projection'].notna().sum()} matches")
                             break
                     except:
                         continue
@@ -179,9 +179,9 @@ class MLEnhancedTournamentSystem:
                     # Update enhanced slate
                     enhanced_slate.loc[enhanced_slate['Position'] != 'P'] = merged_hitters
                 else:
-                    print(f"  ⚠️ Could not merge hitter projections")
+                    print(f"  WARNING: Could not merge hitter projections")
             else:
-                print(f"  ⚠️ No suitable name column found in hitter projections")
+                print(f"  WARNING: No suitable name column found in hitter projections")
         
         # Add ML projections for pitchers
         if pitcher_projections is not None:
@@ -210,7 +210,7 @@ class MLEnhancedTournamentSystem:
                         )
                         if temp_merge['ML_Projection'].notna().sum() > 0:
                             merged_pitchers = temp_merge
-                            print(f"  ✅ Pitcher ML merge successful with {col}: {temp_merge['ML_Projection'].notna().sum()} matches")
+                            print(f"  SUCCESS: Pitcher ML merge successful with {col}: {temp_merge['ML_Projection'].notna().sum()} matches")
                             break
                     except:
                         continue
@@ -225,25 +225,25 @@ class MLEnhancedTournamentSystem:
                     
                     enhanced_slate.loc[enhanced_slate['Position'] == 'P'] = merged_pitchers
                 else:
-                    print(f"  ⚠️ Could not merge pitcher projections")
+                    print(f"  WARNING: Could not merge pitcher projections")
             else:
-                print(f"  ⚠️ No suitable name column found in pitcher projections")
+                print(f"  WARNING: No suitable name column found in pitcher projections")
         
         # Summary of ML enhancement
         ml_enhanced_count = 0
         if 'Original_FPPG' in enhanced_slate.columns:
             ml_enhanced_count = (enhanced_slate['FPPG'] != enhanced_slate['Original_FPPG']).sum()
         
-        print(f"  🎯 ML Enhancement Summary:")
-        print(f"    📊 Total players: {len(enhanced_slate)}")
-        print(f"    🤖 ML-enhanced projections: {ml_enhanced_count}")
-        print(f"    📈 Enhancement rate: {ml_enhanced_count/len(enhanced_slate)*100:.1f}%")
+        print(f"  TARGET: ML Enhancement Summary:")
+        print(f"    DATA: Total players: {len(enhanced_slate)}")
+        print(f"     ML-enhanced projections: {ml_enhanced_count}")
+        print(f"    PROGRESS: Enhancement rate: {ml_enhanced_count/len(enhanced_slate)*100:.1f}%")
         
         return enhanced_slate
     
     def run_ml_tournament_optimization(self, enhanced_slate):
         """Run tournament optimization with ML-enhanced projections"""
-        print(f"\n🏆 STEP 4: ML-ENHANCED TOURNAMENT OPTIMIZATION")
+        print(f"\nLINEUP: STEP 4: ML-ENHANCED TOURNAMENT OPTIMIZATION")
         
         # Filter to viable players
         viable_slate = enhanced_slate[
@@ -262,23 +262,23 @@ class MLEnhancedTournamentSystem:
         
         ml_slate = pd.concat([pitchers, hitters], ignore_index=True)
         
-        print(f"  📊 ML-Enhanced Tournament Slate:")
-        print(f"    🎯 Total viable players: {len(ml_slate)}")
-        print(f"    ⚾ Elite pitchers: {len(pitchers)}")
-        print(f"    🏏 Viable hitters: {len(hitters)}")
+        print(f"  DATA: ML-Enhanced Tournament Slate:")
+        print(f"    TARGET: Total viable players: {len(ml_slate)}")
+        print(f"    BASEBALL: Elite pitchers: {len(pitchers)}")
+        print(f"     Viable hitters: {len(hitters)}")
         
         if 'Original_FPPG' in ml_slate.columns:
             ml_improved = ml_slate[ml_slate['FPPG'] > ml_slate['Original_FPPG']]
-            print(f"    📈 Players with ML improvement: {len(ml_improved)}")
+            print(f"    PROGRESS: Players with ML improvement: {len(ml_improved)}")
             if len(ml_improved) > 0:
                 avg_improvement = (ml_improved['FPPG'] - ml_improved['Original_FPPG']).mean()
-                print(f"    🚀 Average ML improvement: +{avg_improvement:.2f} FPPG")
+                print(f"    START: Average ML improvement: +{avg_improvement:.2f} FPPG")
         
         return ml_slate
     
     def build_ml_tournament_lineups(self, ml_slate, count=15):
         """Build tournament lineups using ML-enhanced slate"""
-        print(f"\n🤖 STEP 5: BUILDING ML-ENHANCED LINEUPS")
+        print(f"\n STEP 5: BUILDING ML-ENHANCED LINEUPS")
         print(f"Generating {count} lineups with ML projections")
         
         # Enhanced metrics with ML consideration
@@ -312,9 +312,9 @@ class MLEnhancedTournamentSystem:
             if lineup:
                 lineup['lineup_id'] = f"ML_{i+1:02d}"
                 lineups.append(lineup)
-                print(f"  ✅ {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} proj | {lineup['ml_ceiling']:.1f} ceil")
+                print(f"  SUCCESS: {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} proj | {lineup['ml_ceiling']:.1f} ceil")
             else:
-                print(f"  ❌ Failed ML lineup {i+1}")
+                print(f"  ERROR: Failed ML lineup {i+1}")
         
         return lineups
     
@@ -427,10 +427,10 @@ class MLEnhancedTournamentSystem:
     def export_ml_lineups(self, lineups):
         """Export ML-enhanced lineups"""
         if not lineups:
-            print("❌ No ML lineups to export")
+            print("ERROR: No ML lineups to export")
             return
         
-        print(f"\n📄 EXPORTING {len(lineups)} ML-ENHANCED LINEUPS...")
+        print(f"\n EXPORTING {len(lineups)} ML-ENHANCED LINEUPS...")
         
         # Prepare export data
         export_data = []
@@ -496,28 +496,28 @@ class MLEnhancedTournamentSystem:
         df = pd.DataFrame(export_data)
         df.to_csv(filepath, index=False)
         
-        print(f"✅ ML lineups exported: {filename}")
+        print(f"SUCCESS: ML lineups exported: {filename}")
         
         # Analysis
         projections = [l['total_projected'] for l in lineups]
         ceilings = [l['ml_ceiling'] for l in lineups]
         
-        print(f"\n🤖 ML-ENHANCED PORTFOLIO ANALYSIS:")
-        print(f"  📊 ML Projected: {min(projections):.1f} - {max(projections):.1f} FPPG (avg: {np.mean(projections):.1f})")
-        print(f"  🚀 ML Ceiling: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG (avg: {np.mean(ceilings):.1f})")
+        print(f"\n ML-ENHANCED PORTFOLIO ANALYSIS:")
+        print(f"  DATA: ML Projected: {min(projections):.1f} - {max(projections):.1f} FPPG (avg: {np.mean(projections):.1f})")
+        print(f"  START: ML Ceiling: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG (avg: {np.mean(ceilings):.1f})")
         
         elite_ml_lineups = sum(1 for c in ceilings if c >= 240)
         competitive_ml_lineups = sum(1 for c in ceilings if c >= 225)
         
-        print(f"\n🎯 ML TOURNAMENT POTENTIAL:")
-        print(f"  ⭐ 240+ ML ceiling lineups: {elite_ml_lineups}/{len(lineups)} ({elite_ml_lineups/len(lineups)*100:.0f}%)")
-        print(f"  💪 225+ ML ceiling lineups: {competitive_ml_lineups}/{len(lineups)} ({competitive_ml_lineups/len(lineups)*100:.0f}%)")
+        print(f"\nTARGET: ML TOURNAMENT POTENTIAL:")
+        print(f"   240+ ML ceiling lineups: {elite_ml_lineups}/{len(lineups)} ({elite_ml_lineups/len(lineups)*100:.0f}%)")
+        print(f"   225+ ML ceiling lineups: {competitive_ml_lineups}/{len(lineups)} ({competitive_ml_lineups/len(lineups)*100:.0f}%)")
         
         return filepath
     
     def run_complete_ml_tournament_system(self):
         """Run the complete ML-enhanced tournament system"""
-        print("🤖 ML-ENHANCED TOURNAMENT SYSTEM")
+        print(" ML-ENHANCED TOURNAMENT SYSTEM")
         print("Combining machine learning with tournament optimization")
         print("="*80)
         
@@ -532,7 +532,7 @@ class MLEnhancedTournamentSystem:
             enhanced_slate = self.enhance_slate_with_ml(hitter_proj, pitcher_proj)
             
             if enhanced_slate is None:
-                print("❌ Failed to enhance slate with ML projections")
+                print("ERROR: Failed to enhance slate with ML projections")
                 return
             
             # Step 4: Run ML tournament optimization
@@ -545,14 +545,14 @@ class MLEnhancedTournamentSystem:
                 # Step 6: Export ML lineups
                 filepath = self.export_ml_lineups(ml_lineups)
                 
-                print(f"\n🎉 ML TOURNAMENT SYSTEM COMPLETE!")
-                print(f"🤖 Generated {len(ml_lineups)} ML-enhanced tournament lineups")
-                print(f"🎯 Strategy: Machine learning + tournament optimization")
-                print(f"🏆 Ready for ML-powered tournament domination!")
+                print(f"\nCOMPLETE: ML TOURNAMENT SYSTEM COMPLETE!")
+                print(f" Generated {len(ml_lineups)} ML-enhanced tournament lineups")
+                print(f"TARGET: Strategy: Machine learning + tournament optimization")
+                print(f"LINEUP: Ready for ML-powered tournament domination!")
                 
                 return filepath
             else:
-                print("❌ Failed to generate ML lineups")
+                print("ERROR: Failed to generate ML lineups")
                 
         except Exception as e:
             print(f"Error in ML tournament system: {e}")
@@ -560,7 +560,7 @@ class MLEnhancedTournamentSystem:
             traceback.print_exc()
 
 def main():
-    print("🤖 ML-ENHANCED TOURNAMENT SYSTEM")
+    print(" ML-ENHANCED TOURNAMENT SYSTEM")
     print("Combining machine learning with tournament optimization")
     print("="*80)
     

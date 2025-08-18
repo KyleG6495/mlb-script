@@ -18,7 +18,7 @@ def load_latest_prop_opportunities():
     files = [f for f in os.listdir(betting_dir) if f.startswith('betting_opportunities_') and f.endswith('.csv')]
     
     if not files:
-        print("❌ No prop opportunities files found")
+        print("ERROR: No prop opportunities files found")
         return None
     
     latest_file = max(files)
@@ -26,10 +26,10 @@ def load_latest_prop_opportunities():
     
     try:
         df = pd.read_csv(file_path)
-        print(f"✅ Loaded prop opportunities: {latest_file}")
+        print(f"SUCCESS: Loaded prop opportunities: {latest_file}")
         return df
     except Exception as e:
-        print(f"❌ Error loading prop opportunities: {e}")
+        print(f"ERROR: Error loading prop opportunities: {e}")
         return None
 
 def load_actual_results():
@@ -41,10 +41,10 @@ def load_actual_results():
     if os.path.exists(latest_file):
         try:
             df = pd.read_csv(latest_file)
-            print(f"✅ Loaded actual results: {len(df)} players")
+            print(f"SUCCESS: Loaded actual results: {len(df)} players")
             return df
         except Exception as e:
-            print(f"❌ Error loading latest results: {e}")
+            print(f"ERROR: Error loading latest results: {e}")
     
     # Try yesterday's results
     yesterday = datetime.now() - timedelta(days=1)
@@ -52,12 +52,12 @@ def load_actual_results():
     if os.path.exists(yesterday_file):
         try:
             df = pd.read_csv(yesterday_file)
-            print(f"✅ Loaded yesterday's results: {len(df)} players")
+            print(f"SUCCESS: Loaded yesterday's results: {len(df)} players")
             return df
         except Exception as e:
-            print(f"❌ Error loading yesterday's results: {e}")
+            print(f"ERROR: Error loading yesterday's results: {e}")
     
-    print("❌ No actual results found for validation")
+    print("ERROR: No actual results found for validation")
     return None
 
 def validate_prop_predictions(prop_df, results_df):
@@ -71,7 +71,7 @@ def validate_prop_predictions(prop_df, results_df):
     if 'name' in results_df.columns:
         results_df['clean_name'] = results_df['name'].str.strip().str.title()
     
-    print(f"\n🔍 Validating {len(prop_df)} prop predictions...")
+    print(f"\n Validating {len(prop_df)} prop predictions...")
     
     for idx, prop in prop_df.iterrows():
         player_name = prop.get('player', '').strip().title()
@@ -136,7 +136,7 @@ def validate_prop_predictions(prop_df, results_df):
 def generate_prop_validation_report(validation_df):
     """Generate comprehensive prop validation report"""
     if validation_df is None or len(validation_df) == 0:
-        print("❌ No validation data available")
+        print("ERROR: No validation data available")
         return
     
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -157,11 +157,11 @@ def generate_prop_validation_report(validation_df):
     
     # Generate report
     with open(report_file, 'w', encoding='utf-8') as f:
-        f.write("🎯 PROP BETTING VALIDATION REPORT\n")
+        f.write("TARGET: PROP BETTING VALIDATION REPORT\n")
         f.write("=" * 80 + "\n")
         f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
-        f.write("📊 OVERALL PERFORMANCE:\n")
+        f.write("DATA: OVERALL PERFORMANCE:\n")
         f.write("-" * 40 + "\n")
         f.write(f"Total Prop Bets Validated: {total_bets}\n")
         f.write(f"Correct Predictions: {correct_bets}\n")
@@ -170,21 +170,21 @@ def generate_prop_validation_report(validation_df):
         f.write(f"Total Fantasy Points: {total_fantasy_points:.1f}\n")
         f.write(f"Average Fantasy Points per Player: {avg_fantasy_points:.1f}\n\n")
         
-        f.write("🎯 TOP 10 SUCCESSFUL PREDICTIONS:\n")
+        f.write("TARGET: TOP 10 SUCCESSFUL PREDICTIONS:\n")
         f.write("-" * 40 + "\n")
         correct_predictions = validation_df[validation_df['bet_correct']].sort_values('edge', ascending=False).head(10)
         for idx, row in correct_predictions.iterrows():
             f.write(f"{row['player']} {row['prop_type']} {row['bet']} {row['line']}\n")
             f.write(f"  Predicted: {row['prediction']:.1f} | Actual: {row['actual']:.1f} | Edge: {row['edge']:.1f}% | FP: {row['fanduel_points']:.1f}\n\n")
         
-        f.write("❌ TOP 5 FAILED PREDICTIONS:\n")
+        f.write("ERROR: TOP 5 FAILED PREDICTIONS:\n")
         f.write("-" * 40 + "\n")
         failed_predictions = validation_df[~validation_df['bet_correct']].sort_values('edge', ascending=False).head(5)
         for idx, row in failed_predictions.iterrows():
             f.write(f"{row['player']} {row['prop_type']} {row['bet']} {row['line']}\n")
             f.write(f"  Predicted: {row['prediction']:.1f} | Actual: {row['actual']:.1f} | Edge: {row['edge']:.1f}% | FP: {row['fanduel_points']:.1f}\n\n")
         
-        f.write("📈 PROP TYPE BREAKDOWN:\n")
+        f.write("PROGRESS: PROP TYPE BREAKDOWN:\n")
         f.write("-" * 40 + "\n")
         prop_type_stats = validation_df.groupby('prop_type').agg({
             'bet_correct': ['count', 'sum', 'mean'],
@@ -200,15 +200,15 @@ def generate_prop_validation_report(validation_df):
             avg_fp = prop_type_stats.loc[prop_type, ('fanduel_points', 'mean')]
             f.write(f"{prop_type}: {correct}/{count} ({accuracy:.1f}%) | Avg Edge: {avg_edge:.1f}% | Avg FP: {avg_fp:.1f}\n")
     
-    print(f"✅ Prop validation report saved: {report_file}")
-    print(f"✅ Detailed validation CSV saved: {csv_file}")
-    print(f"\n📊 QUICK SUMMARY:")
-    print(f"   🎯 Accuracy: {accuracy:.1f}% ({correct_bets}/{total_bets} correct)")
-    print(f"   💰 Average Edge: {avg_edge:.1f}%")
-    print(f"   📈 Total Fantasy Points: {total_fantasy_points:.1f}")
+    print(f"SUCCESS: Prop validation report saved: {report_file}")
+    print(f"SUCCESS: Detailed validation CSV saved: {csv_file}")
+    print(f"\nDATA: QUICK SUMMARY:")
+    print(f"   TARGET: Accuracy: {accuracy:.1f}% ({correct_bets}/{total_bets} correct)")
+    print(f"   MONEY: Average Edge: {avg_edge:.1f}%")
+    print(f"   PROGRESS: Total Fantasy Points: {total_fantasy_points:.1f}")
 
 def main():
-    print("🔍 PROP BETTING VALIDATION ANALYSIS")
+    print(" PROP BETTING VALIDATION ANALYSIS")
     print("=" * 50)
     
     # Load data

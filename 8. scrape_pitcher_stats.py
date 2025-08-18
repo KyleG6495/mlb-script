@@ -66,6 +66,6 @@ for _, row in tqdm(pitchers.iterrows(), total=len(pitchers), desc="Fetching pitc
 if all_logs:
     df_out = pd.DataFrame(all_logs)
     df_out.to_csv(OUTPUT_FILE, index=False)
-    print(f"✅ Saved pitcher boxscores → {OUTPUT_FILE} ({len(df_out)} rows)")
+    print(f"SUCCESS: Saved pitcher boxscores  {OUTPUT_FILE} ({len(df_out)} rows)")
 else:
-    print("⚠️ No data scraped.")
+    print("WARNING: No data scraped.")

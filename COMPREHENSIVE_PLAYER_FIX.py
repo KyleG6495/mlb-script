@@ -17,7 +17,7 @@ def fix_comprehensive_player_issues():
     # Define problematic players and find active replacements
     
     # 1. PITCHERS with issues
-    print("🔴 PITCHER REPLACEMENTS:")
+    print(" PITCHER REPLACEMENTS:")
     
     # Shane Bieber (IL - Elbow) - Replace with active pitcher in similar price range
     active_pitchers_9k = slate_df[
@@ -27,11 +27,11 @@ def fix_comprehensive_player_issues():
     ].sort_values('FPPG', ascending=False)
     
     bieber_replacement = active_pitchers_9k.iloc[0] if not active_pitchers_9k.empty else None
-    print(f"Shane Bieber (IL-Elbow) → {bieber_replacement['First Name']} {bieber_replacement['Last Name']} (${bieber_replacement['Salary']}, {bieber_replacement['FPPG']:.1f} FPPG)")
+    print(f"Shane Bieber (IL-Elbow)  {bieber_replacement['First Name']} {bieber_replacement['Last Name']} (${bieber_replacement['Salary']}, {bieber_replacement['FPPG']:.1f} FPPG)")
     
     # Joe Ryan (NS) - Replace with active pitcher in similar price range
     ryan_replacement = active_pitchers_9k.iloc[1] if len(active_pitchers_9k) > 1 else bieber_replacement
-    print(f"Joe Ryan (NS) → {ryan_replacement['First Name']} {ryan_replacement['Last Name']} (${ryan_replacement['Salary']}, {ryan_replacement['FPPG']:.1f} FPPG)")
+    print(f"Joe Ryan (NS)  {ryan_replacement['First Name']} {ryan_replacement['Last Name']} (${ryan_replacement['Salary']}, {ryan_replacement['FPPG']:.1f} FPPG)")
     
     # Hayden Waldrep (NS) - Lower cost pitcher replacement
     active_pitchers_7k = slate_df[
@@ -41,14 +41,14 @@ def fix_comprehensive_player_issues():
     ].sort_values('FPPG', ascending=False)
     
     waldrep_replacement = active_pitchers_7k.iloc[0] if not active_pitchers_7k.empty else None
-    print(f"Hayden Waldrep (NS) → {waldrep_replacement['First Name']} {waldrep_replacement['Last Name']} (${waldrep_replacement['Salary']}, {waldrep_replacement['FPPG']:.1f} FPPG)")
+    print(f"Hayden Waldrep (NS)  {waldrep_replacement['First Name']} {waldrep_replacement['Last Name']} (${waldrep_replacement['Salary']}, {waldrep_replacement['FPPG']:.1f} FPPG)")
     
     # Chayce Bradford (IL) - Lower cost pitcher
     bradford_replacement = active_pitchers_7k.iloc[1] if len(active_pitchers_7k) > 1 else waldrep_replacement
-    print(f"Chayce Bradford (IL) → {bradford_replacement['First Name']} {bradford_replacement['Last Name']} (${bradford_replacement['Salary']}, {bradford_replacement['FPPG']:.1f} FPPG)")
+    print(f"Chayce Bradford (IL)  {bradford_replacement['First Name']} {bradford_replacement['Last Name']} (${bradford_replacement['Salary']}, {bradford_replacement['FPPG']:.1f} FPPG)")
     
     # 2. POSITION PLAYERS with issues
-    print(f"\n🔴 POSITION PLAYER REPLACEMENTS:")
+    print(f"\n POSITION PLAYER REPLACEMENTS:")
     
     # Thairo Estrada (IL - Hamstring) - 2B replacement
     active_2b = slate_df[
@@ -59,7 +59,7 @@ def fix_comprehensive_player_issues():
     ].sort_values('FPPG', ascending=False)
     
     estrada_replacement = active_2b.iloc[0] if not active_2b.empty else None
-    print(f"Thairo Estrada (IL-Hamstring) → {estrada_replacement['First Name']} {estrada_replacement['Last Name']} (${estrada_replacement['Salary']}, {estrada_replacement['FPPG']:.1f} FPPG)")
+    print(f"Thairo Estrada (IL-Hamstring)  {estrada_replacement['First Name']} {estrada_replacement['Last Name']} (${estrada_replacement['Salary']}, {estrada_replacement['FPPG']:.1f} FPPG)")
     
     # Yasmani Grandal (NS) - C/1B replacement
     active_catchers = slate_df[
@@ -70,11 +70,11 @@ def fix_comprehensive_player_issues():
     ].sort_values('FPPG', ascending=False)
     
     grandal_replacement = active_catchers.iloc[0] if not active_catchers.empty else None
-    print(f"Yasmani Grandal (NS) → {grandal_replacement['First Name']} {grandal_replacement['Last Name']} (${grandal_replacement['Salary']}, {grandal_replacement['FPPG']:.1f} FPPG)")
+    print(f"Yasmani Grandal (NS)  {grandal_replacement['First Name']} {grandal_replacement['Last Name']} (${grandal_replacement['Salary']}, {grandal_replacement['FPPG']:.1f} FPPG)")
     
     # Miguel Amaya (NS) - C/1B replacement
     amaya_replacement = active_catchers.iloc[1] if len(active_catchers) > 1 else grandal_replacement
-    print(f"Miguel Amaya (NS) → {amaya_replacement['First Name']} {amaya_replacement['Last Name']} (${amaya_replacement['Salary']}, {amaya_replacement['FPPG']:.1f} FPPG)")
+    print(f"Miguel Amaya (NS)  {amaya_replacement['First Name']} {amaya_replacement['Last Name']} (${amaya_replacement['Salary']}, {amaya_replacement['FPPG']:.1f} FPPG)")
     
     # Outfielders with issues
     active_outfielders = slate_df[
@@ -86,19 +86,19 @@ def fix_comprehensive_player_issues():
     
     # Sam Hilliard (NS)
     hilliard_replacement = active_outfielders.iloc[0] if not active_outfielders.empty else None
-    print(f"Sam Hilliard (NS) → {hilliard_replacement['First Name']} {hilliard_replacement['Last Name']} (${hilliard_replacement['Salary']}, {hilliard_replacement['FPPG']:.1f} FPPG)")
+    print(f"Sam Hilliard (NS)  {hilliard_replacement['First Name']} {hilliard_replacement['Last Name']} (${hilliard_replacement['Salary']}, {hilliard_replacement['FPPG']:.1f} FPPG)")
     
     # Carlos Rodriguez (NS)
     rodriguez_replacement = active_outfielders.iloc[1] if len(active_outfielders) > 1 else hilliard_replacement
-    print(f"Carlos Rodriguez (NS) → {rodriguez_replacement['First Name']} {rodriguez_replacement['Last Name']} (${rodriguez_replacement['Salary']}, {rodriguez_replacement['FPPG']:.1f} FPPG)")
+    print(f"Carlos Rodriguez (NS)  {rodriguez_replacement['First Name']} {rodriguez_replacement['Last Name']} (${rodriguez_replacement['Salary']}, {rodriguez_replacement['FPPG']:.1f} FPPG)")
     
     # Matthew Lugo (NS)
     lugo_replacement = active_outfielders.iloc[2] if len(active_outfielders) > 2 else hilliard_replacement
-    print(f"Matthew Lugo (NS) → {lugo_replacement['First Name']} {lugo_replacement['Last Name']} (${lugo_replacement['Salary']}, {lugo_replacement['FPPG']:.1f} FPPG)")
+    print(f"Matthew Lugo (NS)  {lugo_replacement['First Name']} {lugo_replacement['Last Name']} (${lugo_replacement['Salary']}, {lugo_replacement['FPPG']:.1f} FPPG)")
     
     # George Springer (IL)
     springer_replacement = active_outfielders.iloc[3] if len(active_outfielders) > 3 else hilliard_replacement
-    print(f"George Springer (IL) → {springer_replacement['First Name']} {springer_replacement['Last Name']} (${springer_replacement['Salary']}, {springer_replacement['FPPG']:.1f} FPPG)")
+    print(f"George Springer (IL)  {springer_replacement['First Name']} {springer_replacement['Last Name']} (${springer_replacement['Salary']}, {springer_replacement['FPPG']:.1f} FPPG)")
     
     # Jake Burger (NS) - 3B/UTIL replacement
     active_third_base = slate_df[
@@ -109,7 +109,7 @@ def fix_comprehensive_player_issues():
     ].sort_values('FPPG', ascending=False)
     
     burger_replacement = active_third_base.iloc[0] if not active_third_base.empty else None
-    print(f"Jake Burger (NS) → {burger_replacement['First Name']} {burger_replacement['Last Name']} (${burger_replacement['Salary']}, {burger_replacement['FPPG']:.1f} FPPG)")
+    print(f"Jake Burger (NS)  {burger_replacement['First Name']} {burger_replacement['Last Name']} (${burger_replacement['Salary']}, {burger_replacement['FPPG']:.1f} FPPG)")
     
     # Read current lineups
     with open(lineups_file, 'r') as f:
@@ -179,21 +179,21 @@ def fix_comprehensive_player_issues():
     updated_content = content
     replacement_count = 0
     
-    print(f"\n🔄 APPLYING REPLACEMENTS:")
+    print(f"\nSWAP: APPLYING REPLACEMENTS:")
     for old_id, new_id in player_replacements.items():
         if old_id != new_id and old_id in updated_content:
             updated_content = updated_content.replace(old_id, new_id)
             replacement_count += 1
-            print(f"✅ Replaced {old_id} with {new_id}")
+            print(f"SUCCESS: Replaced {old_id} with {new_id}")
     
     # Write updated lineups
     with open(lineups_file, 'w') as f:
         f.write(updated_content)
     
-    print(f"\n🎯 SUMMARY:")
+    print(f"\nTARGET: SUMMARY:")
     print(f"Total replacements made: {replacement_count}")
     print(f"Updated lineups saved to: {lineups_file}")
-    print("🚀 All IL, NS, and PO players should now be replaced with active confirmed starters!")
+    print("START: All IL, NS, and PO players should now be replaced with active confirmed starters!")
 
 if __name__ == "__main__":
     fix_comprehensive_player_issues()

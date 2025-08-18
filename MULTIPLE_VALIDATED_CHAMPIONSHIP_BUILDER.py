@@ -20,14 +20,14 @@ def load_validated_players():
         for path in slate_paths:
             try:
                 slate_df = pd.read_csv(path)
-                print(f"📊 Found slate data at: {path}")
+                print(f"DATA: Found slate data at: {path}")
                 break
             except:
                 continue
         
         if slate_df is None:
             raise FileNotFoundError("Could not find fd_slate_today.csv in any expected location")
-        print(f"🎯 Loaded {len(slate_df)} total players from today's slate")
+        print(f"TARGET: Loaded {len(slate_df)} total players from today's slate")
         
         # Filter confirmed starting pitchers only
         starting_pitchers = slate_df[
@@ -41,16 +41,16 @@ def load_validated_players():
         # Combine confirmed starters
         validated_players = pd.concat([starting_pitchers, position_players], ignore_index=True)
         
-        print(f"✅ VALIDATED STARTING PITCHERS: {len(starting_pitchers)}")
+        print(f"SUCCESS: VALIDATED STARTING PITCHERS: {len(starting_pitchers)}")
         for _, pitcher in starting_pitchers.iterrows():
-            print(f"   🔥 {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,} - {pitcher.get('FPPG', 'N/A')} FPPG")
+            print(f"    {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,} - {pitcher.get('FPPG', 'N/A')} FPPG")
         
-        print(f"✅ Total validated players: {len(validated_players)}")
+        print(f"SUCCESS: Total validated players: {len(validated_players)}")
         
         return validated_players
         
     except Exception as e:
-        print(f"❌ Error loading validated players: {e}")
+        print(f"ERROR: Error loading validated players: {e}")
         return None
 
 def build_championship_lineup(players_df, pitcher_choice=None, strategy='balanced'):
@@ -161,8 +161,8 @@ def create_multiple_championship_lineups(players_df, num_lineups=10):
     ]
     num_pitchers = len(pitchers)
     
-    print(f"🏆 CREATING {num_lineups} CHAMPIONSHIP LINEUPS")
-    print(f"📊 Using {num_pitchers} confirmed starting pitchers")
+    print(f"LINEUP: CREATING {num_lineups} CHAMPIONSHIP LINEUPS")
+    print(f"DATA: Using {num_pitchers} confirmed starting pitchers")
     print("=" * 60)
     
     lineup_count = 0
@@ -186,7 +186,7 @@ def create_multiple_championship_lineups(players_df, num_lineups=10):
                     'summary': summary
                 })
                 
-                print(f"✅ Lineup {lineup_count}: {strategy.upper()} with {pitcher_name} - {summary}")
+                print(f"SUCCESS: Lineup {lineup_count}: {strategy.upper()} with {pitcher_name} - {summary}")
         
         if lineup_count >= num_lineups:
             break
@@ -218,7 +218,7 @@ def create_multiple_championship_lineups(players_df, num_lineups=10):
                     'summary': summary
                 })
                 
-                print(f"✅ Lineup {lineup_count}: {strategy.upper()}_VAR with {pitcher_name} - {summary}")
+                print(f"SUCCESS: Lineup {lineup_count}: {strategy.upper()}_VAR with {pitcher_name} - {summary}")
     
     return lineups
 
@@ -298,32 +298,32 @@ def save_championship_lineups(lineups):
     return combined_filename, summary_filename, len(lineups)
 
 def main():
-    print("🏆 MULTIPLE VALIDATED CHAMPIONSHIP LINEUP BUILDER")
+    print("LINEUP: MULTIPLE VALIDATED CHAMPIONSHIP LINEUP BUILDER")
     print("   Using ONLY confirmed starting players from today's slate")
     print("=" * 70)
     
     # Load validated players
     validated_players = load_validated_players()
     if validated_players is None:
-        print("❌ Failed to load validated players")
+        print("ERROR: Failed to load validated players")
         return
     
     # Create multiple championship lineups
     lineups = create_multiple_championship_lineups(validated_players, num_lineups=10)
     
     if not lineups:
-        print("❌ Failed to create championship lineups")
+        print("ERROR: Failed to create championship lineups")
         return
     
     # Save lineups
     combined_file, summary_file, num_created = save_championship_lineups(lineups)
     
     print("=" * 70)
-    print(f"🎉 CHAMPIONSHIP LINEUPS COMPLETE!")
-    print(f"✅ Created {num_created} validated championship lineups")
-    print(f"📊 Combined file: {combined_file}")
-    print(f"📋 Summary file: {summary_file}")
-    print("\n🎯 LINEUP STRATEGIES USED:")
+    print(f"COMPLETE: CHAMPIONSHIP LINEUPS COMPLETE!")
+    print(f"SUCCESS: Created {num_created} validated championship lineups")
+    print(f"DATA: Combined file: {combined_file}")
+    print(f"INFO: Summary file: {summary_file}")
+    print("\nTARGET: LINEUP STRATEGIES USED:")
     
     strategies_used = {}
     for lineup_data in lineups:
@@ -333,13 +333,13 @@ def main():
         strategies_used[strategy] += 1
     
     for strategy, count in strategies_used.items():
-        print(f"   📈 {strategy.upper()}: {count} lineups")
+        print(f"   PROGRESS: {strategy.upper()}: {count} lineups")
     
-    print("\n💡 ALL LINEUPS USE ONLY CONFIRMED STARTING PLAYERS")
-    print("🚀 READY FOR FANDUEL SUBMISSION!")
+    print("\nTIP: ALL LINEUPS USE ONLY CONFIRMED STARTING PLAYERS")
+    print("START: READY FOR FANDUEL SUBMISSION!")
     
     # Display top 3 lineups
-    print("\n🏆 TOP 3 CHAMPIONSHIP LINEUPS:")
+    print("\nLINEUP: TOP 3 CHAMPIONSHIP LINEUPS:")
     print("=" * 50)
     
     for i, lineup_data in enumerate(lineups[:3]):
@@ -347,7 +347,7 @@ def main():
         total_salary = sum(player['Salary'] for player in lineup)
         total_fppg = sum(player.get('FPPG', 0) for player in lineup)
         
-        print(f"\n🥇 LINEUP {lineup_data['lineup_id']} ({lineup_data['strategy'].upper()}):")
+        print(f"\n LINEUP {lineup_data['lineup_id']} ({lineup_data['strategy'].upper()}):")
         print(f"   Pitcher: {lineup[0]['Nickname']} (${lineup[0]['Salary']:,})")
         print(f"   Total: ${total_salary:,} - {total_fppg:.1f} FPPG")
 

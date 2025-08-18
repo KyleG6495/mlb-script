@@ -20,35 +20,35 @@ class DFSBacktestValidator:
         
     def load_yesterday_data(self):
         """Load yesterday's slate and actual results"""
-        print("📊 Loading yesterday's data for backtesting...")
+        print("DATA: Loading yesterday's data for backtesting...")
         
         # Load slate (yesterday's available players)
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None, None
             
         slate_df = pd.read_csv(slate_file)
-        print(f"✅ Loaded slate with {len(slate_df)} available players")
+        print(f"SUCCESS: Loaded slate with {len(slate_df)} available players")
         
         # Load actual results
         actual_file = self.data_dir / "actual_results_latest.csv"
         if not actual_file.exists():
-            print("❌ No actual results found - run collect_actual_results.py first")
+            print("ERROR: No actual results found - run collect_actual_results.py first")
             return slate_df, None
             
         actual_df = pd.read_csv(actual_file)
-        print(f"✅ Loaded actual results for {len(actual_df)} players")
+        print(f"SUCCESS: Loaded actual results for {len(actual_df)} players")
         
         if 'date' in actual_df.columns:
             latest_date = actual_df['date'].max()
-            print(f"📅 Results from: {latest_date}")
+            print(f" Results from: {latest_date}")
         
         return slate_df, actual_df
     
     def calculate_actual_fppg(self, actual_df):
         """Calculate actual FPPG from yesterday's performance"""
-        print("🔢 Calculating actual FPPG scores...")
+        print(" Calculating actual FPPG scores...")
         
         actual_df = actual_df.copy()
         
@@ -72,13 +72,13 @@ class DFSBacktestValidator:
         if 'fanduel_points' in actual_df.columns:
             actual_df['actual_fppg'] = actual_df['fanduel_points'].fillna(actual_df['actual_fppg'])
         
-        print(f"📈 Actual FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
+        print(f"PROGRESS: Actual FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
         
         return actual_df
     
     def merge_slate_with_actual(self, slate_df, actual_df):
         """Merge slate projections with actual results"""
-        print("🔗 Merging projections with actual performance...")
+        print(" Merging projections with actual performance...")
         
         # Clean names for matching
         slate_df['full_name'] = (slate_df['First Name'].str.strip() + ' ' + 
@@ -96,13 +96,13 @@ class DFSBacktestValidator:
         merged['actual_fppg'] = merged['actual_fppg'].fillna(0)
         
         matched = (merged['actual_fppg'] > 0).sum()
-        print(f"✅ Found actual results for {matched}/{len(slate_df)} players ({matched/len(slate_df)*100:.1f}%)")
+        print(f"SUCCESS: Found actual results for {matched}/{len(slate_df)} players ({matched/len(slate_df)*100:.1f}%)")
         
         return merged
     
     def validate_backtest_slate(self, merged_df):
         """Apply validation to yesterday's slate"""
-        print("🔍 Applying validation to yesterday's slate...")
+        print(" Applying validation to yesterday's slate...")
         
         merged_df = merged_df.copy()
         
@@ -145,13 +145,13 @@ class DFSBacktestValidator:
             merged_df.at[idx, 'validation_issues'] = '; '.join(issues) if issues else 'OK'
         
         validated = (merged_df['validation_score'] >= 70).sum()
-        print(f"✅ {validated}/{len(merged_df)} players passed validation (70+ score)")
+        print(f"SUCCESS: {validated}/{len(merged_df)} players passed validation (70+ score)")
         
         return merged_df
     
     def build_optimal_hindsight_lineup(self, validated_slate):
         """Build optimal lineup using actual results (perfect hindsight)"""
-        print("🏆 Building OPTIMAL lineup using actual results (hindsight)...")
+        print("LINEUP: Building OPTIMAL lineup using actual results (hindsight)...")
         
         # Filter to players who actually played and have results
         played_players = validated_slate[
@@ -160,7 +160,7 @@ class DFSBacktestValidator:
         ].copy()
         
         if len(played_players) < 20:
-            print(f"❌ Only {len(played_players)} players actually played")
+            print(f"ERROR: Only {len(played_players)} players actually played")
             return None
         
         selected_players = []
@@ -181,7 +181,7 @@ class DFSBacktestValidator:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable {position} players who played")
+                print(f"ERROR: No affordable {position} players who played")
                 return None
             
             # Pick highest actual FPPG
@@ -203,7 +203,7 @@ class DFSBacktestValidator:
     
     def build_validated_projection_lineup(self, validated_slate):
         """Build lineup using validated projection approach (what we would have built)"""
-        print("🎯 Building VALIDATED projection lineup (realistic approach)...")
+        print("TARGET: Building VALIDATED projection lineup (realistic approach)...")
         
         # Filter to validated players
         safe_players = validated_slate[
@@ -213,7 +213,7 @@ class DFSBacktestValidator:
         ].copy()
         
         if len(safe_players) < 50:
-            print(f"⚠️ Only {len(safe_players)} validated players - may struggle")
+            print(f"WARNING: Only {len(safe_players)} validated players - may struggle")
         
         # Calculate enhanced value
         safe_players['enhanced_value'] = (
@@ -239,7 +239,7 @@ class DFSBacktestValidator:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable validated {position} players")
+                print(f"ERROR: No affordable validated {position} players")
                 return None
             
             # Pick best enhanced value
@@ -261,7 +261,7 @@ class DFSBacktestValidator:
     
     def build_filtered_lineup(self, validated_slate):
         """Build lineup using filtered approach (injury/probable pitcher filtering)"""
-        print("🔧 Building FILTERED lineup (injury/probable pitcher filtered)...")
+        print("STEP: Building FILTERED lineup (injury/probable pitcher filtered)...")
         
         # Apply slate-based filtering
         filtered_slate = validated_slate.copy()
@@ -290,7 +290,7 @@ class DFSBacktestValidator:
         print(f"  Working with {len(filtered_slate)} filtered players")
         
         if len(filtered_slate) < 50:
-            print("❌ Not enough filtered players")
+            print("ERROR: Not enough filtered players")
             return None
         
         # Calculate value
@@ -319,7 +319,7 @@ class DFSBacktestValidator:
             affordable = candidates[candidates['Salary'] <= max_spend]
             
             if affordable.empty:
-                print(f"❌ No affordable filtered {position} players")
+                print(f"ERROR: No affordable filtered {position} players")
                 return None
             
             # Pick best value
@@ -341,7 +341,7 @@ class DFSBacktestValidator:
 
     def build_random_baseline_lineup(self, validated_slate):
         """Build random lineup for comparison baseline"""
-        print("🎲 Building RANDOM baseline lineup (for comparison)...")
+        print(" Building RANDOM baseline lineup (for comparison)...")
         
         available = validated_slate[
             (validated_slate['FPPG'] > 0) &
@@ -388,11 +388,11 @@ class DFSBacktestValidator:
     def analyze_backtest_performance(self, lineups):
         """Analyze and compare lineup performance"""
         if not lineups:
-            print("❌ No lineups to analyze")
+            print("ERROR: No lineups to analyze")
             return
         
         print("\n" + "="*70)
-        print("🔍 DFS BACKTESTING RESULTS")
+        print(" DFS BACKTESTING RESULTS")
         print("="*70)
         
         performance_summary = {}
@@ -409,13 +409,13 @@ class DFSBacktestValidator:
                 'accuracy': (lineup['total_actual'] / lineup['total_projected']) * 100 if lineup['total_projected'] > 0 else 0
             }
             
-            print(f"\n📊 {lineup_type}:")
-            print(f"  💰 Salary: ${lineup['total_salary']:,}")
-            print(f"  📈 Projected: {lineup['total_projected']:.1f} FPPG")
-            print(f"  🎯 Actual: {lineup['total_actual']:.1f} FPPG")
-            print(f"  🎪 Accuracy: {performance_summary[lineup_type]['accuracy']:.1f}%")
+            print(f"\nDATA: {lineup_type}:")
+            print(f"  MONEY: Salary: ${lineup['total_salary']:,}")
+            print(f"  PROGRESS: Projected: {lineup['total_projected']:.1f} FPPG")
+            print(f"  TARGET: Actual: {lineup['total_actual']:.1f} FPPG")
+            print(f"   Accuracy: {performance_summary[lineup_type]['accuracy']:.1f}%")
             
-            print(f"  👥 Players:")
+            print(f"  OWNERSHIP: Players:")
             for player in lineup['players']:
                 name = f"{player['First Name']} {player['Last Name']}"
                 pos = player['Roster Position']
@@ -424,15 +424,15 @@ class DFSBacktestValidator:
                 actual = player.get('actual_fppg', 0)
                 diff = actual - projected
                 
-                status = "🔥" if actual > projected * 1.2 else "✅" if actual >= projected * 0.8 else "❌"
+                status = "" if actual > projected * 1.2 else "SUCCESS:" if actual >= projected * 0.8 else "ERROR:"
                 print(f"    {status} {name:20} ({pos:4}) ${salary:5,} | Proj: {projected:5.1f} | Actual: {actual:5.1f} | Diff: {diff:+5.1f}")
         
         # Performance comparison
-        print(f"\n🏆 PERFORMANCE COMPARISON:")
+        print(f"\nLINEUP: PERFORMANCE COMPARISON:")
         
         if 'OPTIMAL_HINDSIGHT' in performance_summary:
             optimal = performance_summary['OPTIMAL_HINDSIGHT']['actual']
-            print(f"  🥇 Optimal (hindsight): {optimal:.1f} FPPG")
+            print(f"   Optimal (hindsight): {optimal:.1f} FPPG")
             
             # Compare all approaches to optimal
             for approach in ['FILTERED_SLATE', 'VALIDATED_PROJECTION', 'RANDOM_BASELINE']:
@@ -441,11 +441,11 @@ class DFSBacktestValidator:
                     efficiency = (score / optimal) * 100 if optimal > 0 else 0
                     
                     if approach == 'FILTERED_SLATE':
-                        print(f"  🔧 Filtered approach: {score:.1f} FPPG ({efficiency:.1f}% of optimal)")
+                        print(f"  STEP: Filtered approach: {score:.1f} FPPG ({efficiency:.1f}% of optimal)")
                     elif approach == 'VALIDATED_PROJECTION':
-                        print(f"  🎯 Old validation: {score:.1f} FPPG ({efficiency:.1f}% of optimal)")
+                        print(f"  TARGET: Old validation: {score:.1f} FPPG ({efficiency:.1f}% of optimal)")
                     elif approach == 'RANDOM_BASELINE':
-                        print(f"  🎲 Random baseline: {score:.1f} FPPG ({efficiency:.1f}% of optimal)")
+                        print(f"   Random baseline: {score:.1f} FPPG ({efficiency:.1f}% of optimal)")
             
             # Best realistic approach
             realistic_scores = {}
@@ -457,29 +457,29 @@ class DFSBacktestValidator:
                 best_approach = max(realistic_scores, key=realistic_scores.get)
                 best_score = realistic_scores[best_approach]
                 
-                print(f"\n💪 BEST REALISTIC APPROACH:")
+                print(f"\n BEST REALISTIC APPROACH:")
                 if best_approach == 'FILTERED_SLATE':
-                    print(f"  🏆 FILTERED SLATE: {best_score:.1f} FPPG")
-                    print(f"      ✅ Uses injury indicators and probable pitchers")
+                    print(f"  LINEUP: FILTERED SLATE: {best_score:.1f} FPPG")
+                    print(f"      SUCCESS: Uses injury indicators and probable pitchers")
                 else:
-                    print(f"  🏆 VALIDATED PROJECTION: {best_score:.1f} FPPG")
-                    print(f"      ⚠️  Basic validation only")
+                    print(f"  LINEUP: VALIDATED PROJECTION: {best_score:.1f} FPPG")
+                    print(f"      WARNING:  Basic validation only")
                 
                 efficiency = (best_score / optimal) * 100 if optimal > 0 else 0
                 if efficiency >= 80:
-                    print(f"  ✅ EXCELLENT: {efficiency:.1f}% efficiency!")
+                    print(f"  SUCCESS: EXCELLENT: {efficiency:.1f}% efficiency!")
                 elif efficiency >= 60:
-                    print(f"  ⚠️  GOOD: {efficiency:.1f}% efficiency")
+                    print(f"  WARNING:  GOOD: {efficiency:.1f}% efficiency")
                 elif efficiency >= 30:
-                    print(f"  ❌ FAIR: {efficiency:.1f}% efficiency - needs work")
+                    print(f"  ERROR: FAIR: {efficiency:.1f}% efficiency - needs work")
                 else:
-                    print(f"  💥 POOR: {efficiency:.1f}% efficiency - major issues")
+                    print(f"   POOR: {efficiency:.1f}% efficiency - major issues")
         
         return performance_summary
     
     def run_backtest(self):
         """Run complete DFS backtest with validation"""
-        print("🚀 DFS BACKTESTING WITH VALIDATION")
+        print("START: DFS BACKTESTING WITH VALIDATION")
         print("Testing how well our validation approach would have performed")
         print("="*70)
         
@@ -492,7 +492,7 @@ class DFSBacktestValidator:
             actual_df = self.calculate_actual_fppg(actual_df)
             enhanced_slate = self.merge_slate_with_actual(slate_df, actual_df)
         else:
-            print("⚠️ No actual results - simulation mode only")
+            print("WARNING: No actual results - simulation mode only")
             enhanced_slate = slate_df.copy()
             enhanced_slate['actual_fppg'] = 0
         
@@ -527,19 +527,19 @@ class DFSBacktestValidator:
         if lineups:
             performance = self.analyze_backtest_performance(lineups)
             
-            print(f"\n🎉 BACKTEST COMPLETE!")
-            print(f"📈 Analyzed {len(lineups)} different approaches")
+            print(f"\nCOMPLETE: BACKTEST COMPLETE!")
+            print(f"PROGRESS: Analyzed {len(lineups)} different approaches")
             
             if actual_df is not None:
-                print(f"💡 KEY INSIGHT: Validation approach shows how well")
+                print(f"TIP: KEY INSIGHT: Validation approach shows how well")
                 print(f"   you could realistically perform vs perfect hindsight")
             else:
-                print(f"💡 Ready to use validation approach on today's slate")
+                print(f"TIP: Ready to use validation approach on today's slate")
         else:
-            print("❌ Failed to build lineups for backtest")
+            print("ERROR: Failed to build lineups for backtest")
 
 def main():
-    print("📊 DFS BACKTESTING WITH VALIDATION")
+    print("DATA: DFS BACKTESTING WITH VALIDATION")
     print("See how our validation system performs against actual results")
     print("="*70)
     

@@ -18,13 +18,13 @@ def show_winning_lineups():
     # Load player data for names
     players = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
     
-    logger.info("🏆 WINNING LINEUP DETAILS")
+    logger.info("LINEUP: WINNING LINEUP DETAILS")
     logger.info("="*50)
     
     for idx, lineup in lineups.iterrows():
         lineup_num = idx + 1
         logger.info(f"")
-        logger.info(f"🏆 LINEUP {lineup_num} - ${lineup['Salary']:,} | {lineup['FPPG']:.1f} FPPG")
+        logger.info(f"LINEUP: LINEUP {lineup_num} - ${lineup['Salary']:,} | {lineup['FPPG']:.1f} FPPG")
         
         positions = ['P', 'C/1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3', 'UTIL']
         
@@ -39,9 +39,9 @@ def show_winning_lineups():
     
     logger.info("")
     logger.info("="*50)
-    logger.info(f"📊 {len(lineups)} WINNING LINEUPS CREATED")
-    logger.info(f"💰 Salary range: ${lineups['Salary'].min():,} - ${lineups['Salary'].max():,}")
-    logger.info(f"📈 FPPG range: {lineups['FPPG'].min():.1f} - {lineups['FPPG'].max():.1f}")
+    logger.info(f"DATA: {len(lineups)} WINNING LINEUPS CREATED")
+    logger.info(f"MONEY: Salary range: ${lineups['Salary'].min():,} - ${lineups['Salary'].max():,}")
+    logger.info(f"PROGRESS: FPPG range: {lineups['FPPG'].min():.1f} - {lineups['FPPG'].max():.1f}")
 
 if __name__ == "__main__":
     show_winning_lineups()

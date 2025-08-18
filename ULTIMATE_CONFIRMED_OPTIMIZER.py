@@ -26,36 +26,36 @@ class ConfirmedStartersOptimizer:
         
     def load_all_data(self):
         """Load all confirmed starters data and enhancements"""
-        logger.info("📥 LOADING ALL CONFIRMED STARTERS DATA")
+        logger.info(" LOADING ALL CONFIRMED STARTERS DATA")
         logger.info("=" * 60)
         
         # Load confirmed starters
         try:
             self.confirmed_players = pd.read_csv('../fd_current_slate/fd_slate_confirmed_starters_only.csv')
-            logger.info(f"✅ Loaded {len(self.confirmed_players)} confirmed starters")
+            logger.info(f"SUCCESS: Loaded {len(self.confirmed_players)} confirmed starters")
         except:
-            logger.error("❌ Could not load confirmed starters!")
+            logger.error("ERROR: Could not load confirmed starters!")
             return False
             
         # Load weather data
         try:
             self.weather_data = pd.read_csv('data/weather_today.csv')
-            logger.info(f"🌤️ Loaded weather data for {len(self.weather_data)} games")
+            logger.info(f" Loaded weather data for {len(self.weather_data)} games")
         except:
-            logger.warning("⚠️ No weather data - will use defaults")
+            logger.warning("WARNING: No weather data - will use defaults")
             
         # Load park factors
         try:
             park_data = pd.read_csv('../../data/park_factors.csv')
-            logger.info(f"🏟️ Loaded park factors for {len(park_data)} teams")
+            logger.info(f" Loaded park factors for {len(park_data)} teams")
         except:
-            logger.warning("⚠️ No park factors - will use defaults")
+            logger.warning("WARNING: No park factors - will use defaults")
             
         return True
     
     def run_game_simulations(self, num_simulations=2000):
         """Run Monte Carlo simulations for all confirmed players"""
-        logger.info(f"🎮 RUNNING {num_simulations} GAME SIMULATIONS")
+        logger.info(f" RUNNING {num_simulations} GAME SIMULATIONS")
         logger.info("=" * 60)
         
         simulation_results = []
@@ -78,8 +78,8 @@ class ConfirmedStartersOptimizer:
             })
             
         self.simulation_results = pd.DataFrame(simulation_results)
-        logger.info(f"✅ Simulated {len(self.simulation_results)} confirmed players")
-        logger.info(f"📊 Projection range: {self.simulation_results['sim_mean'].min():.1f} - {self.simulation_results['sim_mean'].max():.1f} FPPG")
+        logger.info(f"SUCCESS: Simulated {len(self.simulation_results)} confirmed players")
+        logger.info(f"DATA: Projection range: {self.simulation_results['sim_mean'].min():.1f} - {self.simulation_results['sim_mean'].max():.1f} FPPG")
         
         return self.simulation_results
     
@@ -145,7 +145,7 @@ class ConfirmedStartersOptimizer:
     
     def calculate_ownership_projections(self):
         """Calculate advanced ownership projections for confirmed starters"""
-        logger.info("👥 CALCULATING OWNERSHIP PROJECTIONS")
+        logger.info("OWNERSHIP: CALCULATING OWNERSHIP PROJECTIONS")
         logger.info("=" * 60)
         
         ownership_data = []
@@ -197,7 +197,7 @@ class ConfirmedStartersOptimizer:
         
         # Log ownership distribution
         tier_counts = self.ownership_projections['ownership_tier'].value_counts()
-        logger.info("🎭 OWNERSHIP DISTRIBUTION:")
+        logger.info(" OWNERSHIP DISTRIBUTION:")
         for tier, count in tier_counts.items():
             avg_own = self.ownership_projections[self.ownership_projections['ownership_tier'] == tier]['projected_ownership'].mean()
             logger.info(f"   {tier}: {count} players (avg {avg_own:.1%})")
@@ -219,7 +219,7 @@ class ConfirmedStartersOptimizer:
     
     def calculate_correlations(self):
         """Calculate player correlations for stacking"""
-        logger.info("📊 CALCULATING PLAYER CORRELATIONS")
+        logger.info("DATA: CALCULATING PLAYER CORRELATIONS")
         logger.info("=" * 60)
         
         correlations = {}
@@ -269,13 +269,13 @@ class ConfirmedStartersOptimizer:
                 }
         
         self.correlations = correlations
-        logger.info(f"📈 Calculated {len(correlations)} correlation relationships")
+        logger.info(f"PROGRESS: Calculated {len(correlations)} correlation relationships")
         
         return correlations
     
     def create_optimized_projections(self):
         """Combine all factors into final optimized projections"""
-        logger.info("🧠 CREATING OPTIMIZED PROJECTIONS")
+        logger.info(" CREATING OPTIMIZED PROJECTIONS")
         logger.info("=" * 60)
         
         optimized_players = self.confirmed_players.copy()
@@ -317,14 +317,14 @@ class ConfirmedStartersOptimizer:
         output_file = '../data/confirmed_optimized_projections.csv'
         optimized_players.to_csv(output_file, index=False)
         
-        logger.info(f"💾 Saved optimized projections: {output_file}")
-        logger.info(f"📊 {len(optimized_players)} players with complete optimization data")
+        logger.info(f" Saved optimized projections: {output_file}")
+        logger.info(f"DATA: {len(optimized_players)} players with complete optimization data")
         
         return optimized_players
     
     def generate_strategy_recommendations(self):
         """Generate strategic recommendations based on optimization"""
-        logger.info("🎯 GENERATING STRATEGY RECOMMENDATIONS")
+        logger.info("TARGET: GENERATING STRATEGY RECOMMENDATIONS")
         logger.info("=" * 60)
         
         if self.ownership_projections is None:
@@ -364,13 +364,13 @@ class ConfirmedStartersOptimizer:
     
     def run_complete_optimization(self):
         """Run the complete optimization pipeline"""
-        logger.info("🚀 ULTIMATE CONFIRMED STARTERS OPTIMIZATION")
-        logger.info("🎯 Complete pipeline: Simulations + Ownership + Correlations")
+        logger.info("START: ULTIMATE CONFIRMED STARTERS OPTIMIZATION")
+        logger.info("TARGET: Complete pipeline: Simulations + Ownership + Correlations")
         logger.info("=" * 70)
         
         # Step 1: Load all data
         if not self.load_all_data():
-            logger.error("❌ Failed to load confirmed starters data")
+            logger.error("ERROR: Failed to load confirmed starters data")
             return None
         
         # Step 2: Run simulations
@@ -390,12 +390,12 @@ class ConfirmedStartersOptimizer:
         
         # Summary
         logger.info("=" * 70)
-        logger.info("🎉 COMPLETE OPTIMIZATION FINISHED!")
-        logger.info(f"✅ {len(optimized_players)} confirmed players optimized")
-        logger.info(f"🎮 2000 simulations per player completed")
-        logger.info(f"👥 Advanced ownership projections calculated")
-        logger.info(f"📊 {len(self.correlations)} correlation patterns identified")
-        logger.info(f"🎯 Ready for advanced lineup construction")
+        logger.info("COMPLETE: COMPLETE OPTIMIZATION FINISHED!")
+        logger.info(f"SUCCESS: {len(optimized_players)} confirmed players optimized")
+        logger.info(f" 2000 simulations per player completed")
+        logger.info(f"OWNERSHIP: Advanced ownership projections calculated")
+        logger.info(f"DATA: {len(self.correlations)} correlation patterns identified")
+        logger.info(f"TARGET: Ready for advanced lineup construction")
         
         return {
             'optimized_players': optimized_players,
@@ -409,9 +409,9 @@ def main():
     results = optimizer.run_complete_optimization()
     
     if results:
-        logger.info("🏆 OPTIMIZATION COMPLETE - READY FOR LINEUP GENERATION!")
+        logger.info("LINEUP: OPTIMIZATION COMPLETE - READY FOR LINEUP GENERATION!")
     else:
-        logger.error("❌ Optimization failed!")
+        logger.error("ERROR: Optimization failed!")
 
 if __name__ == "__main__":
     main()

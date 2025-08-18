@@ -11,15 +11,15 @@ from datetime import datetime
 
 def generate_ceiling_lineups_fixed():
     """Generate realistic ceiling lineups with proper constraints"""
-    print("🎯 ENHANCED CEILING LINEUP GENERATOR")
+    print("TARGET: ENHANCED CEILING LINEUP GENERATOR")
     print("=" * 50)
     
     # Load slate
     try:
         slate = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
-        print(f"📊 Loaded {len(slate)} players from slate")
+        print(f"DATA: Loaded {len(slate)} players from slate")
     except Exception as e:
-        print(f"❌ Error loading slate: {e}")
+        print(f"ERROR: Error loading slate: {e}")
         return
     
     # Load ceiling weights if available
@@ -27,10 +27,10 @@ def generate_ceiling_lineups_fixed():
         weights = pd.read_csv("../data/ceiling_lineup_weights.csv")
         slate = slate.merge(weights[['Id', 'ceiling_weight']], on='Id', how='left')
         slate['ceiling_weight'] = slate['ceiling_weight'].fillna(1.0)
-        print(f"✅ Applied ceiling weights to {len(weights)} players")
+        print(f"SUCCESS: Applied ceiling weights to {len(weights)} players")
     except:
         slate['ceiling_weight'] = 1.0
-        print("⚠️ No ceiling weights found, using defaults")
+        print("WARNING: No ceiling weights found, using defaults")
     
     # Filter to active players (not injured, reasonable salary)
     active_slate = slate[
@@ -39,7 +39,7 @@ def generate_ceiling_lineups_fixed():
         (slate['Salary'] <= 15000)
     ].copy()
     
-    print(f"🏥 Active players: {len(active_slate)}")
+    print(f" Active players: {len(active_slate)}")
     
     # Enhanced ceiling projections (realistic multipliers)
     active_slate['ceiling_fppg'] = active_slate['FPPG'] * active_slate['ceiling_weight'] * 1.10
@@ -52,14 +52,14 @@ def generate_ceiling_lineups_fixed():
     for pos in positions_needed.keys():
         pos_players = active_slate[active_slate['Position'].str.contains(pos, na=False)]
         position_counts[pos] = len(pos_players)
-        print(f"📍 {pos}: {len(pos_players)} available players")
+        print(f" {pos}: {len(pos_players)} available players")
     
     # Check if we can build lineups
     can_build = all(position_counts[pos] >= positions_needed[pos] for pos in positions_needed.keys())
     
     if not can_build:
-        print("⚠️ Insufficient players in some positions for full lineups")
-        print("🎯 Creating best possible lineups with available players...")
+        print("WARNING: Insufficient players in some positions for full lineups")
+        print("TARGET: Creating best possible lineups with available players...")
     
     lineups = []
     
@@ -111,11 +111,11 @@ def generate_ceiling_lineups_fixed():
             total_salary = sum(p['Salary'] for p in lineup)
             if total_salary <= 35000:
                 lineups.extend(lineup)
-                print(f"✅ {lineup_name}: ${total_salary:,} | {sum(p['Ceiling_FPPG'] for p in lineup):.1f} ceiling FPPG")
+                print(f"SUCCESS: {lineup_name}: ${total_salary:,} | {sum(p['Ceiling_FPPG'] for p in lineup):.1f} ceiling FPPG")
             else:
-                print(f"❌ {lineup_name}: Over salary cap (${total_salary:,})")
+                print(f"ERROR: {lineup_name}: Over salary cap (${total_salary:,})")
         else:
-            print(f"⚠️ {lineup_name}: Incomplete ({len(lineup)}/9 positions)")
+            print(f"WARNING: {lineup_name}: Incomplete ({len(lineup)}/9 positions)")
     
     if lineups:
         # Save lineups
@@ -124,7 +124,7 @@ def generate_ceiling_lineups_fixed():
         output_file = f"../data/enhanced_ceiling_lineups_{timestamp}.csv"
         df.to_csv(output_file, index=False)
         
-        print(f"\n💾 Saved ceiling lineups: {output_file}")
+        print(f"\n Saved ceiling lineups: {output_file}")
         
         # Summary
         lineup_summary = df.groupby('Lineup').agg({
@@ -133,20 +133,20 @@ def generate_ceiling_lineups_fixed():
             'Ceiling_FPPG': 'sum'
         }).round(1)
         
-        print("\n🎯 CEILING LINEUP SUMMARY:")
+        print("\nTARGET: CEILING LINEUP SUMMARY:")
         print(lineup_summary)
         
         valid_count = len(lineup_summary[lineup_summary['Salary'] <= 35000])
-        print(f"\n📊 Generated {valid_count} valid ceiling lineups")
+        print(f"\nDATA: Generated {valid_count} valid ceiling lineups")
         
         if valid_count > 0:
             avg_ceiling = lineup_summary['Ceiling_FPPG'].mean()
-            print(f"🎯 Average ceiling: {avg_ceiling:.1f} FPPG")
-            print(f"🎯 Best ceiling: {lineup_summary['Ceiling_FPPG'].max():.1f} FPPG")
+            print(f"TARGET: Average ceiling: {avg_ceiling:.1f} FPPG")
+            print(f"TARGET: Best ceiling: {lineup_summary['Ceiling_FPPG'].max():.1f} FPPG")
         
         return output_file
     else:
-        print("❌ Could not generate any valid lineups")
+        print("ERROR: Could not generate any valid lineups")
         return None
 
 if __name__ == "__main__":

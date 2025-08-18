@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 FANDUEL SIMPLE FORMAT
+TARGET: FANDUEL SIMPLE FORMAT
 Creates the absolute simplest format possible for FanDuel uploads
 """
 
@@ -13,13 +13,13 @@ logger = logging.getLogger(__name__)
 def create_simple_format():
     """Create the simplest possible format"""
     
-    logger.info("🎯 CREATING SIMPLEST FANDUEL FORMAT")
+    logger.info("TARGET: CREATING SIMPLEST FANDUEL FORMAT")
     logger.info("="*40)
     
     try:
         # Load smart lineups
         df = pd.read_csv('../fd_current_slate/SMART_CHAMPIONSHIP_LINEUPS.csv')
-        logger.info(f"📥 Loaded {len(df)} lineups")
+        logger.info(f" Loaded {len(df)} lineups")
         
         # Create absolutely minimal format - just player IDs in correct positions
         simple_data = []
@@ -73,21 +73,21 @@ def create_simple_format():
         # Create main file
         df_c.to_csv('../fd_current_slate/FD_SIMPLE_UPLOAD.csv', index=False)
         
-        logger.info("💾 Created simple format files:")
-        logger.info("   📁 SIMPLE_FORMAT_A.csv (OF1,OF2,OF3)")
-        logger.info("   📁 SIMPLE_FORMAT_B.csv (OF,OF_2,OF_3)")
-        logger.info("   📁 FD_SIMPLE_UPLOAD.csv (main file)")
+        logger.info(" Created simple format files:")
+        logger.info("    SIMPLE_FORMAT_A.csv (OF1,OF2,OF3)")
+        logger.info("    SIMPLE_FORMAT_B.csv (OF,OF_2,OF_3)")
+        logger.info("    FD_SIMPLE_UPLOAD.csv (main file)")
         
         # Show sample
         logger.info("")
-        logger.info("📋 SAMPLE LINEUP:")
+        logger.info("INFO: SAMPLE LINEUP:")
         sample = df_c.iloc[0]
         for col in df_c.columns:
             logger.info(f"   {col}: {sample[col]}")
         
         # Check for any issues
         logger.info("")
-        logger.info("🔍 VALIDATION:")
+        logger.info(" VALIDATION:")
         logger.info(f"   Rows: {len(df_c)}")
         logger.info(f"   Columns: {len(df_c.columns)}")
         logger.info(f"   Any empty values: {'Yes' if df_c.isnull().any().any() else 'No'}")
@@ -96,10 +96,10 @@ def create_simple_format():
         # Also create a version with just 1 lineup to test
         single_lineup = df_c.head(1)
         single_lineup.to_csv('../fd_current_slate/SINGLE_LINEUP_TEST.csv', index=False)
-        logger.info("   📁 SINGLE_LINEUP_TEST.csv (test with 1 lineup)")
+        logger.info("    SINGLE_LINEUP_TEST.csv (test with 1 lineup)")
         
     except Exception as e:
-        logger.error(f"❌ Simple format error: {e}")
+        logger.error(f"ERROR: Simple format error: {e}")
         import traceback
         traceback.print_exc()
 

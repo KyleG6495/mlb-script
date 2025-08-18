@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def manually_input_confirmed_starters():
     """Manual input of confirmed starters for today"""
     
-    print("🎯 MANUAL CONFIRMED STARTERS INPUT")
+    print("TARGET: MANUAL CONFIRMED STARTERS INPUT")
     print("=" * 50)
     print("Enter confirmed starting lineups from RotoWire or other sources")
     print("Enter 'done' when finished")
@@ -41,7 +41,7 @@ def manually_input_confirmed_starters():
             'timestamp': datetime.now().isoformat()
         })
         
-        print(f"✅ Added: {name} ({position}) - {team}")
+        print(f"SUCCESS: Added: {name} ({position}) - {team}")
         print("")
     
     return confirmed_starters
@@ -61,13 +61,13 @@ def save_manual_confirmed_starters(confirmed_starters):
     filename = f"../data/manual_confirmed_starters_{timestamp}.csv"
     df.to_csv(filename, index=False)
     
-    logger.info(f"💾 Saved {len(confirmed_starters)} confirmed starters to {filename}")
+    logger.info(f" Saved {len(confirmed_starters)} confirmed starters to {filename}")
     
     # Show summary
     pitchers = df[df['position'] == 'P']
     hitters = df[df['position'] != 'P']
     
-    logger.info(f"📊 SUMMARY:")
+    logger.info(f"DATA: SUMMARY:")
     logger.info(f"   Pitchers: {len(pitchers)}")
     logger.info(f"   Hitters: {len(hitters)}")
     logger.info(f"   Total: {len(df)}")
@@ -90,7 +90,7 @@ def quick_add_todays_confirmed():
     ]
     
     if not todays_confirmed:
-        print("⚠️ No confirmed starters in quick list - use manual input instead")
+        print("WARNING: No confirmed starters in quick list - use manual input instead")
         return manually_input_confirmed_starters()
     
     # Add metadata
@@ -103,7 +103,7 @@ def quick_add_todays_confirmed():
 
 def main():
     """Main function"""
-    print("🎯 CONFIRMED STARTERS UPDATER")
+    print("TARGET: CONFIRMED STARTERS UPDATER")
     print("=" * 40)
     print("1. Manual input")
     print("2. Quick add (pre-filled)")
@@ -122,8 +122,8 @@ def main():
     if confirmed_starters:
         filename = save_manual_confirmed_starters(confirmed_starters)
         if filename:
-            print(f"✅ Confirmed starters saved to {filename}")
-            print("🎯 Now run GET_CONFIRMED_STARTERS.py to filter your FD slate!")
+            print(f"SUCCESS: Confirmed starters saved to {filename}")
+            print("TARGET: Now run GET_CONFIRMED_STARTERS.py to filter your FD slate!")
 
 if __name__ == "__main__":
     main()

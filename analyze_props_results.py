@@ -26,12 +26,12 @@ def find_latest_props_file(platform='prizepicks', date_str=None):
             break
     
     if not all_files:
-        print(f"❌ No {platform} files found for {date_str}")
+        print(f"ERROR: No {platform} files found for {date_str}")
         return None
     
     # Get the most recent file
     latest_file = max(all_files, key=os.path.getmtime)
-    print(f"📊 Found {platform} file: {os.path.basename(latest_file)}")
+    print(f"DATA: Found {platform} file: {os.path.basename(latest_file)}")
     
     return latest_file
 
@@ -40,7 +40,7 @@ def load_props_picks(file_path):
     
     try:
         df = pd.read_csv(file_path)
-        print(f"✅ Loaded {len(df)} props from file")
+        print(f"SUCCESS: Loaded {len(df)} props from file")
         
         # Standardize column names (different files may have different formats)
         column_mapping = {
@@ -71,7 +71,7 @@ def load_props_picks(file_path):
         missing_columns = [col for col in required_columns if col not in df.columns]
         
         if missing_columns:
-            print(f"⚠️ Missing columns: {missing_columns}")
+            print(f"WARNING: Missing columns: {missing_columns}")
             # Try to create missing columns with defaults
             for col in missing_columns:
                 if col == 'bet_type':
@@ -82,7 +82,7 @@ def load_props_picks(file_path):
         return df
         
     except Exception as e:
-        print(f"❌ Error loading props file: {str(e)}")
+        print(f"ERROR: Error loading props file: {str(e)}")
         return None
 
 def get_player_actual_stat(player_name, stat_type, date_str):
@@ -123,7 +123,7 @@ def get_player_actual_stat(player_name, stat_type, date_str):
                     
                     return float(actual_stat)
         except Exception as e:
-            print(f"   ⚠️ Error reading results for {player_name}: {str(e)}")
+            print(f"   WARNING: Error reading results for {player_name}: {str(e)}")
     
     # If no results file, simulate realistic results
     import random
@@ -154,7 +154,7 @@ def evaluate_prop_bet(actual_stat, line, bet_type):
     elif bet_type.upper() in ['UNDER', 'U', 'UNDER', 'U0.5', 'U1.5', 'U2.5']:
         return actual_stat < line
     else:
-        print(f"⚠️ Unknown bet type: {bet_type}")
+        print(f"WARNING: Unknown bet type: {bet_type}")
         return False
 
 def analyze_props_results(platform='prizepicks', date_to_check=None):
@@ -163,7 +163,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
     if date_to_check is None:
         date_to_check = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
     
-    print(f"🎯 ANALYZING {platform.upper()} PROPS RESULTS FOR {date_to_check}")
+    print(f"TARGET: ANALYZING {platform.upper()} PROPS RESULTS FOR {date_to_check}")
     print("=" * 70)
     
     # Find the props file
@@ -176,7 +176,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
     if props_df is None:
         return
     
-    print(f"📋 Analyzing {len(props_df)} prop bets")
+    print(f"INFO: Analyzing {len(props_df)} prop bets")
     
     # Track results
     total_bets = 0
@@ -225,7 +225,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
         })
         
         # Store detailed result
-        result_icon = "✅" if won else "❌"
+        result_icon = "SUCCESS:" if won else "ERROR:"
         results.append({
             'player': player_name,
             'stat': stat_type, 
@@ -242,14 +242,14 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
     # Overall performance summary
     win_rate = (winning_bets / total_bets) * 100 if total_bets > 0 else 0
     
-    print(f"\n📈 OVERALL PERFORMANCE")
+    print(f"\nPROGRESS: OVERALL PERFORMANCE")
     print("=" * 40)
     print(f"Total Bets: {total_bets}")
     print(f"Winning Bets: {winning_bets}")
     print(f"Win Rate: {win_rate:.1f}%")
     
     # Performance by confidence level
-    print(f"\n🎯 PERFORMANCE BY CONFIDENCE LEVEL")
+    print(f"\nTARGET: PERFORMANCE BY CONFIDENCE LEVEL")
     print("=" * 50)
     
     for confidence in ['VERY_HIGH', 'HIGH', 'MEDIUM', 'LOW', 'UNKNOWN']:
@@ -260,7 +260,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
             print(f"{confidence:<12}: {group['wins']}/{group['total']} ({group_win_rate:.1f}%) | Avg EV: {avg_ev:.3f}")
     
     # Performance by stat type
-    print(f"\n📊 PERFORMANCE BY STAT TYPE")
+    print(f"\nDATA: PERFORMANCE BY STAT TYPE")
     print("=" * 40)
     
     stat_groups = {}
@@ -277,27 +277,27 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
                          key=lambda x: x[1]['wins']/x[1]['total'], 
                          reverse=True)
     
-    print("📈 STAT TYPE RANKINGS (Best to Worst):")
+    print("PROGRESS: STAT TYPE RANKINGS (Best to Worst):")
     for rank, (stat, group) in enumerate(sorted_stats, 1):
         win_rate = (group['wins'] / group['total']) * 100
         print(f"{rank:>2}. {stat:<20}: {group['wins']:>3}/{group['total']:>3} ({win_rate:>5.1f}%)")
     
     # Show percentage breakdown
-    print(f"\n🎯 STAT TYPE PERFORMANCE SUMMARY:")
+    print(f"\nTARGET: STAT TYPE PERFORMANCE SUMMARY:")
     total_stat_bets = sum(group['total'] for _, group in stat_groups.items())
     for rank, (stat, group) in enumerate(sorted_stats, 1):
         win_rate = (group['wins'] / group['total']) * 100
         bet_percentage = (group['total'] / total_stat_bets) * 100
         if win_rate >= 50:
-            status = "🟢 STRONG"
+            status = " STRONG"
         elif win_rate >= 35:
-            status = "🟡 AVERAGE" 
+            status = " AVERAGE" 
         else:
-            status = "🔴 WEAK"
+            status = " WEAK"
         print(f"   {stat:<20}: {win_rate:>5.1f}% win rate | {bet_percentage:>4.1f}% of bets | {status}")
     
     # Performance by bet type
-    print(f"\n⬆️ PERFORMANCE BY BET TYPE")
+    print(f"\n PERFORMANCE BY BET TYPE")
     print("=" * 35)
     
     bet_type_groups = {}
@@ -315,7 +315,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
         print(f"{bet_type:<10}: {group['wins']:>3}/{group['total']:>3} ({win_rate:>5.1f}%)")
     
     # Best performing players
-    print(f"\n🌟 BEST PERFORMING PLAYERS")
+    print(f"\n BEST PERFORMING PLAYERS")
     print("=" * 35)
     
     player_groups = {}
@@ -340,7 +340,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
     
     # Show value analysis
     if any(r['ev'] for r in results if r['ev']):
-        print(f"\n💰 VALUE TIER ANALYSIS")
+        print(f"\nMONEY: VALUE TIER ANALYSIS")
         print("=" * 30)
         
         value_tiers = [
@@ -358,7 +358,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
     
     # Show best and worst performers
     # Expected Value analysis
-    print(f"\n🏆 TOP 10 WINNING BETS BY EV")
+    print(f"\nLINEUP: TOP 10 WINNING BETS BY EV")
     print("-" * 40)
     winning_by_ev = sorted([r for r in results if r['won'] and r['ev']], 
                           key=lambda x: float(x['ev']), reverse=True)
@@ -366,7 +366,7 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
         ev = float(result['ev'])
         print(f"   {result['result_display']} | EV: {ev:.3f}")
     
-    print(f"\n� BIGGEST MISSED OPPORTUNITIES") 
+    print(f"\n BIGGEST MISSED OPPORTUNITIES") 
     print("-" * 35)
     losing_by_ev = sorted([r for r in results if not r['won'] and r['ev']], 
                          key=lambda x: float(x['ev']), reverse=True)
@@ -494,8 +494,8 @@ def analyze_props_results(platform='prizepicks', date_to_check=None):
             if value_summary:
                 pd.DataFrame(value_summary).to_excel(writer, sheet_name='Value_Tier_Analysis', index=False)
     
-    print(f"\n💾 Detailed results saved: {results_file}")
-    print(f"📊 Analysis summary saved: {summary_file.replace('.csv', '.xlsx')}")
+    print(f"\n Detailed results saved: {results_file}")
+    print(f"DATA: Analysis summary saved: {summary_file.replace('.csv', '.xlsx')}")
     print(f"   - Multiple sheets with stat rankings, confidence analysis, player performance")
     
     # Create results template for manual entry
@@ -509,7 +509,7 @@ def create_props_results_template(platform, date_str):
     template_path = f"../data/{platform}_actual_stats_{date_str.replace('-', '')}.csv"
     
     if os.path.exists(template_path):
-        print(f"✅ Stats template already exists: {template_path}")
+        print(f"SUCCESS: Stats template already exists: {template_path}")
         return
     
     # Create template
@@ -537,7 +537,7 @@ def create_props_results_template(platform, date_str):
     template_df = pd.DataFrame(template_data)
     template_df.to_csv(template_path, index=False)
     
-    print(f"📝 Created stats template: {template_path}")
+    print(f" Created stats template: {template_path}")
     print(f"   Fill this file with actual player stats for precise analysis")
 
 def analyze_underdog_results(date_to_check=None):
@@ -546,7 +546,7 @@ def analyze_underdog_results(date_to_check=None):
     if date_to_check is None:
         date_to_check = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
     
-    print("🔍 Looking for Underdog Fantasy files...")
+    print(" Looking for Underdog Fantasy files...")
     
     # Check for Underdog files specifically
     date_str = date_to_check.replace('-', '')
@@ -562,12 +562,12 @@ def analyze_underdog_results(date_to_check=None):
         all_files.extend(glob.glob(pattern))
     
     if not all_files:
-        print(f"❌ No Underdog Fantasy files found for {date_to_check}")
-        print(f"📝 Expected file patterns:")
+        print(f"ERROR: No Underdog Fantasy files found for {date_to_check}")
+        print(f" Expected file patterns:")
         print(f"   - underdog_prediction_report_{date_str}_HHMM.csv")
         print(f"   - underdog_real_ev_{date_str}_HHMM.csv")
         print(f"   - underdog_ev_analysis_{date_str}_HHMM.csv")
-        print(f"\n💡 To analyze Underdog props:")
+        print(f"\nTIP: To analyze Underdog props:")
         print(f"   1. Export/save your Underdog picks to ../data/ folder")
         print(f"   2. Use one of the expected filename formats above")
         print(f"   3. Run: python analyze_props_results.py underdog")
@@ -577,7 +577,7 @@ def analyze_underdog_results(date_to_check=None):
     return analyze_props_results(platform='underdog', date_to_check=date_to_check)
 
 def main():
-    print("🎯 PROPS BETTING RESULTS ANALYZER")
+    print("TARGET: PROPS BETTING RESULTS ANALYZER")
     print("=" * 50)
     
     import sys
@@ -606,7 +606,7 @@ def main():
     else:
         analyze_props_results(platform='prizepicks', date_to_check=date_to_check)
     
-    print(f"\n💡 USAGE TIPS:")
+    print(f"\nTIP: USAGE TIPS:")
     print(f"   python analyze_props_results.py                    # PrizePicks yesterday")
     print(f"   python analyze_props_results.py prizepicks         # PrizePicks yesterday") 
     print(f"   python analyze_props_results.py underdog           # Underdog yesterday")

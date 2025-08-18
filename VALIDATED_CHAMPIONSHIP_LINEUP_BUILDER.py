@@ -19,14 +19,14 @@ def load_confirmed_starters():
         for path in slate_paths:
             try:
                 slate_df = pd.read_csv(path)
-                print(f"📊 Found slate data at: {path}")
+                print(f"DATA: Found slate data at: {path}")
                 break
             except:
                 continue
         
         if slate_df is None:
             raise FileNotFoundError("Could not find fd_slate_today.csv in any expected location")
-        print(f"🎯 Loaded {len(slate_df)} total players from today's slate")
+        print(f"TARGET: Loaded {len(slate_df)} total players from today's slate")
         
         # Filter confirmed starting pitchers only (this was the fix!)
         starting_pitchers = slate_df[
@@ -40,12 +40,12 @@ def load_confirmed_starters():
         # Combine confirmed starters
         confirmed_players = pd.concat([starting_pitchers, position_players], ignore_index=True)
         
-        print(f"✅ CONFIRMED STARTING PITCHERS: {len(starting_pitchers)}")
+        print(f"SUCCESS: CONFIRMED STARTING PITCHERS: {len(starting_pitchers)}")
         for _, pitcher in starting_pitchers.iterrows():
-            print(f"   🔥 {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,} - {pitcher.get('FPPG', 'N/A')} FPPG")
+            print(f"    {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,} - {pitcher.get('FPPG', 'N/A')} FPPG")
         
-        print(f"✅ Total confirmed players: {len(confirmed_players)}")
-        print(f"✅ Position breakdown:")
+        print(f"SUCCESS: Total confirmed players: {len(confirmed_players)}")
+        print(f"SUCCESS: Position breakdown:")
         for pos in ['C', '1B', '2B', '3B', 'SS', 'OF']:
             pos_count = len(confirmed_players[confirmed_players['Position'].str.contains(pos, na=False)])
             print(f"   {pos}: {pos_count} players")
@@ -53,7 +53,7 @@ def load_confirmed_starters():
         return confirmed_players
         
     except Exception as e:
-        print(f"❌ Error loading confirmed starters: {e}")
+        print(f"ERROR: Error loading confirmed starters: {e}")
         return None
 
 def build_championship_lineup(players_df):
@@ -79,7 +79,7 @@ def build_championship_lineup(players_df):
     total_fppg = 0
     used_players = set()
     
-    print(f"\n🏆 BUILDING CHAMPIONSHIP LINEUP (Confirmed Starters Only)")
+    print(f"\nLINEUP: BUILDING CHAMPIONSHIP LINEUP (Confirmed Starters Only)")
     print("=" * 60)
     
     # First, select the best confirmed starting pitcher
@@ -89,7 +89,7 @@ def build_championship_lineup(players_df):
     ].copy()
     
     if len(pitchers) == 0:
-        print("❌ No confirmed starting pitchers available!")
+        print("ERROR: No confirmed starting pitchers available!")
         return None
         
     # Sort by value (FPPG/salary ratio) or FPPG if available
@@ -105,7 +105,7 @@ def build_championship_lineup(players_df):
     total_fppg += selected_pitcher.get('FPPG', 0)
     used_players.add(selected_pitcher['Id'])
     
-    print(f"🎯 PITCHER: {selected_pitcher['Nickname']} (${selected_pitcher['Salary']:,}) - {selected_pitcher.get('FPPG', 'N/A')} FPPG")
+    print(f"TARGET: PITCHER: {selected_pitcher['Nickname']} (${selected_pitcher['Salary']:,}) - {selected_pitcher.get('FPPG', 'N/A')} FPPG")
     
     # Select position players
     for position, count in positions_needed.items():
@@ -119,7 +119,7 @@ def build_championship_lineup(players_df):
         ].copy()
         
         if len(pos_players) == 0:
-            print(f"❌ No available players for position {position}")
+            print(f"ERROR: No available players for position {position}")
             continue
             
         # Calculate remaining salary budget for each position
@@ -137,7 +137,7 @@ def build_championship_lineup(players_df):
             affordable_players = pos_players[pos_players['Salary'] <= remaining_salary - (remaining_positions - 1) * 2000]
         
         if len(affordable_players) == 0:
-            print(f"⚠️ No affordable players for position {position}")
+            print(f"WARNING: No affordable players for position {position}")
             continue
             
         # Sort by value
@@ -155,22 +155,22 @@ def build_championship_lineup(players_df):
                 total_fppg += selected.get('FPPG', 0)
                 used_players.add(selected['Id'])
                 
-                print(f"🎯 {position}: {selected['Nickname']} (${selected['Salary']:,}) - {selected.get('FPPG', 'N/A')} FPPG")
+                print(f"TARGET: {position}: {selected['Nickname']} (${selected['Salary']:,}) - {selected.get('FPPG', 'N/A')} FPPG")
                 
                 # Remove selected player from future selections
                 affordable_players = affordable_players[affordable_players['Id'] != selected['Id']]
     
     print("=" * 60)
-    print(f"💰 TOTAL SALARY: ${total_salary:,} / ${max_salary:,}")
-    print(f"🎯 TOTAL PROJECTED FPPG: {total_fppg:.1f}")
-    print(f"👥 LINEUP SIZE: {len(lineup)}")
+    print(f"MONEY: TOTAL SALARY: ${total_salary:,} / ${max_salary:,}")
+    print(f"TARGET: TOTAL PROJECTED FPPG: {total_fppg:.1f}")
+    print(f"OWNERSHIP: LINEUP SIZE: {len(lineup)}")
     
     if total_salary > max_salary:
-        print(f"❌ WARNING: Lineup over salary cap by ${total_salary - max_salary:,}")
+        print(f"ERROR: WARNING: Lineup over salary cap by ${total_salary - max_salary:,}")
         return None
     
     if len(lineup) < 9:
-        print(f"⚠️ WARNING: Incomplete lineup - only {len(lineup)} players selected")
+        print(f"WARNING: WARNING: Incomplete lineup - only {len(lineup)} players selected")
         return None
     
     return lineup
@@ -205,26 +205,26 @@ def create_fanduel_submission(lineup):
     return pd.DataFrame(submission_data)
 
 def main():
-    print("🏆 VALIDATED CHAMPIONSHIP LINEUP BUILDER")
+    print("LINEUP: VALIDATED CHAMPIONSHIP LINEUP BUILDER")
     print("   Using ONLY confirmed starting players from today's slate")
     print("=" * 70)
     
     # Load confirmed starting players
     confirmed_players = load_confirmed_starters()
     if confirmed_players is None:
-        print("❌ Failed to load confirmed players")
+        print("ERROR: Failed to load confirmed players")
         return
     
     # Build championship lineup
     lineup = build_championship_lineup(confirmed_players)
     if not lineup:
-        print("❌ Failed to build lineup")
+        print("ERROR: Failed to build lineup")
         return
     
     # Create submission
     submission_df = create_fanduel_submission(lineup)
     if submission_df is None:
-        print("❌ Failed to create submission")
+        print("ERROR: Failed to create submission")
         return
     
     # Save files
@@ -234,8 +234,8 @@ def main():
     filename = f"VALIDATED_CHAMPIONSHIP_SUBMISSION_{timestamp}.csv"
     submission_df.to_csv(filename, index=False)
     
-    print(f"\n✅ CHAMPIONSHIP LINEUP SAVED: {filename}")
-    print("\n🎯 LINEUP SUMMARY:")
+    print(f"\nSUCCESS: CHAMPIONSHIP LINEUP SAVED: {filename}")
+    print("\nTARGET: LINEUP SUMMARY:")
     print("=" * 50)
     
     total_salary = submission_df['Salary'].sum()
@@ -252,16 +252,16 @@ def main():
         print(f"{pos:>3}: {name:<20} ${salary:>6,} {fppg:>6.1f} FPPG ({team}) {game}")
     
     print("=" * 50)
-    print(f"💰 TOTAL: ${total_salary:,} / $35,000")
-    print(f"🎯 PROJECTED: {total_fppg:.1f} FPPG")
-    print(f"💡 VALIDATED: All players confirmed to be starting today")
+    print(f"MONEY: TOTAL: ${total_salary:,} / $35,000")
+    print(f"TARGET: PROJECTED: {total_fppg:.1f} FPPG")
+    print(f"TIP: VALIDATED: All players confirmed to be starting today")
     
     # Also save detailed format for analysis
     detailed_filename = f"VALIDATED_CHAMPIONSHIP_DETAILED_{timestamp}.csv"
     submission_df.to_csv(detailed_filename, index=False)
-    print(f"📊 DETAILED FILE: {detailed_filename}")
+    print(f"DATA: DETAILED FILE: {detailed_filename}")
     
-    print("\n🚀 READY FOR FANDUEL SUBMISSION!")
+    print("\nSTART: READY FOR FANDUEL SUBMISSION!")
     print(f"   Upload file: {filename}")
 
 if __name__ == "__main__":

@@ -225,7 +225,7 @@ class EnhancedWeatherAnalytics:
     
     def enhance_predictions_with_weather(self, predictions_df, games_df=None):
         """Add weather-enhanced predictions to existing predictions"""
-        logger.info("🌤️ Enhancing predictions with weather data...")
+        logger.info(" Enhancing predictions with weather data...")
         
         enhanced_predictions = predictions_df.copy()
         
@@ -281,19 +281,19 @@ class EnhancedWeatherAnalytics:
         latest_path = "../data/weather_enhanced_predictions_latest.csv"
         enhanced_predictions.to_csv(latest_path, index=False)
         
-        logger.info(f"✅ Saved weather-enhanced predictions to {output_path}")
+        logger.info(f"SUCCESS: Saved weather-enhanced predictions to {output_path}")
         
         # Log weather summary
         avg_temp = enhanced_predictions['temperature'].mean()
         avg_hr_factor = enhanced_predictions['home_run_factor'].mean()
-        logger.info(f"🌡️ Average temperature: {avg_temp:.1f}°F")
-        logger.info(f"⚾ Average HR factor: {avg_hr_factor:.3f}")
+        logger.info(f" Average temperature: {avg_temp:.1f}F")
+        logger.info(f"BASEBALL: Average HR factor: {avg_hr_factor:.3f}")
         
         return enhanced_predictions
     
     def generate_weather_report(self, enhanced_predictions_df):
         """Generate weather impact report for today's games"""
-        logger.info("📋 Generating weather impact report...")
+        logger.info("INFO: Generating weather impact report...")
         
         # Find games with highest weather impact
         high_impact_games = enhanced_predictions_df[
@@ -301,11 +301,11 @@ class EnhancedWeatherAnalytics:
         ].copy()
         
         if not high_impact_games.empty:
-            logger.info("🔥 HIGH WEATHER IMPACT GAMES:")
+            logger.info(" HIGH WEATHER IMPACT GAMES:")
             for _, game in high_impact_games.head(5).iterrows():
                 logger.info(f"   {game['team']} vs {game.get('opponent', 'UNK')} - "
                            f"HR Factor: {game['home_run_factor']:.2f} "
-                           f"({game['temperature']:.0f}°F, {game['wind_speed']:.0f}mph wind)")
+                           f"({game['temperature']:.0f}F, {game['wind_speed']:.0f}mph wind)")
         
         # Find cold weather games
         cold_games = enhanced_predictions_df[
@@ -313,21 +313,21 @@ class EnhancedWeatherAnalytics:
         ].copy()
         
         if not cold_games.empty:
-            logger.info("🥶 COLD WEATHER GAMES (More Strikeouts Expected):")
+            logger.info(" COLD WEATHER GAMES (More Strikeouts Expected):")
             for _, game in cold_games.head(3).iterrows():
-                logger.info(f"   {game['team']} - {game['temperature']:.0f}°F "
+                logger.info(f"   {game['team']} - {game['temperature']:.0f}F "
                            f"(K Factor: {game['strikeout_factor']:.2f})")
         
         # Summary stats
         total_players = len(enhanced_predictions_df)
         boosted_players = len(enhanced_predictions_df[enhanced_predictions_df['home_run_factor'] > 1.05])
         
-        logger.info(f"📊 WEATHER SUMMARY: {boosted_players}/{total_players} players "
+        logger.info(f"DATA: WEATHER SUMMARY: {boosted_players}/{total_players} players "
                    f"({boosted_players/total_players*100:.1f}%) have weather boost")
 
 def main():
     """Main weather analytics execution"""
-    print("🌤️ ENHANCED WEATHER ANALYTICS FOR MLB PREDICTIONS")
+    print(" ENHANCED WEATHER ANALYTICS FOR MLB PREDICTIONS")
     print("=" * 55)
     
     weather_analytics = EnhancedWeatherAnalytics()
@@ -335,9 +335,9 @@ def main():
     # Try to load existing predictions
     try:
         predictions_df = pd.read_csv("../data/enhanced_predictions_latest.csv")
-        print(f"📊 Loaded existing predictions for {len(predictions_df)} players")
+        print(f"DATA: Loaded existing predictions for {len(predictions_df)} players")
     except FileNotFoundError:
-        print("❌ No existing predictions found. Please run enhanced_automated_betting_system.py first")
+        print("ERROR: No existing predictions found. Please run enhanced_automated_betting_system.py first")
         return
     
     # Enhance with weather
@@ -346,9 +346,9 @@ def main():
     # Generate weather report
     weather_analytics.generate_weather_report(enhanced_predictions)
     
-    print(f"\n✅ Weather-enhanced predictions complete!")
-    print(f"📊 Enhanced {len(enhanced_predictions)} player predictions")
-    print(f"💾 Saved to weather_enhanced_predictions_latest.csv")
+    print(f"\nSUCCESS: Weather-enhanced predictions complete!")
+    print(f"DATA: Enhanced {len(enhanced_predictions)} player predictions")
+    print(f" Saved to weather_enhanced_predictions_latest.csv")
 
 if __name__ == "__main__":
     main()

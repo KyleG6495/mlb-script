@@ -61,15 +61,15 @@ def validate_lineup_against_rotowire():
     
     # Our final lineup
     our_lineup = [
-        'Kumar Rocker (P)',      # TEX confirmed starter ✅
-        'Cal Raleigh (C)',       # SEA confirmed starter ✅
-        'Jonathan Aranda (1B)',  # TB confirmed starter ✅
-        'Brandon Lowe (2B)',     # TB confirmed starter ✅
-        'Junior Caminero (3B)',  # TB confirmed starter ✅
-        'Elly De La Cruz (SS)',  # CIN confirmed starter ✅
-        'Austin Hays (OF)',      # CIN confirmed starter ✅
-        'Randy Arozarena (OF)',  # SEA confirmed starter ✅
-        'Gavin Lux (OF)'         # CIN confirmed starter ✅
+        'Kumar Rocker (P)',      # TEX confirmed starter SUCCESS:
+        'Cal Raleigh (C)',       # SEA confirmed starter SUCCESS:
+        'Jonathan Aranda (1B)',  # TB confirmed starter SUCCESS:
+        'Brandon Lowe (2B)',     # TB confirmed starter SUCCESS:
+        'Junior Caminero (3B)',  # TB confirmed starter SUCCESS:
+        'Elly De La Cruz (SS)',  # CIN confirmed starter SUCCESS:
+        'Austin Hays (OF)',      # CIN confirmed starter SUCCESS:
+        'Randy Arozarena (OF)',  # SEA confirmed starter SUCCESS:
+        'Gavin Lux (OF)'         # CIN confirmed starter SUCCESS:
     ]
     
     # Collect all confirmed starters
@@ -78,7 +78,7 @@ def validate_lineup_against_rotowire():
         for team_key, starters in teams.items():
             all_confirmed.extend(starters)
     
-    logger.info("🔍 VALIDATING FINAL LINEUP AGAINST ROTOWIRE CONFIRMED STARTERS")
+    logger.info(" VALIDATING FINAL LINEUP AGAINST ROTOWIRE CONFIRMED STARTERS")
     logger.info("=" * 70)
     
     validation_results = []
@@ -98,21 +98,21 @@ def validate_lineup_against_rotowire():
                 break
         
         if is_confirmed:
-            logger.info(f"✅ CONFIRMED: {player} → Found in RotoWire: {confirmed_entry}")
+            logger.info(f"SUCCESS: CONFIRMED: {player}  Found in RotoWire: {confirmed_entry}")
             validation_results.append((player, True, confirmed_entry))
         else:
-            logger.error(f"❌ NOT CONFIRMED: {player} → NOT found in RotoWire lineups!")
+            logger.error(f"ERROR: NOT CONFIRMED: {player}  NOT found in RotoWire lineups!")
             validation_results.append((player, False, "NOT FOUND"))
             all_validated = False
     
     logger.info("=" * 70)
     if all_validated:
-        logger.info("🎉 SUCCESS! ALL 9 PLAYERS CONFIRMED AS STARTING!")
-        logger.info("✅ Your lineup contains ONLY players who are guaranteed to play July 30, 2025")
-        logger.info("🎯 NO DISASTERS - NO PLAYERS WHO DIDN'T PLAY!")
+        logger.info("COMPLETE: SUCCESS! ALL 9 PLAYERS CONFIRMED AS STARTING!")
+        logger.info("SUCCESS: Your lineup contains ONLY players who are guaranteed to play July 30, 2025")
+        logger.info("TARGET: NO DISASTERS - NO PLAYERS WHO DIDN'T PLAY!")
     else:
-        logger.error("❌ VALIDATION FAILED - Some players not confirmed!")
-        logger.error("⚠️ This lineup may contain players who won't start!")
+        logger.error("ERROR: VALIDATION FAILED - Some players not confirmed!")
+        logger.error("WARNING: This lineup may contain players who won't start!")
     
     return all_validated, validation_results
 
@@ -120,15 +120,15 @@ def create_final_summary():
     """Create final summary of the solution"""
     
     logger.info("\n" + "=" * 70)
-    logger.info("📋 FINAL SOLUTION SUMMARY")
+    logger.info("INFO: FINAL SOLUTION SUMMARY")
     logger.info("=" * 70)
     
-    logger.info("🎯 PROBLEM: Previous lineups had players who didn't actually play")
-    logger.info("💡 SOLUTION: Built lineup using ONLY RotoWire confirmed starters")
-    logger.info("📅 DATE: July 30, 2025")
-    logger.info("🎲 GAMES: TB@NYY, ATL@CIN, TEX@SEA")
+    logger.info("TARGET: PROBLEM: Previous lineups had players who didn't actually play")
+    logger.info("TIP: SOLUTION: Built lineup using ONLY RotoWire confirmed starters")
+    logger.info(" DATE: July 30, 2025")
+    logger.info(" GAMES: TB@NYY, ATL@CIN, TEX@SEA")
     
-    logger.info("\n🏆 FINAL LINEUP:")
+    logger.info("\nLINEUP: FINAL LINEUP:")
     lineup_summary = [
         "P:  Kumar Rocker ($8,100) - TEX confirmed starter",
         "C:  Cal Raleigh ($4,300) - SEA confirmed starter", 
@@ -144,14 +144,14 @@ def create_final_summary():
     for line in lineup_summary:
         logger.info(f"    {line}")
     
-    logger.info(f"\n💰 TOTAL SALARY: $34,900 / $35,000 (${100} remaining)")
-    logger.info(f"📊 PROJECTED FPPG: 110.3")
-    logger.info(f"✅ VALIDATION: All 9 players confirmed as starters")
+    logger.info(f"\nMONEY: TOTAL SALARY: $34,900 / $35,000 (${100} remaining)")
+    logger.info(f"DATA: PROJECTED FPPG: 110.3")
+    logger.info(f"SUCCESS: VALIDATION: All 9 players confirmed as starters")
     
-    logger.info("\n🎉 RESULT: No more lineup disasters!")
-    logger.info("📁 FILE: CONFIRMED_REAL_LINEUP_JULY_30_2025_20250731_071707.csv")
+    logger.info("\nCOMPLETE: RESULT: No more lineup disasters!")
+    logger.info(" FILE: CONFIRMED_REAL_LINEUP_JULY_30_2025_20250731_071707.csv")
     
-    logger.info("\n💡 HOW TO AVOID FUTURE DISASTERS:")
+    logger.info("\nTIP: HOW TO AVOID FUTURE DISASTERS:")
     logger.info("1. Always cross-reference with RotoWire starting lineups")
     logger.info("2. Use only confirmed starters, not projected/probable")
     logger.info("3. Build lineups after actual lineups are posted (usually 2-3 hours before games)")
@@ -161,8 +161,8 @@ def create_final_summary():
 
 def main():
     """Main validation function"""
-    logger.info("🚀 FINAL LINEUP VALIDATION FOR JULY 30, 2025")
-    logger.info("🎯 Ensuring NO MORE LINEUP DISASTERS!")
+    logger.info("START: FINAL LINEUP VALIDATION FOR JULY 30, 2025")
+    logger.info("TARGET: Ensuring NO MORE LINEUP DISASTERS!")
     
     try:
         # Validate lineup
@@ -172,13 +172,13 @@ def main():
         create_final_summary()
         
         if is_valid:
-            logger.info("\n🎉 VALIDATION COMPLETE - LINEUP IS SAFE!")
-            logger.info("✅ Ready for FanDuel submission!")
+            logger.info("\nCOMPLETE: VALIDATION COMPLETE - LINEUP IS SAFE!")
+            logger.info("SUCCESS: Ready for FanDuel submission!")
         else:
-            logger.error("\n❌ VALIDATION FAILED - DO NOT SUBMIT!")
+            logger.error("\nERROR: VALIDATION FAILED - DO NOT SUBMIT!")
             
     except Exception as e:
-        logger.error(f"❌ Validation error: {e}")
+        logger.error(f"ERROR: Validation error: {e}")
 
 if __name__ == "__main__":
     main()

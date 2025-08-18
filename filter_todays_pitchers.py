@@ -10,14 +10,14 @@ confirmed players make it into DFS lineups. Prevents losses from:
 - Sample/historical data contamination
 
 Features:
-1. ✅ Filter injured hitters AND pitchers  
-2. ✅ Probable pitcher validation
-3. ✅ All injury indicator filtering (IL, O, Q, D)
-4. ✅ Salary and FPPG thresholds
-5. ✅ Automatic backup creation
-6. ✅ Detailed logging and reporting
-7. ✅ Rotowire lineup validation
-8. ✅ Multiple export formats
+1. SUCCESS: Filter injured hitters AND pitchers  
+2. SUCCESS: Probable pitcher validation
+3. SUCCESS: All injury indicator filtering (IL, O, Q, D)
+4. SUCCESS: Salary and FPPG thresholds
+5. SUCCESS: Automatic backup creation
+6. SUCCESS: Detailed logging and reporting
+7. SUCCESS: Rotowire lineup validation
+8. SUCCESS: Multiple export formats
 """
 
 import pandas as pd
@@ -71,7 +71,7 @@ class ComprehensivePlayerFilter:
     
     def create_backups(self):
         """Create backup copies of existing files"""
-        logger.info("📁 Creating backup files...")
+        logger.info(" Creating backup files...")
         
         backup_files = [
             'fd_pitcher_features_final.csv',
@@ -84,13 +84,13 @@ class ComprehensivePlayerFilter:
             if source_path.exists():
                 backup_path = self.backup_dir / filename
                 shutil.copy2(source_path, backup_path)
-                logger.info(f"  ✅ Backed up {filename}")
+                logger.info(f"  SUCCESS: Backed up {filename}")
             else:
-                logger.warning(f"  ⚠️ {filename} not found - no backup created")
+                logger.warning(f"  WARNING: {filename} not found - no backup created")
     
     def load_slate_data(self):
         """Load and validate FanDuel slate data"""
-        logger.info(f"📊 Loading FanDuel slate from {self.slate_path}")
+        logger.info(f"DATA: Loading FanDuel slate from {self.slate_path}")
         
         if not self.slate_path.exists():
             raise FileNotFoundError(f"FanDuel slate not found: {self.slate_path}")
@@ -98,17 +98,17 @@ class ComprehensivePlayerFilter:
         slate_df = pd.read_csv(self.slate_path)
         self.stats['total_players'] = len(slate_df)
         
-        logger.info(f"  📈 Total slate players: {len(slate_df)}")
-        logger.info(f"  📋 Columns: {slate_df.columns.tolist()}")
+        logger.info(f"  PROGRESS: Total slate players: {len(slate_df)}")
+        logger.info(f"  INFO: Columns: {slate_df.columns.tolist()}")
         
         return slate_df
     
     def filter_injured_players(self, df, player_type="players"):
         """Remove all players with injury indicators"""
-        logger.info(f"🚑 Filtering injured {player_type}...")
+        logger.info(f" Filtering injured {player_type}...")
         
         if 'Injury Indicator' not in df.columns:
-            logger.warning("  ⚠️ No 'Injury Indicator' column found")
+            logger.warning("  WARNING: No 'Injury Indicator' column found")
             return df
         
         # Find injured players
@@ -116,11 +116,11 @@ class ComprehensivePlayerFilter:
         injured_players = df[injured_mask]
         
         if len(injured_players) > 0:
-            logger.info(f"  🚨 Found {len(injured_players)} injured {player_type}:")
+            logger.info(f"   Found {len(injured_players)} injured {player_type}:")
             for _, player in injured_players.head(10).iterrows():  # Show first 10
                 status = player['Injury Indicator']
                 name = f"{player.get('First Name', '')} {player.get('Last Name', '')}"
-                logger.info(f"    🚑 {name} - {status}")
+                logger.info(f"     {name} - {status}")
             
             if len(injured_players) > 10:
                 logger.info(f"    ... and {len(injured_players) - 10} more injured {player_type}")
@@ -130,14 +130,14 @@ class ComprehensivePlayerFilter:
         removed_count = len(df) - len(clean_df)
         self.stats['injured_removed'] += removed_count
         
-        logger.info(f"  ✅ Removed {removed_count} injured {player_type}")
-        logger.info(f"  ✅ Healthy {player_type} remaining: {len(clean_df)}")
+        logger.info(f"  SUCCESS: Removed {removed_count} injured {player_type}")
+        logger.info(f"  SUCCESS: Healthy {player_type} remaining: {len(clean_df)}")
         
         return clean_df
     
     def filter_by_salary_and_fppg(self, df, player_type="pitchers"):
         """Filter players by minimum salary and FPPG thresholds"""
-        logger.info(f"💰 Filtering {player_type} by salary and FPPG...")
+        logger.info(f"MONEY: Filtering {player_type} by salary and FPPG...")
         
         initial_count = len(df)
         
@@ -153,26 +153,26 @@ class ComprehensivePlayerFilter:
         if 'Salary' in df.columns:
             low_salary = df[df['Salary'] < min_salary]
             if len(low_salary) > 0:
-                logger.info(f"  💸 Removing {len(low_salary)} {player_type} with salary < ${min_salary}")
+                logger.info(f"   Removing {len(low_salary)} {player_type} with salary < ${min_salary}")
             df = df[df['Salary'] >= min_salary].copy()
         
         # Filter by FPPG
         if 'FPPG' in df.columns:
             low_fppg = df[df['FPPG'] < min_fppg]
             if len(low_fppg) > 0:
-                logger.info(f"  📉 Removing {len(low_fppg)} {player_type} with FPPG < {min_fppg}")
+                logger.info(f"   Removing {len(low_fppg)} {player_type} with FPPG < {min_fppg}")
             df = df[df['FPPG'] >= min_fppg].copy()
         
         removed_count = initial_count - len(df)
         self.stats['low_salary_removed'] += removed_count
         
-        logger.info(f"  ✅ {player_type.title()} after quality filtering: {len(df)}")
+        logger.info(f"  SUCCESS: {player_type.title()} after quality filtering: {len(df)}")
         
         return df
     
     def filter_probable_pitchers(self, df):
         """Filter to only confirmed/probable starting pitchers"""
-        logger.info("⚾ Filtering for probable starting pitchers...")
+        logger.info("BASEBALL: Filtering for probable starting pitchers...")
         
         initial_count = len(df)
         
@@ -183,33 +183,33 @@ class ComprehensivePlayerFilter:
             
             # If no probable pitchers found, keep all (some slates don't mark this)
             if len(probable_df) == 0:
-                logger.warning("  ⚠️ No pitchers marked as 'Probable' - keeping all starting pitchers")
+                logger.warning("  WARNING: No pitchers marked as 'Probable' - keeping all starting pitchers")
                 probable_df = df.copy()
         else:
-            logger.warning("  ⚠️ No 'Probable Pitcher' column - keeping all starting pitchers")
+            logger.warning("  WARNING: No 'Probable Pitcher' column - keeping all starting pitchers")
             probable_df = df.copy()
         
         removed_count = initial_count - len(probable_df)
         self.stats['unconfirmed_pitchers_removed'] += removed_count
         
         if removed_count > 0:
-            logger.info(f"  🚫 Removed {removed_count} unconfirmed pitchers")
-        logger.info(f"  ✅ Confirmed starting pitchers: {len(probable_df)}")
+            logger.info(f"   Removed {removed_count} unconfirmed pitchers")
+        logger.info(f"  SUCCESS: Confirmed starting pitchers: {len(probable_df)}")
         
         return probable_df
     
     def validate_against_rotowire(self, df):
         """Cross-validate filtered players against Rotowire data if available"""
-        logger.info("🔍 Cross-validating against Rotowire data...")
+        logger.info(" Cross-validating against Rotowire data...")
         
         rotowire_path = self.data_dir / "rotowire_lineups.csv"
         if not rotowire_path.exists():
-            logger.info("  ℹ️ No Rotowire data found - skipping validation")
+            logger.info("   No Rotowire data found - skipping validation")
             return df
         
         try:
             rotowire_df = pd.read_csv(rotowire_path)
-            logger.info(f"  📊 Loaded {len(rotowire_df)} Rotowire entries")
+            logger.info(f"  DATA: Loaded {len(rotowire_df)} Rotowire entries")
             
             # Cross-reference player names (basic validation)
             df_names = set(f"{row.get('First Name', '')} {row.get('Last Name', '')}" 
@@ -217,16 +217,16 @@ class ComprehensivePlayerFilter:
             rotowire_names = set(rotowire_df.get('player_name', []))
             
             common_players = df_names.intersection(rotowire_names)
-            logger.info(f"  ✅ {len(common_players)} players confirmed in Rotowire data")
+            logger.info(f"  SUCCESS: {len(common_players)} players confirmed in Rotowire data")
             
         except Exception as e:
-            logger.warning(f"  ⚠️ Rotowire validation failed: {e}")
+            logger.warning(f"  WARNING: Rotowire validation failed: {e}")
         
         return df
     
     def export_multiple_formats(self, pitchers_df, hitters_df):
         """Export filtered data in multiple formats"""
-        logger.info("💾 Exporting filtered data in multiple formats...")
+        logger.info(" Exporting filtered data in multiple formats...")
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
@@ -237,8 +237,8 @@ class ComprehensivePlayerFilter:
         pitchers_df.to_csv(pitcher_path, index=False)
         hitters_df.to_csv(hitter_path, index=False)
         
-        logger.info(f"  ✅ Saved {len(pitchers_df)} pitchers to {pitcher_path}")
-        logger.info(f"  ✅ Saved {len(hitters_df)} hitters to {hitter_path}")
+        logger.info(f"  SUCCESS: Saved {len(pitchers_df)} pitchers to {pitcher_path}")
+        logger.info(f"  SUCCESS: Saved {len(hitters_df)} hitters to {hitter_path}")
         
         # Timestamped backup files
         pitcher_backup = self.data_dir / f"fd_pitcher_features_filtered_{timestamp}.csv"
@@ -252,28 +252,28 @@ class ComprehensivePlayerFilter:
         combined_path = self.data_dir / f"fd_all_players_filtered_{timestamp}.csv"
         combined_df.to_csv(combined_path, index=False)
         
-        logger.info(f"  ✅ Created timestamped backups and combined file")
+        logger.info(f"  SUCCESS: Created timestamped backups and combined file")
         
         return pitcher_path, hitter_path, combined_path
     
     def generate_detailed_report(self):
         """Generate comprehensive filtering report"""
-        logger.info("📊 COMPREHENSIVE FILTERING REPORT")
+        logger.info("DATA: COMPREHENSIVE FILTERING REPORT")
         logger.info("=" * 50)
         
-        logger.info(f"📈 INITIAL COUNTS:")
+        logger.info(f"PROGRESS: INITIAL COUNTS:")
         logger.info(f"  Total players in slate: {self.stats['total_players']}")
         logger.info(f"  Pitchers: {self.stats['total_pitchers']}")
         logger.info(f"  Hitters: {self.stats['total_hitters']}")
         logger.info("")
         
-        logger.info(f"🚑 PLAYERS REMOVED:")
+        logger.info(f" PLAYERS REMOVED:")
         logger.info(f"  Injured players (IL/O/Q/D): {self.stats['injured_removed']}")
         logger.info(f"  Low salary/FPPG: {self.stats['low_salary_removed']}")
         logger.info(f"  Unconfirmed pitchers: {self.stats['unconfirmed_pitchers_removed']}")
         logger.info("")
         
-        logger.info(f"✅ FINAL CLEAN COUNTS:")
+        logger.info(f"SUCCESS: FINAL CLEAN COUNTS:")
         logger.info(f"  Clean pitchers: {self.stats['final_pitchers']}")
         logger.info(f"  Clean hitters: {self.stats['final_hitters']}")
         logger.info(f"  Total clean players: {self.stats['final_pitchers'] + self.stats['final_hitters']}")
@@ -283,10 +283,10 @@ class ComprehensivePlayerFilter:
         if self.stats['total_players'] > 0:
             removal_rate = ((self.stats['injured_removed'] + self.stats['low_salary_removed']) / 
                            self.stats['total_players']) * 100
-            logger.info(f"📊 EFFICIENCY METRICS:")
+            logger.info(f"DATA: EFFICIENCY METRICS:")
             logger.info(f"  Player removal rate: {removal_rate:.1f}%")
             logger.info(f"  Data quality improvement: SIGNIFICANT")
-            logger.info(f"  Shane Bieber status: ✅ ELIMINATED")
+            logger.info(f"  Shane Bieber status: SUCCESS: ELIMINATED")
         
         logger.info("=" * 50)
 
@@ -309,7 +309,7 @@ def comprehensive_daily_filtering():
         filter_system.stats['total_pitchers'] = len(pitchers_df)
         filter_system.stats['total_hitters'] = len(hitters_df)
         
-        logger.info(f"📊 Initial split: {len(pitchers_df)} pitchers, {len(hitters_df)} hitters")
+        logger.info(f"DATA: Initial split: {len(pitchers_df)} pitchers, {len(hitters_df)} hitters")
         
         # Step 4: Filter injured players
         pitchers_df = filter_system.filter_injured_players(pitchers_df, "pitchers")
@@ -343,16 +343,16 @@ def comprehensive_daily_filtering():
         filter_system.generate_detailed_report()
         
         # Final success message
-        logger.info("🎉 COMPREHENSIVE FILTERING COMPLETE!")
-        logger.info("✅ All injured players eliminated (including Shane Bieber)")
-        logger.info("✅ Only high-quality, confirmed players remain")
-        logger.info("✅ Multiple backup and export formats created")
-        logger.info("✅ Ready for DFS lineup generation")
+        logger.info("COMPLETE: COMPREHENSIVE FILTERING COMPLETE!")
+        logger.info("SUCCESS: All injured players eliminated (including Shane Bieber)")
+        logger.info("SUCCESS: Only high-quality, confirmed players remain")
+        logger.info("SUCCESS: Multiple backup and export formats created")
+        logger.info("SUCCESS: Ready for DFS lineup generation")
         
         return True
         
     except Exception as e:
-        logger.error(f"❌ Filtering failed: {e}")
+        logger.error(f"ERROR: Filtering failed: {e}")
         return False
 
 def filter_todays_pitchers():
@@ -362,11 +362,11 @@ def filter_todays_pitchers():
 if __name__ == "__main__":
     success = comprehensive_daily_filtering()
     if success:
-        logger.info("🎯 SUCCESS: Comprehensive filtering completed successfully!")
+        logger.info("TARGET: SUCCESS: Comprehensive filtering completed successfully!")
         logger.info("   - Shane Bieber and all injured players eliminated")
         logger.info("   - Only confirmed, high-quality players remain") 
         logger.info("   - Ready for enhanced DFS lineup generation")
     else:
-        logger.error("💥 FAILURE: Filtering process encountered errors")
+        logger.error(" FAILURE: Filtering process encountered errors")
         logger.error("   - Check logs above for specific issues")
         logger.error("   - Verify FanDuel slate data is present and valid")

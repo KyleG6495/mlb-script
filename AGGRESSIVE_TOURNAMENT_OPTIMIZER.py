@@ -7,7 +7,7 @@ from itertools import combinations
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("🚀 AGGRESSIVE TOURNAMENT OPTIMIZER")
+print("START: AGGRESSIVE TOURNAMENT OPTIMIZER")
 print("Testing unconventional combinations to beat 153 FPPG")
 print("="*80)
 
@@ -39,30 +39,30 @@ def analyze_extreme_combinations():
     hitters_by_fppg = hitters.sort_values('FPPG', ascending=False)
     hitters_by_value = hitters.sort_values('value', ascending=False)
     
-    logging.info("🔍 ANALYZING EXTREME STRATEGIES")
+    logging.info(" ANALYZING EXTREME STRATEGIES")
     
     best_lineups = []
     
     # Strategy 1: Absolute highest FPPG players regardless of value
-    logging.info("\n🎯 Strategy 1: Maximum FPPG approach")
+    logging.info("\nTARGET: Strategy 1: Maximum FPPG approach")
     lineup1 = build_max_fppg_lineup(pitchers_by_fppg, hitters_by_fppg)
     if lineup1:
         best_lineups.append(("Max FPPG Strategy", lineup1))
     
     # Strategy 2: Ultra-high value plays with one superstar
-    logging.info("\n🎯 Strategy 2: Value bomb + one superstar")
+    logging.info("\nTARGET: Strategy 2: Value bomb + one superstar")
     lineup2 = build_value_bomb_lineup(pitchers_by_value, hitters_by_value, hitters_by_fppg)
     if lineup2:
         best_lineups.append(("Value Bomb Strategy", lineup2))
     
     # Strategy 3: Balanced high-end approach
-    logging.info("\n🎯 Strategy 3: Balanced premium approach")
+    logging.info("\nTARGET: Strategy 3: Balanced premium approach")
     lineup3 = build_balanced_premium_lineup(pitchers, hitters)
     if lineup3:
         best_lineups.append(("Balanced Premium", lineup3))
     
     # Strategy 4: Contrarian high upside
-    logging.info("\n🎯 Strategy 4: Contrarian high ceiling")
+    logging.info("\nTARGET: Strategy 4: Contrarian high ceiling")
     lineup4 = build_contrarian_lineup(pitchers, hitters)
     if lineup4:
         best_lineups.append(("Contrarian High Ceiling", lineup4))
@@ -111,7 +111,7 @@ def build_max_fppg_lineup(pitchers, hitters):
                 return None
         
         if len(lineup_hitters) == 8 and total_fppg >= TARGET_FPPG:
-            logging.info(f"   ✅ FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
+            logging.info(f"   SUCCESS: FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
             return {
                 'pitcher': pitcher,
                 'hitters': lineup_hitters,
@@ -178,7 +178,7 @@ def build_value_bomb_lineup(pitchers_by_value, hitters_by_value, hitters_by_fppg
                 break
         
         if len(lineup_hitters) == 8 and total_fppg >= TARGET_FPPG:
-            logging.info(f"   ✅ FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
+            logging.info(f"   SUCCESS: FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
             return {
                 'pitcher': pitcher,
                 'hitters': lineup_hitters,
@@ -249,7 +249,7 @@ def build_balanced_premium_lineup(pitchers, hitters):
                 break
         
         if len(lineup_hitters) == 8 and total_fppg >= TARGET_FPPG:
-            logging.info(f"   ✅ FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
+            logging.info(f"   SUCCESS: FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
             return {
                 'pitcher': pitcher,
                 'hitters': lineup_hitters,
@@ -326,7 +326,7 @@ def build_contrarian_lineup(pitchers, hitters):
                 break
         
         if len(lineup_hitters) == 8 and total_fppg >= TARGET_FPPG:
-            logging.info(f"   ✅ FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
+            logging.info(f"   SUCCESS: FOUND 153+ LINEUP: {total_fppg:.1f} FPPG")
             return {
                 'pitcher': pitcher,
                 'hitters': lineup_hitters,
@@ -343,8 +343,8 @@ def display_lineup(name, lineup_data):
     if not lineup_data:
         return
     
-    logging.info(f"\n🏆 {name.upper()}")
-    logging.info(f"📊 Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
+    logging.info(f"\nLINEUP: {name.upper()}")
+    logging.info(f"DATA: Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
     logging.info("-" * 60)
     
     pitcher = lineup_data['pitcher']
@@ -360,17 +360,17 @@ def display_lineup(name, lineup_data):
         else:
             pos_label = position_map.get(hitter['Position'], hitter['Position'])
         
-        star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+        star = "" if hitter['Salary'] >= 4000 else ""
         logging.info(f"{pos_label:<3} | {hitter['Nickname']:<20} | {hitter['Team']} | {hitter['Game']:<8} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
     
-    rating = "🎯 TOURNAMENT WINNER!" if lineup_data['total_fppg'] >= TARGET_FPPG else "✅ VIABLE"
-    logging.info(f"🎯 Rating: {rating}")
+    rating = "TARGET: TOURNAMENT WINNER!" if lineup_data['total_fppg'] >= TARGET_FPPG else "SUCCESS: VIABLE"
+    logging.info(f"TARGET: Rating: {rating}")
     
     if lineup_data['total_fppg'] >= TARGET_FPPG:
-        logging.info("🚀 EXCEEDS 153 FPPG TARGET!")
+        logging.info("START: EXCEEDS 153 FPPG TARGET!")
     else:
         gap = TARGET_FPPG - lineup_data['total_fppg']
-        logging.info(f"📈 Need: +{gap:.1f} FPPG to reach tournament level")
+        logging.info(f"PROGRESS: Need: +{gap:.1f} FPPG to reach tournament level")
 
 def main():
     """Run aggressive optimization"""
@@ -378,7 +378,7 @@ def main():
     best_lineups = analyze_extreme_combinations()
     
     logging.info("\n" + "="*80)
-    logging.info("🏆 AGGRESSIVE OPTIMIZATION RESULTS")
+    logging.info("LINEUP: AGGRESSIVE OPTIMIZATION RESULTS")
     logging.info("="*80)
     
     tournament_winners = []
@@ -394,31 +394,31 @@ def main():
     
     # Summary
     logging.info("\n" + "="*80)
-    logging.info("📊 OPTIMIZATION SUMMARY")
+    logging.info("DATA: OPTIMIZATION SUMMARY")
     logging.info("="*80)
     
     if tournament_winners:
-        logging.info(f"🎉 Found {len(tournament_winners)} tournament-winning lineups!")
+        logging.info(f"COMPLETE: Found {len(tournament_winners)} tournament-winning lineups!")
         for name, lineup in tournament_winners:
-            logging.info(f"   🏆 {name}: {lineup['total_fppg']:.1f} FPPG")
+            logging.info(f"   LINEUP: {name}: {lineup['total_fppg']:.1f} FPPG")
     else:
-        logging.info("⚠️  No lineups found exceeding 153 FPPG target")
-        logging.info("🔍 Analyzing why we can't reach 153+ FPPG...")
+        logging.info("WARNING:  No lineups found exceeding 153 FPPG target")
+        logging.info(" Analyzing why we can't reach 153+ FPPG...")
         
         # Analyze the gap
         if viable_lineups:
             best_viable = max(viable_lineups, key=lambda x: x[1]['total_fppg'])
             gap = TARGET_FPPG - best_viable[1]['total_fppg']
-            logging.info(f"📈 Best viable: {best_viable[1]['total_fppg']:.1f} FPPG")
-            logging.info(f"🎯 Gap to target: {gap:.1f} FPPG")
+            logging.info(f"PROGRESS: Best viable: {best_viable[1]['total_fppg']:.1f} FPPG")
+            logging.info(f"TARGET: Gap to target: {gap:.1f} FPPG")
             
             # Suggest what's needed
             if gap <= 3:
-                logging.info("💡 Small gap - need slightly better player selection")
+                logging.info("TIP: Small gap - need slightly better player selection")
             elif gap <= 6:
-                logging.info("💡 Medium gap - need better pitcher or 1-2 star upgrades")
+                logging.info("TIP: Medium gap - need better pitcher or 1-2 star upgrades")
             else:
-                logging.info("💡 Large gap - may need to reconsider target or slate quality")
+                logging.info("TIP: Large gap - may need to reconsider target or slate quality")
 
 if __name__ == "__main__":
     main()

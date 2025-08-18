@@ -26,25 +26,25 @@ class ProductionDFSTester:
         
     def load_actual_results(self):
         """Load actual results for scoring"""
-        print("🎯 Loading actual game results...")
+        print("TARGET: Loading actual game results...")
         
         actual_file = self.data_dir / "actual_results_latest.csv"
         if not actual_file.exists():
-            print("❌ No actual results found")
+            print("ERROR: No actual results found")
             return None
             
         actual_df = pd.read_csv(actual_file)
-        print(f"✅ Loaded actual results for {len(actual_df)} players")
+        print(f"SUCCESS: Loaded actual results for {len(actual_df)} players")
         
         if 'date' in actual_df.columns:
             latest_date = actual_df['date'].max()
-            print(f"📅 Results from: {latest_date}")
+            print(f" Results from: {latest_date}")
         
         return actual_df
     
     def calculate_actual_fppg(self, actual_df):
         """Calculate actual FPPG from game results"""
-        print("🔢 Calculating actual FPPG scores...")
+        print(" Calculating actual FPPG scores...")
         
         actual_df = actual_df.copy()
         
@@ -68,13 +68,13 @@ class ProductionDFSTester:
         if 'fanduel_points' in actual_df.columns:
             actual_df['actual_fppg'] = actual_df['fanduel_points'].fillna(actual_df['actual_fppg'])
         
-        print(f"📈 Actual FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
+        print(f"PROGRESS: Actual FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
         
         return actual_df
     
     def run_enhanced_ml_dfs_system(self):
         """Run your production Enhanced ML DFS system"""
-        print("\n🚀 Running ENHANCED_ML_DFS_SYSTEM.py (your production system)...")
+        print("\nSTART: Running ENHANCED_ML_DFS_SYSTEM.py (your production system)...")
         
         try:
             # Run the enhanced ML DFS system
@@ -88,23 +88,23 @@ class ProductionDFSTester:
             )
             
             if result.returncode == 0:
-                print("✅ Enhanced ML DFS system completed successfully")
+                print("SUCCESS: Enhanced ML DFS system completed successfully")
                 return True
             else:
-                print(f"❌ Enhanced ML DFS system failed:")
+                print(f"ERROR: Enhanced ML DFS system failed:")
                 print(f"Error: {result.stderr}")
                 return False
                 
         except subprocess.TimeoutExpired:
-            print("❌ Enhanced ML DFS system timed out")
+            print("ERROR: Enhanced ML DFS system timed out")
             return False
         except Exception as e:
-            print(f"❌ Error running Enhanced ML DFS system: {e}")
+            print(f"ERROR: Error running Enhanced ML DFS system: {e}")
             return False
     
     def run_slate_based_filter(self):
         """Run our new filtered approach"""
-        print("\n🔧 Running SLATE_BASED_FILTER.py (our new filtered approach)...")
+        print("\nSTEP: Running SLATE_BASED_FILTER.py (our new filtered approach)...")
         
         try:
             # Run the slate-based filter system
@@ -118,23 +118,23 @@ class ProductionDFSTester:
             )
             
             if result.returncode == 0:
-                print("✅ Slate-based filter system completed successfully")
+                print("SUCCESS: Slate-based filter system completed successfully")
                 return True
             else:
-                print(f"❌ Slate-based filter system failed:")
+                print(f"ERROR: Slate-based filter system failed:")
                 print(f"Error: {result.stderr}")
                 return False
                 
         except subprocess.TimeoutExpired:
-            print("❌ Slate-based filter system timed out")
+            print("ERROR: Slate-based filter system timed out")
             return False
         except Exception as e:
-            print(f"❌ Error running slate-based filter system: {e}")
+            print(f"ERROR: Error running slate-based filter system: {e}")
             return False
     
     def find_latest_lineup_files(self):
         """Find the latest generated lineup files"""
-        print("\n📁 Searching for generated lineup files...")
+        print("\n Searching for generated lineup files...")
         
         lineup_files = {}
         
@@ -151,7 +151,7 @@ class ProductionDFSTester:
                 # Get the most recent file
                 latest_file = max(files, key=lambda f: f.stat().st_mtime)
                 lineup_files[f'enhanced_{pattern.split("_")[0]}'] = latest_file
-                print(f"✅ Found Enhanced ML output: {latest_file.name}")
+                print(f"SUCCESS: Found Enhanced ML output: {latest_file.name}")
         
         # Look for Filtered outputs
         filtered_patterns = [
@@ -164,17 +164,17 @@ class ProductionDFSTester:
             if files:
                 latest_file = max(files, key=lambda f: f.stat().st_mtime)
                 lineup_files[f'filtered_{pattern.split("_")[0]}'] = latest_file
-                print(f"✅ Found Filtered output: {latest_file.name}")
+                print(f"SUCCESS: Found Filtered output: {latest_file.name}")
         
         return lineup_files
     
     def load_and_score_lineup(self, lineup_file, system_name, actual_df):
         """Load a lineup file and score it against actual results"""
-        print(f"\n📊 Scoring {system_name} lineup...")
+        print(f"\nDATA: Scoring {system_name} lineup...")
         
         try:
             lineup_df = pd.read_csv(lineup_file)
-            print(f"✅ Loaded lineup with {len(lineup_df)} players")
+            print(f"SUCCESS: Loaded lineup with {len(lineup_df)} players")
             
             # Create name lookup for actual results
             actual_df['full_name'] = actual_df['name'].str.lower().str.strip()
@@ -231,32 +231,32 @@ class ProductionDFSTester:
             }
             
         except Exception as e:
-            print(f"❌ Error scoring {system_name} lineup: {e}")
+            print(f"ERROR: Error scoring {system_name} lineup: {e}")
             return None
     
     def analyze_system_results(self, results):
         """Analyze and compare system results"""
         print("\n" + "="*70)
-        print("🏆 PRODUCTION SYSTEM PERFORMANCE ANALYSIS")
+        print("LINEUP: PRODUCTION SYSTEM PERFORMANCE ANALYSIS")
         print("="*70)
         
         for result in results:
             if not result:
                 continue
                 
-            print(f"\n📊 {result['system'].upper()}:")
-            print(f"  📁 File: {result['file']}")
-            print(f"  💰 Salary: ${result['total_salary']:,}")
-            print(f"  📈 Projected: {result['total_projected']:.1f} FPPG")
-            print(f"  🎯 Actual: {result['total_actual']:.1f} FPPG")
-            print(f"  🎪 Accuracy: {result['accuracy']:.1f}%")
-            print(f"  👥 Players who scored: {result['points_scorers']}/9")
+            print(f"\nDATA: {result['system'].upper()}:")
+            print(f"   File: {result['file']}")
+            print(f"  MONEY: Salary: ${result['total_salary']:,}")
+            print(f"  PROGRESS: Projected: {result['total_projected']:.1f} FPPG")
+            print(f"  TARGET: Actual: {result['total_actual']:.1f} FPPG")
+            print(f"   Accuracy: {result['accuracy']:.1f}%")
+            print(f"  OWNERSHIP: Players who scored: {result['points_scorers']}/9")
             
-            print(f"  🎯 Top Performers:")
+            print(f"  TARGET: Top Performers:")
             # Show top 3 performers
             top_performers = sorted(result['players'], key=lambda x: x['actual'], reverse=True)[:3]
             for i, player in enumerate(top_performers, 1):
-                status = "🔥" if player['actual'] > 0 else "❌"
+                status = "" if player['actual'] > 0 else "ERROR:"
                 print(f"    {i}. {status} {player['name']:20} {player['actual']:5.1f} FPPG")
         
         # Performance comparison
@@ -267,58 +267,58 @@ class ProductionDFSTester:
             if enhanced_result and filtered_result:
                 improvement = ((filtered_result['total_actual'] - enhanced_result['total_actual']) / enhanced_result['total_actual']) * 100 if enhanced_result['total_actual'] > 0 else 0
                 
-                print(f"\n🚀 SYSTEM COMPARISON:")
-                print(f"  🚀 Enhanced ML System: {enhanced_result['total_actual']:.1f} FPPG")
-                print(f"  🔧 Filtered System: {filtered_result['total_actual']:.1f} FPPG")
-                print(f"  📈 Performance Gap: {improvement:+.1f}%")
+                print(f"\nSTART: SYSTEM COMPARISON:")
+                print(f"  START: Enhanced ML System: {enhanced_result['total_actual']:.1f} FPPG")
+                print(f"  STEP: Filtered System: {filtered_result['total_actual']:.1f} FPPG")
+                print(f"  PROGRESS: Performance Gap: {improvement:+.1f}%")
                 
                 if improvement > 50:
-                    print(f"  🎉 FILTERED SYSTEM DOMINATES! {improvement:.0f}% better!")
+                    print(f"  COMPLETE: FILTERED SYSTEM DOMINATES! {improvement:.0f}% better!")
                 elif improvement > 10:
-                    print(f"  ✅ FILTERED SYSTEM WINS! {improvement:.0f}% better!")
+                    print(f"  SUCCESS: FILTERED SYSTEM WINS! {improvement:.0f}% better!")
                 elif improvement > 0:
-                    print(f"  ⚡ FILTERED SYSTEM EDGE! {improvement:.0f}% better!")
+                    print(f"   FILTERED SYSTEM EDGE! {improvement:.0f}% better!")
                 elif improvement > -10:
-                    print(f"  🤝 SYSTEMS ARE CLOSE! Within {abs(improvement):.0f}%")
+                    print(f"   SYSTEMS ARE CLOSE! Within {abs(improvement):.0f}%")
                 else:
-                    print(f"  ⚠️  ENHANCED SYSTEM WINS! {abs(improvement):.0f}% better")
+                    print(f"  WARNING:  ENHANCED SYSTEM WINS! {abs(improvement):.0f}% better")
                 
-                print(f"\n💡 RECOMMENDATION:")
+                print(f"\nTIP: RECOMMENDATION:")
                 if improvement > 20:
-                    print(f"  🎯 USE FILTERED SYSTEM - Significantly better results!")
+                    print(f"  TARGET: USE FILTERED SYSTEM - Significantly better results!")
                 elif improvement > 0:
-                    print(f"  🔧 SLIGHT EDGE TO FILTERED SYSTEM")
+                    print(f"  STEP: SLIGHT EDGE TO FILTERED SYSTEM")
                 else:
-                    print(f"  🚀 ENHANCED SYSTEM PERFORMED BETTER THIS TIME")
+                    print(f"  START: ENHANCED SYSTEM PERFORMED BETTER THIS TIME")
     
     def run_production_test(self):
         """Run complete production system test"""
-        print("🏭 PRODUCTION DFS SYSTEM TESTER")
+        print(" PRODUCTION DFS SYSTEM TESTER")
         print("Testing your real production systems against actual results")
         print("="*70)
         
         # Load actual results first
         actual_df = self.load_actual_results()
         if actual_df is None:
-            print("❌ Cannot run test without actual results")
+            print("ERROR: Cannot run test without actual results")
             return
         
         actual_df = self.calculate_actual_fppg(actual_df)
         
         # Run both systems
-        print("\n🎯 RUNNING PRODUCTION DFS SYSTEMS...")
+        print("\nTARGET: RUNNING PRODUCTION DFS SYSTEMS...")
         enhanced_success = self.run_enhanced_ml_dfs_system()
         filtered_success = self.run_slate_based_filter()
         
         if not enhanced_success and not filtered_success:
-            print("❌ Both systems failed to run")
+            print("ERROR: Both systems failed to run")
             return
         
         # Find and score lineup files
         lineup_files = self.find_latest_lineup_files()
         
         if not lineup_files:
-            print("❌ No lineup files found")
+            print("ERROR: No lineup files found")
             return
         
         # Score all found lineups
@@ -332,13 +332,13 @@ class ProductionDFSTester:
         if results:
             self.analyze_system_results(results)
             
-            print(f"\n🎉 PRODUCTION TEST COMPLETE!")
-            print(f"📈 This shows how your real systems would have performed")
+            print(f"\nCOMPLETE: PRODUCTION TEST COMPLETE!")
+            print(f"PROGRESS: This shows how your real systems would have performed")
         else:
-            print("❌ Failed to score any lineups")
+            print("ERROR: Failed to score any lineups")
 
 def main():
-    print("🏭 PRODUCTION DFS SYSTEM TESTER")
+    print(" PRODUCTION DFS SYSTEM TESTER")
     print("Run your real DFS systems and score against actual results")
     print("="*70)
     

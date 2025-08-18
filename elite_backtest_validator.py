@@ -12,28 +12,28 @@ import os
 def run_elite_backtest():
     """Run elite backtest with proper date matching"""
     
-    print("🎯 ELITE BACKTEST VALIDATOR - DATE MATCHED")
+    print("TARGET: ELITE BACKTEST VALIDATOR - DATE MATCHED")
     print("=" * 60)
     
     # Load August 9th lineups
     lineup_file = "../data/final_tournament_lineups_details_20250809_121538.csv"
     results_file = "../data/actual_results_20250809.csv"
     
-    print(f"📊 Loading lineups: {os.path.basename(lineup_file)}")
-    print(f"📊 Loading results: {os.path.basename(results_file)}")
+    print(f"DATA: Loading lineups: {os.path.basename(lineup_file)}")
+    print(f"DATA: Loading results: {os.path.basename(results_file)}")
     
     try:
         # Load lineup data
         lineups_df = pd.read_csv(lineup_file)
-        print(f"✅ Loaded {len(lineups_df)} lineup entries")
+        print(f"SUCCESS: Loaded {len(lineups_df)} lineup entries")
         
         # Load actual results
         actual_df = pd.read_csv(results_file)
-        print(f"✅ Loaded {len(actual_df)} actual player results")
+        print(f"SUCCESS: Loaded {len(actual_df)} actual player results")
         
         # Get unique lineups
         unique_lineups = lineups_df['lineup_id'].unique()
-        print(f"🏆 Analyzing {len(unique_lineups)} unique lineups")
+        print(f"LINEUP: Analyzing {len(unique_lineups)} unique lineups")
         
         # Analyze each lineup
         lineup_results = []
@@ -89,7 +89,7 @@ def run_elite_backtest():
         # Sort by accuracy
         lineup_results.sort(key=lambda x: x['accuracy'], reverse=True)
         
-        print("\n🏆 LINEUP PERFORMANCE RANKING:")
+        print("\nLINEUP: LINEUP PERFORMANCE RANKING:")
         print("-" * 80)
         for i, result in enumerate(lineup_results[:5], 1):
             print(f"{i:2d}. {result['lineup']:20} | "
@@ -103,7 +103,7 @@ def run_elite_backtest():
         avg_players_found = total_players_found / len(unique_lineups)
         avg_accuracy = (total_actual / total_projected * 100) if total_projected > 0 else 0
         
-        print(f"\n📊 OVERALL PERFORMANCE:")
+        print(f"\nDATA: OVERALL PERFORMANCE:")
         print("-" * 40)
         print(f"Average Projected FPPG: {avg_projected:.1f}")
         print(f"Average Actual FPPG:    {avg_actual:.1f}")
@@ -112,38 +112,38 @@ def run_elite_backtest():
         print(f"Best Lineup:           {lineup_results[0]['lineup']} ({lineup_results[0]['accuracy']:.1f}%)")
         
         # Performance categorization
-        print(f"\n🎯 PERFORMANCE ASSESSMENT:")
+        print(f"\nTARGET: PERFORMANCE ASSESSMENT:")
         if avg_accuracy > 80:
-            print("🟢 EXCELLENT: System performing at elite level")
+            print(" EXCELLENT: System performing at elite level")
         elif avg_accuracy > 60:
-            print("🟡 GOOD: System performing well with room for improvement")
+            print(" GOOD: System performing well with room for improvement")
         elif avg_accuracy > 40:
-            print("🟠 FAIR: System needs significant optimization")
+            print(" FAIR: System needs significant optimization")
         else:
-            print("🔴 POOR: System requires major overhaul")
+            print(" POOR: System requires major overhaul")
         
         # Player matching assessment
         match_rate = (total_players_found / total_players_expected) * 100
-        print(f"📍 Player Match Rate: {match_rate:.1f}%")
+        print(f" Player Match Rate: {match_rate:.1f}%")
         
         if match_rate < 50:
-            print("⚠️  LOW MATCH RATE: Check player name matching logic")
+            print("WARNING:  LOW MATCH RATE: Check player name matching logic")
         elif match_rate < 80:
-            print("🟡 MODERATE MATCH RATE: Some players not found in results")
+            print(" MODERATE MATCH RATE: Some players not found in results")
         else:
-            print("✅ GOOD MATCH RATE: Most players successfully matched")
+            print("SUCCESS: GOOD MATCH RATE: Most players successfully matched")
         
         # Save detailed results
         results_df = pd.DataFrame(lineup_results)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"../data/elite_backtest_results_{timestamp}.csv"
         results_df.to_csv(output_file, index=False)
-        print(f"\n💾 Detailed results saved: {os.path.basename(output_file)}")
+        print(f"\n Detailed results saved: {os.path.basename(output_file)}")
         
         return lineup_results
         
     except Exception as e:
-        print(f"❌ Error in backtest analysis: {str(e)}")
+        print(f"ERROR: Error in backtest analysis: {str(e)}")
         return []
 
 if __name__ == "__main__":

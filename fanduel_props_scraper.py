@@ -32,14 +32,14 @@ class FanDuelPropsScraper:
             response.raise_for_status()
             
             data = response.json()
-            logging.info("✅ Successfully fetched FanDuel data")
+            logging.info("SUCCESS: Successfully fetched FanDuel data")
             
             # Parse the response to extract prop bets
             props = self.parse_props(data)
             return props
             
         except Exception as e:
-            logging.error(f"❌ Error scraping FanDuel: {e}")
+            logging.error(f"ERROR: Error scraping FanDuel: {e}")
             return []
     
     def parse_props(self, data):
@@ -76,7 +76,7 @@ class FanDuelPropsScraper:
                                     props.append(prop)
                                     
         except Exception as e:
-            logging.error(f"❌ Error parsing props: {e}")
+            logging.error(f"ERROR: Error parsing props: {e}")
             
         return props
     
@@ -122,7 +122,7 @@ class FanDuelPropsScraper:
             }
             
         except Exception as e:
-            logging.error(f"❌ Error extracting prop info: {e}")
+            logging.error(f"ERROR: Error extracting prop info: {e}")
             return None
     
     def extract_line_value(self, runner_name, market_name):
@@ -159,7 +159,7 @@ class FanDuelPropsScraper:
     def save_props(self, props, filename=None):
         """Save props to CSV file"""
         if not props:
-            logging.warning("⚠️ No props to save")
+            logging.warning("WARNING: No props to save")
             return None
             
         if filename is None:
@@ -168,13 +168,13 @@ class FanDuelPropsScraper:
         
         df = pd.DataFrame(props)
         df.to_csv(filename, index=False)
-        logging.info(f"✅ Saved {len(props)} props to {filename}")
+        logging.info(f"SUCCESS: Saved {len(props)} props to {filename}")
         
         return filename
 
 def main():
     """Main function to scrape FanDuel props"""
-    logging.info("🚀 Starting FanDuel props scraper...")
+    logging.info("START: Starting FanDuel props scraper...")
     
     scraper = FanDuelPropsScraper()
     props = scraper.get_mlb_props()
@@ -188,7 +188,7 @@ def main():
         
         # Show summary
         df = pd.DataFrame(props)
-        print(f"\n📊 FANDUEL PROPS SUMMARY:")
+        print(f"\nDATA: FANDUEL PROPS SUMMARY:")
         print(f"Total props: {len(props)}")
         
         if 'market_name' in df.columns:
@@ -200,7 +200,7 @@ def main():
             print(df['player_name'].value_counts().head(10))
             
     else:
-        logging.warning("⚠️ No props found - check if FanDuel has MLB games today")
+        logging.warning("WARNING: No props found - check if FanDuel has MLB games today")
 
 if __name__ == "__main__":
     main()

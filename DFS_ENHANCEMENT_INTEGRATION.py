@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore')
 
 def integrate_enhanced_features():
     """Integrate enhanced features into DFS system"""
-    print("🔧 INTEGRATING ENHANCED DFS FEATURES")
+    print("STEP: INTEGRATING ENHANCED DFS FEATURES")
     print("=" * 50)
     
     base_dir = Path("c:/Users/kgone/OneDrive/Personal_Information/MLB")
@@ -30,7 +30,7 @@ def integrate_enhanced_features():
         
         if enhanced_hitters.exists():
             hitters_df = pd.read_csv(enhanced_hitters)
-            print(f"✅ Loaded enhanced hitter features: {len(hitters_df)} players")
+            print(f"SUCCESS: Loaded enhanced hitter features: {len(hitters_df)} players")
             
             # Create integration file for ENHANCED_ML_DFS_SYSTEM
             integration_data = {
@@ -48,17 +48,17 @@ def integrate_enhanced_features():
             output_file = base_dir / "data/dfs_enhanced_projections.csv"
             integration_df.to_csv(output_file, index=False)
             
-            print(f"💾 DFS integration file saved: {output_file}")
-            print(f"📊 Average ceiling boost: {integration_data['ceiling_projection'].mean():.1f} FPPG")
-            print(f"🎯 Tournament range: {min(integration_data['tournament_projection']):.1f} - {max(integration_data['tournament_projection']):.1f} FPPG")
+            print(f" DFS integration file saved: {output_file}")
+            print(f"DATA: Average ceiling boost: {integration_data['ceiling_projection'].mean():.1f} FPPG")
+            print(f"TARGET: Tournament range: {min(integration_data['tournament_projection']):.1f} - {max(integration_data['tournament_projection']):.1f} FPPG")
             
         if ceiling_weights.exists():
             weights_df = pd.read_csv(ceiling_weights)
-            print(f"✅ Loaded ceiling weights: {len(weights_df)} players")
+            print(f"SUCCESS: Loaded ceiling weights: {len(weights_df)} players")
             
             # Show top ceiling plays
             top_ceiling = weights_df.nlargest(5, 'ceiling_weight')
-            print("🔥 Top ceiling plays for tournaments:")
+            print(" Top ceiling plays for tournaments:")
             for _, player in top_ceiling.iterrows():
                 name = f"{player['First Name']} {player['Last Name']}"
                 print(f"   {name} ({player['Position']}): {player['ceiling_weight']:.1f} weight")
@@ -66,12 +66,12 @@ def integrate_enhanced_features():
         return True
         
     except Exception as e:
-        print(f"❌ Integration failed: {e}")
+        print(f"ERROR: Integration failed: {e}")
         return False
 
 def create_enhanced_dfs_script():
     """Create an enhanced version of your DFS script"""
-    print("\n🚀 CREATING ENHANCED DFS SCRIPT")
+    print("\nSTART: CREATING ENHANCED DFS SCRIPT")
     print("=" * 50)
     
     enhanced_script = '''#!/usr/bin/env python3
@@ -121,7 +121,7 @@ def generate_ceiling_lineups(slate_df, num_lineups=5):
     # Enhanced projections for ceiling
     slate_df['ceiling_fppg'] = slate_df['FPPG'] * slate_df['ceiling_weight'] * 1.2
     
-    print(f"🎯 Generating {num_lineups} ceiling-focused lineups...")
+    print(f"TARGET: Generating {num_lineups} ceiling-focused lineups...")
     
     for i in range(num_lineups):
         # Add randomization for diversity
@@ -160,7 +160,7 @@ def generate_ceiling_lineups(slate_df, num_lineups=5):
 
 # Main execution
 if __name__ == "__main__":
-    print("🎯 ENHANCED DFS WITH CEILING TARGETING")
+    print("TARGET: ENHANCED DFS WITH CEILING TARGETING")
     print("=" * 50)
     
     # Load slate
@@ -174,7 +174,7 @@ if __name__ == "__main__":
         output_file = f"../data/enhanced_ceiling_lineups_{timestamp}.csv"
         ceiling_lineups.to_csv(output_file, index=False)
         
-        print(f"💾 Ceiling lineups saved: {output_file}")
+        print(f" Ceiling lineups saved: {output_file}")
         
         # Show summary
         lineup_summary = ceiling_lineups.groupby('Lineup').agg({
@@ -183,68 +183,68 @@ if __name__ == "__main__":
             'Ceiling_FPPG': 'sum'
         }).reset_index()
         
-        print("\\n📊 Ceiling Lineup Summary:")
+        print("\\nDATA: Ceiling Lineup Summary:")
         for _, row in lineup_summary.iterrows():
             print(f"   {row['Lineup']}: ${row['Salary']:,} | {row['Ceiling_FPPG']:.1f} ceiling FPPG")
     else:
-        print("❌ Failed to generate ceiling lineups")
+        print("ERROR: Failed to generate ceiling lineups")
 '''
     
     script_file = Path("c:/Users/kgone/OneDrive/Personal_Information/MLB/Scripts/enhanced_dfs_ceiling.py")
     with open(script_file, 'w') as f:
         f.write(enhanced_script)
     
-    print(f"💾 Enhanced DFS script created: {script_file}")
-    print("🎯 This script generates ceiling-focused lineups for tournaments")
+    print(f" Enhanced DFS script created: {script_file}")
+    print("TARGET: This script generates ceiling-focused lineups for tournaments")
     
     return script_file
 
 def update_dfs_batch_file():
     """Add ceiling optimization to your DFS batch file"""
-    print("\n📝 UPDATING DFS BATCH FILE")
+    print("\n UPDATING DFS BATCH FILE")
     print("=" * 50)
     
     additional_steps = '''
 echo Step 10: Generating Enhanced Ceiling Lineups...
 python enhanced_dfs_ceiling.py
 if errorlevel 1 (
-    echo ⚠️ Ceiling optimization failed - continuing with regular lineups
+    echo WARNING: Ceiling optimization failed - continuing with regular lineups
 ) else (
-    echo ✅ Enhanced ceiling lineups generated successfully
+    echo SUCCESS: Enhanced ceiling lineups generated successfully
 )
 '''
     
-    print("🔧 Add these lines to your 2_DFS_MODELS.bat after the existing DFS steps:")
+    print("STEP: Add these lines to your 2_DFS_MODELS.bat after the existing DFS steps:")
     print(additional_steps)
     
-    print("💡 This will generate ceiling-focused lineups targeting 210+ points!")
+    print("TIP: This will generate ceiling-focused lineups targeting 210+ points!")
 
 def main():
     """Main integration function"""
-    print("🔧 DFS ENHANCEMENT INTEGRATION")
+    print("STEP: DFS ENHANCEMENT INTEGRATION")
     print("=" * 60)
     
     # Step 1: Integrate enhanced features
     if integrate_enhanced_features():
-        print("✅ Enhanced features integrated")
+        print("SUCCESS: Enhanced features integrated")
     
     # Step 2: Create enhanced script
     script_file = create_enhanced_dfs_script()
     if script_file.exists():
-        print("✅ Enhanced DFS script created")
+        print("SUCCESS: Enhanced DFS script created")
     
     # Step 3: Update batch file instructions
     update_dfs_batch_file()
     
-    print("\n🎉 DFS INTEGRATION COMPLETE!")
+    print("\nCOMPLETE: DFS INTEGRATION COMPLETE!")
     print("=" * 60)
-    print("🎯 Your DFS system now has:")
-    print("   ✅ Ceiling-adjusted projections")
-    print("   ✅ Tournament exposure weights")
-    print("   ✅ Variance-based player selection")
-    print("   ✅ Ownership fade calculations")
+    print("TARGET: Your DFS system now has:")
+    print("   SUCCESS: Ceiling-adjusted projections")
+    print("   SUCCESS: Tournament exposure weights")
+    print("   SUCCESS: Variance-based player selection")
+    print("   SUCCESS: Ownership fade calculations")
     print()
-    print("🚀 NEXT: Run your enhanced DFS system and target those 210+ lineups!")
+    print("START: NEXT: Run your enhanced DFS system and target those 210+ lineups!")
 
 if __name__ == "__main__":
     main()

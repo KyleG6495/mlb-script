@@ -27,7 +27,7 @@ class RealTimeNewsIntegration:
         
     def scrape_injury_reports(self):
         """Scrape latest injury reports"""
-        print("🏥 Scraping real-time injury reports...")
+        print(" Scraping real-time injury reports...")
         
         injury_sources = [
             "https://www.mlb.com/news/topic/injury-report",
@@ -48,7 +48,7 @@ class RealTimeNewsIntegration:
                 time.sleep(1)  # Rate limiting
                 
             except Exception as e:
-                print(f"⚠️ Error scraping {source}: {e}")
+                print(f"WARNING: Error scraping {source}: {e}")
         
         return all_injuries
     
@@ -97,7 +97,7 @@ class RealTimeNewsIntegration:
     
     def check_lineup_confirmations(self, player_list):
         """Check if players are confirmed in starting lineups"""
-        print("✅ Checking lineup confirmations...")
+        print("SUCCESS: Checking lineup confirmations...")
         
         confirmations = {}
         
@@ -109,7 +109,7 @@ class RealTimeNewsIntegration:
                 confirmations[player] = confirmation_status
                 
             except Exception as e:
-                print(f"⚠️ Error checking lineup for {player}: {e}")
+                print(f"WARNING: Error checking lineup for {player}: {e}")
                 confirmations[player] = 'unknown'
         
         return confirmations
@@ -124,7 +124,7 @@ class RealTimeNewsIntegration:
     
     def get_weather_updates(self, games):
         """Get real-time weather updates"""
-        print("🌤️ Getting weather updates...")
+        print(" Getting weather updates...")
         
         weather_updates = {}
         
@@ -135,7 +135,7 @@ class RealTimeNewsIntegration:
                 weather_updates[game_id] = weather
                 
             except Exception as e:
-                print(f"⚠️ Error getting weather for {game_id}: {e}")
+                print(f"WARNING: Error getting weather for {game_id}: {e}")
         
         return weather_updates
     
@@ -153,7 +153,7 @@ class RealTimeNewsIntegration:
     
     def track_line_movements(self, games):
         """Track Vegas line movements"""
-        print("📈 Tracking line movements...")
+        print("PROGRESS: Tracking line movements...")
         
         movements = {}
         
@@ -164,7 +164,7 @@ class RealTimeNewsIntegration:
                 movements[game_id] = current_lines
                 
             except Exception as e:
-                print(f"⚠️ Error tracking lines for {game_id}: {e}")
+                print(f"WARNING: Error tracking lines for {game_id}: {e}")
         
         return movements
     
@@ -181,7 +181,7 @@ class RealTimeNewsIntegration:
     
     def calculate_real_time_adjustments(self, player_pool):
         """Calculate real-time adjustments to projections"""
-        print("⚡ Calculating real-time adjustments...")
+        print(" Calculating real-time adjustments...")
         
         adjustments = pd.Series(index=player_pool.index, dtype=float).fillna(1.0)
         
@@ -255,7 +255,7 @@ class RealTimeNewsIntegration:
     
     def update_projections_real_time(self, player_pool):
         """Update projections with real-time data"""
-        print("🔄 Updating projections with real-time data...")
+        print("SWAP: Updating projections with real-time data...")
         
         # Get adjustments
         adjustments = self.calculate_real_time_adjustments(player_pool)
@@ -269,7 +269,7 @@ class RealTimeNewsIntegration:
         significant_changes = adjustments[(adjustments < 0.8) | (adjustments > 1.2)]
         
         if len(significant_changes) > 0:
-            print(f"⚠️ Significant projection changes for {len(significant_changes)} players:")
+            print(f"WARNING: Significant projection changes for {len(significant_changes)} players:")
             for idx in significant_changes.index:
                 player = player_pool.loc[idx]
                 change = significant_changes[idx]
@@ -315,7 +315,7 @@ class RealTimeNewsIntegration:
             with open(filename, 'w') as f:
                 json.dump(alerts, f, indent=2)
             
-            print(f"💾 Saved {len(alerts)} alerts to {filename}")
+            print(f" Saved {len(alerts)} alerts to {filename}")
 
 if __name__ == "__main__":
     # Example usage
@@ -332,4 +332,4 @@ if __name__ == "__main__":
     alerts = news_integration.create_alerts(updated_pool)
     news_integration.save_alerts(alerts)
     
-    print("✅ Real-time updates complete!")
+    print("SUCCESS: Real-time updates complete!")

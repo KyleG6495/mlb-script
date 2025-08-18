@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 def test_analysis():
     """Test the analysis step by step"""
-    print("🎯 TESTING CONFIRMED STARTERS SYSTEM")
+    print("TARGET: TESTING CONFIRMED STARTERS SYSTEM")
     print("=" * 60)
     
     try:
@@ -31,12 +31,12 @@ def test_analysis():
             except UnicodeDecodeError:
                 fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv', encoding='latin-1')
         
-        print(f"✅ Loaded FD slate: {len(fd_df)} players")
+        print(f"SUCCESS: Loaded FD slate: {len(fd_df)} players")
         print(f"Columns: {list(fd_df.columns)}")
         
         # Get unique games
         games = fd_df['Game'].unique()
-        print(f"🎮 Games detected: {list(games)}")
+        print(f" Games detected: {list(games)}")
         
         # Get probable starters
         probable_starters = fd_df[
@@ -44,9 +44,9 @@ def test_analysis():
             (fd_df['Probable Pitcher'] == 'Yes')
         ]
         
-        print(f"⚾ PROBABLE STARTING PITCHERS: {len(probable_starters)}")
+        print(f"BASEBALL: PROBABLE STARTING PITCHERS: {len(probable_starters)}")
         for _, pitcher in probable_starters.iterrows():
-            print(f"   ✅ {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,}")
+            print(f"   SUCCESS: {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,}")
         
         # Test RotoWire connection
         print("\nStep 2: Testing RotoWire connection...")
@@ -57,16 +57,16 @@ def test_analysis():
             }
             
             response = requests.get(url, headers=headers, timeout=15)
-            print(f"✅ RotoWire response: {response.status_code}")
+            print(f"SUCCESS: RotoWire response: {response.status_code}")
             print(f"Content length: {len(response.content)} bytes")
             
         except Exception as e:
-            print(f"❌ RotoWire error: {e}")
+            print(f"ERROR: RotoWire error: {e}")
         
-        print("\n🎉 TEST COMPLETE!")
+        print("\nCOMPLETE: TEST COMPLETE!")
         
     except Exception as e:
-        print(f"❌ Test error: {e}")
+        print(f"ERROR: Test error: {e}")
         import traceback
         traceback.print_exc()
 

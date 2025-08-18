@@ -19,21 +19,21 @@ class CeilingDFSOptimizer:
         
     def load_slate_data(self):
         """Load current slate for ceiling optimization"""
-        print("🎯 CEILING DFS SYSTEM - Loading slate data...")
+        print("TARGET: CEILING DFS SYSTEM - Loading slate data...")
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
             
         slate_df = pd.read_csv(slate_file)
-        print(f"✅ Loaded slate with {len(slate_df)} available players")
+        print(f"SUCCESS: Loaded slate with {len(slate_df)} available players")
         
         return slate_df
     
     def apply_injury_filtering(self, slate_df):
         """Apply proven injury filtering"""
-        print("🔧 Applying injury/probable pitcher filtering...")
+        print("STEP: Applying injury/probable pitcher filtering...")
         
         original_count = len(slate_df)
         
@@ -54,13 +54,13 @@ class CeilingDFSOptimizer:
             print(f"  Keeping only {probable_count} probable pitchers")
         
         filtered_count = len(slate_df)
-        print(f"  Filtered: {original_count} → {filtered_count} players ({filtered_count/original_count*100:.1f}% remaining)")
+        print(f"  Filtered: {original_count}  {filtered_count} players ({filtered_count/original_count*100:.1f}% remaining)")
         
         return slate_df
     
     def calculate_ceiling_scores(self, slate_df):
         """Calculate ceiling potential for each player"""
-        print("🚀 Calculating ceiling potential scores...")
+        print("START: Calculating ceiling potential scores...")
         
         slate_df = slate_df.copy()
         
@@ -91,13 +91,13 @@ class CeilingDFSOptimizer:
         # Ceiling per dollar (key metric)
         slate_df['ceiling_per_dollar'] = slate_df['ceiling_score'] / slate_df['Salary'] * 1000
         
-        print(f"📈 Ceiling scores range: {slate_df['ceiling_score'].min():.1f} - {slate_df['ceiling_score'].max():.1f}")
+        print(f"PROGRESS: Ceiling scores range: {slate_df['ceiling_score'].min():.1f} - {slate_df['ceiling_score'].max():.1f}")
         
         return slate_df
     
     def identify_ceiling_plays(self, slate_df):
         """Identify specific ceiling play types"""
-        print("🎯 Identifying ceiling play categories...")
+        print("TARGET: Identifying ceiling play categories...")
         
         slate_df = slate_df.copy()
         slate_df['ceiling_category'] = 'Standard'
@@ -147,7 +147,7 @@ class CeilingDFSOptimizer:
         
         # Print ceiling categories
         category_counts = slate_df['ceiling_category'].value_counts()
-        print("🏷️ Ceiling Categories:")
+        print(" Ceiling Categories:")
         for category, count in category_counts.items():
             print(f"  {category}: {count} players")
         
@@ -155,7 +155,7 @@ class CeilingDFSOptimizer:
     
     def build_ceiling_lineup(self, enhanced_slate):
         """Build lineup targeting ceiling outcomes"""
-        print("🏆 Building CEILING-FOCUSED lineup...")
+        print("LINEUP: Building CEILING-FOCUSED lineup...")
         
         # Ceiling lineup strategy: 1 Elite + 2-3 Ceiling + 3-4 Value + 2-3 Floor
         selected_players = []
@@ -190,7 +190,7 @@ class CeilingDFSOptimizer:
                     chosen_pitcher = affordable_pitchers.loc[affordable_pitchers['ceiling_per_dollar'].idxmax()]
                     print(f"    Selected VALUE pitcher: {chosen_pitcher['First Name']} {chosen_pitcher['Last Name']} (${chosen_pitcher['Salary']}, {chosen_pitcher['ceiling_score']:.1f} ceiling)")
                 else:
-                    print("    ❌ No affordable pitchers")
+                    print("    ERROR: No affordable pitchers")
                     return None
             
             selected_players.append(chosen_pitcher)
@@ -198,7 +198,7 @@ class CeilingDFSOptimizer:
             used_ids.add(chosen_pitcher['Id'])
             positions_needed.remove('P')
         else:
-            print("    ❌ No pitchers available")
+            print("    ERROR: No pitchers available")
             return None
         
         # 2. TARGET CEILING PLAYS (2-3 players with smart budgeting)
@@ -275,7 +275,7 @@ class CeilingDFSOptimizer:
                 # Emergency fallback - try lower salary minimum
                 affordable = candidates[candidates['Salary'] <= max_spend]
                 if affordable.empty:
-                    print(f"    ❌ No affordable {position} players (budget: ${max_spend})")
+                    print(f"    ERROR: No affordable {position} players (budget: ${max_spend})")
                     return None
             
             # Prioritize value bombs first, then ceiling per dollar
@@ -299,11 +299,11 @@ class CeilingDFSOptimizer:
             total_projected = sum(p['FPPG'] for p in selected_players)
             total_ceiling = sum(p['ceiling_score'] for p in selected_players)
             
-            print(f"\n✅ CEILING LINEUP BUILT!")
-            print(f"  💰 Total Salary: ${total_salary:,}")
-            print(f"  📊 Projected FPPG: {total_projected:.1f}")
-            print(f"  🚀 Ceiling FPPG: {total_ceiling:.1f}")
-            print(f"  🎯 Ceiling vs Projected: {total_ceiling/total_projected:.1f}x")
+            print(f"\nSUCCESS: CEILING LINEUP BUILT!")
+            print(f"  MONEY: Total Salary: ${total_salary:,}")
+            print(f"  DATA: Projected FPPG: {total_projected:.1f}")
+            print(f"  START: Ceiling FPPG: {total_ceiling:.1f}")
+            print(f"  TARGET: Ceiling vs Projected: {total_ceiling/total_projected:.1f}x")
             
             return {
                 'players': selected_players,
@@ -318,10 +318,10 @@ class CeilingDFSOptimizer:
     def export_ceiling_lineup(self, lineup):
         """Export lineup in FanDuel format"""
         if not lineup:
-            print("❌ No lineup to export")
+            print("ERROR: No lineup to export")
             return
         
-        print("📄 Exporting ceiling lineup...")
+        print(" Exporting ceiling lineup...")
         
         lineup_df = pd.DataFrame({
             'Id': [p['Id'] for p in lineup['players']],
@@ -348,10 +348,10 @@ class CeilingDFSOptimizer:
         filepath = self.slate_dir / filename
         
         lineup_df.to_csv(filepath, index=False)
-        print(f"✅ Ceiling lineup exported: {filename}")
+        print(f"SUCCESS: Ceiling lineup exported: {filename}")
         
         # Show lineup summary
-        print(f"\n🏆 CEILING LINEUP SUMMARY:")
+        print(f"\nLINEUP: CEILING LINEUP SUMMARY:")
         for i, player in enumerate(lineup['players'], 1):
             name = f"{player['First Name']} {player['Last Name']}"
             pos = player['Roster Position']
@@ -366,7 +366,7 @@ class CeilingDFSOptimizer:
     
     def run_ceiling_optimization(self):
         """Run complete ceiling-focused DFS optimization"""
-        print("🚀 CEILING-FOCUSED DFS OPTIMIZATION")
+        print("START: CEILING-FOCUSED DFS OPTIMIZATION")
         print("Building lineups to target 200+ FPPG tournament scores")
         print("="*70)
         
@@ -386,23 +386,23 @@ class CeilingDFSOptimizer:
             # Export lineup
             filepath = self.export_ceiling_lineup(ceiling_lineup)
             
-            print(f"\n🎉 CEILING OPTIMIZATION COMPLETE!")
-            print(f"🎯 Target: 200+ FPPG tournament performance")
-            print(f"📈 Ceiling Potential: {ceiling_lineup['total_ceiling']:.1f} FPPG")
-            print(f"💡 Strategy: Elite pitcher + ceiling hitters + value bombs")
+            print(f"\nCOMPLETE: CEILING OPTIMIZATION COMPLETE!")
+            print(f"TARGET: Target: 200+ FPPG tournament performance")
+            print(f"PROGRESS: Ceiling Potential: {ceiling_lineup['total_ceiling']:.1f} FPPG")
+            print(f"TIP: Strategy: Elite pitcher + ceiling hitters + value bombs")
             
             if ceiling_lineup['total_ceiling'] >= 200:
-                print(f"✅ EXCELLENT: Lineup has 200+ ceiling potential!")
+                print(f"SUCCESS: EXCELLENT: Lineup has 200+ ceiling potential!")
             elif ceiling_lineup['total_ceiling'] >= 150:
-                print(f"⚠️  GOOD: Solid ceiling lineup")
+                print(f"WARNING:  GOOD: Solid ceiling lineup")
             else:
-                print(f"❌ FAIR: May need more ceiling upside")
+                print(f"ERROR: FAIR: May need more ceiling upside")
                 
         else:
-            print("❌ Failed to build ceiling lineup")
+            print("ERROR: Failed to build ceiling lineup")
 
 def main():
-    print("🎯 CEILING-FOCUSED DFS SYSTEM")
+    print("TARGET: CEILING-FOCUSED DFS SYSTEM")
     print("Target tournament-winning scores like the 210+ FPPG leaderboard")
     print("="*70)
     

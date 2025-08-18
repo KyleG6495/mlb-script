@@ -193,17 +193,17 @@ def generate_betting_report(discrepancies_df):
     """Generate a detailed betting opportunities report"""
     
     if discrepancies_df.empty:
-        return "🔍 No significant line discrepancies found.\n\nThis could mean:\n- The books are closely aligned today\n- Different stat offerings between sources\n- Need to lower the minimum difference threshold"
+        return " No significant line discrepancies found.\n\nThis could mean:\n- The books are closely aligned today\n- Different stat offerings between sources\n- Need to lower the minimum difference threshold"
     
     report = []
-    report.append("🎯 MLB BETTING OPPORTUNITIES REPORT")
+    report.append("TARGET: MLB BETTING OPPORTUNITIES REPORT")
     report.append("=" * 50)
     report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     report.append(f"Total Opportunities: {len(discrepancies_df)}")
     report.append("")
     
     # Top opportunities
-    report.append("🔥 TOP OPPORTUNITIES:")
+    report.append(" TOP OPPORTUNITIES:")
     report.append("-" * 30)
     
     for idx, row in discrepancies_df.head(10).iterrows():
@@ -216,7 +216,7 @@ def generate_betting_report(discrepancies_df):
         report.append("")
     
     # Summary stats
-    report.append("📊 SUMMARY STATISTICS:")
+    report.append("DATA: SUMMARY STATISTICS:")
     report.append("-" * 30)
     report.append(f"Average line difference: {discrepancies_df['line_diff'].mean():.2f}")
     report.append(f"Max line difference: {discrepancies_df['line_diff'].max():.2f}")
@@ -249,18 +249,18 @@ def save_results(discrepancies_df, report_text):
 def main():
     """Main function to run the line comparison analysis"""
     
-    print("🎯 Starting MLB Line Comparison Analysis...")
+    print("TARGET: Starting MLB Line Comparison Analysis...")
     
     try:
         # Load data from both sources
         uf_df, pp_df = load_data()
         
-        print(f"📊 Data Summary:")
+        print(f"DATA: Data Summary:")
         print(f"   Underdog Fantasy: {len(uf_df)} props")
         print(f"   PrizePicks: {len(pp_df)} props")
         
         if uf_df.empty and pp_df.empty:
-            print("❌ No data found from either source")
+            print("ERROR: No data found from either source")
             return
         
         # Find discrepancies
@@ -276,16 +276,16 @@ def main():
         print("\n" + report)
         
         if excel_file:
-            print(f"\n💾 Results saved to:")
+            print(f"\n Results saved to:")
             print(f"   Excel: {excel_file}")
             print(f"   Report: {report_file}")
         else:
-            print(f"\n💾 Report saved to: {report_file}")
+            print(f"\n Report saved to: {report_file}")
         
-        print("\n✅ Analysis complete!")
+        print("\nSUCCESS: Analysis complete!")
         
     except Exception as e:
-        print(f"❌ Error during analysis: {e}")
+        print(f"ERROR: Error during analysis: {e}")
         import traceback
         traceback.print_exc()
 

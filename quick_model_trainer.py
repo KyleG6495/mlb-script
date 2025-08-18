@@ -21,16 +21,16 @@ logger = logging.getLogger(__name__)
 
 def create_models():
     """Create enhanced ML models for predictions"""
-    logger.info("🚀 QUICK ENHANCED MODEL TRAINER")
+    logger.info("START: QUICK ENHANCED MODEL TRAINER")
     logger.info("=" * 50)
     
     # Load training data
-    logger.info("📊 Loading training data...")
+    logger.info("DATA: Loading training data...")
     try:
         df = pd.read_csv("../data/prediction_features_enhanced_real_stats.csv")
-        logger.info(f"✅ Loaded {len(df)} training samples")
+        logger.info(f"SUCCESS: Loaded {len(df)} training samples")
     except FileNotFoundError:
-        logger.error("❌ Training data not found!")
+        logger.error("ERROR: Training data not found!")
         return
     
     # Prepare features
@@ -66,10 +66,10 @@ def create_models():
     # Train models for each target
     for model_name, target_col in targets.items():
         if target_col not in df.columns:
-            logger.warning(f"⚠️ Target {target_col} not found, skipping...")
+            logger.warning(f"WARNING: Target {target_col} not found, skipping...")
             continue
             
-        logger.info(f"🎯 Training {model_name} model...")
+        logger.info(f"TARGET: Training {model_name} model...")
         
         # Prepare data
         X = df_encoded[feature_cols]
@@ -106,7 +106,7 @@ def create_models():
         X_test_processed = preprocessor.transform(X_test)
         score = model.score(X_test_processed, y_test)
         
-        logger.info(f"   📊 {model_name} R² score: {score:.3f}")
+        logger.info(f"   DATA: {model_name} R score: {score:.3f}")
         
         # Save model and preprocessor together
         model_data = {
@@ -121,9 +121,9 @@ def create_models():
         with open(model_path, 'wb') as f:
             pickle.dump(model_data, f)
             
-        logger.info(f"   ✅ Saved {model_name} model to {model_path}")
+        logger.info(f"   SUCCESS: Saved {model_name} model to {model_path}")
     
-    logger.info("🎉 Model training complete!")
+    logger.info("COMPLETE: Model training complete!")
 
 if __name__ == "__main__":
     create_models()

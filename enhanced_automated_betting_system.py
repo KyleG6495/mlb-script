@@ -41,7 +41,7 @@ class EnhancedBettingSystem:
         
     def load_enhanced_models(self):
         """Load all enhanced models with metadata"""
-        logger.info("🤖 Loading enhanced ML models...")
+        logger.info(" Loading enhanced ML models...")
         
         model_files = {
             'hits': '../models/hits_model.pkl',
@@ -72,18 +72,18 @@ class EnhancedBettingSystem:
                     'features': model_data['features']
                 }
                 
-                logger.info(f"✅ Loaded enhanced {stat_name} model (R² = {model_data['score']:.3f})")
+                logger.info(f"SUCCESS: Loaded enhanced {stat_name} model (R = {model_data['score']:.3f})")
                 
             except FileNotFoundError:
-                logger.warning(f"⚠️ Enhanced model not found: {model_path}")
+                logger.warning(f"WARNING: Enhanced model not found: {model_path}")
             except Exception as e:
-                logger.error(f"❌ Error loading {stat_name} model: {e}")
+                logger.error(f"ERROR: Error loading {stat_name} model: {e}")
         
         if self.models:
-            logger.info(f"🎯 Loaded {len(self.models)} enhanced prediction models")
+            logger.info(f"TARGET: Loaded {len(self.models)} enhanced prediction models")
             return True
         else:
-            logger.error("❌ No enhanced models loaded!")
+            logger.error("ERROR: No enhanced models loaded!")
             return False
     
     def get_live_weather_data(self, game_location, game_date=None):
@@ -300,7 +300,7 @@ class EnhancedBettingSystem:
                 base_prediction, enhanced_data, stat_name
             )
             
-            logger.info(f"🎯 Enhanced {stat_name} prediction: {enhanced_prediction:.2f} "
+            logger.info(f"TARGET: Enhanced {stat_name} prediction: {enhanced_prediction:.2f} "
                        f"(base: {base_prediction:.2f}, features: {len(expected_features)})")
             
             return {
@@ -378,7 +378,7 @@ class EnhancedBettingSystem:
             base_prediction = recent_stats.get(stat_name, 0.5)
             adjusted_prediction = base_prediction * park_factor * weather_factor
             
-            logger.info(f"📊 Simple {stat_name} prediction: {adjusted_prediction:.2f}")
+            logger.info(f"DATA: Simple {stat_name} prediction: {adjusted_prediction:.2f}")
             
             return {
                 'prediction': adjusted_prediction,
@@ -396,14 +396,14 @@ class EnhancedBettingSystem:
     
     def generate_all_predictions(self):
         """Generate predictions for all today's players"""
-        logger.info("🔮 Generating enhanced predictions for all players...")
+        logger.info(" Generating enhanced predictions for all players...")
         
         # Load today's player features
         try:
             players_df = pd.read_csv("../data/prediction_features_enhanced_real_stats.csv")
-            logger.info(f"📊 Loaded {len(players_df)} players for prediction")
+            logger.info(f"DATA: Loaded {len(players_df)} players for prediction")
         except FileNotFoundError:
-            logger.error("❌ Player features file not found")
+            logger.error("ERROR: Player features file not found")
             return None
         
         predictions_data = []
@@ -446,21 +446,21 @@ class EnhancedBettingSystem:
         latest_path = "../data/enhanced_predictions_latest.csv"
         predictions_df.to_csv(latest_path, index=False)
         
-        logger.info(f"✅ Saved enhanced predictions to {output_path}")
+        logger.info(f"SUCCESS: Saved enhanced predictions to {output_path}")
         return predictions_df
     
     def calculate_expected_value(self, predictions_df):
         """Calculate EV against current sportsbook lines"""
-        logger.info("💰 Calculating Expected Value opportunities...")
+        logger.info("MONEY: Calculating Expected Value opportunities...")
         
         ev_opportunities = []
         
         # Load PrizePicks lines
         try:
             pp_df = pd.read_excel("../data/PrizePicks_MLB.xlsx")
-            logger.info(f"📊 Loaded PrizePicks lines for {len(pp_df)} players")
+            logger.info(f"DATA: Loaded PrizePicks lines for {len(pp_df)} players")
         except FileNotFoundError:
-            logger.warning("❌ PrizePicks lines not found")
+            logger.warning("ERROR: PrizePicks lines not found")
             pp_df = pd.DataFrame()
         
         # Load Underdog lines
@@ -469,11 +469,11 @@ class EnhancedBettingSystem:
             if ud_files:
                 latest_ud = max(ud_files, key=lambda x: x)
                 ud_df = pd.read_csv(f"../data/{latest_ud}")
-                logger.info(f"📊 Loaded Underdog lines for {len(ud_df)} players")
+                logger.info(f"DATA: Loaded Underdog lines for {len(ud_df)} players")
             else:
                 ud_df = pd.DataFrame()
         except:
-            logger.warning("❌ Underdog lines not found")
+            logger.warning("ERROR: Underdog lines not found")
             ud_df = pd.DataFrame()
         
         # Process PrizePicks opportunities
@@ -498,8 +498,8 @@ class EnhancedBettingSystem:
             ev_path = f"../data/enhanced_ev_opportunities_{timestamp}.csv"
             ev_df.to_csv(ev_path, index=False)
             
-            logger.info(f"🎯 Found {len(ev_opportunities)} EV opportunities")
-            logger.info(f"💎 Top opportunity: {ev_opportunities[0]['player']} "
+            logger.info(f"TARGET: Found {len(ev_opportunities)} EV opportunities")
+            logger.info(f" Top opportunity: {ev_opportunities[0]['player']} "
                        f"{ev_opportunities[0]['stat']} OVER {ev_opportunities[0]['line']} "
                        f"({ev_opportunities[0]['expected_value']:.1f}% EV)")
         
@@ -571,7 +571,7 @@ class EnhancedBettingSystem:
 
 def main():
     """Main enhanced betting system execution"""
-    print("🚀 ENHANCED AUTOMATED BETTING SYSTEM")
+    print("START: ENHANCED AUTOMATED BETTING SYSTEM")
     print("=" * 50)
     
     # Initialize system
@@ -579,30 +579,30 @@ def main():
     
     # Load models
     if not betting_system.load_enhanced_models():
-        print("❌ No models loaded. Please train models first.")
+        print("ERROR: No models loaded. Please train models first.")
         return
     
     # Generate predictions
     predictions = betting_system.generate_all_predictions()
     if predictions is None:
-        print("❌ Failed to generate predictions")
+        print("ERROR: Failed to generate predictions")
         return
     
     # Calculate EV opportunities
     ev_opportunities = betting_system.calculate_expected_value(predictions)
     
     # Display results
-    print(f"\n🎯 Generated predictions for {len(predictions)} players")
+    print(f"\nTARGET: Generated predictions for {len(predictions)} players")
     if ev_opportunities:
-        print(f"💰 Found {len(ev_opportunities)} profitable betting opportunities")
-        print("\n🔥 TOP 5 EV OPPORTUNITIES:")
+        print(f"MONEY: Found {len(ev_opportunities)} profitable betting opportunities")
+        print("\n TOP 5 EV OPPORTUNITIES:")
         for i, opp in enumerate(ev_opportunities[:5], 1):
             print(f"{i}. {opp['player']} {opp['stat']} OVER {opp['line']} "
                   f"({opp['expected_value']:.1f}% EV) - {opp['source']}")
     else:
-        print("📊 No profitable opportunities found right now")
+        print("DATA: No profitable opportunities found right now")
     
-    print("\n✅ Enhanced betting system complete!")
+    print("\nSUCCESS: Enhanced betting system complete!")
 
 if __name__ == "__main__":
     # Import scipy.stats for probability calculations
@@ -610,4 +610,4 @@ if __name__ == "__main__":
         from scipy import stats
         main()
     except ImportError:
-        print("❌ Please install scipy: pip install scipy")
+        print("ERROR: Please install scipy: pip install scipy")

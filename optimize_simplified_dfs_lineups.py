@@ -296,7 +296,7 @@ class SimplifiedDFSOptimizer:
         if not lineups:
             return
         
-        print(f"\n📊 LINEUP ANALYSIS SUMMARY")
+        print(f"\nDATA: LINEUP ANALYSIS SUMMARY")
         print("=" * 40)
         
         # Overall stats
@@ -329,7 +329,7 @@ def main():
     """Run simplified enhanced DFS optimization"""
     
     # Load player data
-    print("🏆 ENHANCED DFS LINEUP OPTIMIZATION")
+    print("LINEUP: ENHANCED DFS LINEUP OPTIMIZATION")
     print("=" * 50)
     
     try:
@@ -355,7 +355,7 @@ def main():
             df = hitter_df
             
             # Temporarily revert to hitter-only lineup requirements
-            print("⚠️  Running in hitter-only mode (8 players: C/1B/2B/3B/SS/OF/OF/OF)")
+            print("WARNING:  Running in hitter-only mode (8 players: C/1B/2B/3B/SS/OF/OF/OF)")
             original_requirements = {
                 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3
             }
@@ -395,7 +395,7 @@ def main():
     has_pitchers = 'P' in df['Position'].values if 'Position' in df.columns else False
     
     if not has_pitchers:
-        print("⚠️  No pitchers found - adjusting to 8-player hitter lineups")
+        print("WARNING:  No pitchers found - adjusting to 8-player hitter lineups")
         optimizer.lineup_requirements = {
             'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3
         }
@@ -436,10 +436,10 @@ def main():
         output_path = r'c:\Users\kgone\OneDrive\Personal_Information\MLB\data\enhanced_fanduel_lineups_v2.csv'
         output_df.to_csv(output_path, index=False)
         
-        print(f"\n✅ SUCCESS! Enhanced DFS Optimization Complete!")
-        print(f"📁 Saved {len(lineups)} lineups to: {output_path}")
+        print(f"\nSUCCESS: SUCCESS! Enhanced DFS Optimization Complete!")
+        print(f" Saved {len(lineups)} lineups to: {output_path}")
         
-        print(f"\n🎯 TARGET IMPROVEMENTS:")
+        print(f"\nTARGET: TARGET IMPROVEMENTS:")
         print(f"- Enhanced FPPG prediction using advanced stat modeling")
         print(f"- Multiple objectives: ceiling/floor/balanced strategies")
         print(f"- Automatic stacking and correlation bonuses")
@@ -448,14 +448,14 @@ def main():
         
         # Show best lineups
         best_lineups = sorted(lineups, key=lambda x: x['total_fppg'], reverse=True)[:3]
-        print(f"\n🏆 TOP 3 PROJECTED LINEUPS:")
+        print(f"\nLINEUP: TOP 3 PROJECTED LINEUPS:")
         for i, lineup in enumerate(best_lineups[:3]):
             print(f"\n#{i+1} ({lineup['objective']}): {lineup['total_fppg']:.1f} FPPG, ${lineup['total_salary']:,}")
             for player in lineup['lineup']:
                 print(f"  {player['name']:20} {player['position']:5} {player['team']:3} ${player['salary']:,} ({player['projected_fppg']:.1f} FPPG)")
     
     else:
-        print("❌ No lineups generated successfully")
+        print("ERROR: No lineups generated successfully")
 
 if __name__ == "__main__":
     main()

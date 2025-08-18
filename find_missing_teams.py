@@ -15,7 +15,7 @@ for col in ["team", "team_name", "team_x"]:
         break
 
 if team_col is None:
-    raise ValueError("❌ Could not find a team column in the pitcher data.")
+    raise ValueError("ERROR: Could not find a team column in the pitcher data.")
 
 # Standardize casing
 df[team_col] = df[team_col].astype(str).str.strip().str.lower()
@@ -28,13 +28,13 @@ missing_teams = sorted(teams_in_data - teams_mapped)
 
 # Show and optionally append
 if missing_teams:
-    print("\n🛑 Missing team mappings:")
+    print("\n Missing team mappings:")
     for team in missing_teams:
         print(f"- {team}")
 
     df_missing = pd.DataFrame({"from": missing_teams, "to": [""] * len(missing_teams)})
     df_combined = pd.concat([df_map, df_missing], ignore_index=True)
     df_combined.to_csv(mapping_file, index=False)
-    print(f"\n✅ Appended missing teams to {mapping_file} — please complete the 'to' column.")
+    print(f"\nSUCCESS: Appended missing teams to {mapping_file}  please complete the 'to' column.")
 else:
-    print("✅ All teams are already mapped.")
+    print("SUCCESS: All teams are already mapped.")

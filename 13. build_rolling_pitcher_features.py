@@ -10,7 +10,7 @@ INPUT_PATH = "../data/pitcher_boxscores_earned_runs.csv"  # Fix filename
 OUTPUT_PATH = "../data/pitcher_rolling_5game_features.csv"
 
 # Load pitcher game logs
-logging.info(f"📥 Loading pitcher box scores from {INPUT_PATH}")
+logging.info(f" Loading pitcher box scores from {INPUT_PATH}")
 df = pd.read_csv(INPUT_PATH)
 
 # Ensure correct date format and sort
@@ -45,4 +45,4 @@ rolling = rolling[["player_id", "name", "date"] + rolling_cols]
 
 # Save result
 rolling.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"✅ Saved rolling 5-game averages → {OUTPUT_PATH} with {len(rolling)} rows")
+logging.info(f"SUCCESS: Saved rolling 5-game averages  {OUTPUT_PATH} with {len(rolling)} rows")

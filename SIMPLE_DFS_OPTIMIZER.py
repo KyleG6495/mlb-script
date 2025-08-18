@@ -26,7 +26,7 @@ def load_slate_data():
     slate_file = slate_dir / "fd_slate_today.csv"
     slate = pd.read_csv(slate_file)
     
-    print(f"✅ Loaded {len(slate)} players from slate")
+    print(f"SUCCESS: Loaded {len(slate)} players from slate")
     print(f"   Salary range: ${slate['Salary'].min()} - ${slate['Salary'].max()}")
     
     # Clean and prepare data
@@ -182,10 +182,10 @@ def format_for_fanduel(lineup, slate):
 def generate_lineups(num_lineups=20):
     """Generate multiple optimized lineups"""
     
-    print("🚀 Loading slate data...")
+    print("START: Loading slate data...")
     slate = load_slate_data()
     
-    print(f"\n🎯 Generating {num_lineups} optimized lineups...")
+    print(f"\nTARGET: Generating {num_lineups} optimized lineups...")
     
     lineups = []
     used_players_across_lineups = set()
@@ -205,16 +205,16 @@ def generate_lineups(num_lineups=20):
             player_ids = [p['Id'] for p in lineup['players']]
             used_players_across_lineups.update(player_ids[:4])  # Add top 4 players
             
-            print(f"     ✅ Salary: ${lineup['total_salary']}, Projection: {lineup['total_projection']:.1f}")
+            print(f"     SUCCESS: Salary: ${lineup['total_salary']}, Projection: {lineup['total_projection']:.1f}")
         else:
-            print(f"     ❌ Failed to generate lineup {i+1}")
+            print(f"     ERROR: Failed to generate lineup {i+1}")
     
     return slate, lineups
 
 def save_lineups(slate, lineups):
     """Save lineups to files"""
     if not lineups:
-        print("❌ No lineups to save!")
+        print("ERROR: No lineups to save!")
         return
     
     base_dir = Path(__file__).parent.parent / "data"
@@ -248,12 +248,12 @@ def save_lineups(slate, lineups):
     df.to_csv(main_file, index=False)
     df.to_csv(backup_file, index=False)
     
-    print(f"\n✅ Saved {len(lineups)} lineups!")
+    print(f"\nSUCCESS: Saved {len(lineups)} lineups!")
     print(f"   Main file: {main_file}")
     print(f"   Backup: {backup_file}")
     
     # Print summary
-    print(f"\n📊 LINEUP SUMMARY:")
+    print(f"\nDATA: LINEUP SUMMARY:")
     print(f"   Projection range: {df['Total_Projection'].min():.1f} - {df['Total_Projection'].max():.1f}")
     print(f"   Salary range: ${df['Total_Salary'].min()} - ${df['Total_Salary'].max()}")
     print(f"   Average projection: {df['Total_Projection'].mean():.1f}")
@@ -261,7 +261,7 @@ def save_lineups(slate, lineups):
     return main_file
 
 if __name__ == "__main__":
-    print("🔧 SIMPLE BUT EFFECTIVE DFS OPTIMIZER")
+    print("STEP: SIMPLE BUT EFFECTIVE DFS OPTIMIZER")
     print("=" * 50)
     
     try:
@@ -269,13 +269,13 @@ if __name__ == "__main__":
         
         if lineups:
             main_file = save_lineups(slate, lineups)
-            print(f"\n🎉 SUCCESS! Your lineups are ready for FanDuel!")
+            print(f"\nCOMPLETE: SUCCESS! Your lineups are ready for FanDuel!")
             print(f"   File: {main_file}")
-            print(f"\n💡 These lineups should perform much better than before!")
+            print(f"\nTIP: These lineups should perform much better than before!")
         else:
-            print("❌ Failed to generate any lineups")
+            print("ERROR: Failed to generate any lineups")
             
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()

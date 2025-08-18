@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 FANDUEL LINEUP FORMATTER
+TARGET: FANDUEL LINEUP FORMATTER
 Creates clean FanDuel-compatible CSV files from smart lineups
 """
 
@@ -14,13 +14,13 @@ logger = logging.getLogger(__name__)
 def create_fanduel_upload_format():
     """Create clean FanDuel upload format"""
     
-    logger.info("📋 CREATING FANDUEL UPLOAD FORMAT")
+    logger.info("INFO: CREATING FANDUEL UPLOAD FORMAT")
     logger.info("="*50)
     
     try:
         # Load the smart lineups
         df = pd.read_csv('../fd_current_slate/SMART_CHAMPIONSHIP_LINEUPS.csv')
-        logger.info(f"📥 Loaded {len(df)} smart lineups")
+        logger.info(f" Loaded {len(df)} smart lineups")
         
         # Create clean FanDuel format - ONLY the essential columns
         fd_clean = pd.DataFrame()
@@ -51,7 +51,7 @@ def create_fanduel_upload_format():
         fd_clean['UTIL'] = df['UTIL']
         
         # Actually, let me check what FanDuel expects exactly
-        logger.info("🔍 Creating multiple FanDuel format options...")
+        logger.info(" Creating multiple FanDuel format options...")
         
         # Option 1: Standard format with OF/OF/OF
         fd_option1 = pd.DataFrame()
@@ -117,31 +117,31 @@ def create_fanduel_upload_format():
         files_saved.append(('MAIN UPLOAD FILE', main_file))
         
         logger.info("")
-        logger.info("💾 FANDUEL UPLOAD FILES CREATED:")
+        logger.info(" FANDUEL UPLOAD FILES CREATED:")
         for desc, file_path in files_saved:
-            logger.info(f"   📁 {desc}: {file_path}")
+            logger.info(f"    {desc}: {file_path}")
         
         logger.info("")
-        logger.info("🎯 UPLOAD INSTRUCTIONS:")
+        logger.info("TARGET: UPLOAD INSTRUCTIONS:")
         logger.info("1. Try uploading: FD_LINEUP_UPLOAD_READY.csv FIRST")
         logger.info("2. If that fails, try: FD_UPLOAD_NUMBERED_OF_*.csv")
         logger.info("3. If that fails, try: FD_UPLOAD_WITH_NAMES_*.csv")
         logger.info("")
-        logger.info("📊 LINEUP VERIFICATION:")
+        logger.info("DATA: LINEUP VERIFICATION:")
         logger.info(f"   Lineups: {len(fd_option3)}")
-        logger.info(f"   All have Player IDs: ✅")
-        logger.info(f"   All confirmed starters: ✅")
-        logger.info(f"   No NS/PO players: ✅")
+        logger.info(f"   All have Player IDs: SUCCESS:")
+        logger.info(f"   All confirmed starters: SUCCESS:")
+        logger.info(f"   No NS/PO players: SUCCESS:")
         
         # Show first lineup as example
         logger.info("")
-        logger.info("📋 SAMPLE LINEUP (first lineup):")
+        logger.info("INFO: SAMPLE LINEUP (first lineup):")
         first_lineup = fd_option3.iloc[0]
         for pos in ['P', 'C', '1B', '2B', '3B', 'SS', 'OF', 'OF_2', 'OF_3', 'UTIL']:
             logger.info(f"   {pos}: {first_lineup[pos]}")
         
     except Exception as e:
-        logger.error(f"❌ FanDuel format error: {e}")
+        logger.error(f"ERROR: FanDuel format error: {e}")
         import traceback
         traceback.print_exc()
 

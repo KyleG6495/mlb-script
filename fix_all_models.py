@@ -29,7 +29,7 @@ class ModelFixer:
         
     def diagnose_feature_alignment(self):
         """Check if prediction features match training features"""
-        logging.info("🔍 STEP 1: Diagnosing feature alignment...")
+        logging.info(" STEP 1: Diagnosing feature alignment...")
         
         # Load training data
         hitter_log = pd.read_csv("../data/hitter_boxscores_full.csv", parse_dates=['date'])
@@ -50,20 +50,20 @@ class ModelFixer:
         
         if missing_in_pred:
             self.issues_found.append(f"Missing in prediction data: {list(missing_in_pred)[:10]}...")
-            logging.warning(f"❌ Missing {len(missing_in_pred)} features in prediction data")
+            logging.warning(f"ERROR: Missing {len(missing_in_pred)} features in prediction data")
         
         if missing_in_train:
             self.issues_found.append(f"Missing in training data: {list(missing_in_train)[:10]}...")
-            logging.warning(f"❌ Missing {len(missing_in_train)} features in training data")
+            logging.warning(f"ERROR: Missing {len(missing_in_train)} features in training data")
         
         common_features = train_cols & pred_cols
-        logging.info(f"✅ Common features: {len(common_features)}")
+        logging.info(f"SUCCESS: Common features: {len(common_features)}")
         
         return common_features
     
     def fix_pitcher_features(self):
         """Fix pitcher feature loading"""
-        logging.info("🔍 STEP 2: Fixing pitcher features...")
+        logging.info(" STEP 2: Fixing pitcher features...")
         
         pitcher_files = [
             "../data/pitcher_features_probables.csv",
@@ -74,18 +74,18 @@ class ModelFixer:
         for file_path in pitcher_files:
             if os.path.exists(file_path):
                 df = pd.read_csv(file_path)
-                logging.info(f"✅ Found pitcher features: {file_path} ({df.shape})")
+                logging.info(f"SUCCESS: Found pitcher features: {file_path} ({df.shape})")
                 self.fixes_applied.append(f"Located pitcher features: {os.path.basename(file_path)}")
                 return file_path
             else:
-                logging.warning(f"❌ Missing: {file_path}")
+                logging.warning(f"ERROR: Missing: {file_path}")
         
         self.issues_found.append("No pitcher features file found")
         return None
     
     def validate_model_predictions(self, category, model_path):
         """Validate that model predictions are reasonable"""
-        logging.info(f"🔍 STEP 3: Validating {category} model...")
+        logging.info(f" STEP 3: Validating {category} model...")
         
         try:
             # Load model
@@ -169,13 +169,13 @@ class ModelFixer:
                 self.issues_found.append(f"{category}: Predictions too extreme (mean: {pred_mean:.3f})")
                 return False
             else:
-                logging.info(f"✅ {category} model predictions look reasonable")
+                logging.info(f"SUCCESS: {category} model predictions look reasonable")
                 self.fixes_applied.append(f"{category} model validated")
                 return True
                 
         except Exception as e:
             self.issues_found.append(f"{category} model validation failed: {str(e)}")
-            logging.error(f"❌ {category} validation error: {e}")
+            logging.error(f"ERROR: {category} validation error: {e}")
             return False
     
     def derive_columns(self, df, category):
@@ -206,7 +206,7 @@ class ModelFixer:
     
     def retrain_bad_models(self, categories_to_fix):
         """Retrain models that failed validation"""
-        logging.info("🔍 STEP 4: Retraining problematic models...")
+        logging.info(" STEP 4: Retraining problematic models...")
         
         for category in categories_to_fix:
             logging.info(f"Retraining {category}...")
@@ -231,19 +231,19 @@ class ModelFixer:
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
                 
                 if result.returncode == 0:
-                    logging.info(f"✅ Successfully retrained {category}")
+                    logging.info(f"SUCCESS: Successfully retrained {category}")
                     self.fixes_applied.append(f"Retrained {category} model")
                 else:
-                    logging.error(f"❌ Failed to retrain {category}: {result.stderr}")
+                    logging.error(f"ERROR: Failed to retrain {category}: {result.stderr}")
                     self.issues_found.append(f"Retraining {category} failed")
                     
             except Exception as e:
-                logging.error(f"❌ Error retraining {category}: {e}")
+                logging.error(f"ERROR: Error retraining {category}: {e}")
                 self.issues_found.append(f"Retraining {category} error: {str(e)}")
     
     def create_feature_aligned_prediction_data(self):
         """Create prediction data with proper feature alignment"""
-        logging.info("🔍 STEP 5: Creating feature-aligned prediction data...")
+        logging.info(" STEP 5: Creating feature-aligned prediction data...")
         
         try:
             # Load current prediction data
@@ -270,19 +270,19 @@ class ModelFixer:
             output_file = "../data/fd_hitter_features_aligned.csv"
             aligned_pred.to_csv(output_file, index=False)
             
-            logging.info(f"✅ Created feature-aligned prediction data: {output_file}")
+            logging.info(f"SUCCESS: Created feature-aligned prediction data: {output_file}")
             self.fixes_applied.append("Created feature-aligned prediction data")
             
             return output_file
             
         except Exception as e:
-            logging.error(f"❌ Error creating aligned data: {e}")
+            logging.error(f"ERROR: Error creating aligned data: {e}")
             self.issues_found.append(f"Feature alignment failed: {str(e)}")
             return None
     
     def run_comprehensive_fix(self):
         """Run complete model fixing process"""
-        logging.info("🚀 STARTING COMPREHENSIVE MODEL FIX")
+        logging.info("START: STARTING COMPREHENSIVE MODEL FIX")
         logging.info("=" * 60)
         
         # Step 1: Diagnose feature alignment
@@ -314,7 +314,7 @@ class ModelFixer:
                     break
             
             if not model_found:
-                logging.warning(f"❌ No model found for {category}")
+                logging.warning(f"ERROR: No model found for {category}")
                 bad_models.append(category)
         
         # Step 4: Retrain bad models
@@ -327,20 +327,20 @@ class ModelFixer:
         
         # Summary
         logging.info("\n" + "=" * 60)
-        logging.info("🎯 MODEL FIX SUMMARY")
+        logging.info("TARGET: MODEL FIX SUMMARY")
         logging.info("=" * 60)
         
         if self.issues_found:
-            logging.info(f"❌ ISSUES FOUND ({len(self.issues_found)}):")
+            logging.info(f"ERROR: ISSUES FOUND ({len(self.issues_found)}):")
             for issue in self.issues_found:
-                logging.info(f"   • {issue}")
+                logging.info(f"    {issue}")
         
         if self.fixes_applied:
-            logging.info(f"✅ FIXES APPLIED ({len(self.fixes_applied)}):")
+            logging.info(f"SUCCESS: FIXES APPLIED ({len(self.fixes_applied)}):")
             for fix in self.fixes_applied:
-                logging.info(f"   • {fix}")
+                logging.info(f"    {fix}")
         
-        logging.info("\n🚀 Model fixing complete!")
+        logging.info("\nSTART: Model fixing complete!")
         
         return len(self.issues_found) == 0
 
@@ -349,10 +349,10 @@ def main():
     success = fixer.run_comprehensive_fix()
     
     if success:
-        logging.info("✅ All models fixed successfully!")
+        logging.info("SUCCESS: All models fixed successfully!")
         
         # Test the betting system
-        logging.info("\n🎯 Testing betting system with fixed models...")
+        logging.info("\nTARGET: Testing betting system with fixed models...")
         try:
             import subprocess
             result = subprocess.run([
@@ -361,14 +361,14 @@ def main():
             ], capture_output=True, text=True, timeout=120)
             
             if result.returncode == 0:
-                logging.info("✅ Betting system test successful!")
+                logging.info("SUCCESS: Betting system test successful!")
             else:
-                logging.error(f"❌ Betting system test failed: {result.stderr}")
+                logging.error(f"ERROR: Betting system test failed: {result.stderr}")
                 
         except Exception as e:
-            logging.error(f"❌ Error testing betting system: {e}")
+            logging.error(f"ERROR: Error testing betting system: {e}")
     else:
-        logging.error("❌ Some models still have issues - check the log above")
+        logging.error("ERROR: Some models still have issues - check the log above")
 
 if __name__ == "__main__":
     main()

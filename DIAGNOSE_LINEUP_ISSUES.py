@@ -19,12 +19,12 @@ def diagnose_lineup_issues():
     failed_entries = ['3552555023', '3552555017', '3552555029', '3552555028', '3552555025', '3552555024']
     
     for entry_id in failed_entries:
-        print(f"🔍 ANALYZING ENTRY {entry_id}:")
+        print(f" ANALYZING ENTRY {entry_id}:")
         
         # Get the lineup
         lineup_row = lineups_df[lineups_df['entry_id'] == int(entry_id)]
         if lineup_row.empty:
-            print(f"  ❌ Entry not found")
+            print(f"  ERROR: Entry not found")
             continue
             
         lineup = lineup_row.iloc[0]
@@ -73,22 +73,22 @@ def diagnose_lineup_issues():
             
             print(f"  {pos}: {player['First Name']} {player['Last Name']} (${player['Salary']}) - {player['Roster Position']}")
         
-        print(f"  💰 Total Salary: ${total_salary}")
+        print(f"  MONEY: Total Salary: ${total_salary}")
         
         if missing_players:
-            print(f"  ❌ MISSING PLAYERS: {missing_players}")
+            print(f"  ERROR: MISSING PLAYERS: {missing_players}")
         
         if position_violations:
-            print(f"  ❌ POSITION VIOLATIONS: ")
+            print(f"  ERROR: POSITION VIOLATIONS: ")
             for violation in position_violations:
-                print(f"     • {violation}")
+                print(f"      {violation}")
         
         if total_salary > 35000:
-            print(f"  ❌ SALARY CAP VIOLATION: ${total_salary} > $35,000")
+            print(f"  ERROR: SALARY CAP VIOLATION: ${total_salary} > $35,000")
             
         print("")
     
-    print("🔧 RECOMMENDATIONS:")
+    print("STEP: RECOMMENDATIONS:")
     print("1. Fix position eligibility issues (e.g., catchers in OF positions)")
     print("2. Replace any missing/invalid player IDs")
     print("3. Ensure salary cap compliance")

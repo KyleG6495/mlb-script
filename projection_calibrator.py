@@ -25,7 +25,7 @@ class ProjectionCalibrator:
     def analyze_projection_accuracy(self, lineups_df, actual_df):
         """Analyze how far off projections are by various factors"""
         
-        print("📊 PROJECTION ACCURACY ANALYSIS")
+        print("DATA: PROJECTION ACCURACY ANALYSIS")
         print("=" * 40)
         
         # Enhanced player matching for analysis
@@ -56,18 +56,18 @@ class ProjectionCalibrator:
                 })
         
         if not analysis_data:
-            print("❌ No matching players found for analysis")
+            print("ERROR: No matching players found for analysis")
             return None
             
         df = pd.DataFrame(analysis_data)
-        print(f"✅ Analyzed {len(df)} matched players")
+        print(f"SUCCESS: Analyzed {len(df)} matched players")
         
         return df
     
     def calculate_calibration_factors(self, analysis_df):
         """Calculate calibration factors by position, salary, team"""
         
-        print("\n🔧 CALCULATING CALIBRATION FACTORS")
+        print("\nSTEP: CALCULATING CALIBRATION FACTORS")
         print("-" * 40)
         
         # Global calibration factor
@@ -75,13 +75,13 @@ class ProjectionCalibrator:
         overall_actual = analysis_df['actual_fppg'].mean()
         self.global_factor = overall_actual / overall_projected if overall_projected > 0 else 1.0
         
-        print(f"📊 Overall Stats:")
+        print(f"DATA: Overall Stats:")
         print(f"   Average Projected: {overall_projected:.1f} FPPG")
         print(f"   Average Actual: {overall_actual:.1f} FPPG")
         print(f"   Global Factor: {self.global_factor:.3f}")
         
         # Position-based factors
-        print(f"\n🏈 Position Calibration:")
+        print(f"\n Position Calibration:")
         position_stats = analysis_df.groupby('position').agg({
             'projected_fppg': 'mean',
             'actual_fppg': 'mean',
@@ -100,7 +100,7 @@ class ProjectionCalibrator:
                                           bins=[0, 3000, 5000, 8000, 12000], 
                                           labels=['Low', 'Mid', 'High', 'Elite'])
         
-        print(f"\n💰 Salary Tier Calibration:")
+        print(f"\nMONEY: Salary Tier Calibration:")
         salary_stats = analysis_df.groupby('salary_tier').agg({
             'projected_fppg': 'mean',
             'actual_fppg': 'mean',
@@ -115,7 +115,7 @@ class ProjectionCalibrator:
                 print(f"   {tier}: {factor:.3f} (n={count})")
         
         # Team performance factors
-        print(f"\n⚾ Team Performance Factors:")
+        print(f"\nBASEBALL: Team Performance Factors:")
         team_stats = analysis_df.groupby('team').agg({
             'projected_fppg': 'mean',
             'actual_fppg': 'mean',
@@ -202,14 +202,14 @@ class ProjectionCalibrator:
         
         calibration_df = pd.DataFrame(calibration_data)
         calibration_df.to_csv(filename, index=False)
-        print(f"\n💾 Calibration model saved: {filename}")
+        print(f"\n Calibration model saved: {filename}")
         
         return filename
 
 def run_projection_calibration():
     """Run the complete projection calibration process"""
     
-    print("🎯 PROJECTION CALIBRATION SYSTEM")
+    print("TARGET: PROJECTION CALIBRATION SYSTEM")
     print("=" * 50)
     
     # Load data
@@ -233,7 +233,7 @@ def run_projection_calibration():
         model_file = calibrator.save_calibration_model()
         
         # Test calibration on sample players
-        print(f"\n🧪 TESTING CALIBRATED PROJECTIONS:")
+        print(f"\n TESTING CALIBRATED PROJECTIONS:")
         print("-" * 40)
         
         sample_players = analysis_df.head(5)
@@ -255,7 +255,7 @@ def run_projection_calibration():
         
         improvement = ((original_mae - calibrated_mae) / original_mae) * 100
         
-        print(f"\n📈 CALIBRATION IMPROVEMENT:")
+        print(f"\nPROGRESS: CALIBRATION IMPROVEMENT:")
         print(f"   Original MAE: {original_mae:.2f}")
         print(f"   Calibrated MAE: {calibrated_mae:.2f}")
         print(f"   Improvement: {improvement:.1f}%")

@@ -10,7 +10,7 @@ def get_valid_player_ids():
     slate_path = "../fd_current_slate/fd_slate_today.csv"
     
     if not os.path.exists(slate_path):
-        print(f"❌ FanDuel slate file not found: {slate_path}")
+        print(f"ERROR: FanDuel slate file not found: {slate_path}")
         return []
     
     df = pd.read_csv(slate_path)
@@ -25,7 +25,7 @@ def get_valid_player_ids():
     ]
     
     if not injured_players.empty:
-        print(f"🚫 Excluding {len(injured_players)} injured players:")
+        print(f" Excluding {len(injured_players)} injured players:")
         for _, player in injured_players.head(10).iterrows():  # Show first 10
             injury = player['Injury Indicator']
             detail = player['Injury Details'] if pd.notna(player['Injury Details']) else ''
@@ -45,7 +45,7 @@ def get_valid_player_ids():
     non_probable = pitchers[pitchers['Probable Pitcher'] != 'Yes']
     
     if not non_probable.empty:
-        print(f"🚫 Excluding {len(non_probable)} non-probable pitchers")
+        print(f" Excluding {len(non_probable)} non-probable pitchers")
     
     # For hitters, only include those in batting order (exclude 0, O, o)
     hitters = eligible_df[eligible_df['Position'] != 'P']
@@ -66,7 +66,7 @@ def get_valid_player_ids():
     ]
     
     if not bench_hitters.empty:
-        print(f"🚫 Excluding {len(bench_hitters)} hitters not playing today (batting order = 0/O/o)")
+        print(f" Excluding {len(bench_hitters)} hitters not playing today (batting order = 0/O/o)")
         # Show some examples of excluded players
         for _, player in bench_hitters.head(10).iterrows():
             batting_order = player['Batting Order']
@@ -80,13 +80,13 @@ def get_valid_player_ids():
     # Debug: Check if Charles LeBlanc made it through
     charles_check = final_eligible[final_eligible['Nickname'].str.contains('Charles', na=False)]
     if not charles_check.empty:
-        print(f"🔍 DEBUG: Charles LeBlanc found in final eligible list:")
+        print(f" DEBUG: Charles LeBlanc found in final eligible list:")
         for _, player in charles_check.iterrows():
             print(f"   {player['Nickname']} - Batting Order: '{player['Batting Order']}'")
     
     valid_ids = final_eligible['Id'].astype(str).tolist()
     
-    print(f"✅ Found {len(valid_ids)} eligible players:")
+    print(f"SUCCESS: Found {len(valid_ids)} eligible players:")
     print(f"   - {len(probable_pitchers)} probable starting pitchers")
     print(f"   - {len(batting_order_hitters)} hitters in batting order")
     
@@ -97,7 +97,7 @@ def load_enhanced_lineups():
     lineup_files = glob.glob("../data/enhanced_lineup_*.csv")
     
     if not lineup_files:
-        print("❌ No enhanced lineup files found in ../data/")
+        print("ERROR: No enhanced lineup files found in ../data/")
         return []
     
     lineups = []
@@ -135,7 +135,7 @@ def optimize_salary_cap(lineup, valid_ids, slate_df, max_salary=35000):
     if current_salary <= max_salary:
         return lineup  # Already under cap
     
-    print(f"   💰 Optimizing lineup (${current_salary:,} -> target: ${max_salary:,})")
+    print(f"   MONEY: Optimizing lineup (${current_salary:,} -> target: ${max_salary:,})")
     
     # Get available cheaper alternatives by position
     available_players = slate_df[slate_df['Id'].astype(str).isin(valid_ids)].copy()
@@ -164,17 +164,17 @@ def optimize_salary_cap(lineup, valid_ids, slate_df, max_salary=35000):
         
         if not cheaper_alternatives.empty:
             replacement = cheaper_alternatives.iloc[0]
-            print(f"      🔄 Replace {expensive_player['Nickname']} (${expensive_player['Salary']}) with {replacement['Nickname']} (${replacement['Salary']})")
+            print(f"      SWAP: Replace {expensive_player['Nickname']} (${expensive_player['Salary']}) with {replacement['Nickname']} (${replacement['Salary']})")
             
             # Replace in lineup
             optimized_lineup.loc[idx] = replacement
     
     final_salary = optimized_lineup['Salary'].sum()
     if final_salary <= max_salary:
-        print(f"   ✅ Optimized to ${final_salary:,}")
+        print(f"   SUCCESS: Optimized to ${final_salary:,}")
         return optimized_lineup
     else:
-        print(f"   ❌ Could not optimize under ${max_salary:,} (still ${final_salary:,})")
+        print(f"   ERROR: Could not optimize under ${max_salary:,} (still ${final_salary:,})")
         return lineup  # Return original if couldn't optimize
 
 def build_proper_lineup(original_lineup, valid_ids, slate_df):
@@ -201,7 +201,7 @@ def build_proper_lineup(original_lineup, valid_ids, slate_df):
     # Show any excluded players from original lineup
     excluded_original = original_lineup[~original_lineup['Id'].astype(str).isin(valid_ids)]
     if not excluded_original.empty:
-        print(f"   🚫 Excluded from original lineup:")
+        print(f"    Excluded from original lineup:")
         for _, player in excluded_original.iterrows():
             print(f"      {player['Nickname']} ({player['Position']}) - Not eligible today")
     
@@ -243,9 +243,9 @@ def build_proper_lineup(original_lineup, valid_ids, slate_df):
                     player = unused_available.iloc[0]
                     final_players.append(player)
                     used_ids.add(str(player['Id']))
-                    print(f"      ✅ Added {player['Nickname']} ({position}) to fill missing position")
+                    print(f"      SUCCESS: Added {player['Nickname']} ({position}) to fill missing position")
                 else:
-                    print(f"⚠️ No available {position} players to fill lineup")
+                    print(f"WARNING: No available {position} players to fill lineup")
     
     # Convert to DataFrame
     if final_players:
@@ -291,9 +291,9 @@ def create_fanduel_submission(lineups):
         
         # Check FanDuel salary cap ($35,000)
         if processed_lineup['total_salary'] > 35000:
-            print(f"⚠️ {strategy} {number}: ${processed_lineup['total_salary']:,} | {processed_lineup['total_fppg']:.1f} FPPG - OVER SALARY CAP!")
+            print(f"WARNING: {strategy} {number}: ${processed_lineup['total_salary']:,} | {processed_lineup['total_fppg']:.1f} FPPG - OVER SALARY CAP!")
         else:
-            print(f"✅ {strategy} {number}: ${processed_lineup['total_salary']:,} | {processed_lineup['total_fppg']:.1f} FPPG")
+            print(f"SUCCESS: {strategy} {number}: ${processed_lineup['total_salary']:,} | {processed_lineup['total_fppg']:.1f} FPPG")
         
         processed_lineups.append(processed_lineup)
     
@@ -309,7 +309,7 @@ def create_fanduel_file(lineups, valid_ids):
     template_path = "../fd_current_slate/Lineups.csv"
     
     if not os.path.exists(template_path):
-        print(f"❌ FanDuel template not found: {template_path}")
+        print(f"ERROR: FanDuel template not found: {template_path}")
         return
     
     # Read template
@@ -363,8 +363,8 @@ def create_fanduel_file(lineups, valid_ids):
     output_path = f"../fd_current_slate/Lineups_Ready_To_Submit_{timestamp}.csv"
     template_df.to_csv(output_path, index=False)
     
-    print(f"\n🎉 FANDUEL SUBMISSION READY!")
-    print(f"📤 Upload this file to FanDuel: {output_path}")
+    print(f"\nCOMPLETE: FANDUEL SUBMISSION READY!")
+    print(f" Upload this file to FanDuel: {output_path}")
 
 def create_summary_file(lineups):
     """Create readable summary CSV"""
@@ -403,11 +403,11 @@ def create_summary_file(lineups):
     summary_df = pd.DataFrame(summary_data)
     summary_df.to_csv("../data/fanduel_submission_summary.csv", index=False)
     
-    print(f"\n📋 SUMMARY:")
+    print(f"\nINFO: SUMMARY:")
     for _, row in summary_df.iterrows():
         print(f"{row['Lineup']:<15} | ${row['Total_Salary']:>5} | {row['Total_FPPG']:>5.1f} FPPG")
     
-    print(f"\n✅ Summary saved: ../data/fanduel_submission_summary.csv")
+    print(f"\nSUCCESS: Summary saved: ../data/fanduel_submission_summary.csv")
 
 def analyze_lineup_results(date_to_check=None):
     """Analyze how yesterday's lineups performed with actual results"""
@@ -416,22 +416,22 @@ def analyze_lineup_results(date_to_check=None):
         # Default to yesterday
         date_to_check = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
     
-    print(f"🔍 ANALYZING LINEUP RESULTS FOR {date_to_check}")
+    print(f" ANALYZING LINEUP RESULTS FOR {date_to_check}")
     print("=" * 60)
     
     # Look for yesterday's summary file
     summary_files = glob.glob("../data/fanduel_submission_summary*.csv")
     if not summary_files:
-        print("❌ No lineup summary files found to analyze")
+        print("ERROR: No lineup summary files found to analyze")
         return
     
     # Get the most recent summary file
     latest_summary = max(summary_files, key=os.path.getmtime)
-    print(f"📊 Analyzing lineups from: {os.path.basename(latest_summary)}")
+    print(f"DATA: Analyzing lineups from: {os.path.basename(latest_summary)}")
     
     try:
         summary_df = pd.read_csv(latest_summary)
-        print(f"✅ Found {len(summary_df)} lineups to analyze")
+        print(f"SUCCESS: Found {len(summary_df)} lineups to analyze")
         
         # Track overall performance
         total_projected = 0
@@ -444,7 +444,7 @@ def analyze_lineup_results(date_to_check=None):
             projected_fppg = row['Total_FPPG']
             salary = row['Total_Salary']
             
-            print(f"\n📋 {lineup_name}")
+            print(f"\nINFO: {lineup_name}")
             print(f"   Projected: {projected_fppg:.1f} FPPG | Salary: ${salary:,}")
             
             # Get player performances
@@ -477,9 +477,9 @@ def analyze_lineup_results(date_to_check=None):
             print(f"   Actual: {actual_total:.1f} FPPG")
             
             if difference > 0:
-                print(f"   Difference: +{difference:.1f} FPPG ✅")
+                print(f"   Difference: +{difference:.1f} FPPG SUCCESS:")
             else:
-                print(f"   Difference: {difference:.1f} FPPG ❌")
+                print(f"   Difference: {difference:.1f} FPPG ERROR:")
             
             # Calculate ROI (Return on Investment)
             roi = ((actual_total - projected_fppg) / projected_fppg) * 100
@@ -488,13 +488,13 @@ def analyze_lineup_results(date_to_check=None):
             # Show all players with their scores
             if player_results:
                 player_results.sort(key=lambda x: x['actual_points'], reverse=True)
-                print(f"   📊 PLAYER BREAKDOWN:")
+                print(f"   DATA: PLAYER BREAKDOWN:")
                 for player in player_results:
                     print(f"      {player['position']:<3} {player['name']:<20} {player['actual_points']:>6.1f} pts")
                 
-                print(f"   🏆 Best: {player_results[0]['name']} ({player_results[0]['actual_points']:.1f} pts)")
+                print(f"   LINEUP: Best: {player_results[0]['name']} ({player_results[0]['actual_points']:.1f} pts)")
                 if len(player_results) > 1:
-                    print(f"   💔 Worst: {player_results[-1]['name']} ({player_results[-1]['actual_points']:.1f} pts)")
+                    print(f"    Worst: {player_results[-1]['name']} ({player_results[-1]['actual_points']:.1f} pts)")
             
             # Track for summary
             total_projected += projected_fppg
@@ -510,7 +510,7 @@ def analyze_lineup_results(date_to_check=None):
             })
         
         # Overall summary
-        print(f"\n📈 OVERALL PERFORMANCE SUMMARY")
+        print(f"\nPROGRESS: OVERALL PERFORMANCE SUMMARY")
         print("=" * 40)
         print(f"Total Projected: {total_projected:.1f} FPPG")
         print(f"Total Actual: {total_actual:.1f} FPPG")
@@ -519,19 +519,19 @@ def analyze_lineup_results(date_to_check=None):
         
         # Best and worst lineups
         lineup_results.sort(key=lambda x: x['difference'], reverse=True)
-        print(f"\n🏆 Best Performing Lineup: {lineup_results[0]['lineup']}")
+        print(f"\nLINEUP: Best Performing Lineup: {lineup_results[0]['lineup']}")
         print(f"   {lineup_results[0]['difference']:+.1f} FPPG difference")
-        print(f"\n💔 Worst Performing Lineup: {lineup_results[-1]['lineup']}")
+        print(f"\n Worst Performing Lineup: {lineup_results[-1]['lineup']}")
         print(f"   {lineup_results[-1]['difference']:+.1f} FPPG difference")
         
         # Save detailed results
         results_df = pd.DataFrame(lineup_results)
         results_file = f"../data/lineup_results_{date_to_check.replace('-', '')}.csv"
         results_df.to_csv(results_file, index=False)
-        print(f"\n💾 Detailed results saved: {results_file}")
+        print(f"\n Detailed results saved: {results_file}")
         
     except Exception as e:
-        print(f"❌ Error analyzing results: {str(e)}")
+        print(f"ERROR: Error analyzing results: {str(e)}")
         import traceback
         traceback.print_exc()
 
@@ -571,7 +571,7 @@ def create_results_template():
     template_path = f"../data/mlb_results_{yesterday}.csv"
     
     if os.path.exists(template_path):
-        print(f"✅ Results file already exists: {template_path}")
+        print(f"SUCCESS: Results file already exists: {template_path}")
         return
     
     # Create template with common columns
@@ -595,11 +595,11 @@ def create_results_template():
     template_df = pd.DataFrame(template_data)
     template_df.to_csv(template_path, index=False)
     
-    print(f"📝 Created results template: {template_path}")
+    print(f" Created results template: {template_path}")
     print("   Fill this file with actual player stats to get precise results analysis")
 
 def main():
-    print("🚀 FANDUEL SUBMISSION CREATOR - FIXED VERSION")
+    print("START: FANDUEL SUBMISSION CREATOR - FIXED VERSION")
     print("=" * 60)
     
     # Check if user wants to analyze results
@@ -614,7 +614,7 @@ def main():
     if not lineups:
         return
     
-    print(f"✅ Found {len(lineups)} enhanced lineups")
+    print(f"SUCCESS: Found {len(lineups)} enhanced lineups")
     
     # Sort by strategy and number
     lineups.sort(key=lambda x: (x['strategy'], int(x['number'])))
@@ -622,8 +622,8 @@ def main():
     # Create submission
     processed_lineups = create_fanduel_submission(lineups)
     
-    print(f"\n🎉 All done! Generated {len(processed_lineups)} valid FanDuel lineups")
-    print(f"\n💡 TIP: To check yesterday's results, run:")
+    print(f"\nCOMPLETE: All done! Generated {len(processed_lineups)} valid FanDuel lineups")
+    print(f"\nTIP: TIP: To check yesterday's results, run:")
     print(f"   python create_fanduel_submission_fixed.py results")
 
 if __name__ == "__main__":

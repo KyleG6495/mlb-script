@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def input_my_props():
     """Input your daily prop bet decisions"""
-    print("🎯 DAILY PROP BET INPUT SYSTEM")
+    print("TARGET: DAILY PROP BET INPUT SYSTEM")
     print("=" * 50)
     print("Enter your prop bet decisions for today's slate")
     print("Format: Player Name, Prop Type, Line, Your Pick (Over/Under), Confidence (1-5)")
@@ -34,7 +34,7 @@ def input_my_props():
         try:
             parts = [p.strip() for p in prop_input.split(',')]
             if len(parts) != 5:
-                print("❌ Invalid format. Use: Player, Prop Type, Line, Pick, Confidence")
+                print("ERROR: Invalid format. Use: Player, Prop Type, Line, Pick, Confidence")
                 continue
                 
             player, prop_type, line, pick, confidence = parts
@@ -48,10 +48,10 @@ def input_my_props():
                 'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             })
             
-            print(f"✅ Added: {player} {prop_type} {line} {pick} (Confidence: {confidence})")
+            print(f"SUCCESS: Added: {player} {prop_type} {line} {pick} (Confidence: {confidence})")
             
         except Exception as e:
-            print(f"❌ Error: {e}")
+            print(f"ERROR: Error: {e}")
             print("Please use format: Player Name, Prop Type, Line, Your Pick, Confidence")
     
     return pd.DataFrame(props)
@@ -59,14 +59,14 @@ def input_my_props():
 def save_my_props(props_df):
     """Save your prop decisions"""
     if len(props_df) == 0:
-        print("❌ No props to save")
+        print("ERROR: No props to save")
         return None
         
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"../data/my_daily_props_{timestamp}.csv"
     
     props_df.to_csv(filename, index=False)
-    print(f"💾 Saved your props: {filename}")
+    print(f" Saved your props: {filename}")
     return filename
 
 def load_my_latest_props():
@@ -76,31 +76,31 @@ def load_my_latest_props():
     prop_files = glob.glob("../data/my_daily_props_*.csv")
     
     if not prop_files:
-        print("❌ No prop files found. Run input mode first.")
+        print("ERROR: No prop files found. Run input mode first.")
         return None
     
     latest_file = max(prop_files)
     props_df = pd.read_csv(latest_file)
     
-    print(f"📊 Loaded {len(props_df)} props from {latest_file}")
+    print(f"DATA: Loaded {len(props_df)} props from {latest_file}")
     return props_df
 
 def generate_lineups_from_my_props(props_df):
     """Generate DFS lineups based on your prop decisions"""
     
     if props_df is None or len(props_df) == 0:
-        print("❌ No props available for lineup generation")
+        print("ERROR: No props available for lineup generation")
         return
     
-    print("\n🏆 GENERATING LINEUPS FROM YOUR PROPS")
+    print("\nLINEUP: GENERATING LINEUPS FROM YOUR PROPS")
     print("=" * 50)
     
     # Load current slate
     try:
         slate_df = pd.read_csv("../data/fd_slate_starters_only.csv")
-        print(f"✅ Loaded {len(slate_df)} players from slate")
+        print(f"SUCCESS: Loaded {len(slate_df)} players from slate")
     except:
-        print("❌ Could not load fd_slate_today.csv")
+        print("ERROR: Could not load fd_slate_today.csv")
         return
     
     # Filter to confirmed starters (your proven system)
@@ -113,7 +113,7 @@ def generate_lineups_from_my_props(props_df):
     confirmed_starters = pd.concat([starting_pitchers, starting_hitters], ignore_index=True)
     confirmed_starters['player_name'] = confirmed_starters['First Name'] + ' ' + confirmed_starters['Last Name']
     
-    print(f"🎯 Filtered to {len(confirmed_starters)} confirmed starters")
+    print(f"TARGET: Filtered to {len(confirmed_starters)} confirmed starters")
     
     # Boost players based on your prop confidence
     for _, prop in props_df.iterrows():
@@ -130,10 +130,10 @@ def generate_lineups_from_my_props(props_df):
                 'FPPG'
             ] *= boost_factor
             
-            print(f"🚀 Boosted {prop['player_name']} by {(boost_factor-1)*100:.0f}% (confidence {prop['confidence']})")
+            print(f"START: Boosted {prop['player_name']} by {(boost_factor-1)*100:.0f}% (confidence {prop['confidence']})")
     
     # Generate lineups using your proven system
-    print("\n🏆 Building lineups with your prop boosts...")
+    print("\nLINEUP: Building lineups with your prop boosts...")
     
     # Use DAILY_LINEUP_GENERATOR logic but with prop-boosted projections
     lineups = []
@@ -146,9 +146,9 @@ def generate_lineups_from_my_props(props_df):
     # Save results
     if lineups:
         save_prop_based_lineups(lineups, props_df)
-        print(f"\n✅ Generated {len(lineups)} lineups based on your props!")
+        print(f"\nSUCCESS: Generated {len(lineups)} lineups based on your props!")
     else:
-        print("❌ Could not generate lineups")
+        print("ERROR: Could not generate lineups")
 
 def build_prop_based_lineup(slate_df, strategy_num):
     """Build lineup with prop-based player boosts"""
@@ -231,13 +231,13 @@ def save_prop_based_lineups(lineups, props_df):
     props_file = f"../data/prop_summary_{timestamp}.csv" 
     props_df.to_csv(props_file, index=False)
     
-    print(f"💾 Prop-based lineups: {fd_file}")
-    print(f"💾 Your props summary: {props_file}")
+    print(f" Prop-based lineups: {fd_file}")
+    print(f" Your props summary: {props_file}")
 
 def main():
     """Main function for prop-based lineup generation"""
     
-    print("🎯 MY DAILY PROP BET SYSTEM")
+    print("TARGET: MY DAILY PROP BET SYSTEM")
     print("=" * 40)
     print("Choose an option:")
     print("1. Input new prop bets")
@@ -266,11 +266,11 @@ def main():
         # View recent props
         props_df = load_my_latest_props()
         if props_df is not None:
-            print("\n📊 YOUR RECENT PROPS:")
+            print("\nDATA: YOUR RECENT PROPS:")
             print(props_df.to_string(index=False))
     
     else:
-        print("❌ Invalid choice")
+        print("ERROR: Invalid choice")
 
 if __name__ == "__main__":
     main()

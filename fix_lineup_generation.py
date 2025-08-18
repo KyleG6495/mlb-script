@@ -15,35 +15,35 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def update_to_current_slate():
     """Update slate data to current confirmed starters"""
-    print("🔄 UPDATING TO CURRENT SLATE")
+    print("SWAP: UPDATING TO CURRENT SLATE")
     print("=" * 50)
     
     # Check if we have today's confirmed starters
     confirmed_file = "../data/fd_slate_confirmed_starters_only.csv"
     if not os.path.exists(confirmed_file):
-        print("❌ No confirmed starters file found")
+        print("ERROR: No confirmed starters file found")
         print("   Need to run data pipeline first: 1_DATA_PIPELINE.bat")
         return False
     
     # Load confirmed starters
     confirmed_df = pd.read_csv(confirmed_file)
-    print(f"✅ Found {len(confirmed_df)} confirmed starters for today")
+    print(f"SUCCESS: Found {len(confirmed_df)} confirmed starters for today")
     
     # Copy to fd_slate_today.csv for lineup generation
     today_slate_file = "../data/fd_slate_today.csv"
     confirmed_df.to_csv(today_slate_file, index=False)
-    print(f"✅ Updated today's slate: {today_slate_file}")
+    print(f"SUCCESS: Updated today's slate: {today_slate_file}")
     
     return True
 
 def create_conservative_projections():
     """Create conservative projections based on historical averages"""
-    print("\n🎯 CREATING CONSERVATIVE PROJECTIONS")
+    print("\nTARGET: CREATING CONSERVATIVE PROJECTIONS")
     print("=" * 50)
     
     slate_file = "../data/fd_slate_today.csv"
     if not os.path.exists(slate_file):
-        print("❌ No slate file found")
+        print("ERROR: No slate file found")
         return False
     
     slate_df = pd.read_csv(slate_file)
@@ -88,19 +88,19 @@ def create_conservative_projections():
     conservative_slate_file = "../data/fd_slate_conservative_projections.csv"
     slate_df.to_csv(conservative_slate_file, index=False)
     
-    print(f"✅ Created conservative projections: {conservative_slate_file}")
+    print(f"SUCCESS: Created conservative projections: {conservative_slate_file}")
     
     # Show sample projections
-    print("\n📊 SAMPLE CONSERVATIVE PROJECTIONS:")
+    print("\nDATA: SAMPLE CONSERVATIVE PROJECTIONS:")
     sample = slate_df.nlargest(10, 'Salary')[['First Name', 'Last Name', 'Position', 'Salary', 'Conservative_FPPG']]
     for _, row in sample.iterrows():
-        print(f"   {row['First Name']} {row['Last Name']:15} {row['Position']:2} ${row['Salary']:5,} → {row['Conservative_FPPG']:5.1f} FPPG")
+        print(f"   {row['First Name']} {row['Last Name']:15} {row['Position']:2} ${row['Salary']:5,}  {row['Conservative_FPPG']:5.1f} FPPG")
     
     return True
 
 def create_diversified_lineup_generator():
     """Create a simple diversified lineup generator"""
-    print("\n🎲 CREATING DIVERSIFIED LINEUP GENERATOR")
+    print("\n CREATING DIVERSIFIED LINEUP GENERATOR")
     print("=" * 50)
     
     script_content = '''#!/usr/bin/env python3
@@ -248,8 +248,8 @@ def save_lineups(lineups):
     summary_file = f"../data/conservative_lineup_summary_{timestamp}.csv"
     summary_df.to_csv(summary_file, index=False)
     
-    print(f"✅ Saved lineup details: {details_file}")
-    print(f"✅ Saved lineup summary: {summary_file}")
+    print(f"SUCCESS: Saved lineup details: {details_file}")
+    print(f"SUCCESS: Saved lineup summary: {summary_file}")
     
     return details_file, summary_file
 
@@ -260,7 +260,7 @@ if __name__ == "__main__":
     lineups = generate_conservative_lineups(10)
     
     if lineups:
-        print(f"\\n🏆 GENERATED {len(lineups)} CONSERVATIVE LINEUPS")
+        print(f"\\nLINEUP: GENERATED {len(lineups)} CONSERVATIVE LINEUPS")
         print("=" * 50)
         
         for lineup in lineups:
@@ -268,7 +268,7 @@ if __name__ == "__main__":
         
         save_lineups(lineups)
     else:
-        print("❌ Failed to generate lineups")
+        print("ERROR: Failed to generate lineups")
 '''
     
     # Save the generator script
@@ -276,12 +276,12 @@ if __name__ == "__main__":
     with open(generator_file, 'w', encoding='utf-8') as f:
         f.write(script_content)
     
-    print(f"✅ Created conservative lineup generator: {generator_file}")
+    print(f"SUCCESS: Created conservative lineup generator: {generator_file}")
     return True
 
 def main():
     """Main function to fix lineup generation"""
-    print("🔧 FIXING LINEUP GENERATION SYSTEM")
+    print("STEP: FIXING LINEUP GENERATION SYSTEM")
     print("=" * 60)
     
     # Step 1: Update to current slate
@@ -296,17 +296,17 @@ def main():
     if not create_diversified_lineup_generator():
         return
     
-    print("\n✅ LINEUP GENERATION FIXES COMPLETE!")
+    print("\nSUCCESS: LINEUP GENERATION FIXES COMPLETE!")
     print("=" * 60)
-    print("🎯 NEXT STEPS:")
+    print("TARGET: NEXT STEPS:")
     print("   1. Run: python conservative_lineup_generator.py")
     print("   2. Test with: 3_BACKTEST_ANALYSIS.bat")
     print("   3. Compare accuracy vs old system")
-    print("\n🔧 IMPROVEMENTS MADE:")
-    print("   ✅ Updated to current confirmed starters slate")
-    print("   ✅ Created conservative FPPG projections")
-    print("   ✅ Built diversified lineup generator")
-    print("   ✅ Added proper salary cap validation")
+    print("\nSTEP: IMPROVEMENTS MADE:")
+    print("   SUCCESS: Updated to current confirmed starters slate")
+    print("   SUCCESS: Created conservative FPPG projections")
+    print("   SUCCESS: Built diversified lineup generator")
+    print("   SUCCESS: Added proper salary cap validation")
 
 if __name__ == "__main__":
     main()

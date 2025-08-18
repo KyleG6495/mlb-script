@@ -43,12 +43,12 @@ def calculate_fanduel_points(row):
 
 def load_yesterdays_data():
     """Load 8/7/25 slate and actual results"""
-    logger.info("📊 Loading 8/7/25 data for backtest...")
+    logger.info("DATA: Loading 8/7/25 data for backtest...")
     
     # Load FanDuel slate from yesterday (this contains positions and salaries)
     try:
         slate_df = pd.read_csv("../data/fd_slate_starters_only.csv")
-        logger.info(f"✅ Loaded {len(slate_df)} players from FD slate")
+        logger.info(f"SUCCESS: Loaded {len(slate_df)} players from FD slate")
         
         # Clean up the slate data
         slate_df['player_name'] = slate_df['First Name'] + ' ' + slate_df['Last Name']
@@ -59,7 +59,7 @@ def load_yesterdays_data():
         
         # Teams that actually played on 8/7/25 (from the slate)
         playing_teams = set(slate_df['team'].unique())
-        logger.info(f"🏟️ Teams on slate: {sorted(playing_teams)}")
+        logger.info(f" Teams on slate: {sorted(playing_teams)}")
         
         # Add some projected FPPG and ownership (simplified for backtest)
         slate_df['projected_fppg'] = slate_df['fppg_avg'] * np.random.uniform(0.8, 1.2, len(slate_df))
@@ -69,29 +69,29 @@ def load_yesterdays_data():
         slate_df = slate_df[['player_name', 'position', 'team', 'fanduel_salary', 'projected_fppg', 'ownership_proj', 'fppg_avg']].copy()
         
     except Exception as e:
-        logger.error(f"❌ Could not load FD slate: {e}")
+        logger.error(f"ERROR: Could not load FD slate: {e}")
         return None, None
     
     # Load actual results from 8/7
     try:
         actual_df = pd.read_csv("../data/actual_results_20250807.csv")
-        logger.info(f"✅ Loaded {len(actual_df)} actual results from 8/7")
+        logger.info(f"SUCCESS: Loaded {len(actual_df)} actual results from 8/7")
         
         # Calculate actual FanDuel points
         actual_df['actual_fppg'] = actual_df.apply(calculate_fanduel_points, axis=1)
         
     except Exception as e:
-        logger.error(f"❌ Could not load actual results: {e}")
+        logger.error(f"ERROR: Could not load actual results: {e}")
         return slate_df, None
     
     return slate_df, actual_df
 
 def generate_10_unique_lineups(slate_df, salary_cap=35000):
     """Generate 10 unique, high-quality lineups"""
-    logger.info("🏆 Generating 10 unique lineups...")
+    logger.info("LINEUP: Generating 10 unique lineups...")
     
     if slate_df is None or len(slate_df) == 0:
-        logger.error("❌ No player data available")
+        logger.error("ERROR: No player data available")
         return []
     
     lineups = []
@@ -127,9 +127,9 @@ def generate_10_unique_lineups(slate_df, salary_cap=35000):
             attempts += 1
         
         if attempts >= max_attempts:
-            logger.warning(f"⚠️ Could not generate unique lineup {lineup_num}")
+            logger.warning(f"WARNING: Could not generate unique lineup {lineup_num}")
     
-    logger.info(f"✅ Generated {len(lineups)} unique lineups")
+    logger.info(f"SUCCESS: Generated {len(lineups)} unique lineups")
     return lineups
 
 def build_single_lineup(df, salary_cap, strategy_seed):
@@ -157,14 +157,14 @@ def build_single_lineup(df, salary_cap, strategy_seed):
         available = df[df['position'] == pos].copy()
         
         if len(available) == 0:
-            logger.warning(f"⚠️ No players available for position {pos}")
+            logger.warning(f"WARNING: No players available for position {pos}")
             return None
         
         # Filter by remaining salary
         affordable = available[available['fanduel_salary'] <= remaining_salary]
         
         if len(affordable) == 0:
-            logger.warning(f"⚠️ No affordable players for position {pos} (${remaining_salary} left)")
+            logger.warning(f"WARNING: No affordable players for position {pos} (${remaining_salary} left)")
             return None
         
         # Apply strategy
@@ -212,7 +212,7 @@ def build_single_lineup(df, salary_cap, strategy_seed):
 
 def backtest_lineups(lineups, actual_df):
     """Backtest lineups against actual 8/7 results"""
-    logger.info("🔍 Backtesting lineups against actual results...")
+    logger.info(" Backtesting lineups against actual results...")
     
     results = []
     
@@ -272,33 +272,33 @@ def save_backtest_results(lineups, backtest_results):
     details_df = pd.DataFrame(lineup_details)
     details_file = f"../data/backtest_lineup_details_{timestamp}.csv"
     details_df.to_csv(details_file, index=False)
-    logger.info(f"💾 Saved lineup details: {details_file}")
+    logger.info(f" Saved lineup details: {details_file}")
     
     # Save backtest summary
     summary_file = f"../data/backtest_summary_{timestamp}.csv"
     backtest_results.to_csv(summary_file, index=False)
-    logger.info(f"💾 Saved backtest summary: {summary_file}")
+    logger.info(f" Saved backtest summary: {summary_file}")
     
     return details_file, summary_file
 
 def main():
     """Main function to run backtest"""
     
-    logger.info("🎯 BACKTESTING 8/7/25 LINEUPS")
+    logger.info("TARGET: BACKTESTING 8/7/25 LINEUPS")
     logger.info("=" * 50)
     
     # Load data
     slate_df, actual_df = load_yesterdays_data()
     
     if slate_df is None:
-        logger.error("❌ Cannot proceed without slate data")
+        logger.error("ERROR: Cannot proceed without slate data")
         return
     
     # Generate lineups
     lineups = generate_10_unique_lineups(slate_df)
     
     if len(lineups) == 0:
-        logger.error("❌ No lineups generated")
+        logger.error("ERROR: No lineups generated")
         return
     
     # Backtest if we have actual results
@@ -309,22 +309,22 @@ def main():
         details_file, summary_file = save_backtest_results(lineups, backtest_results)
         
         # Print summary
-        print(f"\n🏆 BACKTEST RESULTS SUMMARY")
+        print(f"\nLINEUP: BACKTEST RESULTS SUMMARY")
         print("=" * 50)
         print(backtest_results.to_string(index=False))
         
         avg_accuracy = backtest_results['accuracy_pct'].mean()
         best_lineup = backtest_results.loc[backtest_results['actual_fppg'].idxmax()]
         
-        print(f"\n📊 PERFORMANCE METRICS:")
+        print(f"\nDATA: PERFORMANCE METRICS:")
         print(f"   Average Accuracy: {avg_accuracy:.1f}%")
         print(f"   Best Lineup: {best_lineup['lineup_id']} ({best_lineup['actual_fppg']:.1f} FPPG)")
         print(f"   Avg Players Found: {backtest_results['players_found'].mean():.1f}/9")
         
     else:
-        logger.warning("⚠️ No actual results available for backtesting")
+        logger.warning("WARNING: No actual results available for backtesting")
     
-    logger.info("✅ Backtest complete!")
+    logger.info("SUCCESS: Backtest complete!")
 
 if __name__ == "__main__":
     main()

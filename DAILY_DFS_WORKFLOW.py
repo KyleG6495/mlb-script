@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 def daily_dfs_workflow():
     """Complete daily DFS workflow"""
     
-    logger.info("🚀 STARTING DAILY MLB DFS WORKFLOW")
+    logger.info("START: STARTING DAILY MLB DFS WORKFLOW")
     logger.info("=" * 50)
     
     steps = [
@@ -76,9 +76,9 @@ def daily_dfs_workflow():
         }
     ]
     
-    logger.info("📋 DAILY WORKFLOW STEPS:")
+    logger.info("INFO: DAILY WORKFLOW STEPS:")
     for step in steps:
-        status = "🔴 CRITICAL" if step['critical'] else "🟡 OPTIONAL"
+        status = " CRITICAL" if step['critical'] else " OPTIONAL"
         logger.info(f"STEP {step['step']}: {step['name']} {status}")
         logger.info(f"  Action: {step['action']}")
         if step.get('note'):
@@ -90,7 +90,7 @@ def daily_dfs_workflow():
 def validate_daily_setup():
     """Validate that all required files and folders exist"""
     
-    logger.info("🔍 VALIDATING DAILY SETUP")
+    logger.info(" VALIDATING DAILY SETUP")
     
     required_files = [
         '../fd_current_slate/fd_slate_today.csv',
@@ -103,9 +103,9 @@ def validate_daily_setup():
     all_good = True
     for file_path in required_files:
         if os.path.exists(file_path):
-            logger.info(f"✅ {file_path}")
+            logger.info(f"SUCCESS: {file_path}")
         else:
-            logger.error(f"❌ {file_path} - MISSING!")
+            logger.error(f"ERROR: {file_path} - MISSING!")
             all_good = False
     
     return all_good
@@ -126,7 +126,7 @@ def check_for_injured_players():
     latest_file = max(lineup_files)
     lineup_path = os.path.join(data_dir, latest_file)
     
-    logger.info(f"🔍 Checking {latest_file} for injured players...")
+    logger.info(f" Checking {latest_file} for injured players...")
     
     df = pd.read_csv(lineup_path)
     
@@ -139,10 +139,10 @@ def check_for_injured_players():
             found_injured.append(name)
     
     if found_injured:
-        logger.error(f"🚨 FOUND INJURED PLAYERS IN LINEUPS: {found_injured}")
+        logger.error(f" FOUND INJURED PLAYERS IN LINEUPS: {found_injured}")
         return False
     else:
-        logger.info("✅ No injured players found in lineups")
+        logger.info("SUCCESS: No injured players found in lineups")
         return True
 
 if __name__ == "__main__":
@@ -169,15 +169,15 @@ if __name__ == "__main__":
     print("="*60)
     
     if setup_ok and no_injured:
-        print("✅ READY FOR DAILY DFS WORKFLOW")
+        print("SUCCESS: READY FOR DAILY DFS WORKFLOW")
         print("   All files present and no injured players detected")
     else:
-        print("❌ ISSUES DETECTED - FIX BEFORE RUNNING DAILY WORKFLOW")
+        print("ERROR: ISSUES DETECTED - FIX BEFORE RUNNING DAILY WORKFLOW")
         if not setup_ok:
             print("   - Missing required files")
         if not no_injured:
             print("   - Injured players found in recent lineups")
     
-    print("\n🎯 KEY INSIGHT: Always run filter_todays_pitchers.py")
+    print("\nTARGET: KEY INSIGHT: Always run filter_todays_pitchers.py")
     print("   before generating lineups to remove IL players!")
     print("="*60)

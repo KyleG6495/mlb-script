@@ -44,26 +44,26 @@ def load_validation_data():
     # Load our prop decisions
     try:
         props_df = pd.read_csv("../data/prop_summary_20250808_101556.csv")
-        logger.info(f"✅ Loaded {len(props_df)} prop decisions")
+        logger.info(f"SUCCESS: Loaded {len(props_df)} prop decisions")
     except:
         props_df = None
-        logger.warning("❌ No prop decisions found")
+        logger.warning("ERROR: No prop decisions found")
     
     # Load our generated lineups
     try:
         lineups_df = pd.read_csv("../data/prop_based_lineups_20250808_101556.csv")
-        logger.info(f"✅ Loaded {len(lineups_df)} lineups")
+        logger.info(f"SUCCESS: Loaded {len(lineups_df)} lineups")
     except:
-        logger.error("❌ No prop-based lineups found")
+        logger.error("ERROR: No prop-based lineups found")
         return None, None, None
     
     # Load actual results from 8/7
     try:
         actual_df = pd.read_csv("../data/actual_results_20250807.csv")
         actual_df['actual_fppg'] = actual_df.apply(calculate_fanduel_points, axis=1)
-        logger.info(f"✅ Loaded {len(actual_df)} actual results")
+        logger.info(f"SUCCESS: Loaded {len(actual_df)} actual results")
     except:
-        logger.error("❌ No actual results found")
+        logger.error("ERROR: No actual results found")
         return None, None, None
     
     return props_df, lineups_df, actual_df
@@ -221,16 +221,16 @@ def create_validation_report(prop_results, lineup_results):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     
     print("\n" + "="*80)
-    print("🎯 PROPER VALIDATION REPORT")
+    print("TARGET: PROPER VALIDATION REPORT")
     print("="*80)
     
     # Prop Bet Results
     if prop_results is not None and len(prop_results) > 0:
-        print("\n📊 PROP BET VALIDATION:")
+        print("\nDATA: PROP BET VALIDATION:")
         print("-" * 50)
         
         for _, prop in prop_results.iterrows():
-            result_emoji = "✅" if prop['prop_correct'] else "❌"
+            result_emoji = "SUCCESS:" if prop['prop_correct'] else "ERROR:"
             print(f"{result_emoji} {prop['player_name']} {prop['prop_type'].title()}")
             print(f"   Line: {prop['line']} | Pick: {prop['my_pick']} | Confidence: {prop['confidence']}/5")
             print(f"   Actual: {prop['actual_stat']} | Result: {'CORRECT' if prop['prop_correct'] else 'INCORRECT'}")
@@ -238,42 +238,42 @@ def create_validation_report(prop_results, lineup_results):
             print()
         
         prop_accuracy = prop_results['prop_correct'].mean() * 100
-        print(f"🎯 PROP BET ACCURACY: {prop_accuracy:.1f}%")
-        print(f"📊 Props Correct: {prop_results['prop_correct'].sum()}/{len(prop_results)}")
+        print(f"TARGET: PROP BET ACCURACY: {prop_accuracy:.1f}%")
+        print(f"DATA: Props Correct: {prop_results['prop_correct'].sum()}/{len(prop_results)}")
     else:
-        print("\n⚠️ No prop bet data to validate")
+        print("\nWARNING: No prop bet data to validate")
     
     # Lineup Performance
-    print("\n🏆 LINEUP PERFORMANCE VALIDATION:")
+    print("\nLINEUP: LINEUP PERFORMANCE VALIDATION:")
     print("-" * 50)
     
     best_lineup = max(lineup_results, key=lambda x: x['actual_fppg'])
     avg_accuracy = np.mean([l['accuracy_pct'] for l in lineup_results])
     avg_players_found = np.mean([l['players_found'] for l in lineup_results])
     
-    print(f"📊 Average Accuracy: {avg_accuracy:.1f}%")
-    print(f"🏆 Best Lineup: {best_lineup['lineup_name']} ({best_lineup['actual_fppg']:.1f} FPPG)")
-    print(f"👥 Avg Players Found: {avg_players_found:.1f}/9")
+    print(f"DATA: Average Accuracy: {avg_accuracy:.1f}%")
+    print(f"LINEUP: Best Lineup: {best_lineup['lineup_name']} ({best_lineup['actual_fppg']:.1f} FPPG)")
+    print(f"OWNERSHIP: Avg Players Found: {avg_players_found:.1f}/9")
     
-    print(f"\n📋 LINEUP-BY-LINEUP BREAKDOWN:")
+    print(f"\nINFO: LINEUP-BY-LINEUP BREAKDOWN:")
     for lineup in lineup_results:
-        print(f"\n🎯 {lineup['lineup_name']}:")
-        print(f"   💰 Salary: ${lineup['total_salary']:,}")
-        print(f"   🎯 Projected: {lineup['projected_fppg']:.1f} FPPG")
-        print(f"   ✅ Actual: {lineup['actual_fppg']:.1f} FPPG")
-        print(f"   📊 Accuracy: {lineup['accuracy_pct']:.1f}%")
-        print(f"   👥 Players Found: {lineup['players_found']}/9")
+        print(f"\nTARGET: {lineup['lineup_name']}:")
+        print(f"   MONEY: Salary: ${lineup['total_salary']:,}")
+        print(f"   TARGET: Projected: {lineup['projected_fppg']:.1f} FPPG")
+        print(f"   SUCCESS: Actual: {lineup['actual_fppg']:.1f} FPPG")
+        print(f"   DATA: Accuracy: {lineup['accuracy_pct']:.1f}%")
+        print(f"   OWNERSHIP: Players Found: {lineup['players_found']}/9")
         
-        print(f"   📋 Player Breakdown:")
+        print(f"   INFO: Player Breakdown:")
         for player in lineup['players']:
-            status = "✅" if player['found'] else "❌"
+            status = "SUCCESS:" if player['found'] else "ERROR:"
             print(f"      {status} {player['name']} ({player['position']}) - {player['actual_fppg']:.1f} FPPG")
     
     # Save detailed CSV
     if prop_results is not None:
         prop_file = f"../data/prop_validation_{timestamp}.csv"
         prop_results.to_csv(prop_file, index=False)
-        print(f"\n💾 Prop validation saved: {prop_file}")
+        print(f"\n Prop validation saved: {prop_file}")
     
     lineup_summary = []
     for lineup in lineup_results:
@@ -287,20 +287,20 @@ def create_validation_report(prop_results, lineup_results):
     
     lineup_file = f"../data/lineup_validation_{timestamp}.csv"
     pd.DataFrame(lineup_summary).to_csv(lineup_file, index=False)
-    print(f"💾 Lineup validation saved: {lineup_file}")
+    print(f" Lineup validation saved: {lineup_file}")
     
     print("\n" + "="*80)
 
 def main():
     """Main validation function"""
     
-    logger.info("🎯 Starting proper validation...")
+    logger.info("TARGET: Starting proper validation...")
     
     # Load data
     props_df, lineups_df, actual_df = load_validation_data()
     
     if lineups_df is None:
-        logger.error("❌ Cannot validate without lineup data")
+        logger.error("ERROR: Cannot validate without lineup data")
         return
     
     # Validate prop bets
@@ -312,7 +312,7 @@ def main():
     # Create report
     create_validation_report(prop_results, lineup_results)
     
-    logger.info("✅ Validation complete!")
+    logger.info("SUCCESS: Validation complete!")
 
 if __name__ == "__main__":
     main()

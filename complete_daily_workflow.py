@@ -14,23 +14,23 @@ import random
 def main():
     """Run complete daily workflow"""
     
-    print("🚀 COMPLETE DAILY MLB WORKFLOW")
+    print("START: COMPLETE DAILY MLB WORKFLOW")
     print("=" * 60)
     
     # Step 1: Fast Prop Analysis (already optimized)
-    print("\n1️⃣ RUNNING OPTIMIZED PROP ANALYSIS...")
+    print("\n1 RUNNING OPTIMIZED PROP ANALYSIS...")
     run_prop_analysis()
     
     # Step 2: Generate Conservative DFS Lineups
-    print("\n2️⃣ GENERATING CONSERVATIVE DFS LINEUPS...")
+    print("\n2 GENERATING CONSERVATIVE DFS LINEUPS...")
     lineup_files = generate_diversified_lineups()
     
     # Step 3: Show results summary
-    print("\n3️⃣ WORKFLOW SUMMARY...")
+    print("\n3 WORKFLOW SUMMARY...")
     show_workflow_summary(lineup_files)
     
-    print("\n✅ COMPLETE WORKFLOW FINISHED!")
-    print("\n📋 YOUR DAILY FILES ARE READY:")
+    print("\nSUCCESS: COMPLETE WORKFLOW FINISHED!")
+    print("\nINFO: YOUR DAILY FILES ARE READY:")
     print("   - Prop betting opportunities: run_daily_analysis_OPTIMIZED.py output")
     print("   - Conservative DFS lineups: working_lineup_details_*.csv")
     print("   - Run backtest analysis: Scripts/3_BACKTEST_ANALYSIS.bat")
@@ -48,22 +48,22 @@ def run_prop_analysis():
         )
         
         if result.returncode == 0:
-            print("   ✅ Prop analysis completed successfully!")
+            print("   SUCCESS: Prop analysis completed successfully!")
             # Show key results
             lines = result.stdout.split('\n')
             for line in lines:
                 if any(keyword in line for keyword in ['opportunities', 'edge', 'players']):
                     print(f"   {line}")
         else:
-            print(f"   ⚠️ Prop analysis had issues: {result.stderr}")
+            print(f"   WARNING: Prop analysis had issues: {result.stderr}")
             
     except Exception as e:
-        print(f"   ❌ Error running prop analysis: {e}")
+        print(f"   ERROR: Error running prop analysis: {e}")
 
 def generate_diversified_lineups():
     """Generate diversified DFS lineups without duplicates"""
     
-    print("   📊 Loading current slate data...")
+    print("   DATA: Loading current slate data...")
     
     # Load slate with conservative projections
     slate_file = "../data/fd_slate_conservative_projections.csv"
@@ -72,7 +72,7 @@ def generate_diversified_lineups():
     # Simplify positions
     df = simplify_positions(df)
     
-    print(f"   📋 {len(df)} players loaded")
+    print(f"   INFO: {len(df)} players loaded")
     
     lineups = []
     used_players = set()  # Track used players for diversity
@@ -89,10 +89,10 @@ def generate_diversified_lineups():
     
     if lineups:
         lineup_files = save_diversified_lineups(lineups)
-        print(f"   ✅ Generated {len(lineups)} diversified lineups!")
+        print(f"   SUCCESS: Generated {len(lineups)} diversified lineups!")
         return lineup_files
     else:
-        print("   ❌ Failed to generate lineups")
+        print("   ERROR: Failed to generate lineups")
         return None
 
 def simplify_positions(df):
@@ -146,7 +146,7 @@ def build_diverse_lineup(df, lineup_num, used_players):
             pos_players = df[df['Simple_Position'] == pos].copy()
             
             if len(pos_players) == 0:
-                print(f"   ⚠️ No players available for {pos}")
+                print(f"   WARNING: No players available for {pos}")
                 continue
             
             # Filter out already selected players in this lineup
@@ -157,7 +157,7 @@ def build_diverse_lineup(df, lineup_num, used_players):
                 ]
             
             if len(pos_players) == 0:
-                print(f"   ⚠️ No remaining players for {pos} in lineup {lineup_num}")
+                print(f"   WARNING: No remaining players for {pos} in lineup {lineup_num}")
                 continue
             
             # For diversity, prefer players not used in previous lineups
@@ -198,7 +198,7 @@ def build_diverse_lineup(df, lineup_num, used_players):
         
         # Validate lineup
         if len(selected_players) == 9 and total_salary <= salary_cap:
-            print(f"   ✅ Lineup {lineup_num}: ${total_salary:,}, {total_fppg:.1f} FPPG")
+            print(f"   SUCCESS: Lineup {lineup_num}: ${total_salary:,}, {total_fppg:.1f} FPPG")
             return {
                 'lineup_id': f'lineup_{lineup_num}',
                 'players': selected_players,
@@ -206,11 +206,11 @@ def build_diverse_lineup(df, lineup_num, used_players):
                 'projected_fppg': total_fppg
             }
         else:
-            print(f"   ⚠️ Lineup {lineup_num}: {len(selected_players)} players, ${total_salary:,}")
+            print(f"   WARNING: Lineup {lineup_num}: {len(selected_players)} players, ${total_salary:,}")
             return None
             
     except Exception as e:
-        print(f"   ❌ Error building lineup {lineup_num}: {e}")
+        print(f"   ERROR: Error building lineup {lineup_num}: {e}")
         return None
 
 def save_diversified_lineups(lineups):
@@ -279,7 +279,7 @@ def save_diversified_lineups(lineups):
     fanduel_file = f"../data/diversified_lineups_fanduel_{timestamp}.csv"
     fanduel_df.to_csv(fanduel_file, index=False)
     
-    print(f"   📁 Saved lineup files:")
+    print(f"    Saved lineup files:")
     print(f"      - Details: {details_file}")
     print(f"      - Summary: {summary_file}")
     print(f"      - FanDuel: {fanduel_file}")
@@ -293,10 +293,10 @@ def save_diversified_lineups(lineups):
 def show_workflow_summary(lineup_files):
     """Show summary of completed workflow"""
     
-    print("   📊 WORKFLOW RESULTS:")
+    print("   DATA: WORKFLOW RESULTS:")
     
     # Show prop analysis results
-    print("   📈 Prop Analysis: Optimized to 1.5 minutes (97% improvement)")
+    print("   PROGRESS: Prop Analysis: Optimized to 1.5 minutes (97% improvement)")
     
     # Show lineup results
     if lineup_files:
@@ -304,8 +304,8 @@ def show_workflow_summary(lineup_files):
         unique_players = details_df['player_name'].nunique()
         total_lineups = details_df['lineup_id'].nunique()
         
-        print(f"   🏆 DFS Lineups: {total_lineups} diversified lineups")
-        print(f"   👥 Player Diversity: {unique_players} unique players")
+        print(f"   LINEUP: DFS Lineups: {total_lineups} diversified lineups")
+        print(f"   OWNERSHIP: Player Diversity: {unique_players} unique players")
         
         # Show salary range
         summary_df = pd.read_csv(lineup_files['summary'])
@@ -313,16 +313,16 @@ def show_workflow_summary(lineup_files):
         max_salary = summary_df['total_salary'].max()
         avg_salary = summary_df['total_salary'].mean()
         
-        print(f"   💰 Salary Range: ${min_salary:,} - ${max_salary:,} (avg: ${avg_salary:,.0f})")
+        print(f"   MONEY: Salary Range: ${min_salary:,} - ${max_salary:,} (avg: ${avg_salary:,.0f})")
         
         # Show projection range
         min_fppg = summary_df['projected_fppg'].min()
         max_fppg = summary_df['projected_fppg'].max()
         avg_fppg = summary_df['projected_fppg'].mean()
         
-        print(f"   📊 FPPG Range: {min_fppg:.1f} - {max_fppg:.1f} (avg: {avg_fppg:.1f})")
+        print(f"   DATA: FPPG Range: {min_fppg:.1f} - {max_fppg:.1f} (avg: {avg_fppg:.1f})")
     
-    print("\n   🎯 NEXT STEPS:")
+    print("\n   TARGET: NEXT STEPS:")
     print("   1. Review prop betting opportunities for highest edge plays")
     print("   2. Submit diversified DFS lineups to FanDuel")
     print("   3. Run backtest analysis to validate performance")

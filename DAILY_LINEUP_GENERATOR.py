@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 def load_current_slate():
     """Load current FanDuel slate using pre-filtered confirmed starters"""
-    logger.info("📊 Loading current FanDuel slate...")
+    logger.info("DATA: Loading current FanDuel slate...")
     
     try:
         # First try to load starters-only file (pre-filtered)
@@ -25,30 +25,30 @@ def load_current_slate():
         
         try:
             slate_df = pd.read_csv(starters_file)
-            logger.info(f"✅ Loaded {len(slate_df)} confirmed starters from pre-filtered file")
-            logger.info("🎯 Using validated starting lineups only - no complex filtering needed")
+            logger.info(f"SUCCESS: Loaded {len(slate_df)} confirmed starters from pre-filtered file")
+            logger.info("TARGET: Using validated starting lineups only - no complex filtering needed")
         except:
             # Fallback to main slate with filtering
-            logger.warning("⚠️ Starters-only file not found, using main slate with filtering")
+            logger.warning("WARNING: Starters-only file not found, using main slate with filtering")
             slate_df = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
-            logger.info(f"✅ Loaded {len(slate_df)} players from main slate")
+            logger.info(f"SUCCESS: Loaded {len(slate_df)} players from main slate")
             
             # CRITICAL: Filter to ONLY actual starters
-            logger.info("🎯 Filtering to ONLY confirmed starters...")
+            logger.info("TARGET: Filtering to ONLY confirmed starters...")
             
             # For pitchers: Only probable pitchers
             pitchers = slate_df[slate_df['Position'] == 'P'].copy()
             starting_pitchers = pitchers[pitchers['Probable Pitcher'] == 'Yes']
-            logger.info(f"   ✅ Probable pitchers: {len(starting_pitchers)}")
+            logger.info(f"   SUCCESS: Probable pitchers: {len(starting_pitchers)}")
             
             # For hitters: Only players with batting order (1-9)
             hitters = slate_df[slate_df['Position'] != 'P'].copy()
             starting_hitters = hitters[hitters['Batting Order'].notna() & (hitters['Batting Order'] != '')]
-            logger.info(f"   ✅ Hitters with batting order: {len(starting_hitters)}")
+            logger.info(f"   SUCCESS: Hitters with batting order: {len(starting_hitters)}")
             
             # Combine confirmed starters only
             slate_df = pd.concat([starting_pitchers, starting_hitters], ignore_index=True)
-            logger.info(f"🏆 CONFIRMED STARTERS: {len(slate_df)} players")
+            logger.info(f"LINEUP: CONFIRMED STARTERS: {len(slate_df)} players")
         
         # Clean and standardize data
         confirmed_starters = slate_df.copy()
@@ -61,7 +61,7 @@ def load_current_slate():
             # Main slate file format
             confirmed_starters['player_name'] = confirmed_starters['First Name'] + ' ' + confirmed_starters['Last Name']
         else:
-            logger.error("❌ Cannot find player name columns")
+            logger.error("ERROR: Cannot find player name columns")
             return None
             
         confirmed_starters = confirmed_starters[['player_name', 'Position', 'Team', 'Salary', 'FPPG']].copy()
@@ -73,13 +73,13 @@ def load_current_slate():
         # Log teams and positions available
         teams = sorted(confirmed_starters['team'].unique())
         positions = confirmed_starters['position'].value_counts()
-        logger.info(f"   🏟️ Teams: {teams}")
-        logger.info(f"   📍 Positions: {dict(positions)}")
+        logger.info(f"    Teams: {teams}")
+        logger.info(f"    Positions: {dict(positions)}")
         
         return confirmed_starters
         
     except Exception as e:
-        logger.error(f"❌ Error loading slate: {e}")
+        logger.error(f"ERROR: Error loading slate: {e}")
         return None
 
 def calculate_ownership_projections(df):
@@ -137,7 +137,7 @@ def build_lineup(slate_df, strategy_num=1, salary_cap=35000):
         available = slate_df[slate_df['position'] == pos].copy()
         
         if len(available) == 0:
-            logger.warning(f"⚠️ No {pos} available")
+            logger.warning(f"WARNING: No {pos} available")
             return None
             
         # Calculate budget management
@@ -151,13 +151,13 @@ def build_lineup(slate_df, strategy_num=1, salary_cap=35000):
         if len(affordable) == 0:
             # Emergency: Take cheapest available
             affordable = available.nsmallest(1, 'salary')
-            logger.warning(f"⚠️ Emergency selection for {pos}")
+            logger.warning(f"WARNING: Emergency selection for {pos}")
         
         # Strategy selection based on lineup number
         chosen = select_player_by_strategy(affordable, strategy_num, remaining_salary)
         
         if chosen is None:
-            logger.warning(f"⚠️ No player selected for {pos}")
+            logger.warning(f"WARNING: No player selected for {pos}")
             return None
         
         # Add to lineup
@@ -211,7 +211,7 @@ def select_player_by_strategy(affordable, strategy_num, remaining_salary):
 
 def generate_daily_lineups(slate_df, num_lineups=10):
     """Generate multiple unique lineups for today"""
-    logger.info(f"🏆 Generating {num_lineups} unique lineups...")
+    logger.info(f"LINEUP: Generating {num_lineups} unique lineups...")
     
     lineups = []
     used_combinations = set()
@@ -246,15 +246,15 @@ def generate_daily_lineups(slate_df, num_lineups=10):
                         'avg_ownership': avg_ownership
                     })
                     
-                    logger.info(f"✅ Lineup {i}: ${total_salary:,} salary, {total_projected:.1f} FPPG")
+                    logger.info(f"SUCCESS: Lineup {i}: ${total_salary:,} salary, {total_projected:.1f} FPPG")
                     break
             
             attempts += 1
         
         if attempts >= max_attempts:
-            logger.warning(f"⚠️ Could not generate unique lineup {i}")
+            logger.warning(f"WARNING: Could not generate unique lineup {i}")
     
-    logger.info(f"✅ Generated {len(lineups)} unique lineups")
+    logger.info(f"SUCCESS: Generated {len(lineups)} unique lineups")
     return lineups
 
 def save_daily_lineups(lineups):
@@ -319,45 +319,45 @@ def save_daily_lineups(lineups):
         'fppg_range': f"{min([l['projected_fppg'] for l in lineups]):.1f} - {max([l['projected_fppg'] for l in lineups]):.1f}"
     }
     
-    logger.info(f"💾 Saved FanDuel format: {fd_file}")
-    logger.info(f"💾 Saved detailed analysis: {details_file}")
+    logger.info(f" Saved FanDuel format: {fd_file}")
+    logger.info(f" Saved detailed analysis: {details_file}")
     
     return fd_file, details_file, summary_stats
 
 def main():
     """Main execution for daily lineup generation"""
     
-    logger.info("🎯 DAILY LINEUP GENERATOR")
+    logger.info("TARGET: DAILY LINEUP GENERATOR")
     logger.info("=" * 50)
     
     # Load current slate with confirmed starters only
     slate_df = load_current_slate()
     
     if slate_df is None or len(slate_df) == 0:
-        logger.error("❌ No confirmed starters available - cannot generate lineups")
+        logger.error("ERROR: No confirmed starters available - cannot generate lineups")
         return
     
     # Generate lineups
     lineups = generate_daily_lineups(slate_df, num_lineups=10)
     
     if len(lineups) == 0:
-        logger.error("❌ No lineups generated")
+        logger.error("ERROR: No lineups generated")
         return
     
     # Save results
     fd_file, details_file, stats = save_daily_lineups(lineups)
     
     # Display summary
-    print(f"\n🏆 DAILY LINEUP GENERATION COMPLETE")
+    print(f"\nLINEUP: DAILY LINEUP GENERATION COMPLETE")
     print("=" * 60)
-    print(f"📊 Generated: {stats['total_lineups']} unique lineups")
-    print(f"💰 Avg Salary: ${stats['avg_salary']:,.0f} ({stats['salary_range']})")
-    print(f"🎯 Avg FPPG: {stats['avg_projected_fppg']:.1f} ({stats['fppg_range']})")
-    print(f"👥 Avg Ownership: {stats['avg_ownership']:.1f}%")
-    print(f"📁 FanDuel Format: {fd_file}")
-    print(f"📁 Detailed Analysis: {details_file}")
+    print(f"DATA: Generated: {stats['total_lineups']} unique lineups")
+    print(f"MONEY: Avg Salary: ${stats['avg_salary']:,.0f} ({stats['salary_range']})")
+    print(f"TARGET: Avg FPPG: {stats['avg_projected_fppg']:.1f} ({stats['fppg_range']})")
+    print(f"OWNERSHIP: Avg Ownership: {stats['avg_ownership']:.1f}%")
+    print(f" FanDuel Format: {fd_file}")
+    print(f" Detailed Analysis: {details_file}")
     
-    logger.info("✅ Daily lineups ready for submission!")
+    logger.info("SUCCESS: Daily lineups ready for submission!")
 
 if __name__ == "__main__":
     main()

@@ -30,17 +30,17 @@ class FanDuelLineupValidator:
         
         if os.path.exists(self.lineups_file):
             pd.read_csv(self.lineups_file).to_csv(backup_file, index=False)
-            print(f"✅ Backup created: {backup_file}")
+            print(f"SUCCESS: Backup created: {backup_file}")
         
     def load_data(self):
         """Load slate and lineup data"""
         try:
             self.slate_df = pd.read_csv(self.slate_file)
             self.lineups_df = pd.read_csv(self.lineups_file)
-            print(f"✅ Data loaded - Slate: {len(self.slate_df)} players, Lineups: {len(self.lineups_df)} entries")
+            print(f"SUCCESS: Data loaded - Slate: {len(self.slate_df)} players, Lineups: {len(self.lineups_df)} entries")
             return True
         except Exception as e:
-            print(f"❌ Error loading data: {e}")
+            print(f"ERROR: Error loading data: {e}")
             return False
     
     def identify_problematic_players(self):
@@ -216,7 +216,7 @@ class FanDuelLineupValidator:
         
         if fixes_made > 0:
             self.lineups_df.to_csv(self.lineups_file, index=False)
-            print(f"✅ Updated lineups saved to: {self.lineups_file}")
+            print(f"SUCCESS: Updated lineups saved to: {self.lineups_file}")
         
         return True
     
@@ -226,22 +226,22 @@ class FanDuelLineupValidator:
 === FANDUEL SUBMISSION PREVENTION CHECKLIST ===
 
 BEFORE EVERY SLATE:
-□ 1. Run FanDuelLineupValidator.fix_all_issues()
-□ 2. Verify all pitchers have "Probable Pitcher = Yes"
-□ 3. Check no players have Injury Indicator (IL/PO/DTD)
-□ 4. Confirm all players have Batting Order > 0
-□ 5. Validate position eligibility (no C/1B in OF slots)
-□ 6. Check for duplicate player IDs
-□ 7. Verify salary cap compliance
-□ 8. Test upload with 1 entry first
+ 1. Run FanDuelLineupValidator.fix_all_issues()
+ 2. Verify all pitchers have "Probable Pitcher = Yes"
+ 3. Check no players have Injury Indicator (IL/PO/DTD)
+ 4. Confirm all players have Batting Order > 0
+ 5. Validate position eligibility (no C/1B in OF slots)
+ 6. Check for duplicate player IDs
+ 7. Verify salary cap compliance
+ 8. Test upload with 1 entry first
 
 AUTOMATED FIXES IMPLEMENTED:
-✅ NS (Not Starting) player detection and replacement
-✅ Injured player filtering and replacement  
-✅ Position eligibility validation and correction
-✅ Confirmed starter requirements for pitchers
-✅ Backup system for all changes
-✅ Safe replacement player identification
+SUCCESS: NS (Not Starting) player detection and replacement
+SUCCESS: Injured player filtering and replacement  
+SUCCESS: Position eligibility validation and correction
+SUCCESS: Confirmed starter requirements for pitchers
+SUCCESS: Backup system for all changes
+SUCCESS: Safe replacement player identification
 
 INTEGRATION WITH EXISTING SCRIPTS:
 - Add validator call to ULTIMATE_FANDUEL_OPTIMIZER.py
@@ -253,7 +253,7 @@ INTEGRATION WITH EXISTING SCRIPTS:
         with open(checklist_file, 'w') as f:
             f.write(checklist)
             
-        print(f"✅ Prevention checklist saved to: {checklist_file}")
+        print(f"SUCCESS: Prevention checklist saved to: {checklist_file}")
 
 def main():
     """Run the comprehensive validator"""

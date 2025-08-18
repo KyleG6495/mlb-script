@@ -275,15 +275,15 @@ def display_lineup(strategy_name, lineup, data):
     print(f"Improvement: +{total_actual - 139.9:.1f} | Gap to Winner: {306.0 - total_actual:.1f}")
     
     if total_actual >= 280:
-        print("🏆 CHAMPION! Would have won!")
+        print("LINEUP: CHAMPION! Would have won!")
     elif total_actual >= 250:
-        print("🥇 ELITE! Top 5 finish!")
+        print(" ELITE! Top 5 finish!")
     elif total_actual >= 200:
-        print("🎯 EXCELLENT! Top 20 finish!")
+        print("TARGET: EXCELLENT! Top 20 finish!")
     elif total_actual >= 160:
-        print("✅ GOOD! Significant improvement!")
+        print("SUCCESS: GOOD! Significant improvement!")
     else:
-        print("📈 BETTER but still needs work")
+        print("PROGRESS: BETTER but still needs work")
 
 if __name__ == "__main__":
     build_perfect_august_12_optimizer()

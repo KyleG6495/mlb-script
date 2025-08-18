@@ -27,7 +27,7 @@ class DFSWorkflowManager:
     def print_banner(self, title):
         """Print formatted banner"""
         print("\n" + "="*80)
-        print(f"🎯 {title}")
+        print(f"TARGET: {title}")
         print("="*80)
     
     def check_prerequisites(self):
@@ -45,21 +45,21 @@ class DFSWorkflowManager:
         
         for name, path in required_files.items():
             if os.path.exists(path):
-                logger.info(f"✅ {name} - Found")
+                logger.info(f"SUCCESS: {name} - Found")
             else:
-                logger.error(f"❌ {name} - Missing: {path}")
+                logger.error(f"ERROR: {name} - Missing: {path}")
                 missing_files.append(name)
         
         if missing_files:
-            logger.error(f"\n❌ Missing required files: {', '.join(missing_files)}")
+            logger.error(f"\nERROR: Missing required files: {', '.join(missing_files)}")
             return False
         
-        logger.info("\n🎯 All prerequisites satisfied!")
+        logger.info("\nTARGET: All prerequisites satisfied!")
         return True
     
     def run_script(self, script_name, description):
         """Run a Python script and return success status"""
-        logger.info(f"\n🚀 {description}...")
+        logger.info(f"\nSTART: {description}...")
         
         script_path = os.path.join(self.scripts_dir, script_name)
         
@@ -76,18 +76,18 @@ class DFSWorkflowManager:
             os.chdir(original_dir)
             
             if result.returncode == 0:
-                logger.info(f"✅ {description} completed successfully")
+                logger.info(f"SUCCESS: {description} completed successfully")
                 return True
             else:
-                logger.error(f"❌ {description} failed:")
+                logger.error(f"ERROR: {description} failed:")
                 logger.error(f"Error: {result.stderr}")
                 return False
                 
         except subprocess.TimeoutExpired:
-            logger.error(f"❌ {description} timed out (5 minutes)")
+            logger.error(f"ERROR: {description} timed out (5 minutes)")
             return False
         except Exception as e:
-            logger.error(f"❌ {description} failed with exception: {str(e)}")
+            logger.error(f"ERROR: {description} failed with exception: {str(e)}")
             return False
     
     def interactive_prop_input(self):
@@ -98,15 +98,15 @@ class DFSWorkflowManager:
         choice = input("Enter choice: ").strip().lower()
         
         if choice in ['y', 'yes']:
-            logger.info("🎯 Starting interactive prop bet input...")
+            logger.info("TARGET: Starting interactive prop bet input...")
             return self.run_script("MY_DAILY_PROPS_DIVERSIFIED.py", "Diversified Prop Lineup Generation")
         else:
-            logger.info("📊 Skipping prop bets, using standard lineup generation...")
+            logger.info("DATA: Skipping prop bets, using standard lineup generation...")
             return self.run_script("SIMPLE_CLEAN_GENERATOR.py", "Standard Lineup Generation")
     
     def validate_results(self):
         """Run validation if yesterday's results are available"""
-        logger.info("\n🔍 Checking for yesterday's results for validation...")
+        logger.info("\n Checking for yesterday's results for validation...")
         
         # Look for recent actual results
         yesterday_files = [
@@ -118,7 +118,7 @@ class DFSWorkflowManager:
         for filename in yesterday_files:
             filepath = os.path.join(self.data_dir, filename)
             if os.path.exists(filepath):
-                logger.info(f"✅ Found results file: {filename}")
+                logger.info(f"SUCCESS: Found results file: {filename}")
                 results_found = True
                 break
         
@@ -129,10 +129,10 @@ class DFSWorkflowManager:
             if choice in ['y', 'yes']:
                 return self.run_script("PROPER_VALIDATION.py", "Performance Validation")
             else:
-                logger.info("📊 Skipping validation")
+                logger.info("DATA: Skipping validation")
                 return True
         else:
-            logger.info("⚠️ No recent actual results found - skipping validation")
+            logger.info("WARNING: No recent actual results found - skipping validation")
             return True
     
     def summarize_outputs(self):
@@ -140,23 +140,23 @@ class DFSWorkflowManager:
         self.print_banner("WORKFLOW SUMMARY")
         
         output_categories = {
-            "📊 Lineup Files": [
+            "DATA: Lineup Files": [
                 "clean_lineup_details_*.csv",
                 "clean_backtest_summary_*.csv", 
                 "diversified_prop_lineups_*.csv",
                 "prop_based_lineups_*.csv"
             ],
-            "🎯 Prop Files": [
+            "TARGET: Prop Files": [
                 "prop_summary_*.csv",
                 "diversified_prop_summary_*.csv",
                 "prop_validation_*.csv"
             ],
-            "📈 FanDuel Ready": [
+            "PROGRESS: FanDuel Ready": [
                 "daily_lineups_fanduel_*.csv",
                 "Diversified_Lineups_FD_Format_*.csv",
                 "Enhanced_Lineups_FD_Format.csv"
             ],
-            "✅ Validation": [
+            "SUCCESS: Validation": [
                 "lineup_validation_*.csv",
                 "prop_validation_*.csv"
             ]
@@ -183,49 +183,49 @@ class DFSWorkflowManager:
             if found_files:
                 for file in sorted(found_files)[-3:]:  # Show latest 3 files
                     filename = os.path.basename(file)
-                    logger.info(f"   ✅ {filename}")
+                    logger.info(f"   SUCCESS: {filename}")
             else:
-                logger.info(f"   ⚠️ No files found for this category")
+                logger.info(f"   WARNING: No files found for this category")
     
     def run_complete_workflow(self):
         """Execute the complete DFS workflow"""
         self.print_banner("MASTER DFS WORKFLOW SYSTEM")
         
-        logger.info("🎯 Starting complete DFS workflow...")
-        logger.info(f"📅 Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        logger.info(f"📂 Working Directory: {self.scripts_dir}")
+        logger.info("TARGET: Starting complete DFS workflow...")
+        logger.info(f" Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info(f" Working Directory: {self.scripts_dir}")
         
         # Step 1: Check prerequisites
         if not self.check_prerequisites():
-            logger.error("❌ Prerequisites not met - aborting workflow")
+            logger.error("ERROR: Prerequisites not met - aborting workflow")
             return False
         
         # Step 2: Interactive lineup generation (with or without props)
         if not self.interactive_prop_input():
-            logger.error("❌ Lineup generation failed - aborting workflow")
+            logger.error("ERROR: Lineup generation failed - aborting workflow")
             return False
         
         # Step 3: Optional validation
         if not self.validate_results():
-            logger.warning("⚠️ Validation failed - continuing anyway")
+            logger.warning("WARNING: Validation failed - continuing anyway")
         
         # Step 4: Summarize outputs
         self.summarize_outputs()
         
         # Step 5: Final recommendations
         self.print_banner("WORKFLOW COMPLETE - NEXT STEPS")
-        logger.info("🏆 DFS workflow completed successfully!")
-        logger.info("\n📋 RECOMMENDED NEXT STEPS:")
+        logger.info("LINEUP: DFS workflow completed successfully!")
+        logger.info("\nINFO: RECOMMENDED NEXT STEPS:")
         logger.info("   1. Review generated lineups in ../data/ folder")
         logger.info("   2. Check FanDuel-ready files in ../fd_current_slate/")
         logger.info("   3. Upload lineups to FanDuel platform")
         logger.info("   4. Track performance for tomorrow's validation")
         
-        logger.info("\n🎯 EXPECTED PERFORMANCE (based on backtesting):")
-        logger.info("   📊 Accuracy: 100%+ (proven system)")
-        logger.info("   🏆 FPPG Range: 120-135+ actual points")
-        logger.info("   👥 Player Hit Rate: 8-9/9 players found")
-        logger.info("   💰 Salary Management: Under $35K cap")
+        logger.info("\nTARGET: EXPECTED PERFORMANCE (based on backtesting):")
+        logger.info("   DATA: Accuracy: 100%+ (proven system)")
+        logger.info("   LINEUP: FPPG Range: 120-135+ actual points")
+        logger.info("   OWNERSHIP: Player Hit Rate: 8-9/9 players found")
+        logger.info("   MONEY: Salary Management: Under $35K cap")
         
         return True
 
@@ -236,14 +236,14 @@ def main():
         success = workflow.run_complete_workflow()
         
         if success:
-            print("\n🎉 WORKFLOW COMPLETED SUCCESSFULLY!")
+            print("\nCOMPLETE: WORKFLOW COMPLETED SUCCESSFULLY!")
         else:
-            print("\n❌ WORKFLOW FAILED - CHECK LOGS ABOVE")
+            print("\nERROR: WORKFLOW FAILED - CHECK LOGS ABOVE")
             
     except KeyboardInterrupt:
-        print("\n⚠️ Workflow cancelled by user")
+        print("\nWARNING: Workflow cancelled by user")
     except Exception as e:
-        print(f"\n❌ Unexpected error: {str(e)}")
+        print(f"\nERROR: Unexpected error: {str(e)}")
 
 if __name__ == "__main__":
     main()

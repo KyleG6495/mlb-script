@@ -5,9 +5,9 @@ import sys
 from pathlib import Path
 import unicodedata
 
-# ┌──────────────────────────────────────────────────────────────────────────┐
-# │            CONFIGURE YOUR FILE PATHS HERE                               │
-# └──────────────────────────────────────────────────────────────────────────┘
+# 
+#             CONFIGURE YOUR FILE PATHS HERE                               
+# 
 DATA_DIR = Path(__file__).parent.parent / "data"
 SLATE_DIR = Path(__file__).parent.parent / "fd_current_slate"
 
@@ -16,9 +16,9 @@ SLATE_FILE = SLATE_DIR / "fd_slate_today.csv"
 MAP_FILE   = DATA_DIR / "hitter_games_with_gamepk.csv"
 OUT_FILE   = DATA_DIR / "hitter_team_map.csv"
 
-# ┌──────────────────────────────────────────────────────────────────────────┐
-# │            LOGGING SETUP                                               │
-# └──────────────────────────────────────────────────────────────────────────┘
+# 
+#             LOGGING SETUP                                               
+# 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s", datefmt="%Y%m%d %H:%M:%S", level=logging.INFO
 )
@@ -45,25 +45,25 @@ def normalize_name(s) -> str:
 
 def main():
     # 1) Load stats
-    logging.info(f"📥 Loading stats from {STATS_FILE}")
+    logging.info(f" Loading stats from {STATS_FILE}")
     df_stats = pd.read_csv(STATS_FILE, parse_dates=False)
-    logging.info(f"✅ Loaded {len(df_stats)} hitter‐feature rows")
+    logging.info(f"SUCCESS: Loaded {len(df_stats)} hitterfeature rows")
 
     # Ensure there's no leftover game_pk from a previous run
     if "game_pk" in df_stats.columns:
-        logging.info("✂️  Dropping old game_pk column")
+        logging.info("  Dropping old game_pk column")
         df_stats = df_stats.drop(columns=["game_pk"])
 
     # Make sure IDs are strings
     df_stats["player_id"] = df_stats["player_id"].astype(str).str.strip()
 
     # Check name column
-    logging.info(f"ℹ️ Name column dtype: {df_stats['name'].dtype}")
+    logging.info(f" Name column dtype: {df_stats['name'].dtype}")
     logging.info(f"Sample names in df_stats: {df_stats['name'].head().tolist()}")
-    logging.info(f"ℹ️ {df_stats['name'].isna().sum()} rows with NaN names")
+    logging.info(f" {df_stats['name'].isna().sum()} rows with NaN names")
 
     # 2) Load FD slate and parse the 'Id' field
-    logging.info(f"📥 Loading FD slate from {SLATE_FILE}")
+    logging.info(f" Loading FD slate from {SLATE_FILE}")
     df_slate = pd.read_csv(SLATE_FILE)
     df_slate[["site_prefix", "player_id"]] = (
         df_slate["Id"]
@@ -71,19 +71,19 @@ def main():
         .str.split("-", n=1, expand=True)
     )
     df_slate["player_id"] = df_slate["player_id"].str.strip()
-    logging.info(f"✅ Parsed {len(df_slate)} slate rows; sample IDs: {df_slate['player_id'].tolist()[:5]}")
-    logging.info(f"ℹ️ {len(df_stats)} stats rows, {len(df_slate)} slate rows")
+    logging.info(f"SUCCESS: Parsed {len(df_slate)} slate rows; sample IDs: {df_slate['player_id'].tolist()[:5]}")
+    logging.info(f" {len(df_stats)} stats rows, {len(df_slate)} slate rows")
     logging.info(f"Sample Nicknames in df_slate: {df_slate['Nickname'].head().tolist()}")
 
     # Filter df_slate for hitters if Position column exists
     if "Position" in df_slate.columns:
         logging.info(f"Unique positions in df_slate: {df_slate['Position'].unique()}")
         df_slate = df_slate[~df_slate["Position"].str.contains("P", na=False)]
-        logging.info(f"ℹ️ Filtered df_slate to {len(df_slate)} hitter rows")
+        logging.info(f" Filtered df_slate to {len(df_slate)} hitter rows")
         logging.info(f"Sample hitter Nicknames in df_slate: {df_slate['Nickname'].head().tolist()}")
 
     # Merge Nickname from df_slate to replace invalid names
-    logging.info("🔄 Merging Nickname from df_slate to df_stats")
+    logging.info("SWAP: Merging Nickname from df_slate to df_stats")
     df_stats = df_stats.merge(
         df_slate[["player_id", "Nickname", "Position"]],
         how="left",
@@ -103,36 +103,36 @@ def main():
     if "Position" in df_stats.columns:
         logging.info(f"Unique positions in df_stats: {df_stats['Position'].unique()}")
         df_stats = df_stats[~df_stats["Position"].str.contains("P", na=False)]
-        logging.info(f"ℹ️ Filtered df_stats to {len(df_stats)} hitter rows")
+        logging.info(f" Filtered df_stats to {len(df_stats)} hitter rows")
         logging.info(f"Sample hitter names in df_stats: {df_stats['name'].head().tolist()}")
 
     # Create name_key
     df_stats["name_key"] = df_stats["name"].apply(normalize_name)
-    logging.info(f"ℹ️ {df_stats['name_key'].nunique()} unique name_keys in df_stats")
+    logging.info(f" {df_stats['name_key'].nunique()} unique name_keys in df_stats")
     logging.info(f"Sample name_keys in df_stats: {df_stats['name_key'].head().tolist()}")
 
     # Log missing or empty names
     missing_names = df_stats["name"].isna() | (df_stats["name"].str.strip() == "")
-    logging.info(f"⚠️ {missing_names.sum()} rows in df_stats have missing/empty names after merge")
+    logging.info(f"WARNING: {missing_names.sum()} rows in df_stats have missing/empty names after merge")
 
     # Check for duplicate name_keys
     duplicate_names = df_stats[df_stats["name_key"].duplicated(keep=False)]["name_key"].unique()
     if len(duplicate_names) > 0:
-        logging.info(f"⚠️ Found {len(duplicate_names)} duplicate name_keys in df_stats: {duplicate_names[:5]}")
+        logging.info(f"WARNING: Found {len(duplicate_names)} duplicate name_keys in df_stats: {duplicate_names[:5]}")
 
     # Optional: Deduplicate df_stats if duplicates are unwanted
     # df_stats = df_stats.drop_duplicates(subset=["name_key"], keep="first")
-    # logging.info(f"ℹ️ Deduplicated df_stats to {len(df_stats)} rows based on name_key")
+    # logging.info(f" Deduplicated df_stats to {len(df_stats)} rows based on name_key")
 
-    # 3) Load mapping of hitter → game_pk
-    logging.info(f"📥 Loading map from {MAP_FILE}")
+    # 3) Load mapping of hitter  game_pk
+    logging.info(f" Loading map from {MAP_FILE}")
     map_df = pd.read_csv(MAP_FILE, dtype={"player_id": str})
     map_df["player_id"] = map_df["player_id"].str.strip()
-    logging.info(f"✅ Loaded {len(map_df)} map‐rows; columns: {map_df.columns.tolist()}")
+    logging.info(f"SUCCESS: Loaded {len(map_df)} maprows; columns: {map_df.columns.tolist()}")
 
     # Deduplicate map: keep first game_pk per player_id
     map_df = map_df.drop_duplicates(subset=["player_id"], keep="first")
-    logging.info(f"✂️  Deduplicated map to {len(map_df)} unique player_id mappings")
+    logging.info(f"  Deduplicated map to {len(map_df)} unique player_id mappings")
 
     # Create name_key for map_df
     map_df["name_key"] = map_df["target_name"].apply(normalize_name)
@@ -144,12 +144,12 @@ def main():
 
     # Check for common name_keys
     common_name_keys = set(df_stats["name_key"]) & set(map_df["name_key"])
-    logging.info(f"ℹ️ {len(common_name_keys)} common name_keys between df_stats and map_df")
+    logging.info(f" {len(common_name_keys)} common name_keys between df_stats and map_df")
     if len(common_name_keys) > 0:
         logging.info(f"Sample common name_keys: {list(common_name_keys)[:5]}")
 
     # 4) Merge onto stats by player_id
-    logging.info("🔄 Merging stats ← map on player_id")
+    logging.info("SWAP: Merging stats  map on player_id")
     df_out = df_stats.merge(
         map_df[["player_id", "game_pk"]],
         how="left",
@@ -160,11 +160,11 @@ def main():
 
     got = int(df_out["game_pk"].notna().sum())
     total = len(df_out)
-    logging.info(f"📊 After merge: {got}/{total} rows have game_pk, {total - got} missing")
+    logging.info(f"DATA: After merge: {got}/{total} rows have game_pk, {total - got} missing")
 
     # 5) Fallback merge on name if needed
     if got < total:
-        logging.info("🔄 Attempting fallback merge on normalized name")
+        logging.info("SWAP: Attempting fallback merge on normalized name")
         # Ensure game_pk from previous merge is preserved
         df_out = df_out.rename(columns={"game_pk": "game_pk_id"}, errors="ignore")
         df_out = df_out.merge(
@@ -180,23 +180,23 @@ def main():
         
         # Debug matched rows
         matched = df_out[df_out["game_pk"].notna()]
-        logging.info(f"ℹ️ {len(matched)} rows matched on name_key")
+        logging.info(f" {len(matched)} rows matched on name_key")
         if len(matched) > 0:
             logging.info(f"Sample matched rows: {matched[['name_key', 'game_pk']].head().to_dict('records')}")
         
         # Debug unmatched rows
         unmatched = df_out[df_out["game_pk"].isna()]
-        logging.info(f"ℹ️ {len(unmatched)} unmatched rows")
+        logging.info(f" {len(unmatched)} unmatched rows")
         if len(unmatched) > 0:
             logging.info(f"Sample unmatched name_keys (up to 20): {unmatched['name_key'].head(20).tolist()}")
 
         got2 = int(df_out["game_pk"].notna().sum())
-        logging.info(f"📊 After name merge: {got2}/{len(df_out)} rows have game_pk, {len(df_out) - got2} missing")
+        logging.info(f"DATA: After name merge: {got2}/{len(df_out)} rows have game_pk, {len(df_out) - got2} missing")
 
     # 6) Save
-    logging.info(f"✅ Saving → {OUT_FILE} with {len(df_out)} rows")
+    logging.info(f"SUCCESS: Saving  {OUT_FILE} with {len(df_out)} rows")
     df_out.to_csv(OUT_FILE, index=False)
-    logging.info("🎉 Done.")
+    logging.info("COMPLETE: Done.")
 
 if __name__ == "__main__":
     main()

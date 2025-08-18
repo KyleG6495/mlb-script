@@ -20,7 +20,7 @@ class SaberSimKiller:
     def identify_sabersim_edges(self):
         """Find the edges that sites like SaberSim might miss"""
         
-        print("🎯 SABERSIM KILLER SYSTEM ACTIVATED")
+        print("TARGET: SABERSIM KILLER SYSTEM ACTIVATED")
         print("="*50)
         
         # Load recent actual results
@@ -39,7 +39,7 @@ class SaberSimKiller:
     def find_recency_edges(self, actual_df):
         """Players who are hot but undervalued"""
         
-        print("🔥 IDENTIFYING RECENCY EDGES...")
+        print(" IDENTIFYING RECENCY EDGES...")
         
         # Players who outperformed expectations recently
         if 'last_3_avg' in actual_df.columns:
@@ -56,7 +56,7 @@ class SaberSimKiller:
     def find_team_momentum(self, actual_df):
         """Teams that are collectively hot"""
         
-        print("🚀 FINDING TEAM MOMENTUM...")
+        print("START: FINDING TEAM MOMENTUM...")
         
         team_performance = actual_df.groupby('team').agg({
             'fanduel_points': ['count', 'sum', 'mean'],
@@ -69,7 +69,7 @@ class SaberSimKiller:
         
         hot_teams = team_performance.head(8)
         
-        print(f"🏆 HOT TEAMS TO TARGET:")
+        print(f"LINEUP: HOT TEAMS TO TARGET:")
         for team, row in hot_teams.iterrows():
             print(f"   {team}: {row['avg_points']:.1f} avg pts ({row['player_count']} players)")
         
@@ -78,7 +78,7 @@ class SaberSimKiller:
     def find_position_edges(self, actual_df):
         """Positions that are consistently undervalued"""
         
-        print("💎 FINDING POSITION EDGES...")
+        print(" FINDING POSITION EDGES...")
         
         pos_performance = actual_df.groupby('position').agg({
             'fanduel_points': ['count', 'mean', 'max', 'std']
@@ -93,7 +93,7 @@ class SaberSimKiller:
             (pos_performance['count'] >= 3)  # Sufficient sample
         ]
         
-        print(f"💰 UNDERVALUED POSITIONS:")
+        print(f"MONEY: UNDERVALUED POSITIONS:")
         for pos, row in undervalued.iterrows():
             print(f"   {pos}: {row['avg_points']:.1f} avg, {row['max_points']:.1f} ceiling")
         
@@ -102,10 +102,10 @@ class SaberSimKiller:
     def find_salary_edges(self, actual_df):
         """Find salary tiers that provide best value"""
         
-        print("💸 FINDING SALARY ARBITRAGE...")
+        print(" FINDING SALARY ARBITRAGE...")
         
         if 'salary' not in actual_df.columns:
-            print("   ⚠️  No salary data available")
+            print("   WARNING:  No salary data available")
             return pd.DataFrame()
         
         # Create salary tiers
@@ -128,7 +128,7 @@ class SaberSimKiller:
     def find_matchup_edges(self, actual_df):
         """Find specific matchup patterns that lead to big games"""
         
-        print("⚔️  FINDING MATCHUP EDGES...")
+        print("  FINDING MATCHUP EDGES...")
         
         # This would require pitcher/game data
         # For now, return team-based patterns
@@ -148,7 +148,7 @@ class SaberSimKiller:
     def generate_tournament_strategy(self, edges):
         """Create specific tournament lineup strategy"""
         
-        print("\n🏆 TOURNAMENT STRATEGY GENERATED:")
+        print("\nLINEUP: TOURNAMENT STRATEGY GENERATED:")
         print("="*50)
         
         strategy = {
@@ -179,21 +179,21 @@ class SaberSimKiller:
             "Mid-tier salary guys outperforming"
         ]
         
-        print("🎯 CORE PLAYS:")
+        print("TARGET: CORE PLAYS:")
         for play in strategy['core_plays']:
-            print(f"   • {play}")
+            print(f"    {play}")
         
-        print(f"\n🔄 PIVOT SPOTS:")
+        print(f"\nSWAP: PIVOT SPOTS:")
         for pivot in strategy['pivot_spots']:
-            print(f"   • {pivot}")
+            print(f"    {pivot}")
         
-        print(f"\n📚 STACK TARGETS:")
+        print(f"\n STACK TARGETS:")
         for stack in strategy['stack_targets']:
-            print(f"   • {stack}")
+            print(f"    {stack}")
         
-        print(f"\n🎭 CONTRARIAN ANGLES:")
+        print(f"\n CONTRARIAN ANGLES:")
         for angle in strategy['contrarian_angles']:
-            print(f"   • {angle}")
+            print(f"    {angle}")
         
         return strategy
     
@@ -246,14 +246,14 @@ def main():
     daily_system = killer.create_daily_edge_system()
     
     print(f"\n" + "="*60)
-    print(f"🎯 SABERSIM KILLER SYSTEM COMPLETE!")
+    print(f"TARGET: SABERSIM KILLER SYSTEM COMPLETE!")
     print(f"="*60)
-    print(f"✅ Edge identification: DONE")
-    print(f"🏆 Tournament strategy: GENERATED") 
-    print(f"📅 Daily system: CREATED")
-    print(f"🚀 Ready to compete with top sites!")
+    print(f"SUCCESS: Edge identification: DONE")
+    print(f"LINEUP: Tournament strategy: GENERATED") 
+    print(f" Daily system: CREATED")
+    print(f"START: Ready to compete with top sites!")
     
-    print(f"\n⚡ IMMEDIATE ACTIONS:")
+    print(f"\n IMMEDIATE ACTIONS:")
     print(f"1. Apply position multipliers to projections")
     print(f"2. Target hot teams in lineups") 
     print(f"3. Boost undervalued positions")

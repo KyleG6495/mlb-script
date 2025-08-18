@@ -1,5 +1,13 @@
 @echo off
+echo [DEBUG] 2_DFS_MODELS.bat starting...
+echo [DEBUG] Current directory: %CD%
 cd /d "C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts"
+echo [DEBUG] Changed to Scripts directory: %CD%
+
+REM Use PYTHON_EXE if set, otherwise default to python
+if "%PYTHON_EXE%"=="" set PYTHON_EXE=python
+echo [DEBUG] Python executable: %PYTHON_EXE%
+
 echo ========================================
 echo   🏆 DFS AND FANTASY LINEUP OPTIMIZATION
 echo   Model-Based Lineup Generation
@@ -17,7 +25,18 @@ echo.
 echo Checking for starting lineups master file...
 if exist "../data/starting_lineups.csv" (
     echo ✅ Starting lineups master file found - using confirmed starters only
-    python -c "import pandas as pd; df=pd.read_csv('../data/starting_lineups.csv'); print(f'📊 Using {len(df)} confirmed starters from master file')"
+    echo [DEBUG] Attempting to run Python with: %PYTHON_EXE%
+    %PYTHON_EXE% --version
+    if errorlevel 1 (
+        echo [ERROR] Python executable not found: %PYTHON_EXE%
+        echo [INFO] Trying alternative Python paths...
+        where python
+        where python3
+        echo [INFO] Please ensure Python is installed and in PATH
+        pause
+        exit /b 1
+    )
+    %PYTHON_EXE% -c "import pandas as pd; df=pd.read_csv('../data/starting_lineups.csv'); print(f'📊 Using {len(df)} confirmed starters from master file')"
 ) else (
     echo ❌ starting_lineups.csv not found!
     echo Please run create_starting_lineups.py first
@@ -26,14 +45,21 @@ if exist "../data/starting_lineups.csv" (
 )
 echo.
 echo Checking batting order availability...
-python check_batting_orders.py
-if errorlevel 1 (
-    echo.
-    echo ⚠️ BATTING ORDERS NOT AVAILABLE YET
-    echo This will use backup quintuple lineup optimization
-    echo For full ML optimization, run this script later when batting orders are posted
-    echo.
+echo [DEBUG] Attempting to run: %PYTHON_EXE% check_batting_orders.py
+if exist "check_batting_orders.py" (
+    %PYTHON_EXE% check_batting_orders.py
+    if errorlevel 1 (
+        echo.
+        echo ⚠️ BATTING ORDERS NOT AVAILABLE YET
+        echo This will use backup quintuple lineup optimization
+        echo For full ML optimization, run this script later when batting orders are posted
+        echo.
+    ) else (
+        echo ✅ Batting orders confirmed and available
+    )
 ) else (
+    echo [WARNING] check_batting_orders.py not found, skipping batting order check
+)
     echo ✅ Batting orders available - full ML optimization will run
     echo.
 )
@@ -42,41 +68,41 @@ pause
 echo.
 
 echo Step 1: Finalizing Hitter Features...
-python "(21)finalize_hitter_features.py"
+%PYTHON_EXE% "(21)finalize_hitter_features.py"
 if errorlevel 1 goto error
 
 echo Step 2: Finalizing Pitcher Features...
-python "(22)finalize_pitcher_features.py"
+%PYTHON_EXE% "(22)finalize_pitcher_features.py"
 if errorlevel 1 goto error
 
 echo Step 3: Adding Pitcher Context...
-python add_pitcher_features.py
+%PYTHON_EXE% add_pitcher_features.py
 if errorlevel 1 goto error
 
 echo Step 4: Applying Real Player Stats...
-python fix_prediction_features_with_real_stats.py
+%PYTHON_EXE% fix_prediction_features_with_real_stats.py
 if errorlevel 1 goto error
 
 echo Step 5: Running Enhanced ML-Powered DFS Optimization...
-python ENHANCED_ML_DFS_SYSTEM.py
+%PYTHON_EXE% ENHANCED_ML_DFS_SYSTEM.py
 if errorlevel 1 (
     echo ⚠️ Enhanced ML DFS failed - likely batting orders not posted yet
     echo Running backup quintuple lineup generator...
-    python generate_quintuple_lineups.py
+    %PYTHON_EXE% generate_quintuple_lineups.py
     if errorlevel 1 goto error
     echo ✅ Generated backup quintuple lineups successfully
     goto skip_legacy_dfs
 )
 
 echo Step 6: Running ML-Powered DFS Optimization (legacy)...
-python ML_POWERED_DFS_SYSTEM.py
+%PYTHON_EXE% ML_POWERED_DFS_SYSTEM.py
 if errorlevel 1 (
     echo ⚠️ Legacy ML DFS also failed - using quintuple backup
     goto skip_legacy_dfs
 )
 
 echo Step 7: Running Unified DFS Optimization (comparison)...
-python UNIFIED_DFS_SYSTEM.py
+%PYTHON_EXE% UNIFIED_DFS_SYSTEM.py
 if errorlevel 1 (
     echo ⚠️ Unified DFS also failed - batting orders likely not available
 )
@@ -84,11 +110,11 @@ if errorlevel 1 (
 :skip_legacy_dfs
 
 echo Step 8: Creating Additional Lineup Formats...
-python "24. create_fanduel_submission.py"
+%PYTHON_EXE% "24. create_fanduel_submission.py"
 if errorlevel 1 goto error
 
 echo Step 9: Generating Quintuple Tournament Lineups...
-python generate_quintuple_lineups.py
+%PYTHON_EXE% generate_quintuple_lineups.py
 if errorlevel 1 (
     echo ⚠️ Quintuple lineup generation failed, continuing...
 ) else (

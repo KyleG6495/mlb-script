@@ -15,7 +15,7 @@ INPUT_PATH = "../data/today_hitter_features.csv"
 OUTPUT_PATH = f"../data/aggregated_hitter_features_{current_year}.csv"
 
 # Load hitter data
-logging.info(f"📥 Loading hitter data from {INPUT_PATH}")
+logging.info(f" Loading hitter data from {INPUT_PATH}")
 df = pd.read_csv(INPUT_PATH)
 
 # Drop rows missing key fields
@@ -70,6 +70,6 @@ final_cols = [
 df_final = agg[final_cols]
 
 # Save
-logging.info(f"💾 Saving aggregated hitter features → {OUTPUT_PATH}")
+logging.info(f" Saving aggregated hitter features  {OUTPUT_PATH}")
 df_final.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"✅ Saved hitter features with {len(df_final)} rows")
+logging.info(f"SUCCESS: Saved hitter features with {len(df_final)} rows")

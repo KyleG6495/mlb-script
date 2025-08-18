@@ -53,9 +53,9 @@ def create_clean_upload():
     upload_file = "../fd_current_slate/CLEAN_ULTIMATE_UPLOAD.csv"
     df_upload.to_csv(upload_file, index=False)
     
-    logger.info(f"✅ Clean upload file created: {upload_file}")
-    logger.info(f"📋 Contains {len(df_ultimate)} ULTIMATE optimized lineups")
-    logger.info(f"🎯 Ready for FanDuel upload!")
+    logger.info(f"SUCCESS: Clean upload file created: {upload_file}")
+    logger.info(f"INFO: Contains {len(df_ultimate)} ULTIMATE optimized lineups")
+    logger.info(f"TARGET: Ready for FanDuel upload!")
     
     return upload_file
 

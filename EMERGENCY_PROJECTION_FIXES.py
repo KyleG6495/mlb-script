@@ -28,7 +28,7 @@ def apply_emergency_fixes(df):
     for position, multiplier in position_fixes.items():
         mask = df['position'] == position
         df.loc[mask, 'fppg_projection'] *= multiplier
-        print(f"✅ Applied {multiplier}x multiplier to {position}")
+        print(f"SUCCESS: Applied {multiplier}x multiplier to {position}")
     
     # 2. TEAM STACK BONUSES (Teams that are hot)
     hot_teams = {
@@ -44,7 +44,7 @@ def apply_emergency_fixes(df):
         mask = df['team'] == team
         df.loc[mask, 'fppg_projection'] *= bonus
         count = mask.sum()
-        print(f"🔥 Applied {bonus}x bonus to {count} {team} players")
+        print(f" Applied {bonus}x bonus to {count} {team} players")
     
     # 3. RECENCY BIAS (Recent performance matters more)
     if 'last_3_games_avg' in df.columns and 'season_avg' in df.columns:
@@ -52,7 +52,7 @@ def apply_emergency_fixes(df):
         recent_boost = 1.0 + (df['last_3_games_avg'] - df['season_avg']) * 0.4
         recent_boost = recent_boost.clip(0.7, 1.8)  # Allow bigger range
         df['fppg_projection'] *= recent_boost
-        print(f"📈 Applied recency bias to all players")
+        print(f"PROGRESS: Applied recency bias to all players")
     
     # 4. MATCHUP BONUSES
     # Against bad pitchers (ERA > 4.5)
@@ -60,14 +60,14 @@ def apply_emergency_fixes(df):
         bad_pitcher_mask = df['opp_pitcher_era'] > 4.5
         df.loc[bad_pitcher_mask, 'fppg_projection'] *= 1.20
         count = bad_pitcher_mask.sum()
-        print(f"💪 Applied 1.20x bonus to {count} players vs bad pitching")
+        print(f" Applied 1.20x bonus to {count} players vs bad pitching")
     
     # High total games (Over 8.5 runs)
     if 'game_total' in df.columns:
         high_total_mask = df['game_total'] > 8.5
         df.loc[high_total_mask, 'fppg_projection'] *= 1.15
         count = high_total_mask.sum()
-        print(f"🚀 Applied 1.15x bonus to {count} players in high-total games")
+        print(f"START: Applied 1.15x bonus to {count} players in high-total games")
     
     # 5. SALARY EFFICIENCY BOOST
     # Boost mid-tier guys who provide value
@@ -81,7 +81,7 @@ def apply_emergency_fixes(df):
         
         hitter_count = hitter_mask.sum()
         pitcher_count = pitcher_mask.sum()
-        print(f"💰 Applied value bonus to {hitter_count} hitters, {pitcher_count} pitchers")
+        print(f"MONEY: Applied value bonus to {hitter_count} hitters, {pitcher_count} pitchers")
     
     return df
 
@@ -95,7 +95,7 @@ df = apply_emergency_fixes(df)
 # Your existing optimization code here...
 '''
 
-print("🚨 EMERGENCY FIXES READY!")
+print(" EMERGENCY FIXES READY!")
 print("="*50)
 print("Copy the apply_emergency_fixes() function into your main projection script")
 print("Apply it RIGHT BEFORE you run your lineup optimizer")

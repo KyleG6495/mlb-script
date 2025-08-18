@@ -10,7 +10,7 @@ import numpy as np
 import os
 from datetime import datetime
 
-print("🔧 FIXING PREDICTION FEATURES WITH REAL STATS")
+print("STEP: FIXING PREDICTION FEATURES WITH REAL STATS")
 print("="*50)
 
 data_dir = r"c:\Users\kgone\OneDrive\Personal_Information\MLB\data"
@@ -43,7 +43,7 @@ if len(real_stats) > 0:
     real_player_id_col = 'player_id' if 'player_id' in real_stats.columns else 'Id'
     print(f"   Players with real stats: {real_stats[real_player_id_col].nunique()}")
 else:
-    print("   ⚠️ No real stats data available - using synthetic values")
+    print("   WARNING: No real stats data available - using synthetic values")
     real_player_id_col = 'player_id'
 
 # Show sample real stats variance
@@ -155,7 +155,7 @@ try:
         
         print(f"   Added {len(pitcher_cols)} pitcher features")
 except:
-    print("   ⚠️ Could not load pitcher features")
+    print("   WARNING: Could not load pitcher features")
 
 # Add other required columns
 enhanced['date'] = datetime.now().strftime('%Y-%m-%d')
@@ -196,9 +196,9 @@ print(enhanced[available_sample].head(6).to_string(index=False))
 print("\n7. Saving corrected features...")
 output_path = os.path.join(data_dir, "prediction_features_enhanced_real_stats.csv")
 enhanced.to_csv(output_path, index=False)
-print(f"   ✅ Saved to: {output_path}")
+print(f"   SUCCESS: Saved to: {output_path}")
 
 print("\n" + "="*50)
-print("🔧 PREDICTION FEATURES FIXED WITH REAL VARIATION")
+print("STEP: PREDICTION FEATURES FIXED WITH REAL VARIATION")
 print("Total_bases predictions should now be realistic and varied!")
 print("="*50)

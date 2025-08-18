@@ -11,7 +11,7 @@ import time
 import os
 from datetime import datetime
 
-print("🔄 LIVE LINE UPDATES SYSTEM")
+print("SWAP: LIVE LINE UPDATES SYSTEM")
 print("="*50)
 
 # Paths
@@ -19,7 +19,7 @@ data_dir = r"c:\Users\kgone\OneDrive\Personal_Information\MLB\data"
 
 def refresh_prizepicks_data():
     """Refresh PrizePicks data (placeholder - would need actual API)"""
-    print("\n📱 Refreshing PrizePicks data...")
+    print("\n Refreshing PrizePicks data...")
     
     # Load existing data as template
     existing_file = os.path.join(data_dir, "prizepicks_props.csv")
@@ -46,16 +46,16 @@ def refresh_prizepicks_data():
         # Save updated data
         output_path = os.path.join(data_dir, "prizepicks_props_live.csv")
         df.to_csv(output_path, index=False)
-        print(f"   ✅ Updated PrizePicks data saved: {output_path}")
+        print(f"   SUCCESS: Updated PrizePicks data saved: {output_path}")
         
         return df
     else:
-        print("   ❌ No existing PrizePicks data found")
+        print("   ERROR: No existing PrizePicks data found")
         return None
 
 def refresh_underdog_data():
     """Refresh Underdog data (placeholder - would need actual API)"""
-    print("\n🐕 Refreshing Underdog data...")
+    print("\n Refreshing Underdog data...")
     
     existing_file = os.path.join(data_dir, "underdog_props.csv")
     if os.path.exists(existing_file):
@@ -75,11 +75,11 @@ def refresh_underdog_data():
         # Save updated data
         output_path = os.path.join(data_dir, "underdog_props_live.csv")
         df.to_csv(output_path, index=False)
-        print(f"   ✅ Updated Underdog data saved: {output_path}")
+        print(f"   SUCCESS: Updated Underdog data saved: {output_path}")
         
         return df
     else:
-        print("   ❌ No existing Underdog data found")
+        print("   ERROR: No existing Underdog data found")
         return None
 
 def create_live_betting_runner():
@@ -102,7 +102,7 @@ import schedule
 def run_live_analysis():
     """Run a single betting analysis cycle"""
     timestamp = datetime.now().strftime('%H:%M:%S')
-    print(f"\\n🔄 [{timestamp}] Running live betting analysis...")
+    print(f"\\nSWAP: [{timestamp}] Running live betting analysis...")
     
     try:
         # Refresh lines
@@ -117,23 +117,23 @@ def run_live_analysis():
         ], capture_output=True, text=True)
         
         if result.returncode == 0:
-            print("   ✅ Analysis complete!")
+            print("   SUCCESS: Analysis complete!")
             # Parse result for quick summary
             lines = result.stdout.split('\\n')
             for line in lines:
                 if "Found" in line and "opportunities" in line:
-                    print(f"   📊 {line.strip()}")
+                    print(f"   DATA: {line.strip()}")
         else:
-            print(f"   ❌ Analysis failed: {result.stderr}")
+            print(f"   ERROR: Analysis failed: {result.stderr}")
             
     except Exception as e:
-        print(f"   ❌ Error in live analysis: {e}")
+        print(f"   ERROR: Error in live analysis: {e}")
 
 def main():
     """Main live betting monitoring loop"""
-    print("🚀 LIVE BETTING MONITOR STARTED")
+    print("START: LIVE BETTING MONITOR STARTED")
     print("="*50)
-    print("⏰ Schedule:")
+    print(" Schedule:")
     print("   - Every 5 minutes: Quick line refresh")
     print("   - Every 15 minutes: Full analysis")
     print("   - Press Ctrl+C to stop")
@@ -152,7 +152,7 @@ def main():
             schedule.run_pending()
             time.sleep(30)  # Check every 30 seconds
     except KeyboardInterrupt:
-        print("\\n\\n🛑 Live betting monitor stopped")
+        print("\\n\\n Live betting monitor stopped")
 
 if __name__ == "__main__":
     main()
@@ -163,13 +163,13 @@ if __name__ == "__main__":
     with open(runner_path, 'w', encoding='utf-8') as f:
         f.write(live_runner_code)
     
-    print(f"   ✅ Live betting runner created: {runner_path}")
+    print(f"   SUCCESS: Live betting runner created: {runner_path}")
     return runner_path
 
 def update_automated_system_for_live():
     """Update the automated betting system to support live mode"""
     
-    print("\n🔧 Updating automated betting system for live updates...")
+    print("\nSTEP: Updating automated betting system for live updates...")
     
     # The system already loads the most recent files, so we just need to update
     # the file paths to use the live versions when available
@@ -190,8 +190,8 @@ def update_automated_system_for_live():
                 pass
     '''
     
-    print("   📝 Live update logic can be added to automated_betting_system.py")
-    print("   🔄 System will automatically use live files when available")
+    print("    Live update logic can be added to automated_betting_system.py")
+    print("   SWAP: System will automatically use live files when available")
 
 # Main execution
 def main():
@@ -211,7 +211,7 @@ def main():
     
     print("\\n3. Installation complete!")
     print("="*50)
-    print("🔄 LIVE LINE UPDATES READY")
+    print("SWAP: LIVE LINE UPDATES READY")
     print("\\nTo start live monitoring:")
     print("   python live_betting_runner.py")
     print("\\nTo manually refresh lines:")

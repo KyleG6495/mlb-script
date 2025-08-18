@@ -17,10 +17,10 @@ START_DATE = "2025-03-27"  # Season start
 END_DATE = date.today().strftime("%Y-%m-%d")  # Up to today
 
 # Load pitcher names and IDs
-logging.info("📥 Loading pitcher names and IDs...")
+logging.info(" Loading pitcher names and IDs...")
 df = pd.read_csv(INPUT_FILE)
 pitchers = df.dropna(subset=["target_name", "player_id"]).drop_duplicates(subset=["player_id"])
-logging.info(f"✅ Loaded {len(pitchers)} pitchers")
+logging.info(f"SUCCESS: Loaded {len(pitchers)} pitchers")
 
 # Define stat fields to extract
 REQUIRED_STATS = [
@@ -84,6 +84,6 @@ for _, row in tqdm(pitchers.iterrows(), total=len(pitchers), desc="Fetching pitc
 if all_logs:
     df_out = pd.DataFrame(all_logs)
     df_out.to_csv(OUTPUT_FILE, index=False)
-    logging.info(f"✅ Saved pitcher boxscores → {OUTPUT_FILE} ({len(df_out)} rows)")
+    logging.info(f"SUCCESS: Saved pitcher boxscores  {OUTPUT_FILE} ({len(df_out)} rows)")
 else:
-    logging.warning("⚠️ No data scraped.")
+    logging.warning("WARNING: No data scraped.")

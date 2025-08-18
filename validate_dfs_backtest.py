@@ -34,8 +34,8 @@ class DFSBacktestValidator:
         template_path = f"../data/mlb_actual_results_{date_str}.csv"
         
         if os.path.exists(template_path):
-            print(f"✅ Results template already exists: {template_path}")
-            print(f"📝 Please fill in actual stats and re-run validation")
+            print(f"SUCCESS: Results template already exists: {template_path}")
+            print(f" Please fill in actual stats and re-run validation")
             return template_path
         
         # Create comprehensive template with all possible players
@@ -73,15 +73,15 @@ class DFSBacktestValidator:
         template_df = pd.DataFrame(template_data)
         template_df.to_csv(template_path, index=False)
         
-        print(f"📝 Created results template: {template_path}")
+        print(f" Created results template: {template_path}")
         print(f"")
-        print(f"🎯 INSTRUCTIONS:")
+        print(f"TARGET: INSTRUCTIONS:")
         print(f"1. Open {template_path} in Excel or CSV editor")
         print(f"2. Fill in ACTUAL stats for each player from July 21, 2025")
         print(f"3. Use 0 for players who didn't play")
         print(f"4. Save the file and re-run this validator")
         print(f"")
-        print(f"📊 STAT DEFINITIONS:")
+        print(f"DATA: STAT DEFINITIONS:")
         print(f"   AB = At Bats, H = Hits, R = Runs, RBI = RBIs")
         print(f"   HR = Home Runs, 2B = Doubles, 3B = Triples")
         print(f"   BB = Walks, HBP = Hit by Pitch, SB = Stolen Bases")
@@ -128,12 +128,12 @@ class DFSBacktestValidator:
         """Load actual player results from CSV"""
         
         if not os.path.exists(results_file):
-            print(f"❌ Results file not found: {results_file}")
+            print(f"ERROR: Results file not found: {results_file}")
             return None
         
         try:
             df = pd.read_csv(results_file)
-            print(f"✅ Loaded actual results for {len(df)} players")
+            print(f"SUCCESS: Loaded actual results for {len(df)} players")
             
             # Calculate fantasy points for each player
             df['Actual_FPPG'] = df.apply(self.calculate_fantasy_points, axis=1)
@@ -156,19 +156,19 @@ class DFSBacktestValidator:
             return results_dict
             
         except Exception as e:
-            print(f"❌ Error loading results: {str(e)}")
+            print(f"ERROR: Error loading results: {str(e)}")
             return None
     
     def validate_lineups(self, lineup_file, results_dict):
         """Validate lineup performance against actual results"""
         
         if not os.path.exists(lineup_file):
-            print(f"❌ Lineup file not found: {lineup_file}")
+            print(f"ERROR: Lineup file not found: {lineup_file}")
             return None
         
         try:
             lineup_df = pd.read_csv(lineup_file)
-            print(f"✅ Loaded {len(lineup_df)} lineup entries")
+            print(f"SUCCESS: Loaded {len(lineup_df)} lineup entries")
             
             # Group by lineup_id
             lineup_results = []
@@ -177,7 +177,7 @@ class DFSBacktestValidator:
                 lineup_players = lineup_df[lineup_df['lineup_id'] == lineup_id]
                 
                 if len(lineup_players) != 9:
-                    print(f"⚠️ Lineup {lineup_id} has {len(lineup_players)} players (should be 9)")
+                    print(f"WARNING: Lineup {lineup_id} has {len(lineup_players)} players (should be 9)")
                     continue
                 
                 # Calculate actual performance
@@ -201,7 +201,7 @@ class DFSBacktestValidator:
                         players_found += 1
                     else:
                         actual_fppg = 0
-                        print(f"   ⚠️ No results found for {player_name}")
+                        print(f"   WARNING: No results found for {player_name}")
                     
                     actual_total += actual_fppg
                     projected_total += projected_fppg
@@ -232,7 +232,7 @@ class DFSBacktestValidator:
             return lineup_results
             
         except Exception as e:
-            print(f"❌ Error validating lineups: {str(e)}")
+            print(f"ERROR: Error validating lineups: {str(e)}")
             return None
     
     def find_player_performance(self, player_name, results_dict):
@@ -261,10 +261,10 @@ class DFSBacktestValidator:
         """Analyze and display validation results"""
         
         if not lineup_results:
-            print("❌ No lineup results to analyze")
+            print("ERROR: No lineup results to analyze")
             return
         
-        print(f"\n🏆 DFS LINEUP BACKTEST VALIDATION RESULTS")
+        print(f"\nLINEUP: DFS LINEUP BACKTEST VALIDATION RESULTS")
         print("=" * 60)
         
         # Overall performance
@@ -279,7 +279,7 @@ class DFSBacktestValidator:
         print(f"Average Difference: {avg_difference:+.1f} ({avg_difference/avg_projected:+.1%})")
         
         # Performance by strategy
-        print(f"\n📊 PERFORMANCE BY STRATEGY:")
+        print(f"\nDATA: PERFORMANCE BY STRATEGY:")
         strategies = {}
         for result in lineup_results:
             strategy = result['strategy']
@@ -299,7 +299,7 @@ class DFSBacktestValidator:
         elite_scoring = [r for r in lineup_results if r['actual_fppg'] >= 180]
         legendary_scoring = [r for r in lineup_results if r['actual_fppg'] >= 210]
         
-        print(f"\n🎯 HIGH-SCORING LINEUP ANALYSIS:")
+        print(f"\nTARGET: HIGH-SCORING LINEUP ANALYSIS:")
         print(f"150+ Point Lineups: {len(high_scoring)} ({len(high_scoring)/total_lineups:.1%})")
         print(f"180+ Point Lineups: {len(elite_scoring)} ({len(elite_scoring)/total_lineups:.1%})")
         print(f"210+ Point Lineups: {len(legendary_scoring)} ({len(legendary_scoring)/total_lineups:.1%})")
@@ -307,7 +307,7 @@ class DFSBacktestValidator:
         # Top performing lineups
         sorted_lineups = sorted(lineup_results, key=lambda x: x['actual_fppg'], reverse=True)
         
-        print(f"\n🏆 TOP 5 ACTUAL PERFORMING LINEUPS:")
+        print(f"\nLINEUP: TOP 5 ACTUAL PERFORMING LINEUPS:")
         print("-" * 60)
         
         for i, result in enumerate(sorted_lineups[:5]):
@@ -317,18 +317,18 @@ class DFSBacktestValidator:
             
             # Show player breakdown
             for player in result['player_details']:
-                status = "✅" if player['actual'] > player['projected'] else "❌" if player['actual'] < player['projected'] else "➡️"
+                status = "SUCCESS:" if player['actual'] > player['projected'] else "ERROR:" if player['actual'] < player['projected'] else ""
                 print(f"     {status} {player['name']:<20} {player['position']:<4} ${player['salary']:,} | {player['actual']:4.1f} vs {player['projected']:4.1f} ({player['difference']:+4.1f})")
         
         # Biggest surprises (positive and negative)
         biggest_beats = sorted(lineup_results, key=lambda x: x['difference'], reverse=True)[:3]
         biggest_misses = sorted(lineup_results, key=lambda x: x['difference'])[:3]
         
-        print(f"\n📈 BIGGEST POSITIVE SURPRISES:")
+        print(f"\nPROGRESS: BIGGEST POSITIVE SURPRISES:")
         for result in biggest_beats:
             print(f"   Lineup {result['lineup_id']:2d}: {result['actual_fppg']:5.1f} actual vs {result['projected_fppg']:5.1f} projected (+{result['difference']:4.1f})")
         
-        print(f"\n📉 BIGGEST DISAPPOINTMENTS:")
+        print(f"\n BIGGEST DISAPPOINTMENTS:")
         for result in biggest_misses:
             print(f"   Lineup {result['lineup_id']:2d}: {result['actual_fppg']:5.1f} actual vs {result['projected_fppg']:5.1f} projected ({result['difference']:+4.1f})")
         
@@ -336,7 +336,7 @@ class DFSBacktestValidator:
         accurate_lineups = [r for r in lineup_results if abs(r['difference']) <= 20]
         very_accurate = [r for r in lineup_results if abs(r['difference']) <= 10]
         
-        print(f"\n🎯 PREDICTION ACCURACY:")
+        print(f"\nTARGET: PREDICTION ACCURACY:")
         print(f"Within 20 points: {len(accurate_lineups)} ({len(accurate_lineups)/total_lineups:.1%})")
         print(f"Within 10 points: {len(very_accurate)} ({len(very_accurate)/total_lineups:.1%})")
         
@@ -371,12 +371,12 @@ class DFSBacktestValidator:
         results_df = pd.DataFrame(flattened_results)
         results_df.to_csv(output_file, index=False)
         
-        print(f"\n💾 Detailed validation results saved: {output_file}")
+        print(f"\n Detailed validation results saved: {output_file}")
 
 def main():
     """Run DFS lineup backtest validation"""
     
-    print("🎯 DFS LINEUP BACKTEST VALIDATOR")
+    print("TARGET: DFS LINEUP BACKTEST VALIDATOR")
     print("=" * 50)
     print("Validate July 21, 2025 enhanced lineup performance")
     print()
@@ -390,18 +390,18 @@ def main():
     results_dict = validator.load_actual_results(results_template)
     
     if results_dict is None:
-        print(f"\n⏸️ Please fill in the results template and re-run this script")
+        print(f"\n Please fill in the results template and re-run this script")
         return
     
     # Check if any actual results were entered
     total_actual_points = sum(player['actual_fppg'] for player in results_dict.values())
     
     if total_actual_points == 0:
-        print(f"\n⚠️ No actual fantasy points found in results file")
-        print(f"📝 Please enter real player stats from July 21, 2025 and re-run")
+        print(f"\nWARNING: No actual fantasy points found in results file")
+        print(f" Please enter real player stats from July 21, 2025 and re-run")
         return
     
-    print(f"✅ Found actual results with {total_actual_points:.1f} total fantasy points")
+    print(f"SUCCESS: Found actual results with {total_actual_points:.1f} total fantasy points")
     
     # Load and validate lineups
     lineup_file = r'c:\Users\kgone\OneDrive\Personal_Information\MLB\data\enhanced_backtest_lineups_20250721.csv'
@@ -418,10 +418,10 @@ def main():
     output_file = r'c:\Users\kgone\OneDrive\Personal_Information\MLB\data\dfs_validation_results_20250721.csv'
     validator.save_validation_results(lineup_results, output_file)
     
-    print(f"\n✅ VALIDATION COMPLETE!")
-    print(f"🎯 This analysis shows how the enhanced DFS models performed")
-    print(f"📊 Compare these results to your actual submitted lineups")
-    print(f"🚀 Use insights to further improve the optimization models")
+    print(f"\nSUCCESS: VALIDATION COMPLETE!")
+    print(f"TARGET: This analysis shows how the enhanced DFS models performed")
+    print(f"DATA: Compare these results to your actual submitted lineups")
+    print(f"START: Use insights to further improve the optimization models")
 
 if __name__ == "__main__":
     main()

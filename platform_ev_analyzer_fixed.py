@@ -42,19 +42,19 @@ class PlatformEVAnalyzer:
         for file_path in betting_files:
             try:
                 if os.path.exists(file_path):
-                    print(f"📊 Loading prop data from: {file_path}")
+                    print(f"DATA: Loading prop data from: {file_path}")
                     return pd.read_csv(file_path)
             except Exception as e:
                 continue
         
         # If no existing file, create sample data
-        print("⚠️ No existing prop data found, generating sample...")
+        print("WARNING: No existing prop data found, generating sample...")
         return self.generate_sample_props()
     
     def process_existing_data(self, props_df):
         """Process existing betting opportunities data"""
         
-        print(f"📊 Processing {len(props_df)} existing opportunities...")
+        print(f"DATA: Processing {len(props_df)} existing opportunities...")
         
         # Filter to valid opportunities with reasonable expected values
         filtered_data = []
@@ -106,7 +106,7 @@ class PlatformEVAnalyzer:
                 'prediction': prop.get('prediction', 0)
             })
         
-        print(f"✅ Filtered to {len(filtered_data)} valid opportunities")
+        print(f"SUCCESS: Filtered to {len(filtered_data)} valid opportunities")
         return pd.DataFrame(filtered_data)
     
     def get_confidence_level(self, edge):
@@ -129,7 +129,7 @@ class PlatformEVAnalyzer:
             platform_data = ev_df[ev_df['platform'] == platform].copy()
             
             if len(platform_data) == 0:
-                print(f"⚠️ No data found for {platform}")
+                print(f"WARNING: No data found for {platform}")
                 continue
             
             # Sort by expected value descending
@@ -139,7 +139,7 @@ class PlatformEVAnalyzer:
             positive_ev = platform_data[platform_data['expected_value'] > 0].copy()
             
             if len(positive_ev) == 0:
-                print(f"⚠️ No positive EV opportunities found for {platform}")
+                print(f"WARNING: No positive EV opportunities found for {platform}")
                 continue
             
             # Add rank and format for display
@@ -166,11 +166,11 @@ class PlatformEVAnalyzer:
             filename = f"../data/{platform}_best_ev_{timestamp}.csv"
             final_sheet.to_csv(filename, index=False)
             
-            print(f"💾 {platform.title()} sheet saved: {filename}")
-            print(f"🎯 Found {len(positive_ev)} positive EV opportunities")
+            print(f" {platform.title()} sheet saved: {filename}")
+            print(f"TARGET: Found {len(positive_ev)} positive EV opportunities")
             
             # Show top 10
-            print(f"\n🏆 TOP 10 {platform.upper()} OPPORTUNITIES:")
+            print(f"\nLINEUP: TOP 10 {platform.upper()} OPPORTUNITIES:")
             print("=" * 80)
             top_10 = final_sheet.head(10)
             for i, row in top_10.iterrows():
@@ -180,7 +180,7 @@ class PlatformEVAnalyzer:
     def create_combo_analysis(self, ev_df):
         """Analyze best combo opportunities"""
         
-        print(f"\n🔥 COMBO OPPORTUNITY ANALYSIS")
+        print(f"\n COMBO OPPORTUNITY ANALYSIS")
         print("=" * 50)
         
         for platform in ['prizepicks', 'underdog']:
@@ -191,10 +191,10 @@ class PlatformEVAnalyzer:
             ].copy()
             
             if len(platform_data) < 2:
-                print(f"⚠️ Not enough high-confidence bets for {platform} combos")
+                print(f"WARNING: Not enough high-confidence bets for {platform} combos")
                 continue
             
-            print(f"\n🎲 {platform.upper()} COMBO RECOMMENDATIONS:")
+            print(f"\n {platform.upper()} COMBO RECOMMENDATIONS:")
             
             # Get top picks for combos
             top_picks = platform_data.nlargest(6, 'expected_value')
@@ -212,26 +212,26 @@ class PlatformEVAnalyzer:
                           f"Prob={combo_prob:.1%}, EV={combo_ev:.3f}")
                     
                     if combo_ev > 0:
-                        print(f"    ✅ POSITIVE EV COMBO!")
+                        print(f"    SUCCESS: POSITIVE EV COMBO!")
                         for _, pick in picks_for_combo.iterrows():
-                            print(f"      • {pick['player']} {pick['category']} {pick['line']}")
+                            print(f"       {pick['player']} {pick['category']} {pick['line']}")
     
     def run_full_analysis(self):
         """Run the complete EV analysis for both platforms"""
         
-        print("🎯 PRIZEPICKS & UNDERDOG FANTASY EV ANALYZER")
+        print("TARGET: PRIZEPICKS & UNDERDOG FANTASY EV ANALYZER")
         print("=" * 60)
         
         # Load prop data
         props_df = self.load_prop_data()
-        print(f"📊 Loaded {len(props_df)} prop opportunities")
+        print(f"DATA: Loaded {len(props_df)} prop opportunities")
         
         # Process the data
         ev_df = self.process_existing_data(props_df)
-        print(f"💰 Processed {len(ev_df)} valid betting opportunities")
+        print(f"MONEY: Processed {len(ev_df)} valid betting opportunities")
         
         if len(ev_df) == 0:
-            print("❌ No valid data to analyze")
+            print("ERROR: No valid data to analyze")
             return
         
         # Create platform-specific sheets
@@ -241,7 +241,7 @@ class PlatformEVAnalyzer:
         self.create_combo_analysis(ev_df)
         
         # Summary stats
-        print(f"\n📈 SUMMARY STATISTICS:")
+        print(f"\nPROGRESS: SUMMARY STATISTICS:")
         print("=" * 30)
         
         for platform in ['prizepicks', 'underdog']:

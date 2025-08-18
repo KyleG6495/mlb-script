@@ -19,49 +19,49 @@ class SmartDFSBuilder:
         
     def load_viable_slate(self):
         """Load slate with smart filtering applied"""
-        print("🧠 SMART DFS LINEUP BUILDER")
+        print(" SMART DFS LINEUP BUILDER")
         print("Building lineups with ONLY viable players")
         print("="*60)
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         df = pd.read_csv(slate_file)
         
-        print(f"📊 Raw slate: {len(df)} players")
+        print(f"DATA: Raw slate: {len(df)} players")
         
         # CRITICAL FILTER 1: Remove ALL injured players
-        print(f"\n🏥 INJURY FILTERING:")
+        print(f"\n INJURY FILTERING:")
         injured_count = df['Injury Indicator'].notna().sum()
         df_healthy = df[df['Injury Indicator'].isna()].copy()
-        print(f"  💥 Removed {injured_count} injured players")
-        print(f"  ✅ Healthy players remaining: {len(df_healthy)}")
+        print(f"   Removed {injured_count} injured players")
+        print(f"  SUCCESS: Healthy players remaining: {len(df_healthy)}")
         
         # CRITICAL FILTER 2: Pitchers - ONLY probable starters
-        print(f"\n⚾ PITCHER FILTERING:")
+        print(f"\nBASEBALL: PITCHER FILTERING:")
         pitchers = df_healthy[df_healthy['Position'] == 'P']
         probable_pitchers = pitchers[pitchers['Probable Pitcher'] == 'Yes'].copy()
         non_pitchers = df_healthy[df_healthy['Position'] != 'P'].copy()
         
-        print(f"  🎯 Total healthy pitchers: {len(pitchers)}")
-        print(f"  ✅ Probable starters: {len(probable_pitchers)}")
-        print(f"  ❌ Removed {len(pitchers) - len(probable_pitchers)} non-probable pitchers")
+        print(f"  TARGET: Total healthy pitchers: {len(pitchers)}")
+        print(f"  SUCCESS: Probable starters: {len(probable_pitchers)}")
+        print(f"  ERROR: Removed {len(pitchers) - len(probable_pitchers)} non-probable pitchers")
         
         # Combine viable players
         viable_slate = pd.concat([probable_pitchers, non_pitchers], ignore_index=True)
-        print(f"\n✅ VIABLE SLATE: {len(viable_slate)} players")
+        print(f"\nSUCCESS: VIABLE SLATE: {len(viable_slate)} players")
         
         # CRITICAL FILTER 3: Remove players with zero/negative projections
-        print(f"\n📈 PROJECTION FILTERING:")
+        print(f"\nPROGRESS: PROJECTION FILTERING:")
         before_proj = len(viable_slate)
         viable_slate = viable_slate[viable_slate['FPPG'] > 0.1].copy()  # Less aggressive filtering
         removed_proj = before_proj - len(viable_slate)
-        print(f"  ❌ Removed {removed_proj} players with bad projections")
-        print(f"  ✅ Players with viable projections: {len(viable_slate)}")
+        print(f"  ERROR: Removed {removed_proj} players with bad projections")
+        print(f"  SUCCESS: Players with viable projections: {len(viable_slate)}")
         
         return viable_slate
     
     def analyze_game_environments(self, viable_slate):
         """Identify high-scoring game environments for stacking"""
-        print(f"\n🎯 GAME ENVIRONMENT ANALYSIS:")
+        print(f"\nTARGET: GAME ENVIRONMENT ANALYSIS:")
         
         # Calculate total projected points per game
         game_totals = viable_slate.groupby('Game').agg({
@@ -72,9 +72,9 @@ class SmartDFSBuilder:
         game_totals['avg_projection'] = game_totals['FPPG'] / game_totals['player_count']
         game_totals = game_totals.sort_values('FPPG', ascending=False)
         
-        print(f"  🔥 TOP 5 HIGH-SCORING GAMES:")
+        print(f"   TOP 5 HIGH-SCORING GAMES:")
         for game, data in game_totals.head(5).iterrows():
-            print(f"    ⭐ {game:15} | {data['FPPG']:5.1f} total FPPG | {data['avg_projection']:4.1f} avg")
+            print(f"     {game:15} | {data['FPPG']:5.1f} total FPPG | {data['avg_projection']:4.1f} avg")
         
         return game_totals
     
@@ -87,7 +87,7 @@ class SmartDFSBuilder:
         value_emphasis = strategy_config.get('value_emphasis', 0.5)
         ceiling_emphasis = strategy_config.get('ceiling_emphasis', 0.3)
         
-        print(f"\n🏗️ Building {strategy_name} lineup...")
+        print(f"\n Building {strategy_name} lineup...")
         
         # Calculate enhanced metrics
         viable_slate = viable_slate.copy()
@@ -140,7 +140,7 @@ class SmartDFSBuilder:
             selection_metric = 'value_score'
         
         if target_pitchers.empty:
-            print(f"  ❌ No viable {pitcher_tier} pitchers available")
+            print(f"  ERROR: No viable {pitcher_tier} pitchers available")
             return None
         
         chosen_pitcher = target_pitchers.loc[target_pitchers[selection_metric].idxmax()]
@@ -149,7 +149,7 @@ class SmartDFSBuilder:
         used_ids.add(chosen_pitcher['Id'])
         positions_needed.remove('P')
         
-        print(f"  ⚾ Pitcher: {chosen_pitcher['First Name']} {chosen_pitcher['Last Name']} (${chosen_pitcher['Salary']}, {chosen_pitcher['FPPG']:.1f} FPPG)")
+        print(f"  BASEBALL: Pitcher: {chosen_pitcher['First Name']} {chosen_pitcher['Last Name']} (${chosen_pitcher['Salary']}, {chosen_pitcher['FPPG']:.1f} FPPG)")
         
         # 2. FILL HITTER POSITIONS with smart selection
         for position in positions_needed:
@@ -189,7 +189,7 @@ class SmartDFSBuilder:
             ]
             
             if affordable.empty:
-                print(f"  ❌ No affordable {position} players (budget: ${max_spend:,}, candidates: {len(candidates)})")
+                print(f"  ERROR: No affordable {position} players (budget: ${max_spend:,}, candidates: {len(candidates)})")
                 # Debug: show some candidate prices
                 if len(candidates) > 0:
                     print(f"     Cheapest available: ${candidates['Salary'].min():,}")
@@ -228,12 +228,12 @@ class SmartDFSBuilder:
                 'pitcher_tier': pitcher_tier
             }
         
-        print(f"  ❌ Failed to build complete lineup")
+        print(f"  ERROR: Failed to build complete lineup")
         return None
     
     def generate_smart_lineups(self, viable_slate, target_count=15):
         """Generate diverse smart lineups targeting 210+ FPPG"""
-        print(f"\n🎯 GENERATING {target_count} SMART TOURNAMENT LINEUPS")
+        print(f"\nTARGET: GENERATING {target_count} SMART TOURNAMENT LINEUPS")
         print("Target: 210+ FPPG tournament scores")
         print("="*60)
         
@@ -325,22 +325,22 @@ class SmartDFSBuilder:
             if lineup:
                 lineup['lineup_id'] = f"SMART_{i+1}"
                 lineups.append(lineup)
-                print(f"  ✅ {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | Proj: {lineup['total_projected']:.1f} | Ceil: {lineup['total_ceiling']:.1f}")
+                print(f"  SUCCESS: {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | Proj: {lineup['total_projected']:.1f} | Ceil: {lineup['total_ceiling']:.1f}")
             else:
-                print(f"  ❌ Failed lineup {i+1} ({strategy['name']})")
+                print(f"  ERROR: Failed lineup {i+1} ({strategy['name']})")
             
             strategy_index += 1
         
-        print(f"\n📊 Generated {len(lineups)} smart lineups")
+        print(f"\nDATA: Generated {len(lineups)} smart lineups")
         return lineups
     
     def export_smart_lineups(self, lineups):
         """Export smart lineups for tournament submission"""
         if not lineups:
-            print("❌ No lineups to export")
+            print("ERROR: No lineups to export")
             return
         
-        print(f"\n📄 EXPORTING SMART TOURNAMENT LINEUPS...")
+        print(f"\n EXPORTING SMART TOURNAMENT LINEUPS...")
         
         # Create lineup data for FanDuel submission
         lineup_rows = []
@@ -396,34 +396,34 @@ class SmartDFSBuilder:
         lineup_df = pd.DataFrame(lineup_rows)
         lineup_df.to_csv(filepath, index=False)
         
-        print(f"✅ Smart lineups exported: {filename}")
+        print(f"SUCCESS: Smart lineups exported: {filename}")
         
         # Portfolio analysis
         projections = [l['total_projected'] for l in lineups]
         ceilings = [l['total_ceiling'] for l in lineups]
         
-        print(f"\n🏆 SMART PORTFOLIO ANALYSIS:")
-        print(f"  📊 Projected Range: {min(projections):.1f} - {max(projections):.1f} FPPG")
-        print(f"  🚀 Ceiling Range: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG")
-        print(f"  📈 Average Projected: {np.mean(projections):.1f} FPPG")
-        print(f"  🎯 Average Ceiling: {np.mean(ceilings):.1f} FPPG")
+        print(f"\nLINEUP: SMART PORTFOLIO ANALYSIS:")
+        print(f"  DATA: Projected Range: {min(projections):.1f} - {max(projections):.1f} FPPG")
+        print(f"  START: Ceiling Range: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG")
+        print(f"  PROGRESS: Average Projected: {np.mean(projections):.1f} FPPG")
+        print(f"  TARGET: Average Ceiling: {np.mean(ceilings):.1f} FPPG")
         
         # Tournament competitiveness
         target_ceiling = 210
         competitive_lineups = sum(1 for c in ceilings if c >= target_ceiling)
         
-        print(f"\n🏆 TOURNAMENT COMPETITIVENESS:")
-        print(f"  🎯 Lineups with 210+ ceiling: {competitive_lineups}/{len(lineups)} ({competitive_lineups/len(lineups)*100:.1f}%)")
+        print(f"\nLINEUP: TOURNAMENT COMPETITIVENESS:")
+        print(f"  TARGET: Lineups with 210+ ceiling: {competitive_lineups}/{len(lineups)} ({competitive_lineups/len(lineups)*100:.1f}%)")
         
         if competitive_lineups >= len(lineups) * 0.6:
-            print(f"  ✅ EXCELLENT: Strong tournament potential!")
+            print(f"  SUCCESS: EXCELLENT: Strong tournament potential!")
         elif competitive_lineups >= len(lineups) * 0.4:
-            print(f"  ⚠️ GOOD: Decent tournament chances")
+            print(f"  WARNING: GOOD: Decent tournament chances")
         else:
-            print(f"  🔧 FAIR: May need more ceiling optimization")
+            print(f"  STEP: FAIR: May need more ceiling optimization")
         
         # Best lineups
-        print(f"\n🌟 TOP 5 SMART LINEUPS:")
+        print(f"\n TOP 5 SMART LINEUPS:")
         sorted_lineups = sorted(lineups, key=lambda x: x['total_ceiling'], reverse=True)
         
         for i, lineup in enumerate(sorted_lineups[:5], 1):
@@ -434,7 +434,7 @@ class SmartDFSBuilder:
     
     def run_smart_optimization(self):
         """Run complete smart DFS optimization"""
-        print("🧠 SMART DFS LINEUP BUILDER")
+        print(" SMART DFS LINEUP BUILDER")
         print("Building lineups targeting 210+ FPPG with ONLY viable players")
         print("="*80)
         
@@ -442,7 +442,7 @@ class SmartDFSBuilder:
         viable_slate = self.load_viable_slate()
         
         if len(viable_slate) < 100:
-            print("❌ Not enough viable players for optimization")
+            print("ERROR: Not enough viable players for optimization")
             return
         
         # Analyze game environments
@@ -455,17 +455,17 @@ class SmartDFSBuilder:
             # Export lineups
             filepath = self.export_smart_lineups(lineups)
             
-            print(f"\n🎉 SMART OPTIMIZATION COMPLETE!")
-            print(f"🎯 Generated {len(lineups)} smart tournament lineups")
-            print(f"💡 Strategy: ONLY viable players, diverse approaches")
-            print(f"🏆 Target: Beat 210+ FPPG tournament threshold")
-            print(f"✅ Ready for submission!")
+            print(f"\nCOMPLETE: SMART OPTIMIZATION COMPLETE!")
+            print(f"TARGET: Generated {len(lineups)} smart tournament lineups")
+            print(f"TIP: Strategy: ONLY viable players, diverse approaches")
+            print(f"LINEUP: Target: Beat 210+ FPPG tournament threshold")
+            print(f"SUCCESS: Ready for submission!")
             
         else:
-            print("❌ Failed to generate smart lineups")
+            print("ERROR: Failed to generate smart lineups")
 
 def main():
-    print("🧠 SMART DFS LINEUP BUILDER")
+    print(" SMART DFS LINEUP BUILDER")
     print("Building tournament lineups with ONLY viable players")
     print("="*70)
     

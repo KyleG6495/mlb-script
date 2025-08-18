@@ -16,25 +16,25 @@ logger = logging.getLogger(__name__)
 def bridge_confirmed_to_existing():
     """Bridge confirmed starters data to existing script expectations"""
     
-    logger.info("🌉 BRIDGING CONFIRMED STARTERS TO EXISTING SCRIPTS")
+    logger.info(" BRIDGING CONFIRMED STARTERS TO EXISTING SCRIPTS")
     logger.info("=" * 60)
     
     try:
         # Load confirmed hitter games
         confirmed_hitters = pd.read_csv('../data/confirmed_hitter_games.csv')
-        logger.info(f"✅ Loaded {len(confirmed_hitters)} confirmed hitter games")
+        logger.info(f"SUCCESS: Loaded {len(confirmed_hitters)} confirmed hitter games")
         
         # Save as the file your existing scripts expect
         # Add target_name column that existing scripts need
         confirmed_hitters['target_name'] = confirmed_hitters['player_name']
         confirmed_hitters.to_csv('../data/hitter_games.csv', index=False)
-        logger.info("✅ Created hitter_games.csv for existing scripts")
-        logger.info("✅ Added target_name column for compatibility")
+        logger.info("SUCCESS: Created hitter_games.csv for existing scripts")
+        logger.info("SUCCESS: Added target_name column for compatibility")
         
         # Load confirmed starters slate for pitcher data
         confirmed_slate = pd.read_csv('../fd_current_slate/fd_slate_confirmed_starters_only.csv')
         pitchers = confirmed_slate[confirmed_slate['Position'] == 'P'].copy()
-        logger.info(f"✅ Found {len(pitchers)} confirmed starting pitchers")
+        logger.info(f"SUCCESS: Found {len(pitchers)} confirmed starting pitchers")
         
         # Create pitcher games in expected format
         pitcher_games = []
@@ -69,19 +69,19 @@ def bridge_confirmed_to_existing():
         if pitcher_games:
             pitcher_games_df = pd.DataFrame(pitcher_games)
             pitcher_games_df.to_csv('../data/pitcher_games.csv', index=False)
-            logger.info("✅ Created pitcher_games.csv for existing scripts")
-            logger.info(f"📊 Pitcher games: {len(pitcher_games_df)}")
+            logger.info("SUCCESS: Created pitcher_games.csv for existing scripts")
+            logger.info(f"DATA: Pitcher games: {len(pitcher_games_df)}")
         
         logger.info("=" * 60)
-        logger.info("🎉 BRIDGE COMPLETE!")
-        logger.info("🎯 Your existing scripts can now process confirmed starters only")
-        logger.info("⚡ All the speed benefits of focused processing")
-        logger.info("🛠️ All the reliability of your proven infrastructure")
+        logger.info("COMPLETE: BRIDGE COMPLETE!")
+        logger.info("TARGET: Your existing scripts can now process confirmed starters only")
+        logger.info(" All the speed benefits of focused processing")
+        logger.info(" All the reliability of your proven infrastructure")
         
         return True
         
     except Exception as e:
-        logger.error(f"❌ Bridge failed: {e}")
+        logger.error(f"ERROR: Bridge failed: {e}")
         return False
 
 if __name__ == "__main__":

@@ -348,18 +348,18 @@ class EnhancedLineupOptimizer:
         """Print detailed lineup summary"""
         
         print(f"\n{'='*60}")
-        print(f"🏆 LINEUP #{lineup_num} SUMMARY")
+        print(f"LINEUP: LINEUP #{lineup_num} SUMMARY")
         print(f"{'='*60}")
         
         players_df = lineup['players']
         
-        print(f"💰 Total Salary: ${lineup['total_salary']:,} / ${self.salary_cap:,}")
-        print(f"📊 Projected Points: {lineup['projected_points']:.1f}")
-        print(f"🛡️  Floor: {lineup['projected_floor']:.1f}")
-        print(f"🚀 Ceiling: {lineup['projected_ceiling']:.1f}")
-        print(f"💵 Remaining: ${lineup['salary_remaining']:,}")
+        print(f"MONEY: Total Salary: ${lineup['total_salary']:,} / ${self.salary_cap:,}")
+        print(f"DATA: Projected Points: {lineup['projected_points']:.1f}")
+        print(f"  Floor: {lineup['projected_floor']:.1f}")
+        print(f"START: Ceiling: {lineup['projected_ceiling']:.1f}")
+        print(f" Remaining: ${lineup['salary_remaining']:,}")
         
-        print(f"\n👥 LINEUP:")
+        print(f"\nOWNERSHIP: LINEUP:")
         display_cols = ['name', 'primary_position', 'team', 'salary', 'mean_fppg']
         if 'value_mean' in players_df.columns:
             display_cols.append('value_mean')
@@ -368,7 +368,7 @@ class EnhancedLineupOptimizer:
         
         # Correlation analysis
         corr_analysis = self.analyze_lineup_correlations(lineup)
-        print(f"\n🔗 CORRELATION ANALYSIS:")
+        print(f"\n CORRELATION ANALYSIS:")
         print(f"   Max team stack: {corr_analysis['max_team_stack']} players")
         print(f"   Position diversity: {corr_analysis['position_diversity']}/6 positions")
 
@@ -385,24 +385,24 @@ def main():
         logger.error("Failed to load projections")
         return
     
-    print("\n🎯 GENERATING ENHANCED DFS LINEUPS")
+    print("\nTARGET: GENERATING ENHANCED DFS LINEUPS")
     print("="*50)
     
     # Generate cash game lineups
-    print("\n💰 CASH GAME LINEUPS:")
+    print("\nMONEY: CASH GAME LINEUPS:")
     cash_lineups = optimizer.generate_multiple_lineups(
         df, contest_type='cash', num_lineups=3
     )
     optimizer.save_lineups(cash_lineups, 'cash')
     
     # Generate tournament lineups  
-    print("\n🏆 TOURNAMENT LINEUPS:")
+    print("\nLINEUP: TOURNAMENT LINEUPS:")
     tournament_lineups = optimizer.generate_multiple_lineups(
         df, contest_type='tournament', num_lineups=5
     )
     optimizer.save_lineups(tournament_lineups, 'tournament')
     
-    logger.info("✅ Enhanced lineup optimization completed!")
+    logger.info("SUCCESS: Enhanced lineup optimization completed!")
 
 if __name__ == "__main__":
     main()

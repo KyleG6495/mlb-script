@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 import joblib
 import json
 
-print("🔄 Loading enhanced hitter features...")
+print("SWAP: Loading enhanced hitter features...")
 
 # 1. Load your NEW enhanced dataset
 df = pd.read_csv("../data/hitters_enhanced_features.csv")
-print(f"📊 Loaded enhanced dataset: {df.shape}")
+print(f"DATA: Loaded enhanced dataset: {df.shape}")
 
 # Quick check of your enhanced data
 print(f"Dataset shape: {df.shape}")
@@ -25,7 +25,7 @@ for col in ['atBats_season', 'hits_season', 'homeRuns_season']:
 
 # 2. Remove rows with missing target variable
 df = df.dropna(subset=["FPPG"])
-print(f"📊 After removing missing FPPG: {df.shape}")
+print(f"DATA: After removing missing FPPG: {df.shape}")
 
 # 3. Select the BEST features based on your correlation analysis
 top_features = [
@@ -41,15 +41,15 @@ for feature in top_features:
         non_null_count = df[feature].notna().sum()
         if non_null_count >= 100:  # Need at least 100 data points
             available_features.append(feature)
-            print(f"✅ {feature}: {non_null_count} non-null values")
+            print(f"SUCCESS: {feature}: {non_null_count} non-null values")
         else:
-            print(f"❌ {feature}: Only {non_null_count} non-null values")
+            print(f"ERROR: {feature}: Only {non_null_count} non-null values")
 
-print(f"\n🎯 Using {len(available_features)} features: {available_features}")
+print(f"\nTARGET: Using {len(available_features)} features: {available_features}")
 
 # 4. Prepare final dataset
 df_model = df[available_features + ['FPPG']].dropna()
-print(f"📊 Final modeling dataset: {df_model.shape}")
+print(f"DATA: Final modeling dataset: {df_model.shape}")
 
 X = df_model[available_features]
 y = df_model['FPPG']
@@ -59,8 +59,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-print(f"\n📊 Training set: {X_train.shape}")
-print(f"📊 Test set: {X_test.shape}")
+print(f"\nDATA: Training set: {X_train.shape}")
+print(f"DATA: Test set: {X_test.shape}")
 
 # 3. Fit linear regression
 model = LinearRegression()
@@ -75,7 +75,7 @@ rmse = sqrt(mse)
 print("Linear Regression baseline")
 print(f"  Coefficients: {dict(zip(X.columns, model.coef_))}")
 print(f"  Intercept: {model.intercept_:.4f}")
-print(f"  Test R²: {r2:.4f}")
+print(f"  Test R: {r2:.4f}")
 print(f"  Test RMSE: {rmse:.4f}")
 
 #%%
@@ -86,7 +86,7 @@ plt.figure()
 plt.scatter(y_pred, residuals, alpha=0.5)
 plt.axhline(0, color="black", linestyle="--")
 plt.xlabel("Predicted FPPG")
-plt.ylabel("Residual (Actual − Predicted)")
+plt.ylabel("Residual (Actual  Predicted)")
 plt.title("Residuals vs. Predicted FPPG")
 plt.savefig("../data/residuals_vs_predicted.png")
 print("Saved residual plot to ../data/residuals_vs_predicted.png")
@@ -108,7 +108,7 @@ std_by_bin = df_res.groupby("pred_bin")["abs_resid"].std()
 print("\nResidual std dev by predicted-FPPG quintile:")
 print(std_by_bin.to_string())
 
-print("\n🔄 Testing Advanced Models...")
+print("\nSWAP: Testing Advanced Models...")
 
 # Random Forest
 rf = RandomForestRegressor(n_estimators=100, random_state=42)
@@ -117,8 +117,8 @@ rf_pred = rf.predict(X_test)
 rf_r2 = r2_score(y_test, rf_pred)
 rf_rmse = sqrt(mean_squared_error(y_test, rf_pred))
 
-print(f"\n🌳 Random Forest:")
-print(f"  Test R²: {rf_r2:.4f}")
+print(f"\n Random Forest:")
+print(f"  Test R: {rf_r2:.4f}")
 print(f"  Test RMSE: {rf_rmse:.4f}")
 
 # Ridge Regression  
@@ -128,8 +128,8 @@ ridge_pred = ridge.predict(X_test)
 ridge_r2 = r2_score(y_test, ridge_pred)
 ridge_rmse = sqrt(mean_squared_error(y_test, ridge_pred))
 
-print(f"\n🏔️ Ridge Regression:")
-print(f"  Test R²: {ridge_r2:.4f}")
+print(f"\n Ridge Regression:")
+print(f"  Test R: {ridge_r2:.4f}")
 print(f"  Test RMSE: {ridge_rmse:.4f}")
 
 # Feature Importance (Random Forest)
@@ -138,18 +138,18 @@ feature_importance = pd.DataFrame({
     'importance': rf.feature_importances_
 }).sort_values('importance', ascending=False)
 
-print(f"\n🎯 Feature Importance (Random Forest):")
+print(f"\nTARGET: Feature Importance (Random Forest):")
 print(feature_importance.to_string(index=False))
 
 # Best model for fantasy predictions
 final_model = RandomForestRegressor(n_estimators=100, random_state=42)
 final_model.fit(X_train, y_train)
 
-print("\n💾 Saving models...")
+print("\n Saving models...")
 
 # Save the Random Forest model
 joblib.dump(rf, '../data/random_forest_model.pkl')
-print("✅ Saved Random Forest model to ../data/random_forest_model.pkl")
+print("SUCCESS: Saved Random Forest model to ../data/random_forest_model.pkl")
 
 # Save model configuration
 feature_config = {
@@ -164,9 +164,9 @@ feature_config = {
 
 with open('../data/model_config.json', 'w') as f:
     json.dump(feature_config, f, indent=2)
-print("✅ Saved model configuration to ../data/model_config.json")
+print("SUCCESS: Saved model configuration to ../data/model_config.json")
 
-print(f"\n🏆 MODEL SAVED - Ready for lineup optimization!")
-print(f"📊 Performance: R² = {rf_r2:.4f}, RMSE = {rf_rmse:.4f}")
+print(f"\nLINEUP: MODEL SAVED - Ready for lineup optimization!")
+print(f"DATA: Performance: R = {rf_r2:.4f}, RMSE = {rf_rmse:.4f}")
 
 

@@ -9,7 +9,7 @@ import pandas as pd
 from pathlib import Path
 
 def analyze_ceiling_lineup():
-    print("🔍 ANALYZING CEILING LINEUP FAILURE")
+    print(" ANALYZING CEILING LINEUP FAILURE")
     print("="*50)
     
     # Load our ceiling lineup
@@ -50,7 +50,7 @@ def analyze_ceiling_lineup():
     )
     scored['actual_fppg'] = scored['actual_fppg'].fillna(0)
     
-    print("🎯 CEILING LINEUP PERFORMANCE:")
+    print("TARGET: CEILING LINEUP PERFORMANCE:")
     total_actual = 0
     total_projected = 0
     
@@ -66,25 +66,25 @@ def analyze_ceiling_lineup():
         total_projected += projected
         
         if actual == 0:
-            status = "❌ ZERO"
+            status = "ERROR: ZERO"
         elif actual < projected * 0.5:
-            status = "💥 BUST"
+            status = " BUST"
         elif actual < projected * 0.8:
-            status = "⚠️  UNDER"
+            status = "WARNING:  UNDER"
         elif actual >= projected * 1.2:
-            status = "🔥 BOOM"
+            status = " BOOM"
         else:
-            status = "📊 OK"
+            status = "DATA: OK"
         
         print(f"{i+1}. {status} {name:20} ({category:12}) ${salary:5,} | Proj: {projected:5.1f} | Actual: {actual:5.1f} | Ceil: {ceiling:5.1f}")
     
-    print(f"\n📊 TOTALS:")
+    print(f"\nDATA: TOTALS:")
     print(f"  Projected: {total_projected:.1f} FPPG")
     print(f"  Actual: {total_actual:.1f} FPPG")
     print(f"  Accuracy: {total_actual/total_projected*100:.1f}%")
     
     # Compare with optimal picks
-    print(f"\n🏆 OPTIMAL PICKS FROM SAME SLATE:")
+    print(f"\nLINEUP: OPTIMAL PICKS FROM SAME SLATE:")
     optimal_players = [
         ("Framber Valdez", "P", 55.0),
         ("Josh Naylor", "C/1B", 30.9),
@@ -98,13 +98,13 @@ def analyze_ceiling_lineup():
     ]
     
     for i, (name, pos, actual) in enumerate(optimal_players, 1):
-        print(f"{i}. 🔥 {name:20} ({pos:6}) Actual: {actual:5.1f} FPPG")
+        print(f"{i}.  {name:20} ({pos:6}) Actual: {actual:5.1f} FPPG")
     
-    print(f"\n💡 KEY INSIGHTS:")
-    print(f"  ❌ Our ceiling approach picked wrong players")
-    print(f"  🎯 The optimal plays were mid-salary value guys")
-    print(f"  💰 Not necessarily the highest projected ceiling scores")
-    print(f"  🔧 Need to focus on game theory and actual performance patterns")
+    print(f"\nTIP: KEY INSIGHTS:")
+    print(f"  ERROR: Our ceiling approach picked wrong players")
+    print(f"  TARGET: The optimal plays were mid-salary value guys")
+    print(f"  MONEY: Not necessarily the highest projected ceiling scores")
+    print(f"  STEP: Need to focus on game theory and actual performance patterns")
 
 if __name__ == "__main__":
     analyze_ceiling_lineup()

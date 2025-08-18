@@ -146,11 +146,11 @@ def reverse_engineer_yesterday():
         print(f"Difference: {306.0 - total_points:.1f}")
         
         if total_points >= 300:
-            print("🎯 WE COULD HAVE WON!")
+            print("TARGET: WE COULD HAVE WON!")
         elif total_points >= 270:
-            print("💪 We could have placed top 3!")
+            print(" We could have placed top 3!")
         else:
-            print("😞 Still need better player selection strategy")
+            print(" Still need better player selection strategy")
     
     # Save the analysis
     analysis_file = r"c:\Users\kgone\OneDrive\Personal_Information\MLB\data\reverse_engineering_analysis.csv"

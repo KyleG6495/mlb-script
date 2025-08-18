@@ -10,7 +10,7 @@ import numpy as np
 import os
 from datetime import datetime, timedelta
 
-print("📊 GETTING REAL PLAYER STATS")
+print("DATA: GETTING REAL PLAYER STATS")
 print("="*50)
 
 # Paths
@@ -43,13 +43,13 @@ for file in potential_files:
         try:
             df = pd.read_csv(path, parse_dates=['date'] if 'date' in pd.read_csv(path, nrows=1).columns else None)
             stats_sources[file] = df
-            print(f"   ✅ {file}: {df.shape}")
+            print(f"   SUCCESS: {file}: {df.shape}")
             if 'player_id' in df.columns:
                 print(f"      Players: {df['player_id'].nunique()}")
             if 'date' in df.columns:
                 print(f"      Date range: {df['date'].min()} to {df['date'].max()}")
         except Exception as e:
-            print(f"   ❌ Error loading {file}: {e}")
+            print(f"   ERROR: Error loading {file}: {e}")
 
 # 3. Create comprehensive player stats database
 print("\n3. Creating comprehensive player stats...")
@@ -78,7 +78,7 @@ if best_stats is not None:
     
     print(f"   Recent stats: {recent_stats.shape}")
 else:
-    print("   ❌ No suitable stats source found")
+    print("   ERROR: No suitable stats source found")
     recent_stats = pd.DataFrame()
 
 # 4. Merge additional stats from other sources
@@ -117,7 +117,7 @@ if not combined_stats.empty:
     print(f"   Total combined stats: {combined_stats.shape}")
     print(f"   Total players with real stats: {combined_stats['player_id'].nunique()}")
 else:
-    print("   ❌ Could not create combined stats")
+    print("   ERROR: Could not create combined stats")
 
 # 5. Create enhanced prediction features with real stats
 print("\n5. Creating enhanced prediction features...")
@@ -210,7 +210,7 @@ if not combined_stats.empty:
     # Save enhanced features
     output_path = os.path.join(data_dir, "prediction_features_enhanced_real_stats.csv")
     enhanced_features.to_csv(output_path, index=False)
-    print(f"   ✅ Saved enhanced features to: {output_path}")
+    print(f"   SUCCESS: Saved enhanced features to: {output_path}")
     
     # 6. Show improvement statistics
     print("\n6. Statistics comparison:")
@@ -225,7 +225,7 @@ if not combined_stats.empty:
             old_var = old_features[stat].var()
             new_var = new_features[stat].var()
             improvement = ((new_var - old_var) / old_var * 100) if old_var > 0 else float('inf')
-            print(f"     {stat}: {old_var:.4f} → {new_var:.4f} ({improvement:+.1f}%)")
+            print(f"     {stat}: {old_var:.4f}  {new_var:.4f} ({improvement:+.1f}%)")
     
     # Show sample real vs default stats
     print(f"\n   Sample real stats (first 3 players):")
@@ -234,9 +234,9 @@ if not combined_stats.empty:
     print(enhanced_features[available_sample_cols].head(3).to_string(index=False))
     
 else:
-    print("   ❌ Could not create enhanced features - no real stats available")
+    print("   ERROR: Could not create enhanced features - no real stats available")
 
 print("\n" + "="*50)
-print("📊 REAL PLAYER STATS INTEGRATION COMPLETE")
+print("DATA: REAL PLAYER STATS INTEGRATION COMPLETE")
 print("Use 'prediction_features_enhanced_real_stats.csv' for most realistic predictions")
 print("="*50)

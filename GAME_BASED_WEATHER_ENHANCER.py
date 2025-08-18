@@ -1,5 +1,5 @@
 """
-🌤️ GAME-BASED WEATHER & PARK ENHANCER
+ GAME-BASED WEATHER & PARK ENHANCER
 Uses game_pk mapping to connect weather data to players
 """
 
@@ -15,35 +15,35 @@ class GameBasedWeatherEnhancer:
     def enhance_with_real_weather_park(self):
         """Enhance projections using game_pk mapping for weather/park data"""
         
-        print("🌤️ GAME-BASED WEATHER & PARK ENHANCER")
+        print(" GAME-BASED WEATHER & PARK ENHANCER")
         print("="*50)
         
         # Load weather data
         weather_file = "C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\weather_today.csv"
         if not os.path.exists(weather_file):
-            print("❌ Weather data not found. Run: python '19. build_weather_today.py'")
+            print("ERROR: Weather data not found. Run: python '19. build_weather_today.py'")
             return
         
         weather_df = pd.read_csv(weather_file)
-        print(f"✅ Loaded weather data: {len(weather_df)} games")
+        print(f"SUCCESS: Loaded weather data: {len(weather_df)} games")
         
         # Load game_pk mapping for hitters
         game_pk_file = "C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\hitter_games_with_game_pk.csv"
         if not os.path.exists(game_pk_file):
-            print("❌ Game PK mapping not found")
+            print("ERROR: Game PK mapping not found")
             return
             
         game_pk_df = pd.read_csv(game_pk_file)
-        print(f"✅ Loaded game PK mapping: {len(game_pk_df)} players")
+        print(f"SUCCESS: Loaded game PK mapping: {len(game_pk_df)} players")
         
         # Load enhanced projections
         projections_file = "C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\enhanced_projections_20250812_135729.csv"
         if not os.path.exists(projections_file):
-            print("❌ Enhanced projections not found")
+            print("ERROR: Enhanced projections not found")
             return
             
         df = pd.read_csv(projections_file)
-        print(f"✅ Loaded projections: {len(df)} players")
+        print(f"SUCCESS: Loaded projections: {len(df)} players")
         
         # Create name mapping for projections
         df['player_name'] = df['First Name'].fillna('') + ' ' + df['Last Name'].fillna('')
@@ -155,7 +155,7 @@ class GameBasedWeatherEnhancer:
         output_file = f"C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\real_weather_enhanced_{self.timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        print(f"\n✅ Real weather enhanced projections saved: {output_file}")
+        print(f"\nSUCCESS: Real weather enhanced projections saved: {output_file}")
         print(f"   Players with real weather data: {weather_applied}")
         print(f"   Average improvement: {enhanced_df['improvement_pct'].mean():.1f}%")
         
@@ -247,7 +247,7 @@ class GameBasedWeatherEnhancer:
     def generate_insights(self, enhanced_df):
         """Generate weather and park insights"""
         
-        print(f"\n🌤️ REAL WEATHER & PARK INSIGHTS")
+        print(f"\n REAL WEATHER & PARK INSIGHTS")
         print("="*45)
         
         # Players with real weather data
@@ -256,11 +256,11 @@ class GameBasedWeatherEnhancer:
         
         # Top weather beneficiaries
         top_helped = enhanced_df.nlargest(10, 'improvement_pct')
-        print(f"\n🔥 TOP WEATHER/PARK BENEFICIARIES:")
+        print(f"\n TOP WEATHER/PARK BENEFICIARIES:")
         for _, player in top_helped.iterrows():
-            weather_emoji = "🌤️" if player['has_real_weather'] else "📊"
+            weather_emoji = "" if player['has_real_weather'] else "DATA:"
             print(f"   {weather_emoji} {player['name']} ({player['team']}): +{player['improvement_pct']:.1f}%")
-            print(f"      {player['conditions']}, {player['temperature']:.0f}°F, {player['wind_speed']:.0f}mph wind")
+            print(f"      {player['conditions']}, {player['temperature']:.0f}F, {player['wind_speed']:.0f}mph wind")
         
         # Weather conditions breakdown
         weather_breakdown = enhanced_df.groupby('conditions').agg({
@@ -269,10 +269,10 @@ class GameBasedWeatherEnhancer:
             'wind_speed': 'mean'
         }).sort_values('improvement_pct', ascending=False)
         
-        print(f"\n🌦️ WEATHER CONDITIONS IMPACT:")
+        print(f"\n WEATHER CONDITIONS IMPACT:")
         for condition, data in weather_breakdown.iterrows():
             if not pd.isna(data['improvement_pct']):
-                print(f"   {condition}: {data['improvement_pct']:+.1f}% avg | {data['temperature']:.0f}°F, {data['wind_speed']:.0f}mph")
+                print(f"   {condition}: {data['improvement_pct']:+.1f}% avg | {data['temperature']:.0f}F, {data['wind_speed']:.0f}mph")
         
         # Team environments
         team_summary = enhanced_df.groupby('team').agg({
@@ -282,7 +282,7 @@ class GameBasedWeatherEnhancer:
             'conditions': lambda x: x.mode().iloc[0] if not x.empty else 'Clear'
         }).sort_values('improvement_pct', ascending=False)
         
-        print(f"\n🏟️ BEST TEAM ENVIRONMENTS:")
+        print(f"\n BEST TEAM ENVIRONMENTS:")
         for team, data in team_summary.head(10).iterrows():
             if data['improvement_pct'] > 1:
                 print(f"   {team}: {data['improvement_pct']:+.1f}% avg | Park: {data['park_factor']:.3f} | {data['conditions']}")
@@ -294,7 +294,7 @@ class GameBasedWeatherEnhancer:
         ].nlargest(8, 'improvement_pct')
         
         if not value_spots.empty:
-            print(f"\n💎 VALUE SPOTS IN GOOD ENVIRONMENTS:")
+            print(f"\n VALUE SPOTS IN GOOD ENVIRONMENTS:")
             for _, player in value_spots.iterrows():
                 print(f"   {player['name']} ({player['team']}): ${player['salary']:,} | +{player['improvement_pct']:.1f}%")
 

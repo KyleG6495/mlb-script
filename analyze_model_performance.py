@@ -3,8 +3,8 @@ COMPREHENSIVE MODEL PERFORMANCE ANALYZER
 ========================================
 
 Validates improvements to address:
-- Props: 36.1% win rate → Target 55%+
-- DFS: Missing 210+ lineups → Target consistent high scores
+- Props: 36.1% win rate  Target 55%+
+- DFS: Missing 210+ lineups  Target consistent high scores
 
 Features:
 1. Backtesting with historical data
@@ -201,7 +201,7 @@ class ModelPerformanceAnalyzer:
             'mean_absolute_error': np.abs(lineup_totals['actual_fppg'] - lineup_totals['projected_fppg']).mean()
         }
         
-        print(f"Prediction R²: {r2:.3f}")
+        print(f"Prediction R: {r2:.3f}")
         print(f"RMSE: {np.sqrt(mse):.1f} points")
         
         return results
@@ -214,7 +214,7 @@ class ModelPerformanceAnalyzer:
         
         # Props comparison
         if 'props' in old_results and 'props' in new_results:
-            print("\n📊 PROPS MODELS:")
+            print("\nDATA: PROPS MODELS:")
             
             old_wr = old_results['props']['overall']['win_rate']
             new_wr = new_results['props']['overall']['win_rate']
@@ -235,7 +235,7 @@ class ModelPerformanceAnalyzer:
         
         # DFS comparison
         if 'dfs' in old_results and 'dfs' in new_results:
-            print(f"\n🏆 DFS MODELS:")
+            print(f"\nLINEUP: DFS MODELS:")
             
             old_avg = old_results['dfs']['overall']['avg_actual']
             new_avg = new_results['dfs']['overall']['avg_actual']
@@ -260,33 +260,33 @@ class ModelPerformanceAnalyzer:
             props_results = results['props']
             
             if props_results['overall']['win_rate'] < 0.55:
-                recommendations.append("🔴 Props win rate still below profitable threshold (55%)")
-                recommendations.append("   → Consider advanced feature engineering (pitch velocity, spray angle)")
-                recommendations.append("   → Implement market bias detection")
-                recommendations.append("   → Use neural networks for complex pattern recognition")
+                recommendations.append(" Props win rate still below profitable threshold (55%)")
+                recommendations.append("    Consider advanced feature engineering (pitch velocity, spray angle)")
+                recommendations.append("    Implement market bias detection")
+                recommendations.append("    Use neural networks for complex pattern recognition")
             
             # Stat-specific recommendations
             if 'by_stat' in props_results:
                 for stat, performance in props_results['by_stat'].items():
                     if performance['win_rate'] < 0.45:
-                        recommendations.append(f"🔴 {stat} model underperforming ({performance['win_rate']:.1%})")
-                        recommendations.append(f"   → Focus on {stat}-specific features and contexts")
+                        recommendations.append(f" {stat} model underperforming ({performance['win_rate']:.1%})")
+                        recommendations.append(f"    Focus on {stat}-specific features and contexts")
         
         # DFS recommendations  
         if 'dfs' in results:
             dfs_results = results['dfs']
             
             if dfs_results['overall']['elite_score_rate'] < 0.10:
-                recommendations.append("🔴 Elite lineup rate (210+) still low")
-                recommendations.append("   → Implement ownership projections")
-                recommendations.append("   → Add game theory and leverage concepts")
-                recommendations.append("   → Improve correlation modeling")
+                recommendations.append(" Elite lineup rate (210+) still low")
+                recommendations.append("    Implement ownership projections")
+                recommendations.append("    Add game theory and leverage concepts")
+                recommendations.append("    Improve correlation modeling")
             
             if dfs_results['accuracy']['r2_score'] < 0.15:
-                recommendations.append("🔴 FPPG prediction accuracy needs improvement")
-                recommendations.append("   → Add more granular features (pitch-by-pitch data)")
-                recommendations.append("   → Use ensemble methods")
-                recommendations.append("   → Consider neural networks")
+                recommendations.append(" FPPG prediction accuracy needs improvement")
+                recommendations.append("    Add more granular features (pitch-by-pitch data)")
+                recommendations.append("    Use ensemble methods")
+                recommendations.append("    Consider neural networks")
         
         return recommendations
     
@@ -305,12 +305,12 @@ class ModelPerformanceAnalyzer:
         
         if 'props' in results:
             props_wr = results['props']['overall']['win_rate']
-            props_profitable = "✅ PROFITABLE" if props_wr >= 0.55 else "❌ NOT PROFITABLE"
+            props_profitable = "SUCCESS: PROFITABLE" if props_wr >= 0.55 else "ERROR: NOT PROFITABLE"
             report.append(f"Props Win Rate: {props_wr:.1%} - {props_profitable}")
         
         if 'dfs' in results:
             dfs_elite = results['dfs']['overall']['elite_score_rate']
-            dfs_competitive = "✅ COMPETITIVE" if dfs_elite >= 0.10 else "❌ NEEDS IMPROVEMENT"
+            dfs_competitive = "SUCCESS: COMPETITIVE" if dfs_elite >= 0.10 else "ERROR: NEEDS IMPROVEMENT"
             report.append(f"DFS Elite Rate (210+): {dfs_elite:.1%} - {dfs_competitive}")
         
         report.append("")
@@ -342,7 +342,7 @@ class ModelPerformanceAnalyzer:
             
             if 'accuracy' in results['dfs']:
                 acc = results['dfs']['accuracy']
-                report.append(f"Prediction R²: {acc['r2_score']:.3f}")
+                report.append(f"Prediction R: {acc['r2_score']:.3f}")
             
             report.append("")
         
@@ -366,7 +366,7 @@ def run_comprehensive_analysis():
     
     analyzer = ModelPerformanceAnalyzer()
     
-    print("🔍 COMPREHENSIVE MODEL PERFORMANCE ANALYSIS")
+    print(" COMPREHENSIVE MODEL PERFORMANCE ANALYSIS")
     print("=" * 60)
     
     # Load sample data for analysis
@@ -417,8 +417,8 @@ def run_comprehensive_analysis():
         report_path = r'c:\Users\kgone\OneDrive\Personal_Information\MLB\data\model_performance_report.txt'
         analyzer.create_performance_report(all_results, report_path)
         
-        print("\n✅ Analysis Complete!")
-        print(f"📊 Report saved to: {report_path}")
+        print("\nSUCCESS: Analysis Complete!")
+        print(f"DATA: Report saved to: {report_path}")
         
     except Exception as e:
         print(f"Analysis error: {e}")

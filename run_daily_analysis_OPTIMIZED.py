@@ -26,15 +26,15 @@ def get_active_players_count():
     return 0
 
 def main():
-    print("🚀 OPTIMIZED Daily ML Analysis - Confirmed Starters Only")
+    print("START: OPTIMIZED Daily ML Analysis - Confirmed Starters Only")
     print("=" * 60)
     
     # Validate we're using the right dataset
     active_count = get_active_players_count()
-    print(f"📊 Processing {active_count} confirmed starters (not 400K+ players)")
+    print(f"DATA: Processing {active_count} confirmed starters (not 400K+ players)")
     
     if active_count > 1000:
-        print("❌ WARNING: Still processing too many players!")
+        print("ERROR: WARNING: Still processing too many players!")
         print("   Expected: ~60-80 confirmed starters")
         print(f"   Actual: {active_count} players")
         response = input("Continue anyway? (y/N): ")
@@ -42,11 +42,11 @@ def main():
             return
     
     try:
-        print("\n🎯 Starting analysis...")
+        print("\nTARGET: Starting analysis...")
         system = AutomatedBettingSystem()
         today = datetime.now().strftime('%Y-%m-%d')
         
-        print(f"📅 Running OPTIMIZED analysis for {today}")
+        print(f" Running OPTIMIZED analysis for {today}")
         start_time = datetime.now()
         
         system.run_daily_analysis(today, min_edge=0.05)
@@ -54,16 +54,16 @@ def main():
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds() / 60
         
-        print("✅ Daily analysis completed successfully!")
-        print(f"⏱️ Total time: {duration:.1f} minutes")
+        print("SUCCESS: Daily analysis completed successfully!")
+        print(f" Total time: {duration:.1f} minutes")
         
         if duration > 20:
-            print("⚠️ WARNING: Still taking too long - further optimization needed")
+            print("WARNING: WARNING: Still taking too long - further optimization needed")
         else:
-            print("🎉 GREAT: Analysis completed in reasonable time!")
+            print("COMPLETE: GREAT: Analysis completed in reasonable time!")
         
     except Exception as e:
-        print(f"❌ Error in daily analysis: {e}")
+        print(f"ERROR: Error in daily analysis: {e}")
         raise
 
 if __name__ == "__main__":

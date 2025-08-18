@@ -44,7 +44,7 @@ class EnhancedDFSPipeline:
     def run_complete_pipeline(self, n_simulations: int = 1000):
         """Execute the complete enhanced DFS pipeline"""
         
-        logger.info("🚀 Starting Enhanced DFS Pipeline")
+        logger.info("START: Starting Enhanced DFS Pipeline")
         logger.info("="*60)
         
         try:
@@ -66,7 +66,7 @@ class EnhancedDFSPipeline:
             # Step 4: Show completion summary
             self.show_completion_summary()
             
-            logger.info("✅ Enhanced DFS Pipeline completed successfully!")
+            logger.info("SUCCESS: Enhanced DFS Pipeline completed successfully!")
             return True
             
         except Exception as e:
@@ -76,7 +76,7 @@ class EnhancedDFSPipeline:
     def run_simulations(self, n_simulations: int) -> bool:
         """Run game state simulations and generate enhanced projections"""
         
-        logger.info(f"📊 Step 1: Running {n_simulations} game simulations...")
+        logger.info(f"DATA: Step 1: Running {n_simulations} game simulations...")
         
         try:
             # Initialize simulation integrator
@@ -89,7 +89,7 @@ class EnhancedDFSPipeline:
                 logger.error("No projections generated")
                 return False
             
-            logger.info(f"✅ Generated enhanced projections for {len(projections)} players")
+            logger.info(f"SUCCESS: Generated enhanced projections for {len(projections)} players")
             return True
             
         except Exception as e:
@@ -99,7 +99,7 @@ class EnhancedDFSPipeline:
     def optimize_lineups(self) -> bool:
         """Optimize lineups using enhanced projections"""
         
-        logger.info("🎯 Step 2: Optimizing lineups...")
+        logger.info("TARGET: Step 2: Optimizing lineups...")
         
         try:
             # Initialize optimizer
@@ -111,11 +111,11 @@ class EnhancedDFSPipeline:
             logger.info(f"Loaded {len(df)} enhanced projections")
             
             # Generate lineups using your existing optimizer
-            logger.info("💰 Generating diverse lineups...")
+            logger.info("MONEY: Generating diverse lineups...")
             lineups = optimizer.generate_multiple_lineups(df, n_lineups=15)
             
             if lineups:
-                logger.info(f"✅ Generated {len(lineups)} optimized lineups")
+                logger.info(f"SUCCESS: Generated {len(lineups)} optimized lineups")
                 
                 # Save lineups to the standard format
                 self._save_optimized_lineups(lineups)
@@ -166,7 +166,7 @@ class EnhancedDFSPipeline:
             df_lineups = pd.DataFrame(all_lineups)
             df_lineups.to_csv(output_file, index=False)
             
-            logger.info(f"💾 Saved {len(lineups)} lineups to {os.path.basename(output_file)}")
+            logger.info(f" Saved {len(lineups)} lineups to {os.path.basename(output_file)}")
             
         except Exception as e:
             logger.error(f"Failed to save lineups: {e}")
@@ -183,7 +183,7 @@ class EnhancedDFSPipeline:
     def generate_final_reports(self):
         """Generate comprehensive final reports"""
         
-        logger.info("📋 Step 3: Generating final reports...")
+        logger.info("INFO: Step 3: Generating final reports...")
         
         try:
             # Load enhanced projections
@@ -204,7 +204,7 @@ class EnhancedDFSPipeline:
             # Generate position-specific reports
             self.create_position_reports(projections)
             
-            logger.info("✅ Final reports generated")
+            logger.info("SUCCESS: Final reports generated")
             
         except Exception as e:
             logger.error(f"Report generation failed: {e}")
@@ -281,12 +281,12 @@ class EnhancedDFSPipeline:
         duration = end_time - self.start_time
         
         print("\n" + "="*70)
-        print("🎉 ENHANCED DFS PIPELINE COMPLETED SUCCESSFULLY!")
+        print("COMPLETE: ENHANCED DFS PIPELINE COMPLETED SUCCESSFULLY!")
         print("="*70)
-        print(f"⏱️  Total Runtime: {duration}")
-        print(f"📁 Output Directory: {os.path.abspath(self.data_dir)}")
+        print(f"  Total Runtime: {duration}")
+        print(f" Output Directory: {os.path.abspath(self.data_dir)}")
         print()
-        print("📊 GENERATED FILES:")
+        print("DATA: GENERATED FILES:")
         print("-" * 30)
         
         # List generated files
@@ -300,17 +300,17 @@ class EnhancedDFSPipeline:
         
         for file in sorted(recent_files):
             if any(keyword in file for keyword in ['enhanced', 'lineup', 'dfs_summary', 'dfs_position']):
-                print(f"   ✅ {file}")
+                print(f"   SUCCESS: {file}")
         
         print()
-        print("🎯 NEXT STEPS:")
+        print("TARGET: NEXT STEPS:")
         print("-" * 30)
         print("   1. Review generated lineup files")
         print("   2. Upload lineups to FanDuel")
         print("   3. Monitor performance for model improvement")
         print("   4. Run backtest analysis after games complete")
         print()
-        print("💡 TIP: Check the summary report for detailed insights!")
+        print("TIP: TIP: Check the summary report for detailed insights!")
         print("="*70)
 
 def main():
@@ -319,7 +319,7 @@ def main():
     # Configuration
     N_SIMULATIONS = 1000  # Adjust based on computational resources
     
-    print("🚀 ENHANCED DFS PIPELINE")
+    print("START: ENHANCED DFS PIPELINE")
     print("=" * 50)
     print(f"Simulations: {N_SIMULATIONS}")
     print(f"Start Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -330,7 +330,7 @@ def main():
     success = pipeline.run_complete_pipeline(N_SIMULATIONS)
     
     if not success:
-        print("\n❌ Pipeline failed. Check logs for details.")
+        print("\nERROR: Pipeline failed. Check logs for details.")
         sys.exit(1)
 
 if __name__ == "__main__":

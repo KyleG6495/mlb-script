@@ -14,57 +14,57 @@ def display_final_summary():
     """Display complete summary of all improvements"""
     
     summary = f"""
-🎉 COMPLETE MODEL ENHANCEMENT SYSTEM - READY FOR USE
+COMPLETE: COMPLETE MODEL ENHANCEMENT SYSTEM - READY FOR USE
 {'='*80}
 
 CONGRATULATIONS! Your MLB betting system now has advanced enhancements that will
 significantly boost performance. Here's everything we've accomplished:
 
 {'='*80}
-📊 PART 1: DFS ENHANCEMENTS (Targeting 210+ Point Lineups)
+DATA: PART 1: DFS ENHANCEMENTS (Targeting 210+ Point Lineups)
 {'='*80}
 
-✅ ENHANCED CEILING OPTIMIZATION:
-   • enhanced_dfs_ceiling.py - Generates ceiling-focused lineups
-   • fd_hitter_features_enhanced.csv - Enhanced player projections  
-   • ceiling_lineup_weights.csv - Tournament-specific weights
-   • Expected improvement: 0% → 15% of lineups hit 210+ points
+SUCCESS: ENHANCED CEILING OPTIMIZATION:
+    enhanced_dfs_ceiling.py - Generates ceiling-focused lineups
+    fd_hitter_features_enhanced.csv - Enhanced player projections  
+    ceiling_lineup_weights.csv - Tournament-specific weights
+    Expected improvement: 0%  15% of lineups hit 210+ points
 
-🎯 TOP CEILING PLAYERS IDENTIFIED:
-   • Tarik Skubal (P): 57.9 ceiling weight
-   • Hunter Brown (P): 52.1 ceiling weight  
-   • Framber Valdez (P): 51.3 ceiling weight
+TARGET: TOP CEILING PLAYERS IDENTIFIED:
+    Tarik Skubal (P): 57.9 ceiling weight
+    Hunter Brown (P): 52.1 ceiling weight  
+    Framber Valdez (P): 51.3 ceiling weight
    
-💡 HOW TO USE DFS ENHANCEMENTS:
+TIP: HOW TO USE DFS ENHANCEMENTS:
    1. Run: python enhanced_dfs_ceiling.py
    2. Use generated lineups for large GPP tournaments
    3. Add to your daily workflow in 2_DFS_MODELS.bat
 
 {'='*80}
-💰 PART 2: PROP BETTING ENHANCEMENTS (Targeting 70%+ Win Rate)
+MONEY: PART 2: PROP BETTING ENHANCEMENTS (Targeting 70%+ Win Rate)
 {'='*80}
 
-✅ STAT-SPECIFIC IMPROVEMENTS:
-   • Total Bases: +10% boost (was struggling at 50% win rate)
-   • Home Runs: -5% conservative adjustment (was over-predicting)
-   • Runs: +5% boost for better accuracy
-   • RBI: +2% minor improvement
-   • Hits: No change (already performing well)
-   • Strikeouts: +3% boost for pitcher props
+SUCCESS: STAT-SPECIFIC IMPROVEMENTS:
+    Total Bases: +10% boost (was struggling at 50% win rate)
+    Home Runs: -5% conservative adjustment (was over-predicting)
+    Runs: +5% boost for better accuracy
+    RBI: +2% minor improvement
+    Hits: No change (already performing well)
+    Strikeouts: +3% boost for pitcher props
 
-✅ ENHANCED SELECTION CRITERIA:
-   • STRONG YES: 80%+ confidence, 15%+ edge (LARGE bets)
-   • YES: 70%+ confidence, 10%+ edge (MEDIUM bets)  
-   • LEAN YES: 60%+ confidence, 5%+ edge (SMALL bets)
-   • PASS: Everything else (selective approach)
+SUCCESS: ENHANCED SELECTION CRITERIA:
+    STRONG YES: 80%+ confidence, 15%+ edge (LARGE bets)
+    YES: 70%+ confidence, 10%+ edge (MEDIUM bets)  
+    LEAN YES: 60%+ confidence, 5%+ edge (SMALL bets)
+    PASS: Everything else (selective approach)
 
-💡 HOW TO USE PROP ENHANCEMENTS:
+TIP: HOW TO USE PROP ENHANCEMENTS:
    1. Run: python PRACTICAL_PROP_ENHANCER.py
    2. Review generated enhanced_betting_report_*.txt
    3. Focus on STRONG YES recommendations for maximum ROI
 
 {'='*80}
-📈 PERFORMANCE IMPROVEMENTS ACHIEVED
+PROGRESS: PERFORMANCE IMPROVEMENTS ACHIEVED
 {'='*80}
 
 DFS SYSTEM:
@@ -78,33 +78,33 @@ PROP BETTING:
    Method:  Stat adjustments + confidence filtering
 
 LATEST TEST RESULTS:
-   ✅ Enhanced 4,285 prop predictions
-   ✅ Generated 1,727 STRONG YES bets  
-   ✅ Generated 1,305 YES bets
-   ✅ 23.1% selectivity (filtering weak bets)
+   SUCCESS: Enhanced 4,285 prop predictions
+   SUCCESS: Generated 1,727 STRONG YES bets  
+   SUCCESS: Generated 1,305 YES bets
+   SUCCESS: 23.1% selectivity (filtering weak bets)
 
 {'='*80}
-🚀 FILES READY FOR IMMEDIATE USE
+START: FILES READY FOR IMMEDIATE USE
 {'='*80}
 
 DFS FILES:
-✅ enhanced_dfs_ceiling.py - Run this for ceiling lineups
-✅ fd_hitter_features_enhanced.csv - Enhanced projections  
-✅ ceiling_lineup_weights.csv - Tournament weights
-✅ 4_ENHANCED_MODELS.bat - Complete enhanced workflow
+SUCCESS: enhanced_dfs_ceiling.py - Run this for ceiling lineups
+SUCCESS: fd_hitter_features_enhanced.csv - Enhanced projections  
+SUCCESS: ceiling_lineup_weights.csv - Tournament weights
+SUCCESS: 4_ENHANCED_MODELS.bat - Complete enhanced workflow
 
 PROP FILES:
-✅ PRACTICAL_PROP_ENHANCER.py - Run this for enhanced props
-✅ enhanced_prop_predictions_*.csv - Enhanced predictions
-✅ enhanced_betting_report_*.txt - Daily recommendations
-✅ complete_prop_enhancement_*.json - Full analysis
+SUCCESS: PRACTICAL_PROP_ENHANCER.py - Run this for enhanced props
+SUCCESS: enhanced_prop_predictions_*.csv - Enhanced predictions
+SUCCESS: enhanced_betting_report_*.txt - Daily recommendations
+SUCCESS: complete_prop_enhancement_*.json - Full analysis
 
 INTEGRATION FILES:
-✅ PRACTICAL_MODEL_IMPROVEMENTS.py - Main improvement engine
-✅ MODEL_IMPROVEMENT_GUIDE.py - Complete implementation guide
+SUCCESS: PRACTICAL_MODEL_IMPROVEMENTS.py - Main improvement engine
+SUCCESS: MODEL_IMPROVEMENT_GUIDE.py - Complete implementation guide
 
 {'='*80}
-⚡ IMMEDIATE ACTIONS FOR TODAY
+ IMMEDIATE ACTIONS FOR TODAY
 {'='*80}
 
 1. DFS CEILING LINEUPS (5 minutes):
@@ -116,35 +116,35 @@ INTEGRATION FILES:
    Result: Enhanced betting report with confidence-based picks
 
 3. DAILY WORKFLOW (ongoing):
-   • Use enhanced ceiling lineups for large GPP tournaments
-   • Focus on STRONG YES prop bets for maximum ROI
-   • Track performance to validate improvements
+    Use enhanced ceiling lineups for large GPP tournaments
+    Focus on STRONG YES prop bets for maximum ROI
+    Track performance to validate improvements
 
 {'='*80}
-🎯 SUCCESS METRICS TO TRACK
+TARGET: SUCCESS METRICS TO TRACK
 {'='*80}
 
 DAILY TRACKING:
-□ Number of DFS lineups hitting 180+ points
-□ Number of DFS lineups hitting 210+ points
-□ Prop betting win rate by stat type  
-□ Number of STRONG YES bets placed
-□ Average confidence score of bets
+ Number of DFS lineups hitting 180+ points
+ Number of DFS lineups hitting 210+ points
+ Prop betting win rate by stat type  
+ Number of STRONG YES bets placed
+ Average confidence score of bets
 
 WEEKLY REVIEW:
-□ Ceiling lineup performance vs regular lineups
-□ Prop win rate improvement trends
-□ ROI improvement from enhanced selections
-□ Model accuracy validation
+ Ceiling lineup performance vs regular lineups
+ Prop win rate improvement trends
+ ROI improvement from enhanced selections
+ Model accuracy validation
 
 {'='*80}
-💡 INTEGRATION WITH YOUR EXISTING SYSTEM
+TIP: INTEGRATION WITH YOUR EXISTING SYSTEM
 {'='*80}
 
-YOUR CURRENT WORKFLOW → ENHANCED WORKFLOW:
+YOUR CURRENT WORKFLOW  ENHANCED WORKFLOW:
 
 1. DATA PIPELINE:
-   Current: 1_DATA_PIPELINE.bat ✅ (no changes needed)
+   Current: 1_DATA_PIPELINE.bat SUCCESS: (no changes needed)
    
 2. DFS MODELS:  
    Current: 2_DFS_MODELS.bat
@@ -158,20 +158,20 @@ YOUR CURRENT WORKFLOW → ENHANCED WORKFLOW:
    New: 4_ENHANCED_MODELS.bat (runs everything enhanced)
 
 {'='*80}
-🎉 YOU'RE READY FOR ENHANCED PERFORMANCE!
+COMPLETE: YOU'RE READY FOR ENHANCED PERFORMANCE!
 {'='*80}
 
 Your MLB betting system now has:
-✅ Advanced DFS ceiling optimization for tournament success
-✅ Stat-specific prop betting improvements for higher win rates  
-✅ Confidence-based bet selection for better ROI
-✅ Performance tracking and analysis tools
-✅ Complete integration with your existing workflow
+SUCCESS: Advanced DFS ceiling optimization for tournament success
+SUCCESS: Stat-specific prop betting improvements for higher win rates  
+SUCCESS: Confidence-based bet selection for better ROI
+SUCCESS: Performance tracking and analysis tools
+SUCCESS: Complete integration with your existing workflow
 
 Expected Results:
-🎯 DFS: 10-15% of lineups will hit 210+ points (tournament winners!)
-💰 Props: Win rate improvement from 57% to 70%+ 
-📈 Overall: Significantly improved profitability and performance
+TARGET: DFS: 10-15% of lineups will hit 210+ points (tournament winners!)
+MONEY: Props: Win rate improvement from 57% to 70%+ 
+PROGRESS: Overall: Significantly improved profitability and performance
 
 {'='*80}
 START USING YOUR ENHANCED SYSTEM TODAY!
@@ -180,7 +180,7 @@ START USING YOUR ENHANCED SYSTEM TODAY!
 Next command to run: python enhanced_dfs_ceiling.py
 This will generate 5 ceiling lineups ready for today's tournaments.
 
-Good luck and enjoy your enhanced performance! 🚀
+Good luck and enjoy your enhanced performance! START:
 """
     
     print(summary)
@@ -192,13 +192,13 @@ Good luck and enjoy your enhanced performance! 🚀
     with open(summary_file, 'w', encoding='utf-8') as f:
         f.write(summary)
     
-    print(f"\n💾 Complete summary saved: {summary_file}")
+    print(f"\n Complete summary saved: {summary_file}")
     
     return summary_file
 
 def check_system_readiness():
     """Check if all enhancement files are ready"""
-    print("🔍 CHECKING SYSTEM READINESS")
+    print(" CHECKING SYSTEM READINESS")
     print("=" * 50)
     
     files_to_check = {
@@ -213,23 +213,23 @@ def check_system_readiness():
     
     for name, file_path in files_to_check.items():
         if os.path.exists(file_path):
-            print(f"   ✅ {name}")
+            print(f"   SUCCESS: {name}")
             ready_count += 1
         else:
-            print(f"   ❌ {name} - Missing")
+            print(f"   ERROR: {name} - Missing")
     
     print(f"\nSystem Readiness: {ready_count}/{len(files_to_check)} components ready")
     
     if ready_count == len(files_to_check):
-        print("🚀 ALL SYSTEMS READY! Your enhanced MLB betting system is operational.")
+        print("START: ALL SYSTEMS READY! Your enhanced MLB betting system is operational.")
     else:
-        print("⚠️ Some components missing. Run PRACTICAL_MODEL_IMPROVEMENTS.py first.")
+        print("WARNING: Some components missing. Run PRACTICAL_MODEL_IMPROVEMENTS.py first.")
     
     return ready_count == len(files_to_check)
 
 def main():
     """Main function"""
-    print("📋 FINAL MODEL ENHANCEMENT SUMMARY")
+    print("INFO: FINAL MODEL ENHANCEMENT SUMMARY")
     print("=" * 80)
     
     # Check readiness
@@ -241,12 +241,12 @@ def main():
     summary_file = display_final_summary()
     
     if system_ready:
-        print("\n🎯 YOUR ENHANCED SYSTEM IS READY TO USE!")
+        print("\nTARGET: YOUR ENHANCED SYSTEM IS READY TO USE!")
         print("Run these commands to start seeing improved performance:")
         print("   1. python enhanced_dfs_ceiling.py")
         print("   2. python PRACTICAL_PROP_ENHANCER.py")
     else:
-        print("\n⚠️ Complete setup first by running:")
+        print("\nWARNING: Complete setup first by running:")
         print("   python PRACTICAL_MODEL_IMPROVEMENTS.py")
 
 if __name__ == "__main__":

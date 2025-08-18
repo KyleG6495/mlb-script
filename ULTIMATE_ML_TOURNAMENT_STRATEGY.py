@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🏆 ULTIMATE ML TOURNAMENT STRATEGY
+LINEUP: ULTIMATE ML TOURNAMENT STRATEGY
 ==================================================
 Combines your existing ML systems with tournament optimization strategies
 for 210+ FPPG tournament domination
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 def load_ml_tournament_arsenal():
     """Load all ML-generated lineups for tournament optimization"""
-    logger.info("🚀 LOADING ML TOURNAMENT ARSENAL")
+    logger.info("START: LOADING ML TOURNAMENT ARSENAL")
     logger.info("="*60)
     
     arsenal = {}
@@ -43,9 +43,9 @@ def load_ml_tournament_arsenal():
         latest_enhanced = sorted(enhanced_ml_files)[-1]
         try:
             arsenal['enhanced_ml'] = pd.read_csv(os.path.join(data_dir, latest_enhanced))
-            logger.info(f"✅ Enhanced ML Volume: {len(arsenal['enhanced_ml'])} lineups loaded")
+            logger.info(f"SUCCESS: Enhanced ML Volume: {len(arsenal['enhanced_ml'])} lineups loaded")
         except Exception as e:
-            logger.warning(f"⚠️ Could not load Enhanced ML: {e}")
+            logger.warning(f"WARNING: Could not load Enhanced ML: {e}")
     
     # 2. Game State Enhanced DFS
     game_state_files = [f for f in os.listdir(data_dir) if f.startswith('game_state_enhanced_lineups_')]
@@ -53,9 +53,9 @@ def load_ml_tournament_arsenal():
         latest_game_state = sorted(game_state_files)[-1]
         try:
             arsenal['game_state'] = pd.read_csv(os.path.join(data_dir, latest_game_state))
-            logger.info(f"✅ Game State Enhanced: {len(arsenal['game_state'])} lineups loaded")
+            logger.info(f"SUCCESS: Game State Enhanced: {len(arsenal['game_state'])} lineups loaded")
         except Exception as e:
-            logger.warning(f"⚠️ Could not load Game State: {e}")
+            logger.warning(f"WARNING: Could not load Game State: {e}")
     
     # 3. Tournament Optimizers
     tournament_files = [
@@ -71,9 +71,9 @@ def load_ml_tournament_arsenal():
             try:
                 key = file.replace('_output.csv', '').lower()
                 arsenal[key] = pd.read_csv(filepath)
-                logger.info(f"✅ {key.title()}: {len(arsenal[key])} lineups loaded")
+                logger.info(f"SUCCESS: {key.title()}: {len(arsenal[key])} lineups loaded")
             except Exception as e:
-                logger.warning(f"⚠️ Could not load {file}: {e}")
+                logger.warning(f"WARNING: Could not load {file}: {e}")
     
     # 4. Quintuple Tournament Lineups
     quintuple_files = [f for f in os.listdir(data_dir) if f.startswith('quintuple_lineups_combined_')]
@@ -81,17 +81,17 @@ def load_ml_tournament_arsenal():
         latest_quintuple = sorted(quintuple_files)[-1]
         try:
             arsenal['quintuple'] = pd.read_csv(os.path.join(data_dir, latest_quintuple))
-            logger.info(f"✅ Quintuple Tournament: {len(arsenal['quintuple'])} lineups loaded")
+            logger.info(f"SUCCESS: Quintuple Tournament: {len(arsenal['quintuple'])} lineups loaded")
         except Exception as e:
-            logger.warning(f"⚠️ Could not load Quintuple: {e}")
+            logger.warning(f"WARNING: Could not load Quintuple: {e}")
     
     logger.info("="*60)
-    logger.info(f"🏆 TOTAL ARSENAL: {sum(len(df) for df in arsenal.values())} lineups across {len(arsenal)} systems")
+    logger.info(f"LINEUP: TOTAL ARSENAL: {sum(len(df) for df in arsenal.values())} lineups across {len(arsenal)} systems")
     return arsenal
 
 def analyze_ml_performance(arsenal):
     """Analyze ML system performance for tournament optimization"""
-    logger.info("📊 ANALYZING ML PERFORMANCE")
+    logger.info("DATA: ANALYZING ML PERFORMANCE")
     logger.info("="*50)
     
     performance = {}
@@ -144,7 +144,7 @@ def analyze_ml_performance(arsenal):
                 'ceiling_potential': (ceiling_stats >= 220).sum()
             }
             
-            logger.info(f"🎯 {system_name.title()}:")
+            logger.info(f"TARGET: {system_name.title()}:")
             logger.info(f"   Lineups: {performance[system_name]['lineups']}")
             logger.info(f"   Avg Projection: {performance[system_name]['avg_projection']:.1f} FPPG")
             logger.info(f"   Max Projection: {performance[system_name]['max_projection']:.1f} FPPG")
@@ -158,7 +158,7 @@ def analyze_ml_performance(arsenal):
 
 def select_elite_ml_lineups(arsenal, performance):
     """Select the best ML lineups for tournament optimization"""
-    logger.info("🏆 SELECTING ELITE ML LINEUPS")
+    logger.info("LINEUP: SELECTING ELITE ML LINEUPS")
     logger.info("="*50)
     
     elite_lineups = []
@@ -180,7 +180,7 @@ def select_elite_ml_lineups(arsenal, performance):
                     'players': lineup_data[['name', 'position', 'team', 'salary', 'projected_fppg']].to_dict('records')
                 })
             
-            logger.info(f"✅ Selected {len(elite_lineup_ids[:10])} Game State Enhanced lineups")
+            logger.info(f"SUCCESS: Selected {len(elite_lineup_ids[:10])} Game State Enhanced lineups")
     
     # Priority 2: Enhanced ML Volume System
     if 'enhanced_ml' in arsenal and not arsenal['enhanced_ml'].empty:
@@ -196,7 +196,7 @@ def select_elite_ml_lineups(arsenal, performance):
                     'players': [row.to_dict()]
                 })
             
-            logger.info(f"✅ Selected {min(5, len(eml_df))} Enhanced ML lineups")
+            logger.info(f"SUCCESS: Selected {min(5, len(eml_df))} Enhanced ML lineups")
     
     # Priority 3: Tournament Optimizers (if they exist)
     tournament_systems = ['master_tournament_combiner', 'advanced_tournament_optimizer', 'diversified_tournament_builder']
@@ -212,10 +212,10 @@ def select_elite_ml_lineups(arsenal, performance):
                     'players': [row.to_dict()]
                 })
             
-            logger.info(f"✅ Selected {min(3, len(df))} {system} lineups")
+            logger.info(f"SUCCESS: Selected {min(3, len(df))} {system} lineups")
     
     logger.info("="*50)
-    logger.info(f"🎯 TOTAL ELITE LINEUPS: {len(elite_lineups)}")
+    logger.info(f"TARGET: TOTAL ELITE LINEUPS: {len(elite_lineups)}")
     
     # Sort by projection
     elite_lineups.sort(key=lambda x: x['projection'], reverse=True)
@@ -224,7 +224,7 @@ def select_elite_ml_lineups(arsenal, performance):
 
 def create_tournament_strategy(elite_lineups):
     """Create final tournament strategy recommendations"""
-    logger.info("🚀 CREATING TOURNAMENT STRATEGY")
+    logger.info("START: CREATING TOURNAMENT STRATEGY")
     logger.info("="*50)
     
     strategy = {
@@ -272,19 +272,19 @@ def create_tournament_strategy(elite_lineups):
             'projection_range': f"{min([l['projection'] for l in cash_game]):.1f} - {max([l['projection'] for l in cash_game]):.1f} FPPG"
         })
     
-    logger.info("📊 TOURNAMENT ALLOCATION:")
+    logger.info("DATA: TOURNAMENT ALLOCATION:")
     logger.info(f"   Large GPP (180+ FPPG): {len(high_ceiling)} lineups")
     logger.info(f"   Small Tournament (140-180): {len(tournament_ready)} lineups")
     logger.info(f"   Cash Game (<140): {len(cash_game)} lineups")
     logger.info("")
-    logger.info(f"🎯 AVERAGE PROJECTION: {strategy['avg_projection']:.1f} FPPG")
-    logger.info(f"🚀 MAX PROJECTION: {strategy['max_projection']:.1f} FPPG")
+    logger.info(f"TARGET: AVERAGE PROJECTION: {strategy['avg_projection']:.1f} FPPG")
+    logger.info(f"START: MAX PROJECTION: {strategy['max_projection']:.1f} FPPG")
     
     return strategy, elite_lineups
 
 def save_ultimate_strategy(strategy, elite_lineups):
     """Save the ultimate ML tournament strategy"""
-    logger.info("💾 SAVING ULTIMATE STRATEGY")
+    logger.info(" SAVING ULTIMATE STRATEGY")
     logger.info("="*40)
     
     timestamp = strategy['timestamp']
@@ -293,18 +293,18 @@ def save_ultimate_strategy(strategy, elite_lineups):
     strategy_file = f"../data/ultimate_ml_tournament_strategy_{timestamp}.json"
     with open(strategy_file, 'w') as f:
         json.dump(strategy, f, indent=2)
-    logger.info(f"✅ Strategy saved: {strategy_file}")
+    logger.info(f"SUCCESS: Strategy saved: {strategy_file}")
     
     # Save elite lineups
     lineups_file = f"../data/ultimate_ml_elite_lineups_{timestamp}.json"
     with open(lineups_file, 'w') as f:
         json.dump(elite_lineups, f, indent=2)
-    logger.info(f"✅ Elite lineups saved: {lineups_file}")
+    logger.info(f"SUCCESS: Elite lineups saved: {lineups_file}")
     
     # Create readable strategy guide
     guide_file = f"../data/ultimate_ml_strategy_guide_{timestamp}.txt"
     with open(guide_file, 'w') as f:
-        f.write("🏆 ULTIMATE ML TOURNAMENT STRATEGY GUIDE\n")
+        f.write("LINEUP: ULTIMATE ML TOURNAMENT STRATEGY GUIDE\n")
         f.write("="*60 + "\n\n")
         
         f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -315,7 +315,7 @@ def save_ultimate_strategy(strategy, elite_lineups):
         f.write("CONTEST RECOMMENDATIONS:\n")
         f.write("-" * 30 + "\n")
         for rec in strategy['recommendations']:
-            f.write(f"• {rec['contest_type']}: {rec['lineups']} lineups\n")
+            f.write(f" {rec['contest_type']}: {rec['lineups']} lineups\n")
             f.write(f"  Range: {rec['projection_range']}\n")
             f.write(f"  Strategy: {rec['strategy']}\n\n")
         
@@ -326,19 +326,19 @@ def save_ultimate_strategy(strategy, elite_lineups):
         
         f.write("\nSUCCESS METRICS:\n")
         f.write("-" * 20 + "\n")
-        f.write("• Previous disaster: 31.7 FPPG\n")
-        f.write("• Tournament winners: 153+ FPPG\n")
-        f.write(f"• Our best lineup: {strategy['max_projection']:.1f} FPPG\n")
-        f.write(f"• Improvement: {((strategy['max_projection'] - 31.7) / 31.7 * 100):.0f}% vs disaster\n")
-        f.write(f"• Tournament competitive: {strategy['max_projection'] >= 153}\n")
+        f.write(" Previous disaster: 31.7 FPPG\n")
+        f.write(" Tournament winners: 153+ FPPG\n")
+        f.write(f" Our best lineup: {strategy['max_projection']:.1f} FPPG\n")
+        f.write(f" Improvement: {((strategy['max_projection'] - 31.7) / 31.7 * 100):.0f}% vs disaster\n")
+        f.write(f" Tournament competitive: {strategy['max_projection'] >= 153}\n")
     
-    logger.info(f"✅ Strategy guide saved: {guide_file}")
+    logger.info(f"SUCCESS: Strategy guide saved: {guide_file}")
     
     return strategy_file, lineups_file, guide_file
 
 def main():
     """Main execution function"""
-    logger.info("🚀 ULTIMATE ML TOURNAMENT STRATEGY - STARTING")
+    logger.info("START: ULTIMATE ML TOURNAMENT STRATEGY - STARTING")
     logger.info("="*70)
     
     try:
@@ -346,7 +346,7 @@ def main():
         arsenal = load_ml_tournament_arsenal()
         
         if not arsenal:
-            logger.error("❌ No ML systems found! Run your .bat files first.")
+            logger.error("ERROR: No ML systems found! Run your .bat files first.")
             return
         
         # Step 2: Analyze performance
@@ -356,7 +356,7 @@ def main():
         elite_lineups = select_elite_ml_lineups(arsenal, performance)
         
         if not elite_lineups:
-            logger.error("❌ No elite lineups found!")
+            logger.error("ERROR: No elite lineups found!")
             return
         
         # Step 4: Create tournament strategy
@@ -366,23 +366,23 @@ def main():
         strategy_file, lineups_file, guide_file = save_ultimate_strategy(strategy, elite_lineups)
         
         logger.info("="*70)
-        logger.info("🏆 ULTIMATE ML TOURNAMENT STRATEGY COMPLETE!")
+        logger.info("LINEUP: ULTIMATE ML TOURNAMENT STRATEGY COMPLETE!")
         logger.info("="*70)
-        logger.info("📁 FILES CREATED:")
-        logger.info(f"   📊 Strategy: {os.path.basename(strategy_file)}")
-        logger.info(f"   📋 Lineups: {os.path.basename(lineups_file)}")
-        logger.info(f"   📖 Guide: {os.path.basename(guide_file)}")
+        logger.info(" FILES CREATED:")
+        logger.info(f"   DATA: Strategy: {os.path.basename(strategy_file)}")
+        logger.info(f"   INFO: Lineups: {os.path.basename(lineups_file)}")
+        logger.info(f"    Guide: {os.path.basename(guide_file)}")
         logger.info("")
-        logger.info("🎯 NEXT STEPS:")
+        logger.info("TARGET: NEXT STEPS:")
         logger.info("   1. Review strategy guide for contest recommendations")
         logger.info("   2. Use elite lineups in appropriate tournaments")
         logger.info("   3. Monitor performance vs 153+ FPPG winners")
         logger.info("   4. Target Large GPP with highest ceiling lineups")
         logger.info("")
-        logger.info(f"💪 TOURNAMENT READINESS: {len([l for l in elite_lineups if l['projection'] >= 153])} lineups above winner threshold")
+        logger.info(f" TOURNAMENT READINESS: {len([l for l in elite_lineups if l['projection'] >= 153])} lineups above winner threshold")
         
     except Exception as e:
-        logger.error(f"❌ Error in Ultimate ML Tournament Strategy: {e}")
+        logger.error(f"ERROR: Error in Ultimate ML Tournament Strategy: {e}")
         raise
 
 if __name__ == "__main__":

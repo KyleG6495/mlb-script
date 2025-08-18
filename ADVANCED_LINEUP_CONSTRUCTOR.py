@@ -25,15 +25,15 @@ class AdvancedLineupConstructor:
         """Load the optimized projections data"""
         try:
             self.optimized_players = pd.read_csv('../data/confirmed_optimized_projections.csv')
-            logger.info(f"📥 Loaded {len(self.optimized_players)} optimized confirmed starters")
+            logger.info(f" Loaded {len(self.optimized_players)} optimized confirmed starters")
             return True
         except Exception as e:
-            logger.error(f"❌ Could not load optimized data: {e}")
+            logger.error(f"ERROR: Could not load optimized data: {e}")
             return False
     
     def construct_tournament_lineup(self, strategy='balanced'):
         """Construct optimal tournament lineup using advanced metrics"""
-        logger.info(f"🏆 CONSTRUCTING TOURNAMENT LINEUP - {strategy.upper()} STRATEGY")
+        logger.info(f"LINEUP: CONSTRUCTING TOURNAMENT LINEUP - {strategy.upper()} STRATEGY")
         logger.info("=" * 60)
         
         if not self.load_optimized_data():
@@ -42,16 +42,16 @@ class AdvancedLineupConstructor:
         # Select scoring metric based on strategy
         if strategy == 'ceiling':
             score_col = 'sim_ceiling'
-            logger.info("🚀 Using CEILING strategy (max upside)")
+            logger.info("START: Using CEILING strategy (max upside)")
         elif strategy == 'leverage':
             score_col = 'leverage' 
-            logger.info("🎭 Using LEVERAGE strategy (low ownership + upside)")
+            logger.info(" Using LEVERAGE strategy (low ownership + upside)")
         elif strategy == 'tournament':
             score_col = 'tournament_score'
-            logger.info("🎯 Using TOURNAMENT strategy (balanced upside)")
+            logger.info("TARGET: Using TOURNAMENT strategy (balanced upside)")
         else:
             score_col = 'sim_mean'
-            logger.info("📊 Using BALANCED strategy (mean projections)")
+            logger.info("DATA: Using BALANCED strategy (mean projections)")
         
         lineup = self._optimize_lineup(score_col, strategy)
         
@@ -59,12 +59,12 @@ class AdvancedLineupConstructor:
             self._display_lineup_analysis(lineup, strategy)
             return lineup
         else:
-            logger.error("❌ Could not construct valid lineup")
+            logger.error("ERROR: Could not construct valid lineup")
             return None
     
     def construct_cash_lineup(self):
         """Construct optimal cash game lineup (high floor)"""
-        logger.info("💰 CONSTRUCTING CASH GAME LINEUP")
+        logger.info("MONEY: CONSTRUCTING CASH GAME LINEUP")
         logger.info("=" * 60)
         
         if not self.load_optimized_data():
@@ -76,7 +76,7 @@ class AdvancedLineupConstructor:
             self._display_lineup_analysis(lineup, 'cash')
             return lineup
         else:
-            logger.error("❌ Could not construct valid cash lineup")
+            logger.error("ERROR: Could not construct valid cash lineup")
             return None
     
     def _optimize_lineup(self, score_column, strategy):
@@ -99,7 +99,7 @@ class AdvancedLineupConstructor:
             self.optimized_players['Position'] == 'OF'
         ].sort_values(score_column, ascending=False)
         
-        logger.info(f"🔄 Starting optimization with {max_iterations:,} iterations...")
+        logger.info(f"SWAP: Starting optimization with {max_iterations:,} iterations...")
         
         while iterations < max_iterations:
             lineup_players = []
@@ -171,13 +171,13 @@ class AdvancedLineupConstructor:
                     'salary_remaining': self.salary_cap - total_salary
                 }
                 
-                logger.info(f"💡 New best {strategy} lineup: {lineup_score:.2f} points (${total_salary:,})")
+                logger.info(f"TIP: New best {strategy} lineup: {lineup_score:.2f} points (${total_salary:,})")
             
             iterations += 1
             
             # Progress updates
             if iterations % 10000 == 0:
-                logger.info(f"⏳ Iteration {iterations:,}/50,000 - Best: {best_score:.2f}")
+                logger.info(f" Iteration {iterations:,}/50,000 - Best: {best_score:.2f}")
         
         return best_lineup
     
@@ -257,17 +257,17 @@ class AdvancedLineupConstructor:
     def _display_lineup_analysis(self, lineup, strategy):
         """Display detailed lineup analysis"""
         logger.info("=" * 70)
-        logger.info(f"🏆 {strategy.upper()} LINEUP ANALYSIS")
+        logger.info(f"LINEUP: {strategy.upper()} LINEUP ANALYSIS")
         logger.info("=" * 70)
         
         # Basic lineup info
-        logger.info(f"💰 Total Salary: ${lineup['total_salary']:,} / ${self.salary_cap:,}")
-        logger.info(f"💵 Remaining: ${lineup['salary_remaining']:,}")
-        logger.info(f"📊 Projected Score: {lineup['projected_score']:.2f} FPPG")
+        logger.info(f"MONEY: Total Salary: ${lineup['total_salary']:,} / ${self.salary_cap:,}")
+        logger.info(f" Remaining: ${lineup['salary_remaining']:,}")
+        logger.info(f"DATA: Projected Score: {lineup['projected_score']:.2f} FPPG")
         logger.info("")
         
         # Player breakdown
-        logger.info("👥 LINEUP BREAKDOWN:")
+        logger.info("OWNERSHIP: LINEUP BREAKDOWN:")
         total_ownership = 0
         
         for player in lineup['players']:
@@ -283,7 +283,7 @@ class AdvancedLineupConstructor:
                        f"{ownership_pct:>4.1f}% | {player_data.get('ownership_tier', 'Unknown')}")
         
         logger.info("")
-        logger.info(f"📈 Average Ownership: {total_ownership/9:.1f}%")
+        logger.info(f"PROGRESS: Average Ownership: {total_ownership/9:.1f}%")
         
         # Team breakdown
         teams = {}
@@ -296,7 +296,7 @@ class AdvancedLineupConstructor:
                     team = player_data.iloc[0]['Team']
                     teams[team] = teams.get(team, 0) + 1
         
-        logger.info("🏟️ TEAM BREAKDOWN:")
+        logger.info(" TEAM BREAKDOWN:")
         for team, count in teams.items():
             logger.info(f"   {team}: {count} players")
         
@@ -304,7 +304,7 @@ class AdvancedLineupConstructor:
     
     def generate_multiple_lineups(self, num_lineups=5, strategies=['balanced', 'ceiling', 'leverage']):
         """Generate multiple diverse lineups"""
-        logger.info(f"🎯 GENERATING {num_lineups} DIVERSE LINEUPS")
+        logger.info(f"TARGET: GENERATING {num_lineups} DIVERSE LINEUPS")
         logger.info("=" * 60)
         
         all_lineups = []
@@ -312,7 +312,7 @@ class AdvancedLineupConstructor:
         for i in range(num_lineups):
             strategy = strategies[i % len(strategies)]
             
-            logger.info(f"\n🔄 Generating lineup {i+1}/{num_lineups} - {strategy}")
+            logger.info(f"\nSWAP: Generating lineup {i+1}/{num_lineups} - {strategy}")
             lineup = self.construct_tournament_lineup(strategy)
             
             if lineup:
@@ -371,7 +371,7 @@ class AdvancedLineupConstructor:
         df = pd.DataFrame(fd_lineups)
         df.to_csv(output_file, index=False)
         
-        logger.info(f"💾 Saved {len(lineups)} lineups to: {output_file}")
+        logger.info(f" Saved {len(lineups)} lineups to: {output_file}")
 
 def main():
     """Main lineup construction function"""
@@ -381,9 +381,9 @@ def main():
     lineups = constructor.generate_multiple_lineups(5)
     
     if lineups:
-        logger.info(f"🏆 Successfully generated {len(lineups)} optimized lineups!")
+        logger.info(f"LINEUP: Successfully generated {len(lineups)} optimized lineups!")
     else:
-        logger.error("❌ Failed to generate lineups")
+        logger.error("ERROR: Failed to generate lineups")
 
 if __name__ == "__main__":
     main()

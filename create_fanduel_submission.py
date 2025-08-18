@@ -15,7 +15,7 @@ def load_player_mapping():
         # Load the current FanDuel slate
         slate_file = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\fd_current_slate\fd_slate_today.csv"
         if not os.path.exists(slate_file):
-            print(f"❌ Slate file not found: {slate_file}")
+            print(f"ERROR: Slate file not found: {slate_file}")
             return {}
         
         df = pd.read_csv(slate_file)
@@ -41,11 +41,11 @@ def load_player_mapping():
             player_mapping[f"{first_name} {last_name}"] = fd_format
             player_mapping[last_name] = fd_format
             
-        print(f"✅ Loaded {len(player_mapping)} player mappings")
+        print(f"SUCCESS: Loaded {len(player_mapping)} player mappings")
         return player_mapping
         
     except Exception as e:
-        print(f"❌ Error loading player mapping: {e}")
+        print(f"ERROR: Error loading player mapping: {e}")
         return {}
 
 def get_player_fd_name(player_id, name, player_mapping):
@@ -90,7 +90,7 @@ def convert_lineup_to_fanduel_format(lineup_df, player_mapping):
         return pd.DataFrame(fd_lineups)
         
     except Exception as e:
-        print(f"❌ Error converting lineups: {e}")
+        print(f"ERROR: Error converting lineups: {e}")
         return None
 
 def convert_player_name(player_name, player_mapping):
@@ -113,16 +113,16 @@ def convert_player_name(player_name, player_mapping):
         if player_name.lower() in mapped_name.lower() or mapped_name.lower() in player_name.lower():
             return fd_format
     
-    print(f"⚠️ Player not found in mapping: {player_name}")
+    print(f"WARNING: Player not found in mapping: {player_name}")
     return player_name
 
 def main():
-    print("🚀 Creating FanDuel Submission File...")
+    print("START: Creating FanDuel Submission File...")
     
     # Load player mapping
     player_mapping = load_player_mapping()
     if not player_mapping:
-        print("❌ Could not load player mapping - using existing files")
+        print("ERROR: Could not load player mapping - using existing files")
         return
     
     data_dir = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\data"
@@ -142,7 +142,7 @@ def main():
         enhanced_files.extend(sorted(ceiling_files, key=os.path.getmtime, reverse=True)[:1])
     
     if not enhanced_files:
-        print("❌ No enhanced lineup files found")
+        print("ERROR: No enhanced lineup files found")
         return
     
     all_lineups = []
@@ -150,7 +150,7 @@ def main():
     # Process each enhanced file
     for file_path in enhanced_files:
         try:
-            print(f"📊 Processing: {os.path.basename(file_path)}")
+            print(f"DATA: Processing: {os.path.basename(file_path)}")
             df = pd.read_csv(file_path)
             
             if 'Lineup' in df.columns:
@@ -299,11 +299,11 @@ def main():
                 all_lineups.extend(df.to_dict('records'))
                 
         except Exception as e:
-            print(f"⚠️ Error processing {file_path}: {e}")
+            print(f"WARNING: Error processing {file_path}: {e}")
             continue
     
     if not all_lineups:
-        print("❌ No valid lineups found to convert")
+        print("ERROR: No valid lineups found to convert")
         return
     
     # Convert to DataFrame and then to FanDuel format
@@ -311,7 +311,7 @@ def main():
     fd_lineups = convert_lineup_to_fanduel_format(lineups_df, player_mapping)
     
     if fd_lineups is None or len(fd_lineups) == 0:
-        print("❌ Failed to convert lineups to FanDuel format")
+        print("ERROR: Failed to convert lineups to FanDuel format")
         return
     
     # Save FanDuel submission file
@@ -320,17 +320,17 @@ def main():
     
     try:
         fd_lineups.to_csv(output_file, index=False)
-        print(f"✅ FanDuel submission file created: {os.path.basename(output_file)}")
-        print(f"📁 Location: {output_file}")
-        print(f"📊 Lineups converted: {len(fd_lineups)}")
+        print(f"SUCCESS: FanDuel submission file created: {os.path.basename(output_file)}")
+        print(f" Location: {output_file}")
+        print(f"DATA: Lineups converted: {len(fd_lineups)}")
         
         # Also create a copy with a standard name for easy access
         standard_file = os.path.join(fd_dir, "Enhanced_Lineups_FD_Format.csv")
         fd_lineups.to_csv(standard_file, index=False)
-        print(f"✅ Standard file created: Enhanced_Lineups_FD_Format.csv")
+        print(f"SUCCESS: Standard file created: Enhanced_Lineups_FD_Format.csv")
         
     except Exception as e:
-        print(f"❌ Error saving file: {e}")
+        print(f"ERROR: Error saving file: {e}")
 
 if __name__ == "__main__":
     main()

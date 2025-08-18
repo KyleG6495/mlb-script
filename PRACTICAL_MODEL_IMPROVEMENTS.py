@@ -20,7 +20,7 @@ class PracticalModelImprovements:
         
     def enhance_dfs_projections(self, hitter_features_file=None, pitcher_features_file=None):
         """Enhance DFS projections for better ceiling targeting"""
-        print("🎯 ENHANCING DFS PROJECTIONS FOR CEILING TARGETING")
+        print("TARGET: ENHANCING DFS PROJECTIONS FOR CEILING TARGETING")
         print("=" * 60)
         
         if not hitter_features_file:
@@ -33,10 +33,10 @@ class PracticalModelImprovements:
             hitters = pd.read_csv(hitter_features_file)
             pitchers = pd.read_csv(pitcher_features_file)
             
-            print(f"📊 Loaded {len(hitters)} hitters and {len(pitchers)} pitchers")
+            print(f"DATA: Loaded {len(hitters)} hitters and {len(pitchers)} pitchers")
             
             # Enhancement 1: Variance-based ceiling adjustments
-            print("🎲 Adding variance-based ceiling multipliers...")
+            print(" Adding variance-based ceiling multipliers...")
             
             # For hitters: boost high-variance players
             if 'recent_variance' in hitters.columns:
@@ -51,7 +51,7 @@ class PracticalModelImprovements:
                 hitters['ceiling_adjusted_proj'] = hitters.get('projected_fppg', 10) * hitters['variance_mult']
             
             # Enhancement 2: Weather/park boosts
-            print("🌤️ Adding weather and park factor boosts...")
+            print(" Adding weather and park factor boosts...")
             
             # Simple weather boost (you can enhance this with real weather data)
             weather_boost = np.random.normal(1.0, 0.05, len(hitters))  # Small random weather effect
@@ -60,7 +60,7 @@ class PracticalModelImprovements:
             hitters['ceiling_adjusted_proj'] *= hitters['weather_boost']
             
             # Enhancement 3: Ownership fading for tournaments
-            print("📊 Adding ownership fade calculations...")
+            print("DATA: Adding ownership fade calculations...")
             
             # Estimate ownership based on salary and projection
             salary_percentile = hitters['Salary'].rank(pct=True)
@@ -79,19 +79,19 @@ class PracticalModelImprovements:
             output_file = f"{self.base_dir}/data/fd_hitter_features_enhanced.csv"
             hitters.to_csv(output_file, index=False)
             
-            print(f"💾 Enhanced hitter features saved: {output_file}")
-            print(f"📈 Average ceiling boost: {(hitters['ceiling_adjusted_proj'] / hitters.get('projected_fppg', 10)).mean():.2f}x")
-            print(f"🎯 Tournament projection range: {hitters['tournament_proj'].min():.1f} - {hitters['tournament_proj'].max():.1f}")
+            print(f" Enhanced hitter features saved: {output_file}")
+            print(f"PROGRESS: Average ceiling boost: {(hitters['ceiling_adjusted_proj'] / hitters.get('projected_fppg', 10)).mean():.2f}x")
+            print(f"TARGET: Tournament projection range: {hitters['tournament_proj'].min():.1f} - {hitters['tournament_proj'].max():.1f}")
             
             return output_file
             
         except Exception as e:
-            print(f"❌ Error enhancing DFS projections: {e}")
+            print(f"ERROR: Error enhancing DFS projections: {e}")
             return None
     
     def enhance_prop_predictions(self, recent_backtest_file=None):
         """Enhance prop predictions based on recent performance analysis"""
-        print("\n💰 ENHANCING PROP PREDICTIONS")
+        print("\nMONEY: ENHANCING PROP PREDICTIONS")
         print("=" * 60)
         
         if not recent_backtest_file:
@@ -101,19 +101,19 @@ class PracticalModelImprovements:
             if pp_files:
                 recent_backtest_file = max(pp_files)
             else:
-                print("❌ No recent backtest files found")
+                print("ERROR: No recent backtest files found")
                 return None
         
         try:
             backtest = pd.read_csv(recent_backtest_file)
-            print(f"📊 Analyzing {len(backtest)} recent prop predictions")
+            print(f"DATA: Analyzing {len(backtest)} recent prop predictions")
             
             # Analyze performance by stat type
             if 'stat_type' in backtest.columns and 'hit' in backtest.columns:
                 stat_performance = backtest.groupby('stat_type')['hit'].agg(['mean', 'count']).reset_index()
                 stat_performance.columns = ['stat_type', 'win_rate', 'count']
                 
-                print("📈 Performance by stat type:")
+                print("PROGRESS: Performance by stat type:")
                 for _, row in stat_performance.iterrows():
                     print(f"   {row['stat_type']}: {row['win_rate']:.1%} ({row['count']} bets)")
                 
@@ -121,13 +121,13 @@ class PracticalModelImprovements:
                 poor_performers = stat_performance[stat_performance['win_rate'] < 0.55]
                 good_performers = stat_performance[stat_performance['win_rate'] > 0.65]
                 
-                print(f"\n🔍 Stats needing improvement ({len(poor_performers)}):")
+                print(f"\n Stats needing improvement ({len(poor_performers)}):")
                 for _, row in poor_performers.iterrows():
-                    print(f"   ❌ {row['stat_type']}: {row['win_rate']:.1%}")
+                    print(f"   ERROR: {row['stat_type']}: {row['win_rate']:.1%}")
                 
-                print(f"\n✅ Well-performing stats ({len(good_performers)}):")
+                print(f"\nSUCCESS: Well-performing stats ({len(good_performers)}):")
                 for _, row in good_performers.iterrows():
-                    print(f"   ✅ {row['stat_type']}: {row['win_rate']:.1%}")
+                    print(f"   SUCCESS: {row['stat_type']}: {row['win_rate']:.1%}")
                 
                 # Generate improvement recommendations
                 recommendations = {
@@ -144,19 +144,19 @@ class PracticalModelImprovements:
                 with open(rec_file, 'w') as f:
                     json.dump(recommendations, f, indent=2)
                 
-                print(f"\n💾 Recommendations saved: {rec_file}")
+                print(f"\n Recommendations saved: {rec_file}")
                 return recommendations
             else:
-                print("⚠️ Backtest file missing required columns for analysis")
+                print("WARNING: Backtest file missing required columns for analysis")
                 return None
                 
         except Exception as e:
-            print(f"❌ Error enhancing prop predictions: {e}")
+            print(f"ERROR: Error enhancing prop predictions: {e}")
             return None
     
     def generate_ceiling_lineup_weights(self, slate_file=None):
         """Generate weights for ceiling-focused lineup optimization"""
-        print("\n🎯 GENERATING CEILING LINEUP WEIGHTS")
+        print("\nTARGET: GENERATING CEILING LINEUP WEIGHTS")
         print("=" * 60)
         
         if not slate_file:
@@ -164,7 +164,7 @@ class PracticalModelImprovements:
         
         try:
             slate = pd.read_csv(slate_file)
-            print(f"📊 Processing {len(slate)} players from today's slate")
+            print(f"DATA: Processing {len(slate)} players from today's slate")
             
             # Calculate ceiling weights
             slate['base_proj'] = slate.get('FPPG', slate.get('Salary', 5000) / 1000 * 2.8)
@@ -210,8 +210,8 @@ class PracticalModelImprovements:
                           'ceiling_weight', 'tournament_exposure']
             slate[ceiling_cols].to_csv(output_file, index=False)
             
-            print(f"💾 Ceiling weights saved: {output_file}")
-            print(f"🎯 Top ceiling players:")
+            print(f" Ceiling weights saved: {output_file}")
+            print(f"TARGET: Top ceiling players:")
             top_ceiling = slate.nlargest(5, 'ceiling_weight')
             for _, player in top_ceiling.iterrows():
                 name = f"{player['First Name']} {player['Last Name']}"
@@ -220,12 +220,12 @@ class PracticalModelImprovements:
             return output_file
             
         except Exception as e:
-            print(f"❌ Error generating ceiling weights: {e}")
+            print(f"ERROR: Error generating ceiling weights: {e}")
             return None
     
     def update_model_configs(self):
         """Update model configuration files with enhanced settings"""
-        print("\n🔧 UPDATING MODEL CONFIGURATIONS")
+        print("\nSTEP: UPDATING MODEL CONFIGURATIONS")
         print("=" * 60)
         
         # Enhanced DFS settings
@@ -266,14 +266,14 @@ class PracticalModelImprovements:
         with open(prop_config_file, 'w') as f:
             json.dump(prop_config, f, indent=2)
         
-        print(f"💾 DFS config saved: {dfs_config_file}")
-        print(f"💾 Prop config saved: {prop_config_file}")
+        print(f" DFS config saved: {dfs_config_file}")
+        print(f" Prop config saved: {prop_config_file}")
         
         return dfs_config_file, prop_config_file
     
     def run_all_improvements(self):
         """Run all practical model improvements"""
-        print("🚀 PRACTICAL MODEL IMPROVEMENTS")
+        print("START: PRACTICAL MODEL IMPROVEMENTS")
         print("=" * 80)
         print("Implementing real-world enhancements for immediate performance gains")
         print()
@@ -313,21 +313,21 @@ class PracticalModelImprovements:
         with open(summary_file, 'w') as f:
             json.dump(results, f, indent=2, default=str)
         
-        print(f"\n💾 Improvement summary saved: {summary_file}")
+        print(f"\n Improvement summary saved: {summary_file}")
         
         # Final recommendations
-        print("\n✅ PRACTICAL IMPROVEMENTS COMPLETE!")
+        print("\nSUCCESS: PRACTICAL IMPROVEMENTS COMPLETE!")
         print("=" * 80)
-        print("🎯 NEXT STEPS:")
-        print("1. 📊 Use fd_hitter_features_enhanced.csv in your DFS system")
-        print("2. 🎲 Apply ceiling_lineup_weights.csv for tournament lineups") 
-        print("3. 💰 Review prop improvement recommendations for model retraining")
-        print("4. 🔧 Integrate enhanced configs into your existing scripts")
+        print("TARGET: NEXT STEPS:")
+        print("1. DATA: Use fd_hitter_features_enhanced.csv in your DFS system")
+        print("2.  Apply ceiling_lineup_weights.csv for tournament lineups") 
+        print("3. MONEY: Review prop improvement recommendations for model retraining")
+        print("4. STEP: Integrate enhanced configs into your existing scripts")
         print()
-        print("🚀 These improvements should boost:")
-        print("   • DFS ceiling rate from 0% to 10-15%")
-        print("   • Prop win rate from 57% to 65%+")
-        print("   • Overall model performance and profitability")
+        print("START: These improvements should boost:")
+        print("    DFS ceiling rate from 0% to 10-15%")
+        print("    Prop win rate from 57% to 65%+")
+        print("    Overall model performance and profitability")
         
         return results
 

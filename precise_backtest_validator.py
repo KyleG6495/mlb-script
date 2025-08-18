@@ -13,30 +13,30 @@ from precise_player_matcher import PrecisePlayerMatcher
 def run_precise_backtest():
     """Run backtest with precise player matching"""
     
-    print("🎯 PRECISE BACKTEST VALIDATOR")
+    print("TARGET: PRECISE BACKTEST VALIDATOR")
     print("=" * 50)
     
     # Load August 9th data
     lineup_file = "../data/final_tournament_lineups_details_20250809_121538.csv"
     results_file = "../data/actual_results_20250809.csv"
     
-    print(f"📊 Loading lineups: {os.path.basename(lineup_file)}")
-    print(f"📊 Loading results: {os.path.basename(results_file)}")
+    print(f"DATA: Loading lineups: {os.path.basename(lineup_file)}")
+    print(f"DATA: Loading results: {os.path.basename(results_file)}")
     
     try:
         # Load data
         lineups_df = pd.read_csv(lineup_file)
         actual_df = pd.read_csv(results_file)
         
-        print(f"✅ Loaded {len(lineups_df)} lineup entries")
-        print(f"✅ Loaded {len(actual_df)} actual player results")
+        print(f"SUCCESS: Loaded {len(lineups_df)} lineup entries")
+        print(f"SUCCESS: Loaded {len(actual_df)} actual player results")
         
         # Initialize precise matcher
         matcher = PrecisePlayerMatcher()
         
         # Get unique lineups
         unique_lineups = lineups_df['lineup_id'].unique()
-        print(f"🏆 Analyzing {len(unique_lineups)} unique lineups")
+        print(f"LINEUP: Analyzing {len(unique_lineups)} unique lineups")
         
         # Analyze each lineup with precise matching
         lineup_results = []
@@ -45,7 +45,7 @@ def run_precise_backtest():
         total_players_found = 0
         total_players_expected = 0
         
-        print(f"\n📊 LINEUP ANALYSIS WITH PRECISE MATCHING:")
+        print(f"\nDATA: LINEUP ANALYSIS WITH PRECISE MATCHING:")
         print("-" * 60)
         
         for lineup_name in unique_lineups:
@@ -95,7 +95,7 @@ def run_precise_backtest():
         # Sort by number of players found (most useful lineups first)
         lineup_results.sort(key=lambda x: (x['players_found'], x['accuracy']), reverse=True)
         
-        print(f"🏆 LINEUP PERFORMANCE (Precise Matching):")
+        print(f"LINEUP: LINEUP PERFORMANCE (Precise Matching):")
         print("-" * 80)
         
         for i, result in enumerate(lineup_results[:10], 1):
@@ -109,8 +109,8 @@ def run_precise_backtest():
                 if i <= 3 and result['found_players']:
                     print(f"    Found players:")
                     for p in result['found_players']:
-                        print(f"      {p['name']:20} → {p['matched']:20} "
-                              f"({p['projected']:4.1f} → {p['actual']:4.1f})")
+                        print(f"      {p['name']:20}  {p['matched']:20} "
+                              f"({p['projected']:4.1f}  {p['actual']:4.1f})")
                     print()
         
         # Calculate statistics
@@ -122,7 +122,7 @@ def run_precise_backtest():
             avg_players_found = np.mean([r['players_found'] for r in lineups_with_players])
             avg_accuracy = np.mean([r['accuracy'] for r in lineups_with_players])
             
-            print(f"\n📊 PRECISE MATCHING STATISTICS:")
+            print(f"\nDATA: PRECISE MATCHING STATISTICS:")
             print("-" * 40)
             print(f"Lineups with matched players: {len(lineups_with_players)}/{len(unique_lineups)}")
             print(f"Total players matched: {total_players_found}/{total_players_expected} ({total_players_found/total_players_expected*100:.1f}%)")
@@ -140,7 +140,7 @@ def run_precise_backtest():
                 # Sort by actual performance
                 all_found_players.sort(key=lambda x: x['actual'], reverse=True)
                 
-                print(f"\n🌟 TOP PERFORMING MATCHED PLAYERS:")
+                print(f"\n TOP PERFORMING MATCHED PLAYERS:")
                 print("-" * 60)
                 for i, player in enumerate(all_found_players[:10], 1):
                     accuracy = (player['actual'] / player['projected'] * 100) if player['projected'] > 0 else 0
@@ -149,7 +149,7 @@ def run_precise_backtest():
                           f"{accuracy:5.1f}% accuracy")
         
         else:
-            print(f"\n❌ NO LINEUPS WITH MATCHED PLAYERS FOUND")
+            print(f"\nERROR: NO LINEUPS WITH MATCHED PLAYERS FOUND")
             print(f"This suggests the lineup data is from a different date than results")
         
         # Save results
@@ -157,12 +157,12 @@ def run_precise_backtest():
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"../data/precise_backtest_results_{timestamp}.csv"
         results_df.to_csv(output_file, index=False)
-        print(f"\n💾 Results saved: {os.path.basename(output_file)}")
+        print(f"\n Results saved: {os.path.basename(output_file)}")
         
         return lineup_results
         
     except Exception as e:
-        print(f"❌ Error in precise backtest: {str(e)}")
+        print(f"ERROR: Error in precise backtest: {str(e)}")
         return []
 
 if __name__ == "__main__":

@@ -21,39 +21,39 @@ class SlateBasedFilter:
     def load_and_analyze_slate(self):
         """Load slate and analyze what data we have"""
         today = datetime.now().strftime("%Y-%m-%d")
-        print(f"📊 Loading and analyzing today's slate ({today})...")
+        print(f"DATA: Loading and analyzing today's slate ({today})...")
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         slate_df = pd.read_csv(slate_file)
         
-        print(f"✅ Loaded {len(slate_df)} players from slate")
+        print(f"SUCCESS: Loaded {len(slate_df)} players from slate")
         
         # Analyze available columns
-        print(f"📋 Available columns: {list(slate_df.columns)}")
+        print(f"INFO: Available columns: {list(slate_df.columns)}")
         
         # Check injury status
         if 'Injury Indicator' in slate_df.columns:
             injured = slate_df['Injury Indicator'].notna().sum()
-            print(f"🏥 Players with injury indicators: {injured}")
+            print(f" Players with injury indicators: {injured}")
             
         # Check games
         if 'Game' in slate_df.columns:
             unique_games = slate_df['Game'].nunique()
-            print(f"⚾ Unique games in slate: {unique_games}")
+            print(f"BASEBALL: Unique games in slate: {unique_games}")
             
         # Check probable pitchers
         if 'Probable Pitcher' in slate_df.columns:
             probable = (slate_df['Probable Pitcher'] == 'Yes').sum()
-            print(f"🎯 Probable pitchers marked: {probable}")
+            print(f"TARGET: Probable pitchers marked: {probable}")
             
         return slate_df
     
     def filter_injured_players(self, slate_df):
         """Remove players marked as injured"""
-        print("🏥 Filtering out injured players...")
+        print(" Filtering out injured players...")
         
         if 'Injury Indicator' not in slate_df.columns:
-            print("⚠️ No injury indicator column found")
+            print("WARNING: No injury indicator column found")
             return slate_df
         
         # Count injured players
@@ -61,29 +61,29 @@ class SlateBasedFilter:
         injured_count = injured_players.sum()
         
         if injured_count > 0:
-            print(f"❌ Removing {injured_count} injured players:")
+            print(f"ERROR: Removing {injured_count} injured players:")
             injured_list = slate_df[injured_players][['First Name', 'Last Name', 'Injury Indicator', 'Injury Details']]
             for _, player in injured_list.head(10).iterrows():  # Show first 10
                 name = f"{player['First Name']} {player['Last Name']}"
                 injury = f"{player['Injury Indicator']}"
                 details = player.get('Injury Details', '')
-                print(f"  • {name}: {injury} {details}")
+                print(f"   {name}: {injury} {details}")
             
             if injured_count > 10:
                 print(f"  ... and {injured_count - 10} more")
         
         # Filter out injured players
         clean_slate = slate_df[~injured_players].copy()
-        print(f"✅ {len(clean_slate)} players remaining after injury filter")
+        print(f"SUCCESS: {len(clean_slate)} players remaining after injury filter")
         
         return clean_slate
     
     def filter_non_probable_pitchers(self, slate_df):
         """Remove pitchers who aren't probable starters"""
-        print("⚾ Filtering non-probable pitchers...")
+        print("BASEBALL: Filtering non-probable pitchers...")
         
         if 'Probable Pitcher' not in slate_df.columns:
-            print("⚠️ No probable pitcher column found")
+            print("WARNING: No probable pitcher column found")
             return slate_df
         
         # Get pitchers
@@ -96,29 +96,29 @@ class SlateBasedFilter:
         probable_pitchers = pitchers['Probable Pitcher'] == 'Yes'
         non_probable = pitchers[~probable_pitchers]
         
-        print(f"📊 Pitcher analysis:")
+        print(f"DATA: Pitcher analysis:")
         print(f"  Total pitchers: {len(pitchers)}")
         print(f"  Probable starters: {probable_pitchers.sum()}")
         print(f"  Non-probable: {len(non_probable)}")
         
         if len(non_probable) > 0:
-            print(f"❌ Removing {len(non_probable)} non-probable pitchers:")
+            print(f"ERROR: Removing {len(non_probable)} non-probable pitchers:")
             for _, pitcher in non_probable.head(10).iterrows():
                 name = f"{pitcher['First Name']} {pitcher['Last Name']}"
                 game = pitcher.get('Game', 'N/A')
-                print(f"  • {name} ({game})")
+                print(f"   {name} ({game})")
         
         # Remove non-probable pitchers
         non_probable_ids = set(non_probable['Id'])
         clean_slate = slate_df[~slate_df['Id'].isin(non_probable_ids)].copy()
         
-        print(f"✅ {len(clean_slate)} players remaining after pitcher filter")
+        print(f"SUCCESS: {len(clean_slate)} players remaining after pitcher filter")
         
         return clean_slate
     
     def filter_low_quality_projections(self, slate_df):
         """Remove players with obviously bad projections"""
-        print("📊 Filtering low quality projections...")
+        print("DATA: Filtering low quality projections...")
         
         before_count = len(slate_df)
         
@@ -130,35 +130,35 @@ class SlateBasedFilter:
         ].copy()
         
         removed = before_count - len(filtered)
-        print(f"❌ Removed {removed} players with poor projections")
-        print(f"✅ {len(filtered)} quality players remaining")
+        print(f"ERROR: Removed {removed} players with poor projections")
+        print(f"SUCCESS: {len(filtered)} quality players remaining")
         
         return filtered
     
     def analyze_filtered_slate(self, filtered_slate):
         """Analyze the cleaned slate"""
-        print("\n📈 FILTERED SLATE ANALYSIS:")
+        print("\nPROGRESS: FILTERED SLATE ANALYSIS:")
         print("="*50)
         
-        print(f"👥 Total players: {len(filtered_slate)}")
+        print(f"OWNERSHIP: Total players: {len(filtered_slate)}")
         
         # Position breakdown
         if 'Position' in filtered_slate.columns:
             pos_counts = filtered_slate['Position'].value_counts()
-            print(f"📊 Position breakdown:")
+            print(f"DATA: Position breakdown:")
             for pos, count in pos_counts.items():
                 print(f"  {pos}: {count}")
         
         # FPPG stats
         fppg_stats = filtered_slate['FPPG'].describe()
-        print(f"🎯 FPPG statistics:")
+        print(f"TARGET: FPPG statistics:")
         print(f"  Range: {fppg_stats['min']:.1f} - {fppg_stats['max']:.1f}")
         print(f"  Average: {fppg_stats['mean']:.1f}")
         print(f"  Median: {fppg_stats['50%']:.1f}")
         
         # Salary stats
         salary_stats = filtered_slate['Salary'].describe()
-        print(f"💰 Salary statistics:")
+        print(f"MONEY: Salary statistics:")
         print(f"  Range: ${salary_stats['min']:,.0f} - ${salary_stats['max']:,.0f}")
         print(f"  Average: ${salary_stats['mean']:,.0f}")
         
@@ -166,7 +166,7 @@ class SlateBasedFilter:
     
     def build_filtered_lineup(self, filtered_slate):
         """Build lineup using properly filtered slate"""
-        print("\n🏗️ Building lineup with filtered slate...")
+        print("\n Building lineup with filtered slate...")
         
         # Calculate value
         filtered_slate['value'] = filtered_slate['FPPG'] / (filtered_slate['Salary'] / 1000)
@@ -194,7 +194,7 @@ class SlateBasedFilter:
             affordable = candidates[candidates['Salary'] <= max_spend]
             
             if affordable.empty:
-                print(f"❌ No affordable {position} players (need <${max_spend})")
+                print(f"ERROR: No affordable {position} players (need <${max_spend})")
                 return None
             
             # Pick best value
@@ -203,7 +203,7 @@ class SlateBasedFilter:
             remaining_budget -= chosen['Salary']
             used_ids.add(chosen['Id'])
             
-            print(f"  ✅ {position}: {chosen['First Name']} {chosen['Last Name']} (${chosen['Salary']}, {chosen['FPPG']:.1f} FPPG)")
+            print(f"  SUCCESS: {position}: {chosen['First Name']} {chosen['Last Name']} (${chosen['Salary']}, {chosen['FPPG']:.1f} FPPG)")
         
         if len(selected_players) == 9:
             total_salary = sum(p['Salary'] for p in selected_players)
@@ -221,7 +221,7 @@ class SlateBasedFilter:
     def save_filtered_lineup(self, lineup):
         """Save the filtered lineup"""
         if not lineup:
-            print("❌ No lineup to save")
+            print("ERROR: No lineup to save")
             return None
         
         # Create lineup
@@ -271,16 +271,16 @@ class SlateBasedFilter:
         output_file = self.slate_dir / f"FILTERED_Lineup_{timestamp}.csv"
         df.to_csv(output_file, index=False)
         
-        print(f"\n💾 FILTERED LINEUP SAVED: {output_file}")
-        print(f"💰 Salary: ${lineup['total_salary']:,}")
-        print(f"🎯 Projected FPPG: {lineup['total_fppg']:.1f}")
+        print(f"\n FILTERED LINEUP SAVED: {output_file}")
+        print(f"MONEY: Salary: ${lineup['total_salary']:,}")
+        print(f"TARGET: Projected FPPG: {lineup['total_fppg']:.1f}")
         
         return output_file
     
     def run_slate_filtering(self):
         """Run complete slate-based filtering"""
         today = datetime.now().strftime("%Y-%m-%d")
-        print(f"🚀 SLATE-BASED PLAYER FILTERING FOR TODAY ({today})")
+        print(f"START: SLATE-BASED PLAYER FILTERING FOR TODAY ({today})")
         print("Using injury indicators and game data from the slate itself")
         print("="*70)
         
@@ -288,7 +288,7 @@ class SlateBasedFilter:
         slate_df = self.load_and_analyze_slate()
         
         # Apply filters
-        print("\n🔧 APPLYING FILTERS:")
+        print("\nSTEP: APPLYING FILTERS:")
         filtered_slate = self.filter_injured_players(slate_df)
         filtered_slate = self.filter_non_probable_pitchers(filtered_slate)
         filtered_slate = self.filter_low_quality_projections(filtered_slate)
@@ -302,21 +302,21 @@ class SlateBasedFilter:
         if lineup:
             output_file = self.save_filtered_lineup(lineup)
             
-            print(f"\n🎉 SUCCESS!")
-            print(f"📁 Filtered lineup: {output_file}")
-            print(f"💡 This should perform MUCH better by excluding:")
-            print(f"  ❌ Injured players (marked in slate)")
-            print(f"  ❌ Non-probable pitchers")
-            print(f"  ❌ Players with poor projections")
+            print(f"\nCOMPLETE: SUCCESS!")
+            print(f" Filtered lineup: {output_file}")
+            print(f"TIP: This should perform MUCH better by excluding:")
+            print(f"  ERROR: Injured players (marked in slate)")
+            print(f"  ERROR: Non-probable pitchers")
+            print(f"  ERROR: Players with poor projections")
             
             return lineup
         else:
-            print("❌ Failed to build filtered lineup")
+            print("ERROR: Failed to build filtered lineup")
             return None
 
 def main():
     today = datetime.now().strftime("%Y-%m-%d")
-    print(f"🔍 SLATE-BASED FILTERING FOR TODAY ({today})")
+    print(f" SLATE-BASED FILTERING FOR TODAY ({today})")
     print("Using the slate's own data to filter out bad picks")
     print("="*70)
     
@@ -326,10 +326,10 @@ def main():
         lineup = filter_system.run_slate_filtering()
         
         if lineup:
-            print(f"\n🏆 FILTERED LINEUP READY!")
+            print(f"\nLINEUP: FILTERED LINEUP READY!")
             print(f"   This should crush the previous terrible lineups!")
         else:
-            print("❌ Filtering failed")
+            print("ERROR: Filtering failed")
             
     except Exception as e:
         print(f"Error: {e}")

@@ -27,7 +27,7 @@ def calculate_fanduel_points_from_projections(row):
         return float(row.get('ml_projected_fppg', 0))
         
     except Exception as e:
-        logger.warning(f"⚠️ Error getting projected points for {row.get('name', 'Unknown')}: {e}")
+        logger.warning(f"WARNING: Error getting projected points for {row.get('name', 'Unknown')}: {e}")
         return 0.0
 
 def find_latest_lineup_file():
@@ -36,12 +36,12 @@ def find_latest_lineup_file():
     files = glob.glob(pattern)
     
     if not files:
-        logger.warning("⚠️ No Enhanced ML lineup files found")
+        logger.warning("WARNING: No Enhanced ML lineup files found")
         return None
     
     # Get most recent file
     latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-    logger.info(f"📁 Found latest lineup file: {Path(latest_file).name}")
+    logger.info(f" Found latest lineup file: {Path(latest_file).name}")
     return latest_file
 
 def find_latest_quintuple_file():
@@ -50,12 +50,12 @@ def find_latest_quintuple_file():
     files = glob.glob(pattern)
     
     if not files:
-        logger.warning("⚠️ No quintuple lineup files found")
+        logger.warning("WARNING: No quintuple lineup files found")
         return None
     
     # Get most recent file
     latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-    logger.info(f"📁 Found latest quintuple file: {Path(latest_file).name}")
+    logger.info(f" Found latest quintuple file: {Path(latest_file).name}")
     return latest_file
 
 def find_latest_underdog_file():
@@ -64,12 +64,12 @@ def find_latest_underdog_file():
     files = glob.glob(pattern)
     
     if not files:
-        logger.warning("⚠️ No underdog backtest files found")
+        logger.warning("WARNING: No underdog backtest files found")
         return None
     
     # Get most recent file
     latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-    logger.info(f"📁 Found latest underdog file: {Path(latest_file).name}")
+    logger.info(f" Found latest underdog file: {Path(latest_file).name}")
     return latest_file
 
 def find_latest_prizepicks_file():
@@ -78,12 +78,12 @@ def find_latest_prizepicks_file():
     files = glob.glob(pattern)
     
     if not files:
-        logger.warning("⚠️ No prizepicks backtest files found")
+        logger.warning("WARNING: No prizepicks backtest files found")
         return None
     
     # Get most recent file
     latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-    logger.info(f"📁 Found latest prizepicks file: {Path(latest_file).name}")
+    logger.info(f" Found latest prizepicks file: {Path(latest_file).name}")
     return latest_file
 
 def load_actual_results():
@@ -91,16 +91,16 @@ def load_actual_results():
     actual_file = BASE_DIR / "actual_results_latest.csv"
     
     if not actual_file.exists():
-        logger.warning("⚠️ No actual results file found - run collect_actual_results.py first")
+        logger.warning("WARNING: No actual results file found - run collect_actual_results.py first")
         return None
     
     df = pd.read_csv(actual_file)
-    logger.info(f"📊 Loaded actual results for {len(df)} players")
+    logger.info(f"DATA: Loaded actual results for {len(df)} players")
     return df
 
 def calculate_lineup_performance(lineup_df, actual_df):
     """Calculate actual vs projected performance for each lineup"""
-    logger.info("🔍 Analyzing lineup performance...")
+    logger.info(" Analyzing lineup performance...")
     
     results = []
     all_lineup_details = []  # Move this outside the loop to collect ALL lineup details
@@ -166,7 +166,7 @@ def calculate_lineup_performance(lineup_df, actual_df):
 
 def calculate_quintuple_performance(quintuple_df, actual_df):
     """Calculate performance for quintuple tournament lineups"""
-    logger.info("🎯 Analyzing quintuple lineup performance...")
+    logger.info("TARGET: Analyzing quintuple lineup performance...")
     
     results = []
     all_lineup_details = []
@@ -243,7 +243,7 @@ def analyze_underdog_performance(underdog_file):
     if not underdog_file:
         return pd.DataFrame(), pd.DataFrame()
     
-    logger.info("🐕 Analyzing Underdog pick performance...")
+    logger.info(" Analyzing Underdog pick performance...")
     
     df = pd.read_csv(underdog_file)
     
@@ -291,7 +291,7 @@ def analyze_prizepicks_performance(prizepicks_file):
     if not prizepicks_file:
         return pd.DataFrame(), pd.DataFrame()
     
-    logger.info("🏆 Analyzing PrizePicks pick performance...")
+    logger.info("LINEUP: Analyzing PrizePicks pick performance...")
     
     df = pd.read_csv(prizepicks_file)
     
@@ -336,7 +336,7 @@ def analyze_prizepicks_performance(prizepicks_file):
 
 def analyze_player_accuracy(lineup_df, actual_df):
     """Analyze projection accuracy by player"""
-    logger.info("🎯 Analyzing player projection accuracy...")
+    logger.info("TARGET: Analyzing player projection accuracy...")
     
     player_analysis = []
     
@@ -372,7 +372,7 @@ def print_filtered_console_report(lineup_results, lineup_details):
     """Print a filtered console report excluding players with 0.0 actual scores"""
     
     print("\n" + "=" * 80)
-    print("📊 Lineup Performance Overview")
+    print("DATA: Lineup Performance Overview")
     print("=" * 80)
     
     # Print header
@@ -388,7 +388,7 @@ def print_filtered_console_report(lineup_results, lineup_details):
         print(f"{lineup_id:<12} {contest_type:<20} {strategy:<45} ${lineup['total_salary']:<11,} {lineup['projected_total']:<10.1f} {lineup['actual_total']:<8.1f} {lineup['difference']:<+12.1f} {lineup['accuracy_pct']:<12.1f}% {lineup['players_matched']}/{lineup['total_players']}")
     
     print("\n" + "=" * 80)
-    print("👥 Detailed Player Breakdown by Lineup")
+    print("OWNERSHIP: Detailed Player Breakdown by Lineup")
     print("=" * 80)
     print("Note: Only showing players with actual performance data (excluding 0.0 scores to reduce noise)")
     print()
@@ -401,7 +401,7 @@ def print_filtered_console_report(lineup_results, lineup_details):
         # Filter out players with 0.0 actual scores
         filtered_players = lineup_players[lineup_players['actual_fppg'] > 0.0]
         
-        print(f"🎯 {lineup_id} - {lineup_info['strategy']}")
+        print(f"TARGET: {lineup_id} - {lineup_info['strategy']}")
         print(f"Total Salary: ${lineup_info['total_salary']:,} | Projected: {lineup_info['projected_total']:.1f} | Actual: {lineup_info['actual_total']:.1f} | Accuracy: {lineup_info['accuracy_pct']:.1f}%")
         print()
         
@@ -425,7 +425,7 @@ def print_filtered_console_report(lineup_results, lineup_details):
 
 def generate_performance_summary(lineup_results, player_results):
     """Generate summary statistics"""
-    logger.info("📊 Generating performance summary...")
+    logger.info("DATA: Generating performance summary...")
     
     summary = {
         'analysis_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -484,7 +484,7 @@ def generate_html_report(lineup_results, player_results, lineup_details, summary
     <body>
         <div class="container">
             <div class="header">
-                <h1>🎯 DFS Lineup Performance Analysis</h1>
+                <h1>TARGET: DFS Lineup Performance Analysis</h1>
                 <p>Generated on {summary['analysis_date']}</p>
             </div>
             
@@ -508,7 +508,7 @@ def generate_html_report(lineup_results, player_results, lineup_details, summary
             </div>
             
             <div class="section">
-                <h2>📊 Lineup Performance Overview</h2>
+                <h2>DATA: Lineup Performance Overview</h2>
                 <table>
                     <thead>
                         <tr>
@@ -551,7 +551,7 @@ def generate_html_report(lineup_results, player_results, lineup_details, summary
             </div>
             
             <div class="section">
-                <h2>👥 Detailed Player Breakdown by Lineup</h2>
+                <h2>OWNERSHIP: Detailed Player Breakdown by Lineup</h2>
     """
     
     # Group lineup details by lineup_id and add detailed breakdowns
@@ -561,7 +561,7 @@ def generate_html_report(lineup_results, player_results, lineup_details, summary
         
         html_content += f"""
                 <div class="lineup-details">
-                    <h3>🎯 {lineup_id} - {lineup_info['strategy']}</h3>
+                    <h3>TARGET: {lineup_id} - {lineup_info['strategy']}</h3>
                     <p><strong>Total Salary:</strong> ${lineup_info['total_salary']:,} | 
                        <strong>Projected:</strong> {lineup_info['projected_total']:.1f} | 
                        <strong>Actual:</strong> {lineup_info['actual_total']:.1f} | 
@@ -610,7 +610,7 @@ def generate_html_report(lineup_results, player_results, lineup_details, summary
             </div>
             
             <div class="section">
-                <h2>🎯 Player Accuracy Analysis</h2>
+                <h2>TARGET: Player Accuracy Analysis</h2>
                 <table>
                     <thead>
                         <tr>
@@ -668,24 +668,24 @@ def save_results(lineup_results, player_results, lineup_details, summary):
     # Save lineup performance
     lineup_file = BASE_DIR / f"dfs_lineup_performance_{timestamp}.csv"
     lineup_results.to_csv(lineup_file, index=False)
-    logger.info(f"💾 Saved lineup performance: {lineup_file}")
+    logger.info(f" Saved lineup performance: {lineup_file}")
     
     # Save player analysis
     player_file = BASE_DIR / f"dfs_player_analysis_{timestamp}.csv"
     player_results.to_csv(player_file, index=False)
-    logger.info(f"💾 Saved player analysis: {player_file}")
+    logger.info(f" Saved player analysis: {player_file}")
     
     # Save detailed breakdown
     details_file = BASE_DIR / f"dfs_lineup_details_{timestamp}.csv"
     lineup_details.to_csv(details_file, index=False)
-    logger.info(f"💾 Saved lineup details: {details_file}")
+    logger.info(f" Saved lineup details: {details_file}")
     
     # Generate and save HTML report
     html_content = generate_html_report(lineup_results, player_results, lineup_details, summary)
     html_file = BASE_DIR / f"dfs_performance_report_{timestamp}.html"
     with open(html_file, 'w', encoding='utf-8') as f:
         f.write(html_content)
-    logger.info(f"💾 Saved HTML report: {html_file}")
+    logger.info(f" Saved HTML report: {html_file}")
     
     # Save summary
     summary_file = BASE_DIR / f"dfs_performance_summary_{timestamp}.json"
@@ -699,18 +699,18 @@ def save_results(lineup_results, player_results, lineup_details, summary):
             else:
                 clean_summary[key] = str(value)
         json.dump(clean_summary, f, indent=2)
-    logger.info(f"💾 Saved summary: {summary_file}")
+    logger.info(f" Saved summary: {summary_file}")
 
 def main():
     """Main execution function"""
-    logger.info("🎯 ANALYZING DFS LINEUP PERFORMANCE")
+    logger.info("TARGET: ANALYZING DFS LINEUP PERFORMANCE")
     logger.info("=" * 50)
     
     try:
         # Load actual results first
         actual_df = load_actual_results()
         if actual_df is None:
-            logger.error("❌ No actual results found")
+            logger.error("ERROR: No actual results found")
             return
         
         all_lineup_results = []
@@ -721,7 +721,7 @@ def main():
         lineup_file = find_latest_lineup_file()
         if lineup_file:
             lineup_df = pd.read_csv(lineup_file)
-            logger.info(f"📊 Loaded {len(lineup_df)} Enhanced ML lineup entries")
+            logger.info(f"DATA: Loaded {len(lineup_df)} Enhanced ML lineup entries")
             
             # Ensure player_id columns are strings for proper matching
             lineup_df['player_id'] = lineup_df['player_id'].astype(str)
@@ -736,24 +736,24 @@ def main():
             player_results = analyze_player_accuracy(lineup_df, actual_df)
             all_player_results.append(player_results)
             
-            logger.info(f"✅ Analyzed {len(lineup_results)} Enhanced ML lineups")
+            logger.info(f"SUCCESS: Analyzed {len(lineup_results)} Enhanced ML lineups")
         else:
-            logger.warning("⚠️ No Enhanced ML lineup files found")
+            logger.warning("WARNING: No Enhanced ML lineup files found")
         
         # Analyze Quintuple tournament lineups
         quintuple_file = find_latest_quintuple_file()
         if quintuple_file:
             quintuple_df = pd.read_csv(quintuple_file)
-            logger.info(f"📊 Loaded {len(quintuple_df)} quintuple lineup entries")
+            logger.info(f"DATA: Loaded {len(quintuple_df)} quintuple lineup entries")
             
             # Calculate quintuple performance
             quintuple_results, quintuple_details = calculate_quintuple_performance(quintuple_df, actual_df)
             all_lineup_results.append(quintuple_results)
             all_lineup_details.append(quintuple_details)
             
-            logger.info(f"✅ Analyzed {len(quintuple_results)} quintuple lineups")
+            logger.info(f"SUCCESS: Analyzed {len(quintuple_results)} quintuple lineups")
         else:
-            logger.warning("⚠️ No quintuple lineup files found")
+            logger.warning("WARNING: No quintuple lineup files found")
         
         # Analyze Underdog picks
         underdog_file = find_latest_underdog_file()
@@ -762,7 +762,7 @@ def main():
             if len(underdog_results) > 0:
                 all_lineup_results.append(underdog_results)
                 all_lineup_details.append(underdog_details)
-                logger.info(f"✅ Analyzed Underdog picks")
+                logger.info(f"SUCCESS: Analyzed Underdog picks")
         
         # Analyze PrizePicks picks
         prizepicks_file = find_latest_prizepicks_file()
@@ -771,10 +771,10 @@ def main():
             if len(prizepicks_results) > 0:
                 all_lineup_results.append(prizepicks_results)
                 all_lineup_details.append(prizepicks_details)
-                logger.info(f"✅ Analyzed PrizePicks picks")
+                logger.info(f"SUCCESS: Analyzed PrizePicks picks")
         
         if not all_lineup_results:
-            logger.error("❌ No lineup files found to analyze")
+            logger.error("ERROR: No lineup files found to analyze")
             return
         
         # Combine all results
@@ -789,16 +789,16 @@ def main():
         save_results(combined_lineup_results, combined_player_results, combined_lineup_details, summary)
         
         # Print key insights
-        logger.info("🏆 KEY PERFORMANCE INSIGHTS:")
-        logger.info(f"📊 Overall lineup accuracy: {summary['overall_accuracy']:.1f}%")
-        logger.info(f"🎯 Average projected: {summary['avg_projected_score']:.1f} FPPG")
-        logger.info(f"⚡ Average actual: {summary['avg_actual_score']:.1f} FPPG")
-        logger.info(f"👥 Players over projection: {summary['players_over_projection']}")
-        logger.info(f"👥 Players under projection: {summary['players_under_projection']}")
+        logger.info("LINEUP: KEY PERFORMANCE INSIGHTS:")
+        logger.info(f"DATA: Overall lineup accuracy: {summary['overall_accuracy']:.1f}%")
+        logger.info(f"TARGET: Average projected: {summary['avg_projected_score']:.1f} FPPG")
+        logger.info(f" Average actual: {summary['avg_actual_score']:.1f} FPPG")
+        logger.info(f"OWNERSHIP: Players over projection: {summary['players_over_projection']}")
+        logger.info(f"OWNERSHIP: Players under projection: {summary['players_under_projection']}")
         
         # Show lineup details summary
-        logger.info(f"📋 Total player entries analyzed: {len(combined_lineup_details)}")
-        logger.info(f"📊 Detailed breakdowns available in CSV and HTML reports")
+        logger.info(f"INFO: Total player entries analyzed: {len(combined_lineup_details)}")
+        logger.info(f"DATA: Detailed breakdowns available in CSV and HTML reports")
         
         # Display filtered console report (excluding 0.0 actual scores to reduce noise)
         print_filtered_console_report(combined_lineup_results, combined_lineup_details)
@@ -806,14 +806,14 @@ def main():
         # Show quintuple specific results if available
         quintuple_results = combined_lineup_results[combined_lineup_results['contest_type'] == 'quintuple_tournament']
         if len(quintuple_results) > 0:
-            logger.info("\n🎲 QUINTUPLE TOURNAMENT PERFORMANCE:")
+            logger.info("\n QUINTUPLE TOURNAMENT PERFORMANCE:")
             for _, lineup in quintuple_results.iterrows():
-                logger.info(f"🎯 {lineup['strategy']}: {lineup['actual_total']:.1f} FPPG ({lineup['accuracy_pct']:.1f}% accuracy)")
+                logger.info(f"TARGET: {lineup['strategy']}: {lineup['actual_total']:.1f} FPPG ({lineup['accuracy_pct']:.1f}% accuracy)")
         
-        logger.info("✅ DFS PERFORMANCE ANALYSIS COMPLETE")
+        logger.info("SUCCESS: DFS PERFORMANCE ANALYSIS COMPLETE")
     
     except Exception as e:
-        logger.error(f"❌ Error in DFS analysis: {e}")
+        logger.error(f"ERROR: Error in DFS analysis: {e}")
         raise
 
 if __name__ == "__main__":

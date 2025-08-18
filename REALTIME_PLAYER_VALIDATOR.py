@@ -22,7 +22,7 @@ class PlayerValidator:
         
     def get_todays_games(self):
         """Get today's MLB games from MLB API"""
-        print("🏟️ Fetching today's MLB games...")
+        print(" Fetching today's MLB games...")
         
         today = date.today().strftime('%Y-%m-%d')
         
@@ -37,22 +37,22 @@ class PlayerValidator:
                 
                 if games and len(games) > 0:
                     todays_games = games[0].get('games', [])
-                    print(f"✅ Found {len(todays_games)} games today")
+                    print(f"SUCCESS: Found {len(todays_games)} games today")
                     return todays_games
                 else:
-                    print("⚠️ No games scheduled for today")
+                    print("WARNING: No games scheduled for today")
                     return []
             else:
-                print(f"❌ Error fetching games: {response.status_code}")
+                print(f"ERROR: Error fetching games: {response.status_code}")
                 return []
                 
         except Exception as e:
-            print(f"❌ Error fetching games: {e}")
+            print(f"ERROR: Error fetching games: {e}")
             return []
     
     def get_probable_pitchers(self, games):
         """Extract probable pitchers from games"""
-        print("⚾ Extracting probable pitchers...")
+        print("BASEBALL: Extracting probable pitchers...")
         
         probable_pitchers = set()
         
@@ -71,12 +71,12 @@ class PlayerValidator:
                 print(f"Warning: Error parsing pitcher from game: {e}")
                 continue
         
-        print(f"✅ Found {len(probable_pitchers)} probable pitchers")
+        print(f"SUCCESS: Found {len(probable_pitchers)} probable pitchers")
         return probable_pitchers
     
     def get_playing_teams(self, games):
         """Get teams playing today"""
-        print("🏈 Extracting teams playing today...")
+        print(" Extracting teams playing today...")
         
         playing_teams = set()
         
@@ -94,12 +94,12 @@ class PlayerValidator:
                 print(f"Warning: Error parsing teams from game: {e}")
                 continue
         
-        print(f"✅ Found {len(playing_teams)} teams playing today")
+        print(f"SUCCESS: Found {len(playing_teams)} teams playing today")
         return playing_teams
     
     def validate_slate_players(self, slate_df, games):
         """Validate which players are likely to play today"""
-        print("🔍 Validating player availability...")
+        print(" Validating player availability...")
         
         probable_pitchers = self.get_probable_pitchers(games)
         playing_teams = self.get_playing_teams(games)
@@ -169,13 +169,13 @@ class PlayerValidator:
             slate_df.at[idx, 'validation_issues'] = '; '.join(issues) if issues else 'OK'
         
         # Summary
-        print(f"📊 VALIDATION SUMMARY:")
-        print(f"  👥 Total players: {len(slate_df)}")
-        print(f"  ✅ Teams playing: {len(playing_teams)}")
-        print(f"  ⚾ Probable pitchers: {len(probable_pitchers)}")
-        print(f"  ❌ Players with no team: {issues_count['no_team']}")
-        print(f"  ❌ Players on non-playing teams: {issues_count['team_not_playing']}")
-        print(f"  ❌ Non-probable pitchers: {issues_count['pitcher_not_probable']}")
+        print(f"DATA: VALIDATION SUMMARY:")
+        print(f"  OWNERSHIP: Total players: {len(slate_df)}")
+        print(f"  SUCCESS: Teams playing: {len(playing_teams)}")
+        print(f"  BASEBALL: Probable pitchers: {len(probable_pitchers)}")
+        print(f"  ERROR: Players with no team: {issues_count['no_team']}")
+        print(f"  ERROR: Players on non-playing teams: {issues_count['team_not_playing']}")
+        print(f"  ERROR: Non-probable pitchers: {issues_count['pitcher_not_probable']}")
         
         # Quality tiers
         excellent = (slate_df['validation_score'] >= 90).sum()
@@ -183,16 +183,16 @@ class PlayerValidator:
         questionable = ((slate_df['validation_score'] >= 50) & (slate_df['validation_score'] < 70)).sum()
         avoid = (slate_df['validation_score'] < 50).sum()
         
-        print(f"  🏆 Excellent (90+): {excellent}")
-        print(f"  ✅ Good (70-89): {good}")
-        print(f"  ⚠️  Questionable (50-69): {questionable}")
-        print(f"  ❌ Avoid (<50): {avoid}")
+        print(f"  LINEUP: Excellent (90+): {excellent}")
+        print(f"  SUCCESS: Good (70-89): {good}")
+        print(f"  WARNING:  Questionable (50-69): {questionable}")
+        print(f"  ERROR: Avoid (<50): {avoid}")
         
         return slate_df
     
     def build_validated_lineup(self, validated_slate):
         """Build lineup using only validated players"""
-        print("🏗️ Building lineup with validated players only...")
+        print(" Building lineup with validated players only...")
         
         # Filter to high-quality players
         safe_players = validated_slate[
@@ -204,7 +204,7 @@ class PlayerValidator:
         print(f"Working with {len(safe_players)} validated players")
         
         if len(safe_players) < 50:
-            print("❌ Not enough validated players - may need to lower standards")
+            print("ERROR: Not enough validated players - may need to lower standards")
             return None
         
         # Calculate enhanced value with validation bonus
@@ -232,7 +232,7 @@ class PlayerValidator:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable validated {position} players")
+                print(f"ERROR: No affordable validated {position} players")
                 return None
             
             # Pick best enhanced value
@@ -259,7 +259,7 @@ class PlayerValidator:
     def save_validated_lineup(self, lineup, validated_slate):
         """Save the validated lineup"""
         if not lineup:
-            print("❌ No validated lineup to save")
+            print("ERROR: No validated lineup to save")
             return None
         
         # Create lineup DataFrame
@@ -309,15 +309,15 @@ class PlayerValidator:
         output_file = self.slate_dir / f"VALIDATED_Lineup_{timestamp}.csv"
         df.to_csv(output_file, index=False)
         
-        print(f"\n💾 VALIDATED LINEUP SAVED: {output_file}")
+        print(f"\n VALIDATED LINEUP SAVED: {output_file}")
         
         # Print lineup details
-        print(f"\n🏆 VALIDATED LINEUP ANALYSIS:")
-        print(f"  💰 Salary: ${lineup['total_salary']:,}")
-        print(f"  🎯 Projected FPPG: {lineup['total_fppg']:.1f}")
-        print(f"  ✅ Avg Validation Score: {lineup['avg_validation_score']:.1f}/100")
+        print(f"\nLINEUP: VALIDATED LINEUP ANALYSIS:")
+        print(f"  MONEY: Salary: ${lineup['total_salary']:,}")
+        print(f"  TARGET: Projected FPPG: {lineup['total_fppg']:.1f}")
+        print(f"  SUCCESS: Avg Validation Score: {lineup['avg_validation_score']:.1f}/100")
         
-        print(f"\n👥 PLAYER BREAKDOWN:")
+        print(f"\nOWNERSHIP: PLAYER BREAKDOWN:")
         for player in players:
             name = f"{player['First Name']} {player['Last Name']}"
             pos = player['Roster Position']
@@ -326,7 +326,7 @@ class PlayerValidator:
             val_score = player['validation_score']
             issues = player['validation_issues']
             
-            status = "✅" if val_score >= 90 else "⚠️" if val_score >= 70 else "❌"
+            status = "SUCCESS:" if val_score >= 90 else "WARNING:" if val_score >= 70 else "ERROR:"
             print(f"  {status} {name:20} ({pos:4}) ${salary:5,} | {fppg:5.1f} FPPG | Val: {val_score:3.0f}")
             if issues != 'OK':
                 print(f"      Issues: {issues}")
@@ -335,22 +335,22 @@ class PlayerValidator:
     
     def run_validation(self):
         """Run complete player validation pipeline"""
-        print("🚀 STARTING REAL-TIME PLAYER VALIDATION")
+        print("START: STARTING REAL-TIME PLAYER VALIDATION")
         print("="*60)
         
         # Load slate
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
         
         slate_df = pd.read_csv(slate_file)
-        print(f"📄 Loaded slate with {len(slate_df)} players")
+        print(f" Loaded slate with {len(slate_df)} players")
         
         # Get today's games
         games = self.get_todays_games()
         if not games:
-            print("⚠️ No games found - using slate as-is with warnings")
+            print("WARNING: No games found - using slate as-is with warnings")
             games = []
         
         # Validate players
@@ -363,24 +363,24 @@ class PlayerValidator:
             # Save lineup
             output_file = self.save_validated_lineup(lineup, validated_slate)
             
-            print(f"\n🎉 VALIDATION COMPLETE!")
-            print(f"✅ Created lineup with validated players only")
-            print(f"📁 File: {output_file}")
-            print(f"\n💡 This lineup should perform MUCH better")
+            print(f"\nCOMPLETE: VALIDATION COMPLETE!")
+            print(f"SUCCESS: Created lineup with validated players only")
+            print(f" File: {output_file}")
+            print(f"\nTIP: This lineup should perform MUCH better")
             print(f"   because all players are verified to be playing today!")
             
         else:
-            print("❌ Failed to create validated lineup")
+            print("ERROR: Failed to create validated lineup")
         
         # Save validation data for review
         validation_file = self.data_dir / f"player_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         validated_slate.to_csv(validation_file, index=False)
-        print(f"📊 Validation data saved: {validation_file}")
+        print(f"DATA: Validation data saved: {validation_file}")
         
         return lineup
 
 def main():
-    print("🔍 REAL-TIME PLAYER VALIDATION SYSTEM")
+    print(" REAL-TIME PLAYER VALIDATION SYSTEM")
     print("Preventing the #1 cause of terrible DFS lineups:")
     print("PICKING PLAYERS WHO DON'T EVEN PLAY!")
     print("="*60)
@@ -391,11 +391,11 @@ def main():
         lineup = validator.run_validation()
         
         if lineup:
-            print(f"\n🏆 SUCCESS!")
+            print(f"\nLINEUP: SUCCESS!")
             print(f"   No more picking players who don't play!")
             print(f"   Your lineups should now be competitive!")
         else:
-            print("❌ Validation failed")
+            print("ERROR: Validation failed")
             
     except Exception as e:
         print(f"Error in validation: {e}")

@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 # Load the data files
-print("🔍 Debugging total_bases model training...")
+print(" Debugging total_bases model training...")
 
 # Load hitter boxscores
 print("\n1. Loading hitter boxscores...")
@@ -22,9 +22,9 @@ print(f"   Date range: {log['date'].min()} to {log['date'].max()}")
 required_cols = ['hits', 'doubles', 'triples', 'homeRuns']
 missing_cols = [col for col in required_cols if col not in log.columns]
 if missing_cols:
-    print(f"   ❌ Missing columns: {missing_cols}")
+    print(f"   ERROR: Missing columns: {missing_cols}")
 else:
-    print(f"   ✅ All required columns present: {required_cols}")
+    print(f"   SUCCESS: All required columns present: {required_cols}")
 
 # Load hitter features
 print("\n2. Loading hitter features...")
@@ -111,14 +111,14 @@ try:
     preds = model.predict(X_val)
     mae = mean_absolute_error(y_val, preds)
     
-    print(f"   ✅ Model trained successfully!")
+    print(f"   SUCCESS: Model trained successfully!")
     print(f"   Validation MAE: {mae:.3f}")
     print(f"   Sample predictions vs actual:")
     for i in range(5):
         print(f"     Pred: {preds[i]:.2f} | Actual: {y_val.iloc[i]:.2f}")
         
 except Exception as e:
-    print(f"   ❌ Model training failed: {e}")
+    print(f"   ERROR: Model training failed: {e}")
     import traceback
     traceback.print_exc()
 
@@ -147,6 +147,6 @@ try:
         print(f"   STDERR:\n{result.stderr}")
         
 except Exception as e:
-    print(f"   ❌ Training script test failed: {e}")
+    print(f"   ERROR: Training script test failed: {e}")
 
-print("\n✅ Debug complete!")
+print("\nSUCCESS: Debug complete!")

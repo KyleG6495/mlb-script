@@ -29,7 +29,7 @@ class CeilingLineupOptimizer:
         
     def calculate_ceiling_scores(self, df):
         """Calculate ceiling projections focusing on upside scenarios"""
-        print("🎯 Calculating ceiling-focused projections...")
+        print("TARGET: Calculating ceiling-focused projections...")
         
         # Base ceiling = 90th percentile of recent performance
         df['ceiling_projection'] = df['projected_fppg'] * 1.4  # 40% upside boost
@@ -62,7 +62,7 @@ class CeilingLineupOptimizer:
     
     def calculate_ownership_weights(self, df):
         """Calculate anti-ownership weights for contrarian plays"""
-        print("📊 Calculating ownership fade weights...")
+        print("DATA: Calculating ownership fade weights...")
         
         # Estimate ownership based on salary and projection
         salary_pct = df['Salary'] / df['Salary'].max()
@@ -82,7 +82,7 @@ class CeilingLineupOptimizer:
     
     def create_correlation_groups(self, df):
         """Create game-based correlation groups for stacking"""
-        print("🎲 Creating correlation stacking groups...")
+        print(" Creating correlation stacking groups...")
         
         # Group by game
         game_groups = {}
@@ -187,7 +187,7 @@ class CeilingLineupOptimizer:
     
     def generate_ceiling_lineups(self, df, num_lineups=10):
         """Generate multiple ceiling-focused lineups with different strategies"""
-        print(f"🚀 Generating {num_lineups} ceiling-focused lineups...")
+        print(f"START: Generating {num_lineups} ceiling-focused lineups...")
         
         all_lineups = []
         
@@ -213,21 +213,21 @@ class CeilingLineupOptimizer:
                     lineup['total_ceiling'] = lineup['Ceiling'].sum()
                     all_lineups.append(lineup)
                     
-                    print(f"   ✅ Lineup {i+1} ({strategy}): {lineup['total_ceiling'].sum():.1f} ceiling, ${lineup['total_salary'].sum()}")
+                    print(f"   SUCCESS: Lineup {i+1} ({strategy}): {lineup['total_ceiling'].sum():.1f} ceiling, ${lineup['total_salary'].sum()}")
                     
             except Exception as e:
-                print(f"   ⚠️ Failed to generate lineup {i+1}: {e}")
+                print(f"   WARNING: Failed to generate lineup {i+1}: {e}")
         
         if all_lineups:
             combined_df = pd.concat(all_lineups, ignore_index=True)
             return combined_df
         else:
-            print("❌ Failed to generate any ceiling lineups")
+            print("ERROR: Failed to generate any ceiling lineups")
             return pd.DataFrame()
 
 def optimize_for_ceiling(slate_file=None, output_file=None):
     """Main function to run ceiling optimization"""
-    print("🎯 CEILING LINEUP OPTIMIZER")
+    print("TARGET: CEILING LINEUP OPTIMIZER")
     print("=" * 50)
     print("Targeting 210+ point lineups with high-variance strategies")
     print()
@@ -238,7 +238,7 @@ def optimize_for_ceiling(slate_file=None, output_file=None):
     try:
         # Load slate
         df = pd.read_csv(slate_file)
-        print(f"📊 Loaded {len(df)} players from slate")
+        print(f"DATA: Loaded {len(df)} players from slate")
         
         # Add projected FPPG if missing
         if 'projected_fppg' not in df.columns:
@@ -266,23 +266,23 @@ def optimize_for_ceiling(slate_file=None, output_file=None):
             
             ceiling_lineups.to_csv(output_file, index=False)
             
-            print(f"\n💾 Saved {len(ceiling_lineups)} players in ceiling lineups to: {output_file}")
+            print(f"\n Saved {len(ceiling_lineups)} players in ceiling lineups to: {output_file}")
             
             # Summary stats
             lineups_count = ceiling_lineups['lineup_id'].nunique()
             avg_ceiling = ceiling_lineups.groupby('lineup_id')['total_ceiling'].first().mean()
             max_ceiling = ceiling_lineups.groupby('lineup_id')['total_ceiling'].first().max()
             
-            print(f"📊 Generated {lineups_count} unique ceiling lineups")
-            print(f"🎯 Average ceiling projection: {avg_ceiling:.1f} FPPG")
-            print(f"💥 Maximum ceiling projection: {max_ceiling:.1f} FPPG")
-            print("🚀 These lineups are optimized for tournament upside!")
+            print(f"DATA: Generated {lineups_count} unique ceiling lineups")
+            print(f"TARGET: Average ceiling projection: {avg_ceiling:.1f} FPPG")
+            print(f" Maximum ceiling projection: {max_ceiling:.1f} FPPG")
+            print("START: These lineups are optimized for tournament upside!")
             
         else:
-            print("❌ Failed to generate ceiling lineups")
+            print("ERROR: Failed to generate ceiling lineups")
             
     except Exception as e:
-        print(f"❌ Error in ceiling optimization: {e}")
+        print(f"ERROR: Error in ceiling optimization: {e}")
         import traceback
         traceback.print_exc()
 

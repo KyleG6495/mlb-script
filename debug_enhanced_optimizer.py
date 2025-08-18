@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 def debug_enhanced_optimizer():
-    print("🔍 DEBUGGING ENHANCED OPTIMIZER")
+    print(" DEBUGGING ENHANCED OPTIMIZER")
     print("=" * 40)
     
     # Load slate data
@@ -21,14 +21,14 @@ def debug_enhanced_optimizer():
     print(f"- Injury indicators: {slate_df['Injury Indicator'].value_counts().to_dict()}")
     
     # Simulate the enhanced processing
-    print("\n🧪 Simulating enhancement process...")
+    print("\n Simulating enhancement process...")
     
     # Step 1: Add features
     try:
         features_df = pd.read_csv("../data/prediction_features_enhanced_real_stats.csv")
-        print(f"✅ Features loaded: {len(features_df)} players")
+        print(f"SUCCESS: Features loaded: {len(features_df)} players")
     except:
-        print("⚠️ Features not found")
+        print("WARNING: Features not found")
     
     # Step 2: Create projections
     slate_df['Base_Projection'] = slate_df['FPPG']  # Use existing FPPG
@@ -44,7 +44,7 @@ def debug_enhanced_optimizer():
     print(f"Final projections: {slate_df['Projected_FPPG'].mean():.1f} avg")
     
     # Step 5: Test filtering
-    print("\n🔍 Testing filtering criteria...")
+    print("\n Testing filtering criteria...")
     
     salary_filter = slate_df['Salary'] >= 2000
     proj_filter = slate_df['Projected_FPPG'] > 0
@@ -58,7 +58,7 @@ def debug_enhanced_optimizer():
     print(f"Combined eligible: {len(eligible)} players")
     
     if len(eligible) > 0:
-        print("\n✅ Eligible players found!")
+        print("\nSUCCESS: Eligible players found!")
         print(f"Position breakdown: {eligible['Position'].value_counts().head(10).to_dict()}")
         
         # Test position mapping
@@ -91,11 +91,11 @@ def debug_enhanced_optimizer():
         
         for pos, min_needed in position_requirements.items():
             available = len(eligible[eligible['Primary_Position'] == pos])
-            status = "✅" if available >= min_needed else "❌"
+            status = "SUCCESS:" if available >= min_needed else "ERROR:"
             print(f"{status} {pos}: {available} available (need {min_needed})")
     
     else:
-        print("\n❌ No eligible players found!")
+        print("\nERROR: No eligible players found!")
         print("Checking individual criteria...")
         
         print(f"Players with Salary >= 2000: {salary_filter.sum()}")
@@ -103,11 +103,11 @@ def debug_enhanced_optimizer():
         print(f"Players not injured: {injury_filter.sum()}")
         
         if proj_filter.sum() == 0:
-            print(f"\n🚨 ISSUE: All Projected_FPPG values are <= 0")
+            print(f"\n ISSUE: All Projected_FPPG values are <= 0")
             print(f"Projected_FPPG stats: min={slate_df['Projected_FPPG'].min():.3f}, max={slate_df['Projected_FPPG'].max():.3f}")
         
         if salary_filter.sum() == 0:
-            print(f"\n🚨 ISSUE: All salaries are < 2000")
+            print(f"\n ISSUE: All salaries are < 2000")
             print(f"Salary stats: min=${slate_df['Salary'].min()}, max=${slate_df['Salary'].max()}")
 
 if __name__ == "__main__":

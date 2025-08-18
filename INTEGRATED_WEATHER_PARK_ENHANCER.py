@@ -1,5 +1,5 @@
 """
-🌤️ INTEGRATED WEATHER & PARK ENHANCER
+ INTEGRATED WEATHER & PARK ENHANCER
 Uses your existing weather.py and park factor systems
 """
 
@@ -15,30 +15,30 @@ class IntegratedWeatherParkEnhancer:
     def enhance_projections_with_weather_park(self):
         """Enhance projections using existing weather and park data"""
         
-        print("🌤️ INTEGRATED WEATHER & PARK ENHANCER")
+        print(" INTEGRATED WEATHER & PARK ENHANCER")
         print("="*50)
         
         # Load weather and park data (from your pipeline)
         weather_park_file = "C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\merged_weather_park.csv"
         
         if not os.path.exists(weather_park_file):
-            print("❌ Weather/park data not found. Run the data pipeline first:")
+            print("ERROR: Weather/park data not found. Run the data pipeline first:")
             print("   1. python '19. build_weather_today.py'")
             print("   2. python '20. merge_weather_and_park_factors.py'")
             return
             
         weather_park_df = pd.read_csv(weather_park_file)
-        print(f"✅ Loaded weather/park data: {len(weather_park_df)} games")
+        print(f"SUCCESS: Loaded weather/park data: {len(weather_park_df)} games")
         
         # Load projections
         projections_file = "C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\enhanced_projections_20250812_135729.csv"
         
         if not os.path.exists(projections_file):
-            print("❌ Enhanced projections not found")
+            print("ERROR: Enhanced projections not found")
             return
             
         df = pd.read_csv(projections_file)
-        print(f"✅ Loaded projections: {len(df)} players")
+        print(f"SUCCESS: Loaded projections: {len(df)} players")
         
         # Create team mapping for your system
         team_mapping = {
@@ -140,7 +140,7 @@ class IntegratedWeatherParkEnhancer:
         output_file = f"C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\weather_park_enhanced_{self.timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        print(f"\n✅ Weather & park enhanced projections saved: {output_file}")
+        print(f"\nSUCCESS: Weather & park enhanced projections saved: {output_file}")
         print(f"   Players enhanced: {len(enhanced_df)}")
         print(f"   Average improvement: {enhanced_df['improvement_pct'].mean():.1f}%")
         
@@ -187,15 +187,15 @@ class IntegratedWeatherParkEnhancer:
     def generate_insights(self, enhanced_df):
         """Generate weather and park insights"""
         
-        print(f"\n🌤️ WEATHER & PARK INSIGHTS")
+        print(f"\n WEATHER & PARK INSIGHTS")
         print("="*40)
         
         # Top beneficiaries
         top_helped = enhanced_df.nlargest(10, 'improvement_pct')
-        print(f"\n🔥 TOP WEATHER/PARK BENEFICIARIES:")
+        print(f"\n TOP WEATHER/PARK BENEFICIARIES:")
         for _, player in top_helped.iterrows():
             print(f"   {player['name']} ({player['team']}): +{player['improvement_pct']:.1f}%")
-            print(f"      {player['conditions']}, {player['temperature']:.0f}°F, Park: {player['park_factor']:.3f}")
+            print(f"      {player['conditions']}, {player['temperature']:.0f}F, Park: {player['park_factor']:.3f}")
         
         # Team environments
         team_summary = enhanced_df.groupby('team').agg({
@@ -205,10 +205,10 @@ class IntegratedWeatherParkEnhancer:
             'park_factor': 'first'
         }).sort_values('improvement_pct', ascending=False)
         
-        print(f"\n🏟️ BEST TEAM ENVIRONMENTS:")
+        print(f"\n BEST TEAM ENVIRONMENTS:")
         for team, data in team_summary.head(8).iterrows():
             if data['improvement_pct'] > 0:
-                print(f"   {team}: {data['improvement_pct']:+.1f}% avg | {data['conditions']}, {data['temperature']:.0f}°F")
+                print(f"   {team}: {data['improvement_pct']:+.1f}% avg | {data['conditions']}, {data['temperature']:.0f}F")
         
         # Value spots
         value_spots = enhanced_df[
@@ -216,7 +216,7 @@ class IntegratedWeatherParkEnhancer:
             (enhanced_df['improvement_pct'] > 3)
         ].nlargest(8, 'improvement_pct')
         
-        print(f"\n💎 VALUE SPOTS IN GOOD ENVIRONMENTS:")
+        print(f"\n VALUE SPOTS IN GOOD ENVIRONMENTS:")
         for _, player in value_spots.iterrows():
             print(f"   {player['name']} ({player['team']}): ${player['salary']:,} | +{player['improvement_pct']:.1f}%")
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📋 LINEUP SUMMARY GENERATOR
+INFO: LINEUP SUMMARY GENERATOR
 Shows exactly who is in each lineup with names and positions
 """
 
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 def show_lineup_summary():
     """Show detailed summary of all lineups"""
     
-    logger.info("📋 CURRENT LINEUP SUMMARY")
+    logger.info("INFO: CURRENT LINEUP SUMMARY")
     logger.info("="*80)
     
     try:
@@ -23,7 +23,7 @@ def show_lineup_summary():
         for i, row in df.iterrows():
             lineup_num = i + 1
             logger.info(f"")
-            logger.info(f"🏆 LINEUP {lineup_num} - ${row['Salary']:,} | {row['FPPG']:.1f} FPPG")
+            logger.info(f"LINEUP: LINEUP {lineup_num} - ${row['Salary']:,} | {row['FPPG']:.1f} FPPG")
             logger.info(f"   P:    {row['P_Name']}")
             logger.info(f"   C:    {row['C_Name']}")
             logger.info(f"   1B:   {row['1B_Name']}")
@@ -37,12 +37,12 @@ def show_lineup_summary():
         
         logger.info("")
         logger.info("="*80)
-        logger.info(f"📊 SUMMARY: {len(df)} lineups created")
-        logger.info(f"💰 Salary range: ${df['Salary'].min():,} - ${df['Salary'].max():,}")
-        logger.info(f"📈 FPPG range: {df['FPPG'].min():.1f} - {df['FPPG'].max():.1f}")
+        logger.info(f"DATA: SUMMARY: {len(df)} lineups created")
+        logger.info(f"MONEY: Salary range: ${df['Salary'].min():,} - ${df['Salary'].max():,}")
+        logger.info(f"PROGRESS: FPPG range: {df['FPPG'].min():.1f} - {df['FPPG'].max():.1f}")
         
     except Exception as e:
-        logger.error(f"❌ Error reading lineups: {e}")
+        logger.error(f"ERROR: Error reading lineups: {e}")
 
 if __name__ == "__main__":
     show_lineup_summary()

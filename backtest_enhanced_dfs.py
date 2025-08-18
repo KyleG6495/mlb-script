@@ -191,7 +191,7 @@ class BacktestDFSOptimizer:
         if len(pitchers) > 0:
             prob += lpSum([player_vars[idx] for idx in pitchers.index]) == 1
         else:
-            print("⚠️ No pitchers available!")
+            print("WARNING: No pitchers available!")
             return None
         
         # C constraint
@@ -199,7 +199,7 @@ class BacktestDFSOptimizer:
         if len(catchers) > 0:
             prob += lpSum([player_vars[idx] for idx in catchers.index]) == 1
         else:
-            print("⚠️ No catchers available!")
+            print("WARNING: No catchers available!")
             return None
         
         # 1B constraint  
@@ -207,7 +207,7 @@ class BacktestDFSOptimizer:
         if len(first_base) > 0:
             prob += lpSum([player_vars[idx] for idx in first_base.index]) == 1
         else:
-            print("⚠️ No first basemen available!")
+            print("WARNING: No first basemen available!")
             return None
         
         # 2B constraint
@@ -215,7 +215,7 @@ class BacktestDFSOptimizer:
         if len(second_base) > 0:
             prob += lpSum([player_vars[idx] for idx in second_base.index]) == 1
         else:
-            print("⚠️ No second basemen available!")
+            print("WARNING: No second basemen available!")
             return None
         
         # 3B constraint
@@ -223,7 +223,7 @@ class BacktestDFSOptimizer:
         if len(third_base) > 0:
             prob += lpSum([player_vars[idx] for idx in third_base.index]) == 1
         else:
-            print("⚠️ No third basemen available!")
+            print("WARNING: No third basemen available!")
             return None
         
         # SS constraint
@@ -231,7 +231,7 @@ class BacktestDFSOptimizer:
         if len(shortstops) > 0:
             prob += lpSum([player_vars[idx] for idx in shortstops.index]) == 1
         else:
-            print("⚠️ No shortstops available!")
+            print("WARNING: No shortstops available!")
             return None
         
         # OF constraint (need 3)
@@ -239,7 +239,7 @@ class BacktestDFSOptimizer:
         if len(outfielders) >= 3:
             prob += lpSum([player_vars[idx] for idx in outfielders.index]) == 3
         else:
-            print(f"⚠️ Only {len(outfielders)} outfielders available, need 3!")
+            print(f"WARNING: Only {len(outfielders)} outfielders available, need 3!")
             return None
         
         # Total lineup constraint (9 players: P + C + 1B + 2B + 3B + SS + 3OF)
@@ -249,7 +249,7 @@ class BacktestDFSOptimizer:
         prob.solve(PULP_CBC_CMD(msg=0))
         
         if prob.status != 1:
-            print(f"❌ Optimization failed for {strategy} strategy. Status: {prob.status}")
+            print(f"ERROR: Optimization failed for {strategy} strategy. Status: {prob.status}")
             return None
         
         # Extract lineup
@@ -280,7 +280,7 @@ class BacktestDFSOptimizer:
                 total_ceiling += row['ceiling_fppg']
                 total_floor += row['floor_fppg']
         
-        print(f"✅ {strategy} lineup: {len(lineup)} players, ${total_salary:,}, {total_fppg:.1f} FPPG")
+        print(f"SUCCESS: {strategy} lineup: {len(lineup)} players, ${total_salary:,}, {total_fppg:.1f} FPPG")
         
         return {
             'lineup': lineup,
@@ -324,7 +324,7 @@ class BacktestDFSOptimizer:
         if not lineups:
             return
         
-        print(f"\n📊 LINEUP ANALYSIS")
+        print(f"\nDATA: LINEUP ANALYSIS")
         print("=" * 50)
         
         total_lineups = len(lineups)
@@ -391,14 +391,14 @@ class BacktestDFSOptimizer:
         
         lineup_df = pd.DataFrame(all_lineup_data)
         lineup_df.to_csv(output_file, index=False)
-        print(f"💾 Saved {len(lineups)} lineups to: {output_file}")
+        print(f" Saved {len(lineups)} lineups to: {output_file}")
         
         return lineup_df
 
 def main():
     """Run enhanced DFS optimization for today's slate"""
     
-    print("🏆 ENHANCED DFS OPTIMIZER - TODAY'S SLATE")
+    print("LINEUP: ENHANCED DFS OPTIMIZER - TODAY'S SLATE")
     print("=" * 60)
     print("Generating optimized lineups for today's games")
     print()
@@ -411,7 +411,7 @@ def main():
     df = optimizer.load_fanduel_slate(slate_file)
     
     if df is None or len(df) == 0:
-        print("❌ Could not load slate data")
+        print("ERROR: Could not load slate data")
         return
     
     # Apply enhanced projections
@@ -424,7 +424,7 @@ def main():
     optimizer.analyze_lineups(lineups)
     
     # Show top lineups
-    print(f"\n🏆 TOP 5 ENHANCED LINEUPS:")
+    print(f"\nLINEUP: TOP 5 ENHANCED LINEUPS:")
     print("-" * 60)
     
     # Sort by enhanced FPPG
@@ -442,7 +442,7 @@ def main():
     optimizer.save_lineups(lineups, output_file)
     
     # Compare to your old lineups if available
-    print(f"\n📊 ENHANCED VS ORIGINAL COMPARISON:")
+    print(f"\nDATA: ENHANCED VS ORIGINAL COMPARISON:")
     print("-" * 45)
     
     # Try to load one of your old lineups for comparison
@@ -479,8 +479,8 @@ def main():
         except:
             continue
     
-    print(f"\n✅ ENHANCED BACKTEST COMPLETE!")
-    print(f"🎯 Key Improvements:")
+    print(f"\nSUCCESS: ENHANCED BACKTEST COMPLETE!")
+    print(f"TARGET: Key Improvements:")
     print(f"   - Multi-strategy optimization (floor/balanced/ceiling)")
     print(f"   - Enhanced projection methodology")
     print(f"   - Position scarcity and game environment factors")

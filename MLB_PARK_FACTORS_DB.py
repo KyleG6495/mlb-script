@@ -1,5 +1,5 @@
 """
-🏟️ MLB PARK FACTORS DATABASE
+ MLB PARK FACTORS DATABASE
 Comprehensive ballpark analytics for DFS optimization
 Based on 2024-2025 MLB season data
 """
@@ -490,7 +490,7 @@ class MLBParkFactorsDB:
 
 def main():
     """Generate park factors analysis"""
-    print("🏟️ MLB PARK FACTORS DATABASE")
+    print(" MLB PARK FACTORS DATABASE")
     print("="*40)
     
     db = MLBParkFactorsDB()
@@ -498,22 +498,22 @@ def main():
     # Generate report
     report_df = db.generate_park_factors_report()
     
-    print("\n🔥 MOST HITTER FRIENDLY PARKS:")
+    print("\n MOST HITTER FRIENDLY PARKS:")
     hitter_parks = report_df[report_df['park_category'] == 'Hitter Friendly'].head(8)
     for _, park in hitter_parks.iterrows():
         print(f"   {park['team']}: {park['runs_factor']:.3f} runs, {park['hr_factor']:.3f} HR")
     
-    print("\n❄️ MOST PITCHER FRIENDLY PARKS:")
+    print("\n MOST PITCHER FRIENDLY PARKS:")
     pitcher_parks = report_df[report_df['park_category'] == 'Pitcher Friendly'].head(6)
     for _, park in pitcher_parks.iterrows():
         print(f"   {park['team']}: {park['runs_factor']:.3f} runs, {park['hr_factor']:.3f} HR")
     
-    print("\n🏔️ HIGH ALTITUDE PARKS:")
+    print("\n HIGH ALTITUDE PARKS:")
     high_altitude = report_df[report_df['altitude'] > 1000].sort_values('altitude', ascending=False)
     for _, park in high_altitude.iterrows():
         print(f"   {park['team']}: {park['altitude']} ft altitude, {park['runs_factor']:.3f} runs factor")
     
-    print("\n💨 EXTREME WIND IMPACT PARKS:")
+    print("\n EXTREME WIND IMPACT PARKS:")
     wind_parks = report_df[report_df['wind_impact'] == 'extreme']
     for _, park in wind_parks.iterrows():
         print(f"   {park['team']}: {park['wind_impact']} wind impact")
@@ -521,7 +521,7 @@ def main():
     # Save report
     output_file = "C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\mlb_park_factors_database.csv"
     report_df.to_csv(output_file, index=False)
-    print(f"\n✅ Park factors database saved: {output_file}")
+    print(f"\nSUCCESS: Park factors database saved: {output_file}")
 
 if __name__ == "__main__":
     main()

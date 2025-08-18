@@ -10,10 +10,10 @@ FD_SLATE_PATH = "../fd_current_slate/fd_slate_today.csv"
 OUTPUT_PATH = "../data/pitcher_features_probables.csv"
 
 # Load data
-logging.info(f"📥 Loading merged pitcher features from {MERGED_FEATURES_PATH}")
+logging.info(f" Loading merged pitcher features from {MERGED_FEATURES_PATH}")
 df_merged = pd.read_csv(MERGED_FEATURES_PATH)
 
-logging.info(f"📥 Loading FanDuel slate from {FD_SLATE_PATH}")
+logging.info(f" Loading FanDuel slate from {FD_SLATE_PATH}")
 df_slate = pd.read_csv(FD_SLATE_PATH)
 
 # Filter to probable pitchers
@@ -30,4 +30,4 @@ df_probables = pd.merge(df_merged, probable_pitchers, how="inner", on="name_key"
 # Drop duplicates and save
 df_probables = df_probables.drop_duplicates(subset="name_key")
 df_probables.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"✅ Saved filtered probable pitchers → {OUTPUT_PATH} with {len(df_probables)} rows")
+logging.info(f"SUCCESS: Saved filtered probable pitchers  {OUTPUT_PATH} with {len(df_probables)} rows")

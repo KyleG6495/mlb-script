@@ -143,8 +143,8 @@ def save_lineups(lineups):
     summary_file = f"../data/conservative_lineup_summary_{timestamp}.csv"
     summary_df.to_csv(summary_file, index=False)
     
-    print(f"✅ Saved lineup details: {details_file}")
-    print(f"✅ Saved lineup summary: {summary_file}")
+    print(f"SUCCESS: Saved lineup details: {details_file}")
+    print(f"SUCCESS: Saved lineup summary: {summary_file}")
     
     return details_file, summary_file
 
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     lineups = generate_conservative_lineups(10)
     
     if lineups:
-        print(f"\n🏆 GENERATED {len(lineups)} CONSERVATIVE LINEUPS")
+        print(f"\nLINEUP: GENERATED {len(lineups)} CONSERVATIVE LINEUPS")
         print("=" * 50)
         
         for lineup in lineups:
@@ -163,4 +163,4 @@ if __name__ == "__main__":
         
         save_lineups(lineups)
     else:
-        print("❌ Failed to generate lineups")
+        print("ERROR: Failed to generate lineups")

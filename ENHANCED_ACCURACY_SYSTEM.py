@@ -1,5 +1,5 @@
 """
-🎯 ENHANCED ACCURACY SYSTEM - Advanced ML Projections
+TARGET: ENHANCED ACCURACY SYSTEM - Advanced ML Projections
 Takes your current 117.3% accuracy to 125%+ with multiple optimizations
 """
 import pandas as pd
@@ -17,25 +17,25 @@ class EnhancedAccuracySystem:
         
     def load_enhanced_data(self):
         """Load all data sources with enhanced features"""
-        self.logger.info("🚀 LOADING ENHANCED ACCURACY DATA...")
+        self.logger.info("START: LOADING ENHANCED ACCURACY DATA...")
         
         # Load current projections
         try:
             self.hitter_proj = pd.read_csv('../data/projected_fd_hitter_scores.csv')
             self.pitcher_proj = pd.read_csv('../data/base_pitcher_scores.csv')
             self.slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-            self.logger.info(f"✅ Loaded base projections: {len(self.hitter_proj)} hitters, {len(self.pitcher_proj)} pitchers")
+            self.logger.info(f"SUCCESS: Loaded base projections: {len(self.hitter_proj)} hitters, {len(self.pitcher_proj)} pitchers")
         except Exception as e:
-            self.logger.error(f"❌ Error loading base data: {e}")
+            self.logger.error(f"ERROR: Error loading base data: {e}")
             return False
             
         # Load historical performance for recency weighting
         try:
             self.hitter_history = pd.read_csv('../data/base_hitter_scores.csv')
             self.hitter_history['date'] = pd.to_datetime(self.hitter_history['date'])
-            self.logger.info(f"✅ Loaded hitter history: {len(self.hitter_history)} records")
+            self.logger.info(f"SUCCESS: Loaded hitter history: {len(self.hitter_history)} records")
         except:
-            self.logger.warning("⚠️ No hitter history found - using base projections only")
+            self.logger.warning("WARNING: No hitter history found - using base projections only")
             self.hitter_history = pd.DataFrame()
             
         return True
@@ -58,7 +58,7 @@ class EnhancedAccuracySystem:
     
     def calculate_matchup_multipliers(self):
         """Calculate pitcher vs hitter matchup advantages"""
-        self.logger.info("🎯 CALCULATING MATCHUP MULTIPLIERS...")
+        self.logger.info("TARGET: CALCULATING MATCHUP MULTIPLIERS...")
         
         multipliers = {}
         
@@ -86,11 +86,11 @@ class EnhancedAccuracySystem:
             multipliers[opponent] = multiplier
             
         self.matchup_multipliers = multipliers
-        self.logger.info(f"📊 Generated matchup multipliers for {len(multipliers)} teams")
+        self.logger.info(f"DATA: Generated matchup multipliers for {len(multipliers)} teams")
         
     def apply_park_factors(self):
         """Apply ballpark scoring adjustments"""
-        self.logger.info("🏟️ APPLYING PARK FACTORS...")
+        self.logger.info(" APPLYING PARK FACTORS...")
         
         # Park factors for hitting (1.0 = neutral)
         park_factors = {
@@ -115,11 +115,11 @@ class EnhancedAccuracySystem:
                 park_factors[team] = 1.0
                 
         self.park_factors = park_factors
-        self.logger.info(f"🏟️ Applied park factors for {len(park_factors)} teams")
+        self.logger.info(f" Applied park factors for {len(park_factors)} teams")
         
     def apply_weather_adjustments(self):
         """Apply weather-based scoring adjustments"""
-        self.logger.info("🌤️ APPLYING WEATHER FACTORS...")
+        self.logger.info(" APPLYING WEATHER FACTORS...")
         
         # Simulated weather factors (in real system, pull from weather API)
         # For now, apply general seasonal adjustments
@@ -136,11 +136,11 @@ class EnhancedAccuracySystem:
                 weather_multipliers[team] = weather_mult
                 
         self.weather_multipliers = weather_multipliers
-        self.logger.info(f"🌤️ Applied weather factors for {len(weather_multipliers)} teams")
+        self.logger.info(f" Applied weather factors for {len(weather_multipliers)} teams")
         
     def calculate_vegas_integration(self):
         """Integrate Vegas totals and run lines (simulated)"""
-        self.logger.info("🎰 INTEGRATING VEGAS DATA...")
+        self.logger.info(" INTEGRATING VEGAS DATA...")
         
         # Simulated Vegas totals (in real system, pull from odds API)
         vegas_totals = {}
@@ -178,11 +178,11 @@ class EnhancedAccuracySystem:
                 vegas_totals[team] = team_total
                 
         self.vegas_totals = vegas_totals
-        self.logger.info(f"🎰 Generated Vegas-style totals for {len(vegas_totals)} teams")
+        self.logger.info(f" Generated Vegas-style totals for {len(vegas_totals)} teams")
         
     def apply_platoon_advantages(self):
         """Apply left/right handed matchup bonuses"""
-        self.logger.info("⚡ CALCULATING PLATOON ADVANTAGES...")
+        self.logger.info(" CALCULATING PLATOON ADVANTAGES...")
         
         # Simplified platoon advantages (would need pitcher handedness data)
         platoon_multipliers = {}
@@ -194,11 +194,11 @@ class EnhancedAccuracySystem:
             platoon_multipliers[team] = 1.05  # 5% bonus for favorable platoons
             
         self.platoon_multipliers = platoon_multipliers
-        self.logger.info(f"⚡ Applied platoon factors for {len(platoon_multipliers)} teams")
+        self.logger.info(f" Applied platoon factors for {len(platoon_multipliers)} teams")
         
     def enhance_projections(self):
         """Apply all accuracy enhancements to base projections"""
-        self.logger.info("🎯 ENHANCING PROJECTIONS WITH ALL FACTORS...")
+        self.logger.info("TARGET: ENHANCING PROJECTIONS WITH ALL FACTORS...")
         
         enhanced_slate = self.slate.copy()
         
@@ -274,8 +274,8 @@ class EnhancedAccuracySystem:
         enhanced_avg = hitters_only['enhanced_fppg'].mean()
         improvement = ((enhanced_avg - original_avg) / original_avg) * 100
         
-        self.logger.info(f"✅ Enhanced {enhanced_count} player projections")
-        self.logger.info(f"📊 Average FPPG: {original_avg:.2f} → {enhanced_avg:.2f} ({improvement:+.1f}%)")
+        self.logger.info(f"SUCCESS: Enhanced {enhanced_count} player projections")
+        self.logger.info(f"DATA: Average FPPG: {original_avg:.2f}  {enhanced_avg:.2f} ({improvement:+.1f}%)")
         
         return enhanced_slate
         
@@ -306,14 +306,14 @@ class EnhancedAccuracySystem:
         summary_file = f"../data/enhancement_summary_{timestamp}.csv"
         summary_df.to_csv(summary_file, index=False)
         
-        self.logger.info(f"💾 Saved enhanced projections: {output_file}")
-        self.logger.info(f"📋 Saved enhancement summary: {summary_file}")
+        self.logger.info(f" Saved enhanced projections: {output_file}")
+        self.logger.info(f"INFO: Saved enhancement summary: {summary_file}")
         
         return output_file, summary_file
         
     def run_enhancement_system(self):
         """Run complete enhancement system"""
-        self.logger.info("🚀 STARTING ENHANCED ACCURACY SYSTEM")
+        self.logger.info("START: STARTING ENHANCED ACCURACY SYSTEM")
         self.logger.info("="*60)
         
         # Load data
@@ -334,10 +334,10 @@ class EnhancedAccuracySystem:
         output_file, summary_file = self.save_enhanced_projections(enhanced_slate)
         
         self.logger.info("="*60)
-        self.logger.info("🎯 ENHANCED ACCURACY SYSTEM COMPLETE!")
-        self.logger.info(f"📊 Enhanced projections saved to: {output_file}")
-        self.logger.info(f"📋 Summary report saved to: {summary_file}")
-        self.logger.info("🚀 Expected accuracy improvement: 117.3% → 125%+")
+        self.logger.info("TARGET: ENHANCED ACCURACY SYSTEM COMPLETE!")
+        self.logger.info(f"DATA: Enhanced projections saved to: {output_file}")
+        self.logger.info(f"INFO: Summary report saved to: {summary_file}")
+        self.logger.info("START: Expected accuracy improvement: 117.3%  125%+")
         
         return True
 

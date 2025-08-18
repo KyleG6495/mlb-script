@@ -32,13 +32,13 @@ def create_betting_action_sheet():
         
         # Calculate profit potential
         if difference >= 2.0:
-            priority = "🔥 HIGH"
+            priority = " HIGH"
             risk_level = "LOW"
         elif difference >= 1.0:
-            priority = "⚡ MEDIUM"
+            priority = " MEDIUM"
             risk_level = "LOW"
         else:
-            priority = "📊 SMALL"
+            priority = "DATA: SMALL"
             risk_level = "MEDIUM"
         
         betting_actions.append({
@@ -94,26 +94,26 @@ def save_betting_sheet(betting_df):
     text_file = rf"C:\Users\kgone\OneDrive\Personal_Information\MLB\data\BETTING_ACTIONS_{timestamp}.txt"
     
     with open(text_file, 'w', encoding='utf-8') as f:
-        f.write("🎯 MLB ARBITRAGE BETTING ACTIONS\n")
+        f.write("TARGET: MLB ARBITRAGE BETTING ACTIONS\n")
         f.write("=" * 60 + "\n")
         f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"Total Opportunities: {len(betting_df)}\n\n")
         
         for i, row in betting_df.head(10).iterrows():
-            f.write(f"🎯 OPPORTUNITY #{i+1} - {row['Priority']}\n")
+            f.write(f"TARGET: OPPORTUNITY #{i+1} - {row['Priority']}\n")
             f.write(f"Player: {row['Player']} - {row['Stat']}\n")
-            f.write(f"📊 UNDERDOG FANTASY: {row['UF_Action']}\n")
-            f.write(f"📊 PRIZEPICKS: {row['PP_Action']}\n")
-            f.write(f"💰 BOTH WIN IF: {row['Both_Win_Range']}\n")
-            f.write(f"📈 Line Difference: {row['Line_Difference']:.1f}\n")
-            f.write(f"🎲 Expected: {row['Expected_Outcome']}\n")
+            f.write(f"DATA: UNDERDOG FANTASY: {row['UF_Action']}\n")
+            f.write(f"DATA: PRIZEPICKS: {row['PP_Action']}\n")
+            f.write(f"MONEY: BOTH WIN IF: {row['Both_Win_Range']}\n")
+            f.write(f"PROGRESS: Line Difference: {row['Line_Difference']:.1f}\n")
+            f.write(f" Expected: {row['Expected_Outcome']}\n")
             f.write("-" * 50 + "\n\n")
     
     return excel_file, text_file
 
 def main():
     """Create and save the betting action sheet"""
-    print("🎯 Creating Betting Action Sheet...")
+    print("TARGET: Creating Betting Action Sheet...")
     
     try:
         # Create betting recommendations
@@ -122,21 +122,21 @@ def main():
         # Save files
         excel_file, text_file = save_betting_sheet(betting_df)
         
-        print(f"✅ Betting Action Sheet Created!")
-        print(f"📊 Excel: {excel_file}")
-        print(f"📄 Text: {text_file}")
-        print(f"\n🔥 TOP 5 BETTING OPPORTUNITIES:")
+        print(f"SUCCESS: Betting Action Sheet Created!")
+        print(f"DATA: Excel: {excel_file}")
+        print(f" Text: {text_file}")
+        print(f"\n TOP 5 BETTING OPPORTUNITIES:")
         print("=" * 60)
         
         for i, row in betting_df.head(5).iterrows():
             print(f"\n{row['Priority']} {row['Player']} - {row['Stat']}")
             print(f"   Underdog: {row['UF_Action']}")
             print(f"   PrizePicks: {row['PP_Action']}")
-            print(f"   💰 Both win if: {row['Both_Win_Range']}")
-            print(f"   📈 Difference: {row['Line_Difference']:.1f}")
+            print(f"   MONEY: Both win if: {row['Both_Win_Range']}")
+            print(f"   PROGRESS: Difference: {row['Line_Difference']:.1f}")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

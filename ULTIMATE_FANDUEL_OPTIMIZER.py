@@ -25,7 +25,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 try:
     from FANDUEL_PREVENTION_SYSTEM import FanDuelLineupValidator
 except ImportError:
-    print("⚠️ Warning: Prevention system not available")
+    print("WARNING: Warning: Prevention system not available")
     FanDuelLineupValidator = None
 
 # Setup logging
@@ -35,16 +35,16 @@ logger = logging.getLogger(__name__)
 def ultimate_fanduel_optimization():
     """The ultimate optimizer using ALL our latest tools"""
     
-    logger.info("🚀 ULTIMATE FANDUEL OPTIMIZER")
+    logger.info("START: ULTIMATE FANDUEL OPTIMIZER")
     logger.info("=" * 60)
-    logger.info("🎯 Using ALL Latest & Greatest Tools")
+    logger.info("TARGET: Using ALL Latest & Greatest Tools")
     
     # 1. START with FanDuel slate as master constraint
     fd_slate_file = "../fd_current_slate/fd_slate_today.csv"
     df_slate = pd.read_csv(fd_slate_file)
     
-    logger.info(f"✅ FanDuel Master Slate: {len(df_slate)} players")
-    logger.info(f"📊 Games: {len(df_slate['Game'].unique())} games")
+    logger.info(f"SUCCESS: FanDuel Master Slate: {len(df_slate)} players")
+    logger.info(f"DATA: Games: {len(df_slate['Game'].unique())} games")
     
     # 2. Load ALL our enhanced datasets
     datasets = load_all_enhanced_datasets()
@@ -75,59 +75,59 @@ def load_all_enhanced_datasets():
     # Enhanced features
     try:
         datasets['hitter_features'] = pd.read_csv("../data/aggregated_hitter_features_2025.csv")
-        logger.info(f"✅ Enhanced Hitters: {len(datasets['hitter_features'])} rows")
+        logger.info(f"SUCCESS: Enhanced Hitters: {len(datasets['hitter_features'])} rows")
     except:
-        logger.warning("⚠️ No enhanced hitter features")
+        logger.warning("WARNING: No enhanced hitter features")
         datasets['hitter_features'] = pd.DataFrame()
     
     try:
         datasets['pitcher_features'] = pd.read_csv("../data/aggregated_pitcher_features_2025.csv")
-        logger.info(f"✅ Enhanced Pitchers: {len(datasets['pitcher_features'])} rows")
+        logger.info(f"SUCCESS: Enhanced Pitchers: {len(datasets['pitcher_features'])} rows")
     except:
-        logger.warning("⚠️ No enhanced pitcher features")
+        logger.warning("WARNING: No enhanced pitcher features")
         datasets['pitcher_features'] = pd.DataFrame()
     
     # Weather enhancements - use the LATEST
     try:
         datasets['real_weather'] = pd.read_csv("../data/real_weather_enhanced_20250812_171640.csv")
-        logger.info(f"✅ Real Weather Enhanced: {len(datasets['real_weather'])} rows")
+        logger.info(f"SUCCESS: Real Weather Enhanced: {len(datasets['real_weather'])} rows")
     except:
         try:
             datasets['real_weather'] = pd.read_csv("../data/real_weather_enhanced_20250812_145313.csv")
-            logger.info(f"✅ Real Weather Enhanced (alt): {len(datasets['real_weather'])} rows")
+            logger.info(f"SUCCESS: Real Weather Enhanced (alt): {len(datasets['real_weather'])} rows")
         except:
-            logger.warning("⚠️ No real weather data")
+            logger.warning("WARNING: No real weather data")
             datasets['real_weather'] = pd.DataFrame()
     
     # Park factors
     try:
         datasets['weather_park'] = pd.read_csv("../data/weather_park_enhanced_20250812_144913.csv")
-        logger.info(f"✅ Weather/Park Enhanced: {len(datasets['weather_park'])} rows")
+        logger.info(f"SUCCESS: Weather/Park Enhanced: {len(datasets['weather_park'])} rows")
     except:
-        logger.warning("⚠️ No weather/park data")
+        logger.warning("WARNING: No weather/park data")
         datasets['weather_park'] = pd.DataFrame()
     
     # ML projections
     try:
         datasets['weather_projections'] = pd.read_csv("../data/weather_enhanced_projections_20250812_144205.csv")
-        logger.info(f"✅ Weather ML Projections: {len(datasets['weather_projections'])} rows")
+        logger.info(f"SUCCESS: Weather ML Projections: {len(datasets['weather_projections'])} rows")
     except:
-        logger.warning("⚠️ No weather ML projections")
+        logger.warning("WARNING: No weather ML projections")
         datasets['weather_projections'] = pd.DataFrame()
     
     # Base scores
     try:
         datasets['base_hitter_scores'] = pd.read_csv("../data/base_hitter_scores.csv")
-        logger.info(f"✅ Base Hitter Scores: {len(datasets['base_hitter_scores'])} rows")
+        logger.info(f"SUCCESS: Base Hitter Scores: {len(datasets['base_hitter_scores'])} rows")
     except:
-        logger.warning("⚠️ No base hitter scores")
+        logger.warning("WARNING: No base hitter scores")
         datasets['base_hitter_scores'] = pd.DataFrame()
     
     try:
         datasets['base_pitcher_scores'] = pd.read_csv("../data/base_pitcher_scores.csv")
-        logger.info(f"✅ Base Pitcher Scores: {len(datasets['base_pitcher_scores'])} rows")
+        logger.info(f"SUCCESS: Base Pitcher Scores: {len(datasets['base_pitcher_scores'])} rows")
     except:
-        logger.warning("⚠️ No base pitcher scores")
+        logger.warning("WARNING: No base pitcher scores")
         datasets['base_pitcher_scores'] = pd.DataFrame()
     
     return datasets
@@ -135,7 +135,7 @@ def load_all_enhanced_datasets():
 def create_ultimate_player_dataset(df_slate, datasets):
     """Create the ultimate enhanced player dataset"""
     
-    logger.info("\n🔬 CREATING ULTIMATE PLAYER DATASET")
+    logger.info("\n CREATING ULTIMATE PLAYER DATASET")
     
     ultimate_players = []
     
@@ -170,7 +170,7 @@ def create_ultimate_player_dataset(df_slate, datasets):
     
     df_ultimate = pd.DataFrame(ultimate_players)
     
-    logger.info(f"✅ Ultimate Dataset Created: {len(df_ultimate)} players")
+    logger.info(f"SUCCESS: Ultimate Dataset Created: {len(df_ultimate)} players")
     
     return df_ultimate
 
@@ -346,7 +346,7 @@ def calculate_ultimate_projection(player_data):
 def apply_ultimate_ml_strategy(df_ultimate, datasets):
     """Apply ultimate ML tournament strategy"""
     
-    logger.info("\n🧠 APPLYING ULTIMATE ML STRATEGY")
+    logger.info("\n APPLYING ULTIMATE ML STRATEGY")
     
     # Add tournament strategy factors
     df_ultimate['ownership_projection'] = np.random.uniform(0.05, 0.45, len(df_ultimate))  # Simulate ownership
@@ -357,14 +357,14 @@ def apply_ultimate_ml_strategy(df_ultimate, datasets):
     # Tournament value = projection / (ownership^0.5) for contrarian value
     df_ultimate['tournament_value'] = df_ultimate['ultimate_projection'] / (df_ultimate['ownership_projection'] ** 0.5)
     
-    logger.info("✅ Tournament strategy factors applied")
+    logger.info("SUCCESS: Tournament strategy factors applied")
     
     return df_ultimate
 
 def apply_game_based_weather_analysis(df_ultimate, datasets):
     """Apply game-based weather analysis"""
     
-    logger.info("\n🌤️ APPLYING GAME-BASED WEATHER ANALYSIS")
+    logger.info("\n APPLYING GAME-BASED WEATHER ANALYSIS")
     
     # Group by game and apply game-specific factors
     for game in df_ultimate['game'].unique():
@@ -383,14 +383,14 @@ def apply_game_based_weather_analysis(df_ultimate, datasets):
         df_ultimate.loc[mask, 'ultimate_projection'] *= game_factor
         df_ultimate.loc[mask, 'value_score'] = (df_ultimate.loc[mask, 'ultimate_projection'] * 1000) / df_ultimate.loc[mask, 'salary']
     
-    logger.info("✅ Game-based weather analysis applied")
+    logger.info("SUCCESS: Game-based weather analysis applied")
     
     return df_ultimate
 
 def generate_elite_lineups(df_ultimate):
     """Generate elite lineups using multiple strategies"""
     
-    logger.info("\n🏆 GENERATING ELITE LINEUPS")
+    logger.info("\nLINEUP: GENERATING ELITE LINEUPS")
     
     lineups = []
     strategies = [
@@ -402,7 +402,7 @@ def generate_elite_lineups(df_ultimate):
     ]
     
     for i, (strategy_name, description) in enumerate(strategies):
-        logger.info(f"\n🎯 Strategy {i+1}: {strategy_name} ({description})")
+        logger.info(f"\nTARGET: Strategy {i+1}: {strategy_name} ({description})")
         
         lineup = optimize_lineup_by_strategy(df_ultimate, strategy_name, used_lineups=lineups)
         if lineup:
@@ -498,14 +498,14 @@ def display_elite_lineup(lineup, strategy):
     
     logger.info(f"  Strategy: {strategy}")
     for pos, player in lineup.items():
-        confidence_stars = "⭐" * int(player['projection_confidence'] * 5)
-        weather_icon = "🌤️" if player['weather_boost'] > 1.05 else ""
+        confidence_stars = "" * int(player['projection_confidence'] * 5)
+        weather_icon = "" if player['weather_boost'] > 1.05 else ""
         
         logger.info(f"  {pos:>4}: {player['name']:<20} | ${player['salary']:<5} | {player['ultimate_projection']:.1f} FPPG | {confidence_stars} {weather_icon}")
         total_salary += player['salary']
         total_projection += player['ultimate_projection']
     
-    logger.info(f"  💰 Total: ${total_salary:,} | 📊 ULTIMATE Projection: {total_projection:.1f} FPPG")
+    logger.info(f"  MONEY: Total: ${total_salary:,} | DATA: ULTIMATE Projection: {total_projection:.1f} FPPG")
 
 def save_ultimate_lineups(lineups, df_ultimate):
     """Save ultimate optimized lineups"""
@@ -582,24 +582,24 @@ def save_ultimate_lineups(lineups, df_ultimate):
     enhanced_file = f"../data/ULTIMATE_ENHANCED_PLAYERS_{timestamp}.csv"
     df_ultimate.to_csv(enhanced_file, index=False)
     
-    # 🛡️ AUTOMATIC FANDUEL VALIDATION & FIXING (NEW!)
-    logger.info(f"\n🛡️ RUNNING AUTOMATIC FANDUEL VALIDATION...")
+    #  AUTOMATIC FANDUEL VALIDATION & FIXING (NEW!)
+    logger.info(f"\n RUNNING AUTOMATIC FANDUEL VALIDATION...")
     if FanDuelLineupValidator:
         try:
             validator = FanDuelLineupValidator()
             validator.fix_all_issues()
-            logger.info("✅ All FanDuel submission issues automatically prevented!")
+            logger.info("SUCCESS: All FanDuel submission issues automatically prevented!")
         except Exception as e:
-            logger.warning(f"⚠️ Validation warning: {e}")
+            logger.warning(f"WARNING: Validation warning: {e}")
     else:
-        logger.warning("⚠️ Prevention system not available - manual validation recommended")
+        logger.warning("WARNING: Prevention system not available - manual validation recommended")
     
-    logger.info(f"\n💾 ULTIMATE FILES SAVED:")
-    logger.info(f"📋 Lineups: {submission_file}")
-    logger.info(f"📊 Summary: {summary_file}")
-    logger.info(f"🔬 Enhanced Dataset: {enhanced_file}")
+    logger.info(f"\n ULTIMATE FILES SAVED:")
+    logger.info(f"INFO: Lineups: {submission_file}")
+    logger.info(f"DATA: Summary: {summary_file}")
+    logger.info(f" Enhanced Dataset: {enhanced_file}")
     
-    logger.info(f"\n🏆 ULTIMATE LINEUP SUMMARY:")
+    logger.info(f"\nLINEUP: ULTIMATE LINEUP SUMMARY:")
     for _, row in df_summary.iterrows():
         logger.info(f"  {row['Strategy']:>12}: {row['ULTIMATE_Projection']} FPPG | ${row['Total_Salary']:,} | Value: {row['Value_Score']}")
 

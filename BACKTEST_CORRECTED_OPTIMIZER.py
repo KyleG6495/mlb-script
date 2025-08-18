@@ -15,12 +15,12 @@ def backtest_corrected_optimizer():
     import glob
     lineup_files = glob.glob(r"c:\Users\kgone\OneDrive\Personal_Information\MLB\data\CORRECTED_TOURNAMENT_LINEUPS_*.csv")
     if not lineup_files:
-        print("❌ No corrected lineups found! Run CORRECTED_TOURNAMENT_OPTIMIZER.py first")
+        print("ERROR: No corrected lineups found! Run CORRECTED_TOURNAMENT_OPTIMIZER.py first")
         return
     
     latest_lineups = sorted(lineup_files)[-1]
     filename = latest_lineups.split('\\')[-1]
-    print(f"📊 Loading: {filename}")
+    print(f"DATA: Loading: {filename}")
     
     lineups_df = pd.read_csv(latest_lineups)
     
@@ -73,22 +73,22 @@ def backtest_corrected_optimizer():
         print(f"Our Original Best: 139.9")
         
         if total_actual >= 306.0:
-            print("🏆 CHAMPION! Would have WON the tournament!")
+            print("LINEUP: CHAMPION! Would have WON the tournament!")
             status = "WINNER"
         elif total_actual >= 280.0:
-            print("🥇 ELITE! Top 3 finish!")
+            print(" ELITE! Top 3 finish!")
             status = "TOP_3"
         elif total_actual >= 250.0:
-            print("🎯 EXCELLENT! Top 10 finish!")
+            print("TARGET: EXCELLENT! Top 10 finish!")
             status = "TOP_10"
         elif total_actual >= 200.0:
-            print("✅ GREAT! Solid finish!")
+            print("SUCCESS: GREAT! Solid finish!")
             status = "SOLID"
         elif total_actual >= 160.0:
-            print("📈 GOOD! Better than original!")
+            print("PROGRESS: GOOD! Better than original!")
             status = "BETTER"
         else:
-            print("❌ POOR! Worse than original")
+            print("ERROR: POOR! Worse than original")
             status = "WORSE"
         
         improvement = total_actual - 139.9
@@ -116,7 +116,7 @@ def backtest_corrected_optimizer():
         print(f"{row['Strategy']:20} | {row['Projected_Score']:8.1f} | {row['Actual_Score']:6.1f} | {row['Status']:8} | {row['Improvement']:+6.1f}")
     
     best_strategy = results_df.iloc[0]
-    print(f"\n🏆 BEST STRATEGY: {best_strategy['Strategy']}")
+    print(f"\nLINEUP: BEST STRATEGY: {best_strategy['Strategy']}")
     print(f"   Actual Score: {best_strategy['Actual_Score']:.1f}")
     print(f"   Would finish: {best_strategy['Status']}")
     print(f"   Improvement: {best_strategy['Improvement']:+.1f} vs original")
@@ -132,17 +132,17 @@ def backtest_corrected_optimizer():
     print(f"Strategies better than original: {improved_strategies}/5")
     
     if winning_strategies > 0:
-        print("\n🎉 SUCCESS! Our corrected optimizer CAN WIN tournaments!")
-        print("🚀 READY to deploy this approach for today's slate!")
+        print("\nCOMPLETE: SUCCESS! Our corrected optimizer CAN WIN tournaments!")
+        print("START: READY to deploy this approach for today's slate!")
     elif top_strategies > 0:
-        print("\n✅ GOOD! Our corrected optimizer is tournament competitive!")
-        print("🔧 Minor tweaks needed for consistent wins")
+        print("\nSUCCESS: GOOD! Our corrected optimizer is tournament competitive!")
+        print("STEP: Minor tweaks needed for consistent wins")
     elif improved_strategies >= 3:
-        print("\n📈 PROGRESS! Significant improvement over original")
-        print("🔧 Need more refinement for tournament wins")
+        print("\nPROGRESS: PROGRESS! Significant improvement over original")
+        print("STEP: Need more refinement for tournament wins")
     else:
-        print("\n❌ NEEDS WORK! Corrected optimizer isn't consistently better")
-        print("🔧 Major revisions needed")
+        print("\nERROR: NEEDS WORK! Corrected optimizer isn't consistently better")
+        print("STEP: Major revisions needed")
     
     return results_df
 

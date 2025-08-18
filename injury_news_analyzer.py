@@ -59,7 +59,7 @@ class InjuryNewsAnalyzer:
             return sample_news
             
         except Exception as e:
-            print(f"⚠️ Error getting news for {player_name}: {e}")
+            print(f"WARNING: Error getting news for {player_name}: {e}")
             return []
     
     def analyze_news_sentiment(self, news_items):
@@ -166,7 +166,7 @@ class InjuryNewsAnalyzer:
     def enhance_predictions_with_news(self, predictions_df):
         """Apply news-based adjustments to predictions"""
         
-        print("📰 ANALYZING PLAYER NEWS & INJURY STATUS")
+        print(" ANALYZING PLAYER NEWS & INJURY STATUS")
         print("=" * 50)
         
         enhanced_predictions = predictions_df.copy()
@@ -183,7 +183,7 @@ class InjuryNewsAnalyzer:
                 sentiment = self.analyze_news_sentiment(news_items)
                 adjustment = self.get_prediction_adjustment(sentiment)
                 
-                print(f"📊 {player_name}: {sentiment['overall_status']} ({adjustment:.0%})")
+                print(f"DATA: {player_name}: {sentiment['overall_status']} ({adjustment:.0%})")
                 
                 # Apply adjustment to all stats
                 stats_to_adjust = ['hits', 'total_bases', 'runs', 'rbi', 'home_runs']
@@ -239,9 +239,9 @@ def main():
     enhanced_preds, news_analysis = analyzer.enhance_predictions_with_news(sample_predictions)
     alerts = analyzer.generate_injury_alerts(news_analysis)
     
-    print(f"\n🚨 INJURY/NEWS ALERTS:")
+    print(f"\n INJURY/NEWS ALERTS:")
     for alert in alerts:
-        print(f"⚠️ {alert['player']}: {alert['risk_level']}")
+        print(f"WARNING: {alert['player']}: {alert['risk_level']}")
         print(f"   Recommendation: {alert['recommendation']}")
         print(f"   Concerns: {', '.join(alert['concerns'])}")
         print()

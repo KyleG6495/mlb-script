@@ -5,8 +5,8 @@ ADVANCED PROP MODEL ENHANCER
 Next-generation prop betting model with advanced features for higher win rates.
 
 Target Improvements:
-- PrizePicks: 49.1% → 70%+ win rate
-- Total Bases: 50% → 65%+ win rate  
+- PrizePicks: 49.1%  70%+ win rate
+- Total Bases: 50%  65%+ win rate  
 - Overall edge: Increase betting value by 25%+
 
 Key Features:
@@ -33,14 +33,14 @@ try:
     HAS_XGB = True
 except ImportError:
     HAS_XGB = False
-    print("⚠️ XGBoost not available - will use other models")
+    print("WARNING: XGBoost not available - will use other models")
 
 try:
     import lightgbm as lgb  # type: ignore
     HAS_LGB = True
 except ImportError:
     HAS_LGB = False
-    print("⚠️ LightGBM not available - will use other models")
+    print("WARNING: LightGBM not available - will use other models")
 
 class AdvancedPropEnhancer:
     def __init__(self):
@@ -55,7 +55,7 @@ class AdvancedPropEnhancer:
         
     def engineer_advanced_features(self, df):
         """Create powerful predictive features for each stat type"""
-        print("🔧 Engineering advanced features...")
+        print("STEP: Engineering advanced features...")
         
         # Sort by player and date
         df = df.sort_values(['nameFirst', 'nameLast', 'date'])
@@ -63,7 +63,7 @@ class AdvancedPropEnhancer:
         enhanced_features = []
         
         for stat in ['hits', 'total_bases', 'runs', 'rbi', 'home_runs']:
-            print(f"   📊 Processing {stat}...")
+            print(f"   DATA: Processing {stat}...")
             
             # 1. RECENCY-WEIGHTED AVERAGES
             for window in [3, 7, 15, 30]:
@@ -94,7 +94,7 @@ class AdvancedPropEnhancer:
             
             # Weather impact
             if 'temperature' in df.columns:
-                df[f'{stat}_temp_interaction'] = df[stat] * (df['temperature'] / 75)  # Normalized to 75°F
+                df[f'{stat}_temp_interaction'] = df[stat] * (df['temperature'] / 75)  # Normalized to 75F
             
             # 4. STREAK INDICATORS
             # Current streak length
@@ -147,7 +147,7 @@ class AdvancedPropEnhancer:
     
     def detect_market_bias(self, predictions_df, lines_df):
         """Detect systematic biases in betting lines"""
-        print("🎯 Detecting market inefficiencies...")
+        print("TARGET: Detecting market inefficiencies...")
         
         merged = predictions_df.merge(lines_df, on=['player', 'date', 'stat_type'])
         
@@ -175,7 +175,7 @@ class AdvancedPropEnhancer:
     
     def train_ensemble_models(self, features_df, target_col, stat_type):
         """Train ensemble of models for specific stat"""
-        print(f"🤖 Training ensemble models for {stat_type}...")
+        print(f" Training ensemble models for {stat_type}...")
         
         # Prepare data
         X = features_df.select_dtypes(include=[np.number])
@@ -187,7 +187,7 @@ class AdvancedPropEnhancer:
         y = y[mask]
         
         if len(X) < 50:
-            print(f"   ⚠️ Insufficient data for {stat_type}: {len(X)} samples")
+            print(f"   WARNING: Insufficient data for {stat_type}: {len(X)} samples")
             return None
         
         # Scale features
@@ -245,7 +245,7 @@ class AdvancedPropEnhancer:
                 model.fit(X, y)
             trained_models[name] = model
             
-            print(f"   📊 {name.upper()}: {avg_score:.3f} accuracy")
+            print(f"   DATA: {name.upper()}: {avg_score:.3f} accuracy")
         
         # Calculate ensemble weights based on performance
         total_score = sum(model_scores.values())
@@ -293,7 +293,7 @@ class AdvancedPropEnhancer:
     
     def generate_enhanced_picks(self, today_features_df, lines_df, market_biases):
         """Generate enhanced prop picks with confidence scoring"""
-        print("🎯 Generating enhanced prop picks...")
+        print("TARGET: Generating enhanced prop picks...")
         
         all_picks = []
         
@@ -369,7 +369,7 @@ class AdvancedPropEnhancer:
 
 def enhance_prop_models():
     """Main function to enhance prop betting models"""
-    print("🚀 ADVANCED PROP MODEL ENHANCER")
+    print("START: ADVANCED PROP MODEL ENHANCER")
     print("=" * 60)
     print("Targeting 70%+ win rates with advanced ML techniques")
     print()
@@ -378,14 +378,14 @@ def enhance_prop_models():
     
     try:
         # This would integrate with your existing data pipeline
-        print("✅ Advanced prop model enhancement framework ready!")
-        print("🎯 Key improvements implemented:")
-        print("   📊 Stat-specific ensemble models")
-        print("   🎯 Market bias detection")
-        print("   ⚡ Confidence-based recommendations")
-        print("   📈 Advanced feature engineering")
+        print("SUCCESS: Advanced prop model enhancement framework ready!")
+        print("TARGET: Key improvements implemented:")
+        print("   DATA: Stat-specific ensemble models")
+        print("   TARGET: Market bias detection")
+        print("    Confidence-based recommendations")
+        print("   PROGRESS: Advanced feature engineering")
         print()
-        print("💡 To activate:")
+        print("TIP: To activate:")
         print("   1. Integrate with your existing training data")
         print("   2. Run train_enhanced_props_model.py with this enhancer")
         print("   3. Update automated_betting_system.py to use new models")
@@ -393,7 +393,7 @@ def enhance_prop_models():
         return enhancer
         
     except Exception as e:
-        print(f"❌ Error enhancing models: {e}")
+        print(f"ERROR: Error enhancing models: {e}")
         import traceback
         traceback.print_exc()
         

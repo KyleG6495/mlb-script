@@ -36,7 +36,7 @@ class PerformanceTracker:
         
     def load_historical_results(self, results_dir="../data"):
         """Load historical actual results for comparison"""
-        logger.info("📊 Loading historical actual results...")
+        logger.info("DATA: Loading historical actual results...")
         
         results_files = []
         
@@ -46,7 +46,7 @@ class PerformanceTracker:
                 results_files.append(file)
         
         if not results_files:
-            logger.warning("❌ No actual results files found")
+            logger.warning("ERROR: No actual results files found")
             return pd.DataFrame()
         
         # Load and combine all results
@@ -56,20 +56,20 @@ class PerformanceTracker:
                 df = pd.read_csv(os.path.join(results_dir, file))
                 df['results_date'] = file.replace('actual_results_', '').replace('.csv', '')
                 all_results.append(df)
-                logger.info(f"✅ Loaded {file}: {len(df)} player results")
+                logger.info(f"SUCCESS: Loaded {file}: {len(df)} player results")
             except Exception as e:
-                logger.warning(f"❌ Failed to load {file}: {e}")
+                logger.warning(f"ERROR: Failed to load {file}: {e}")
         
         if all_results:
             combined_results = pd.concat(all_results, ignore_index=True)
-            logger.info(f"📈 Total historical results: {len(combined_results)} player-games")
+            logger.info(f"PROGRESS: Total historical results: {len(combined_results)} player-games")
             return combined_results
         else:
             return pd.DataFrame()
     
     def load_historical_predictions(self, predictions_dir="../data"):
         """Load historical predictions for comparison"""
-        logger.info("🔮 Loading historical predictions...")
+        logger.info(" Loading historical predictions...")
         
         prediction_files = []
         
@@ -81,7 +81,7 @@ class PerformanceTracker:
                 prediction_files.append(file)
         
         if not prediction_files:
-            logger.warning("❌ No historical prediction files found")
+            logger.warning("ERROR: No historical prediction files found")
             return pd.DataFrame()
         
         # Load recent predictions (last 30 days)
@@ -93,20 +93,20 @@ class PerformanceTracker:
                 date_str = file.replace('enhanced_predictions_', '').replace('.csv', '')
                 df['prediction_date'] = date_str
                 recent_predictions.append(df)
-                logger.info(f"✅ Loaded {file}: {len(df)} predictions")
+                logger.info(f"SUCCESS: Loaded {file}: {len(df)} predictions")
             except Exception as e:
-                logger.warning(f"❌ Failed to load {file}: {e}")
+                logger.warning(f"ERROR: Failed to load {file}: {e}")
         
         if recent_predictions:
             combined_predictions = pd.concat(recent_predictions, ignore_index=True)
-            logger.info(f"🎯 Total historical predictions: {len(combined_predictions)}")
+            logger.info(f"TARGET: Total historical predictions: {len(combined_predictions)}")
             return combined_predictions
         else:
             return pd.DataFrame()
     
     def match_predictions_to_results(self, predictions_df, results_df):
         """Match historical predictions to actual results"""
-        logger.info("🔍 Matching predictions to actual results...")
+        logger.info(" Matching predictions to actual results...")
         
         matched_data = []
         
@@ -155,15 +155,15 @@ class PerformanceTracker:
         
         if matched_data:
             matched_df = pd.DataFrame(matched_data)
-            logger.info(f"✅ Successfully matched {len(matched_df)} prediction-result pairs")
+            logger.info(f"SUCCESS: Successfully matched {len(matched_df)} prediction-result pairs")
             return matched_df
         else:
-            logger.warning("❌ No predictions could be matched to results")
+            logger.warning("ERROR: No predictions could be matched to results")
             return pd.DataFrame()
     
     def calculate_model_accuracy_metrics(self, matched_df):
         """Calculate comprehensive accuracy metrics for each stat"""
-        logger.info("📊 Calculating model accuracy metrics...")
+        logger.info("DATA: Calculating model accuracy metrics...")
         
         metrics = {}
         
@@ -185,7 +185,7 @@ class PerformanceTracker:
                 valid_data = matched_df[[pred_col, actual_col]].dropna()
                 
                 if len(valid_data) < 10:
-                    logger.warning(f"❌ Insufficient data for {stat}: {len(valid_data)} samples")
+                    logger.warning(f"ERROR: Insufficient data for {stat}: {len(valid_data)} samples")
                     continue
                 
                 predictions = valid_data[pred_col].values
@@ -223,14 +223,14 @@ class PerformanceTracker:
                     'directional_accuracy': directional_accuracy
                 }
                 
-                logger.info(f"📈 {stat:12}: MAE={mae:.3f}, R²={r2:.3f}, "
+                logger.info(f"PROGRESS: {stat:12}: MAE={mae:.3f}, R={r2:.3f}, "
                            f"Correlation={correlation:.3f} ({len(valid_data)} samples)")
         
         return metrics
     
     def analyze_betting_performance(self, matched_df, betting_threshold=5.0):
         """Analyze performance of betting recommendations"""
-        logger.info("💰 Analyzing betting performance...")
+        logger.info("MONEY: Analyzing betting performance...")
         
         # Load historical EV opportunities
         ev_files = []
@@ -239,7 +239,7 @@ class PerformanceTracker:
                 ev_files.append(file)
         
         if not ev_files:
-            logger.warning("❌ No historical EV files found")
+            logger.warning("ERROR: No historical EV files found")
             return {}
         
         betting_results = []
@@ -300,10 +300,10 @@ class PerformanceTracker:
                             })
             
             except Exception as e:
-                logger.warning(f"❌ Failed to process {file}: {e}")
+                logger.warning(f"ERROR: Failed to process {file}: {e}")
         
         if not betting_results:
-            logger.warning("❌ No betting results to analyze")
+            logger.warning("ERROR: No betting results to analyze")
             return {}
         
         betting_df = pd.DataFrame(betting_results)
@@ -336,13 +336,13 @@ class PerformanceTracker:
             'expected_value': 'mean'
         }).round(3)
         
-        logger.info(f"🎯 BETTING PERFORMANCE SUMMARY:")
+        logger.info(f"TARGET: BETTING PERFORMANCE SUMMARY:")
         logger.info(f"   Total Bets: {total_bets}")
         logger.info(f"   Win Rate: {win_rate:.1%} (Need 52.4% to break even)")
         logger.info(f"   ROI: {roi:+.1f}%")
         logger.info(f"   Net Profit per $100: ${net_profit / (total_staked / 100):+.2f}")
         
-        logger.info(f"\n📊 PERFORMANCE BY STAT:")
+        logger.info(f"\nDATA: PERFORMANCE BY STAT:")
         for stat in stat_performance.index:
             count = stat_performance.loc[stat, ('bet_won', 'count')]
             wins = stat_performance.loc[stat, ('bet_won', 'sum')]
@@ -354,7 +354,7 @@ class PerformanceTracker:
     
     def generate_performance_report(self, accuracy_metrics, betting_metrics):
         """Generate comprehensive performance report"""
-        logger.info("📋 Generating performance report...")
+        logger.info("INFO: Generating performance report...")
         
         report = {
             'generated_date': datetime.now().isoformat(),
@@ -369,21 +369,21 @@ class PerformanceTracker:
         # Model accuracy recommendations
         for stat, metrics in accuracy_metrics.items():
             if metrics['r2'] < 0.3:
-                recommendations.append(f"⚠️ {stat} model needs improvement (R² = {metrics['r2']:.3f})")
+                recommendations.append(f"WARNING: {stat} model needs improvement (R = {metrics['r2']:.3f})")
             elif metrics['r2'] > 0.7:
-                recommendations.append(f"✅ {stat} model performing well (R² = {metrics['r2']:.3f})")
+                recommendations.append(f"SUCCESS: {stat} model performing well (R = {metrics['r2']:.3f})")
         
         # Betting performance recommendations
         if betting_metrics:
             if betting_metrics['win_rate'] < 0.52:
-                recommendations.append("⚠️ Win rate below break-even - consider higher EV threshold")
+                recommendations.append("WARNING: Win rate below break-even - consider higher EV threshold")
             elif betting_metrics['win_rate'] > 0.55:
-                recommendations.append("✅ Win rate above break-even - profitable strategy")
+                recommendations.append("SUCCESS: Win rate above break-even - profitable strategy")
             
             if betting_metrics['roi_percent'] < -5:
-                recommendations.append("🚨 Negative ROI - review betting strategy")
+                recommendations.append(" Negative ROI - review betting strategy")
             elif betting_metrics['roi_percent'] > 5:
-                recommendations.append("💰 Positive ROI - successful betting strategy")
+                recommendations.append("MONEY: Positive ROI - successful betting strategy")
         
         report['recommendations'] = recommendations
         
@@ -399,10 +399,10 @@ class PerformanceTracker:
         with open(latest_path, 'w') as f:
             json.dump(report, f, indent=2)
         
-        logger.info(f"✅ Performance report saved to {report_path}")
+        logger.info(f"SUCCESS: Performance report saved to {report_path}")
         
         # Print summary
-        logger.info("\n🎉 PERFORMANCE SUMMARY:")
+        logger.info("\nCOMPLETE: PERFORMANCE SUMMARY:")
         for rec in recommendations:
             logger.info(f"   {rec}")
         
@@ -410,7 +410,7 @@ class PerformanceTracker:
     
     def create_performance_visualizations(self, matched_df, accuracy_metrics):
         """Create performance visualization charts"""
-        logger.info("📊 Creating performance visualizations...")
+        logger.info("DATA: Creating performance visualizations...")
         
         try:
             # Set up the plotting style
@@ -423,8 +423,8 @@ class PerformanceTracker:
             r2_scores = [accuracy_metrics[stat]['r2'] for stat in stats]
             
             axes[0, 0].bar(stats, r2_scores, color='skyblue', alpha=0.7)
-            axes[0, 0].set_title('Model Accuracy by Stat Type (R²)')
-            axes[0, 0].set_ylabel('R² Score')
+            axes[0, 0].set_title('Model Accuracy by Stat Type (R)')
+            axes[0, 0].set_ylabel('R Score')
             axes[0, 0].tick_params(axis='x', rotation=45)
             axes[0, 0].axhline(y=0.5, color='red', linestyle='--', alpha=0.5, label='Good Threshold')
             axes[0, 0].legend()
@@ -469,15 +469,15 @@ class PerformanceTracker:
             viz_path = f"../data/performance_analysis_{timestamp}.png"
             plt.savefig(viz_path, dpi=300, bbox_inches='tight')
             
-            logger.info(f"✅ Performance visualization saved to {viz_path}")
+            logger.info(f"SUCCESS: Performance visualization saved to {viz_path}")
             plt.close()
             
         except Exception as e:
-            logger.warning(f"❌ Failed to create visualizations: {e}")
+            logger.warning(f"ERROR: Failed to create visualizations: {e}")
 
 def main():
     """Main performance tracking execution"""
-    print("📊 ENHANCED PERFORMANCE BACKTESTING & TRACKING")
+    print("DATA: ENHANCED PERFORMANCE BACKTESTING & TRACKING")
     print("=" * 55)
     
     tracker = PerformanceTracker()
@@ -487,15 +487,15 @@ def main():
     predictions_df = tracker.load_historical_predictions()
     
     if results_df.empty or predictions_df.empty:
-        print("❌ Insufficient historical data for analysis")
-        print("💡 Collect more data by running the system daily and saving actual results")
+        print("ERROR: Insufficient historical data for analysis")
+        print("TIP: Collect more data by running the system daily and saving actual results")
         return
     
     # Match predictions to results
     matched_df = tracker.match_predictions_to_results(predictions_df, results_df)
     
     if matched_df.empty:
-        print("❌ Could not match predictions to results")
+        print("ERROR: Could not match predictions to results")
         return
     
     # Calculate accuracy metrics
@@ -510,9 +510,9 @@ def main():
     # Create visualizations
     tracker.create_performance_visualizations(matched_df, accuracy_metrics)
     
-    print(f"\n✅ Performance analysis complete!")
-    print(f"📊 Analyzed {len(matched_df)} prediction-result pairs")
-    print(f"💾 Reports saved to performance_report_latest.json")
+    print(f"\nSUCCESS: Performance analysis complete!")
+    print(f"DATA: Analyzed {len(matched_df)} prediction-result pairs")
+    print(f" Reports saved to performance_report_latest.json")
 
 if __name__ == "__main__":
     main()

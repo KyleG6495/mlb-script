@@ -49,11 +49,11 @@ class ModelDrivenArbitrage:
             if model_path.exists():
                 try:
                     self.models[category] = joblib.load(model_path)
-                    logging.info(f"✅ Loaded {category} model")
+                    logging.info(f"SUCCESS: Loaded {category} model")
                 except Exception as e:
-                    logging.warning(f"❌ Failed to load {category} model: {e}")
+                    logging.warning(f"ERROR: Failed to load {category} model: {e}")
             else:
-                logging.warning(f"🔍 Model not found: {model_path}")
+                logging.warning(f" Model not found: {model_path}")
     
     def load_sportsbook_lines(self):
         """Load lines from both PrizePicks and Underdog Fantasy"""
@@ -66,7 +66,7 @@ class ModelDrivenArbitrage:
         # Load PrizePicks
         if os.path.exists(pp_file):
             pp_df = pd.read_excel(pp_file)
-            logging.info(f"📊 Loaded PrizePicks: {len(pp_df)} players")
+            logging.info(f"DATA: Loaded PrizePicks: {len(pp_df)} players")
             
             # Convert to long format for easier processing
             pp_long = pd.melt(
@@ -80,7 +80,7 @@ class ModelDrivenArbitrage:
         # Load Underdog Fantasy
         if os.path.exists(ud_file):
             ud_df = pd.read_csv(ud_file)
-            logging.info(f"📊 Loaded Underdog: {len(ud_df)} props")
+            logging.info(f"DATA: Loaded Underdog: {len(ud_df)} props")
             ud_df['source'] = 'Underdog'
             lines['underdog'] = ud_df
         
@@ -93,7 +93,7 @@ class ModelDrivenArbitrage:
             return {}
         
         df = pd.read_csv(features_file)
-        logging.info(f"📋 Loaded features for {len(df)} players")
+        logging.info(f"INFO: Loaded features for {len(df)} players")
         
         predictions = {}
         
@@ -119,15 +119,15 @@ class ModelDrivenArbitrage:
                 pred_df[f'predicted_{category}'] = preds
                 
                 predictions[category] = pred_df
-                logging.info(f"✅ Generated {category} predictions for {len(pred_df)} players")
+                logging.info(f"SUCCESS: Generated {category} predictions for {len(pred_df)} players")
                 
             except Exception as e:
-                logging.error(f"❌ Failed to predict {category}: {e}")
+                logging.error(f"ERROR: Failed to predict {category}: {e}")
         
         return predictions
     
     def calculate_probability_over_line(self, prediction, line, sigma=1.24):
-        """Calculate P(actual ≥ line) using normal distribution"""
+        """Calculate P(actual  line) using normal distribution"""
         return 1 - stats.norm.cdf(line, loc=prediction, scale=sigma)
     
     def calculate_expected_value(self, prob_over, line, odds=-110):
@@ -309,7 +309,7 @@ class ModelDrivenArbitrage:
                 f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"{'='*60}\n\n")
                 
-                f.write(f"🎯 TOP 10 BETTING OPPORTUNITIES:\n")
+                f.write(f"TARGET: TOP 10 BETTING OPPORTUNITIES:\n")
                 f.write(f"{'-'*60}\n")
                 
                 for i, (_, opp) in enumerate(opps_df.head(10).iterrows(), 1):
@@ -323,43 +323,43 @@ class ModelDrivenArbitrage:
                 medium_conf = len(opps_df[opps_df['confidence'] == 'MEDIUM'])
                 avg_edge = opps_df['edge'].mean()
                 
-                f.write(f"📊 SUMMARY STATISTICS:\n")
+                f.write(f"DATA: SUMMARY STATISTICS:\n")
                 f.write(f"{'-'*30}\n")
                 f.write(f"Total Opportunities: {len(opps_df)}\n")
                 f.write(f"High Confidence: {high_conf}\n")
                 f.write(f"Medium Confidence: {medium_conf}\n")
                 f.write(f"Average Edge: {avg_edge:.2%}\n")
             
-            logging.info(f"✅ Model arbitrage report saved: {opps_file}")
-            logging.info(f"✅ Summary report saved: {summary_file}")
+            logging.info(f"SUCCESS: Model arbitrage report saved: {opps_file}")
+            logging.info(f"SUCCESS: Summary report saved: {summary_file}")
         
         # Cross-book arbitrage
         if arb_ops:
             arb_df = pd.DataFrame(arb_ops)
             arb_file = f"{output_dir}/cross_book_arbitrage_{timestamp}.csv"
             arb_df.to_csv(arb_file, index=False)
-            logging.info(f"✅ Cross-book arbitrage saved: {arb_file}")
+            logging.info(f"SUCCESS: Cross-book arbitrage saved: {arb_file}")
     
     def run_analysis(self, features_file, output_dir):
         """Run complete arbitrage analysis"""
-        logging.info("🚀 Starting Model-Driven Arbitrage Analysis")
+        logging.info("START: Starting Model-Driven Arbitrage Analysis")
         
         # Load models
         self.load_models()
         if not self.models:
-            logging.error("❌ No models loaded. Train models first!")
+            logging.error("ERROR: No models loaded. Train models first!")
             return
         
         # Generate predictions
         predictions = self.generate_predictions(features_file)
         if not predictions:
-            logging.error("❌ No predictions generated")
+            logging.error("ERROR: No predictions generated")
             return
         
         # Load sportsbook lines
         lines = self.load_sportsbook_lines()
         if not lines:
-            logging.error("❌ No sportsbook lines loaded")
+            logging.error("ERROR: No sportsbook lines loaded")
             return
         
         # Find arbitrage opportunities
@@ -369,8 +369,8 @@ class ModelDrivenArbitrage:
         # Generate report
         self.generate_report(opportunities, arb_ops, output_dir)
         
-        logging.info(f"🎯 Found {len(opportunities)} model-based opportunities")
-        logging.info(f"⚡ Found {len(arb_ops)} cross-book arbitrage opportunities")
+        logging.info(f"TARGET: Found {len(opportunities)} model-based opportunities")
+        logging.info(f" Found {len(arb_ops)} cross-book arbitrage opportunities")
 
 def main():
     parser = argparse.ArgumentParser(description="Model-driven arbitrage detection")

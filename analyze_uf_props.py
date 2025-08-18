@@ -10,25 +10,25 @@ from datetime import datetime
 
 def analyze_uf_props():
     """Analyze Underdog Fantasy props"""
-    print("🎲 UNDERDOG FANTASY PROP ANALYZER")
+    print(" UNDERDOG FANTASY PROP ANALYZER")
     print("=" * 45)
     
     try:
         # Load UF data
         df = pd.read_excel('../data/uf_mlb_picks.xlsx')
-        print(f"✅ Loaded {len(df)} Underdog Fantasy props")
+        print(f"SUCCESS: Loaded {len(df)} Underdog Fantasy props")
         
         # Show available stats
         stat_columns = [col for col in df.columns if col not in ['player_name', 'source']]
-        print(f"\n📊 Available Prop Types:")
+        print(f"\nDATA: Available Prop Types:")
         
         for stat in stat_columns:
             non_null = df[stat].notna().sum()
             if non_null > 0:
-                print(f"   • {stat}: {non_null} props")
+                print(f"    {stat}: {non_null} props")
         
         # Analyze each prop type
-        print(f"\n🎯 UNDERDOG FANTASY OPPORTUNITIES:")
+        print(f"\nTARGET: UNDERDOG FANTASY OPPORTUNITIES:")
         print("-" * 40)
         
         opportunities = []
@@ -58,7 +58,7 @@ def analyze_uf_props():
                     print(f"      {row['player_name']}: {row[stat]}")
         
         # Find potential correlations with our models
-        print(f"\n🔗 CORRELATION OPPORTUNITIES:")
+        print(f"\n CORRELATION OPPORTUNITIES:")
         print("-" * 30)
         
         # Look for players that appear in both UF and our enhanced lineups
@@ -80,7 +80,7 @@ def analyze_uf_props():
                 overlap = all_players.intersection(uf_players)
                 
                 if overlap:
-                    print(f"   🎯 {len(overlap)} players in both UF and enhanced lineups:")
+                    print(f"   TARGET: {len(overlap)} players in both UF and enhanced lineups:")
                     for player in sorted(list(overlap))[:5]:
                         # Show their UF props
                         player_props = df[df['player_name'] == player]
@@ -92,21 +92,21 @@ def analyze_uf_props():
                             if props:
                                 print(f"      {player}: {', '.join(props[:2])}")
                 else:
-                    print(f"   ⚠️ No player overlap found")
+                    print(f"   WARNING: No player overlap found")
             else:
-                print(f"   ⚠️ No enhanced lineups found")
+                print(f"   WARNING: No enhanced lineups found")
                 
         except Exception as e:
-            print(f"   ⚠️ Could not check correlations: {e}")
+            print(f"   WARNING: Could not check correlations: {e}")
         
         # Summary stats
-        print(f"\n📈 SUMMARY:")
+        print(f"\nPROGRESS: SUMMARY:")
         print(f"   Total props: {len(df)}")
         print(f"   Unique players: {df['player_name'].nunique()}")
         print(f"   Prop types: {len([col for col in stat_columns if df[col].notna().sum() > 0])}")
         
         # EV ANALYSIS - The key missing piece!
-        print(f"\n🎯 EXPECTED VALUE ANALYSIS:")
+        print(f"\nTARGET: EXPECTED VALUE ANALYSIS:")
         print("=" * 50)
         
         try:
@@ -114,7 +114,7 @@ def analyze_uf_props():
             predictions_file = '../data/today_hitter_features.csv'  # Changed from massive historical file
             if os.path.exists(predictions_file):
                 pred_df = pd.read_csv(predictions_file)
-                print(f"✅ Loaded ML predictions for {len(pred_df)} players (TODAY ONLY)")
+                print(f"SUCCESS: Loaded ML predictions for {len(pred_df)} players (TODAY ONLY)")
                 
                 # Load the actual ML model predictions if available
                 model_predictions = {}
@@ -137,7 +137,7 @@ def analyze_uf_props():
                             model_df['date'] = pd.to_datetime(model_df['date'])
                             model_df = model_df.sort_values('date').groupby('name').tail(1)
                         
-                        print(f"✅ Loaded {len(model_df)} {stat} ML predictions")
+                        print(f"SUCCESS: Loaded {len(model_df)} {stat} ML predictions")
                         
                         for _, row in model_df.iterrows():
                             player_name = row.get('name', '')
@@ -316,12 +316,12 @@ def analyze_uf_props():
                     ev_df = pd.DataFrame(ev_opportunities)
                     ev_df = ev_df.sort_values('edge', ascending=False)
                     
-                    print(f"\n🔥 TOP UNDERDOG FANTASY EV PLAYS:")
+                    print(f"\n TOP UNDERDOG FANTASY EV PLAYS:")
                     print("-" * 60)
                     
                     for i, opp in enumerate(ev_df.head(15).to_dict('records')):
-                        conf_emoji = "🔥" if opp['confidence'] == 'HIGH' else "⚡"
-                        source_emoji = "🤖" if opp.get('source') == 'ML Model' else "📊" if opp.get('source') == 'Season Stats' else "⚠️"
+                        conf_emoji = "" if opp['confidence'] == 'HIGH' else ""
+                        source_emoji = "" if opp.get('source') == 'ML Model' else "DATA:" if opp.get('source') == 'Season Stats' else "WARNING:"
                         print(f"{i+1:2d}. {opp['player']:<20} {opp['stat']:<12} {opp['recommendation']:<5} {opp['line']}")
                         print(f"    {conf_emoji} Pred: {opp['prediction']} | Edge: {opp['edge']}% | {source_emoji} {opp.get('source', 'Unknown')}")
                         print()
@@ -330,7 +330,7 @@ def analyze_uf_props():
                     timestamp = datetime.now().strftime('%Y%m%d_%H%M')
                     ev_file = f'../data/uf_ev_analysis_{timestamp}.csv'
                     ev_df.to_csv(ev_file, index=False)
-                    print(f"💾 Detailed EV analysis saved: {ev_file}")
+                    print(f" Detailed EV analysis saved: {ev_file}")
                     
                     # Show correlation with enhanced lineups
                     try:
@@ -343,39 +343,39 @@ def analyze_uf_props():
                             
                             lineup_props = ev_df[ev_df['player'].isin(lineup_players)]
                             if len(lineup_props) > 0:
-                                print(f"\n🎯 EV PROPS FOR YOUR ENHANCED LINEUP PLAYERS:")
+                                print(f"\nTARGET: EV PROPS FOR YOUR ENHANCED LINEUP PLAYERS:")
                                 print("-" * 50)
                                 for _, prop in lineup_props.head(5).iterrows():
-                                    print(f"✅ {prop['player']}: {prop['stat']} {prop['recommendation']} {prop['line']} ({prop['edge']}% edge)")
+                                    print(f"SUCCESS: {prop['player']}: {prop['stat']} {prop['recommendation']} {prop['line']} ({prop['edge']}% edge)")
                     except:
                         pass
                         
                 else:
-                    print("⚠️ No significant EV opportunities found with current thresholds")
-                    print("💡 Try checking Fantasy Points props or lowering edge requirements")
+                    print("WARNING: No significant EV opportunities found with current thresholds")
+                    print("TIP: Try checking Fantasy Points props or lowering edge requirements")
                     
             else:
-                print("⚠️ ML predictions file not found - run enhanced pipeline first")
+                print("WARNING: ML predictions file not found - run enhanced pipeline first")
                 
         except Exception as e:
-            print(f"⚠️ Could not perform EV analysis: {e}")
+            print(f"WARNING: Could not perform EV analysis: {e}")
             import traceback
             traceback.print_exc()
         
         # Create simple recommendations
-        print(f"\n💡 STRATEGY RECOMMENDATIONS:")
+        print(f"\nTIP: STRATEGY RECOMMENDATIONS:")
         print(f"   1. Focus on high-edge opportunities above (>25% edge)")
         print(f"   2. Cross-reference with your enhanced lineup players") 
         print(f"   3. Consider UF Fantasy Points props for pitchers")
         print(f"   4. Look for low lines on power hitters (HR, Total Bases)")
         
     except Exception as e:
-        print(f"❌ Error analyzing UF props: {e}")
+        print(f"ERROR: Error analyzing UF props: {e}")
         import traceback
         traceback.print_exc()
         
     except Exception as e:
-        print(f"❌ Error analyzing UF props: {e}")
+        print(f"ERROR: Error analyzing UF props: {e}")
         print(f"   Make sure uf_mlb_picks.xlsx exists and is readable")
 
 if __name__ == "__main__":

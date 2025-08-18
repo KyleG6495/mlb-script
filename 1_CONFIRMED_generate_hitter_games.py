@@ -17,16 +17,16 @@ def load_confirmed_starters():
     """Load confirmed starters from the filtered slate"""
     try:
         confirmed_df = pd.read_csv('../fd_current_slate/fd_slate_confirmed_starters_only.csv')
-        logger.info(f"✅ Loaded {len(confirmed_df)} confirmed starters")
+        logger.info(f"SUCCESS: Loaded {len(confirmed_df)} confirmed starters")
         
         # Filter to hitters only
         hitters = confirmed_df[confirmed_df['Position'] != 'P'].copy()
-        logger.info(f"🏏 Confirmed hitters: {len(hitters)}")
+        logger.info(f" Confirmed hitters: {len(hitters)}")
         
         return hitters
     except FileNotFoundError:
-        logger.error("❌ Confirmed starters slate not found!")
-        logger.error("💡 Run DAILY_CONFIRMED_WORKFLOW.bat first")
+        logger.error("ERROR: Confirmed starters slate not found!")
+        logger.error("TIP: Run DAILY_CONFIRMED_WORKFLOW.bat first")
         return None
 
 def extract_hitter_names_from_confirmed(hitters_df):
@@ -53,9 +53,9 @@ def extract_hitter_names_from_confirmed(hitters_df):
         }
         
         hitter_names.append(hitter_info)
-        logger.info(f"📋 Added: {clean_name} ({hitter['Team']}) - ${hitter['Salary']:,}")
+        logger.info(f"INFO: Added: {clean_name} ({hitter['Team']}) - ${hitter['Salary']:,}")
     
-    logger.info(f"✅ Extracted {len(hitter_names)} confirmed hitter names")
+    logger.info(f"SUCCESS: Extracted {len(hitter_names)} confirmed hitter names")
     return hitter_names
 
 def generate_confirmed_hitter_games(hitter_names):
@@ -95,8 +95,8 @@ def generate_confirmed_hitter_games(hitter_names):
     
     games_df = pd.DataFrame(games_data)
     
-    logger.info(f"✅ Generated {len(games_df)} confirmed hitter games")
-    logger.info(f"📊 Breakdown:")
+    logger.info(f"SUCCESS: Generated {len(games_df)} confirmed hitter games")
+    logger.info(f"DATA: Breakdown:")
     logger.info(f"   Home games: {len(games_df[games_df['home_away'] == 'Home'])}")
     logger.info(f"   Away games: {len(games_df[games_df['home_away'] == 'Away'])}")
     
@@ -114,16 +114,16 @@ def save_confirmed_hitter_games(games_df):
     timestamped_file = f'../data/confirmed_hitter_games_{timestamp}.csv'
     games_df.to_csv(timestamped_file, index=False)
     
-    logger.info(f"💾 Saved confirmed hitter games:")
-    logger.info(f"   📁 Main: {main_file}")
-    logger.info(f"   📁 Timestamped: {timestamped_file}")
+    logger.info(f" Saved confirmed hitter games:")
+    logger.info(f"    Main: {main_file}")
+    logger.info(f"    Timestamped: {timestamped_file}")
     
     return main_file
 
 def main():
     """Main function for confirmed hitter games generation"""
-    logger.info("🎯 CONFIRMED STARTERS HITTER GAMES GENERATOR")
-    logger.info("🏏 Processing only confirmed starting hitters")
+    logger.info("TARGET: CONFIRMED STARTERS HITTER GAMES GENERATOR")
+    logger.info(" Processing only confirmed starting hitters")
     logger.info("=" * 60)
     
     # Load confirmed starters
@@ -135,7 +135,7 @@ def main():
     hitter_names = extract_hitter_names_from_confirmed(hitters_df)
     
     if not hitter_names:
-        logger.error("❌ No confirmed hitters found")
+        logger.error("ERROR: No confirmed hitters found")
         return
     
     # Generate games data
@@ -146,11 +146,11 @@ def main():
     
     # Summary
     logger.info("=" * 60)
-    logger.info("🎉 CONFIRMED HITTER GAMES GENERATION COMPLETE!")
-    logger.info(f"✅ Processed {len(games_df)} confirmed starting hitters")
-    logger.info(f"⚡ Much faster than processing entire league!")
-    logger.info(f"📁 Ready for next pipeline step")
-    logger.info("🎯 100% focused on players that will actually play")
+    logger.info("COMPLETE: CONFIRMED HITTER GAMES GENERATION COMPLETE!")
+    logger.info(f"SUCCESS: Processed {len(games_df)} confirmed starting hitters")
+    logger.info(f" Much faster than processing entire league!")
+    logger.info(f" Ready for next pipeline step")
+    logger.info("TARGET: 100% focused on players that will actually play")
 
 if __name__ == "__main__":
     main()

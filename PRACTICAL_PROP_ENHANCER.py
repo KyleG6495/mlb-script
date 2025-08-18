@@ -41,13 +41,13 @@ class PracticalPropEnhancer:
             'low': 0.50            # PASS - No bet
         }
         
-        print("🚀 PRACTICAL PROP BETTING ENHANCER INITIALIZED")
-        print(f"📊 Stat adjustments loaded: {len(self.stat_adjustments)} stats")
-        print(f"🎯 Confidence levels: {len(self.confidence_levels)} tiers")
+        print("START: PRACTICAL PROP BETTING ENHANCER INITIALIZED")
+        print(f"DATA: Stat adjustments loaded: {len(self.stat_adjustments)} stats")
+        print(f"TARGET: Confidence levels: {len(self.confidence_levels)} tiers")
     
     def enhance_existing_predictions(self, predictions_file=None):
         """Enhance your existing prop predictions with better accuracy"""
-        print("\n💰 ENHANCING EXISTING PROP PREDICTIONS")
+        print("\nMONEY: ENHANCING EXISTING PROP PREDICTIONS")
         print("=" * 60)
         
         try:
@@ -60,14 +60,14 @@ class PracticalPropEnhancer:
                 
                 if betting_files:
                     predictions_file = max(betting_files)
-                    print(f"📁 Using latest file: {os.path.basename(predictions_file)}")
+                    print(f" Using latest file: {os.path.basename(predictions_file)}")
                 else:
-                    print("❌ No betting opportunities files found")
+                    print("ERROR: No betting opportunities files found")
                     return None
             
             # Load predictions
             df = pd.read_csv(predictions_file)
-            print(f"📊 Loaded {len(df)} prop predictions")
+            print(f"DATA: Loaded {len(df)} prop predictions")
             
             # Apply stat-specific adjustments
             df['enhanced_prediction'] = df.get('prediction', 0)
@@ -80,7 +80,7 @@ class PracticalPropEnhancer:
                     break
             
             if stat_col:
-                print(f"📊 Using '{stat_col}' column for stat types")
+                print(f"DATA: Using '{stat_col}' column for stat types")
                 
                 for stat, adjustment in self.stat_adjustments.items():
                     # Find rows matching this stat type (case-insensitive)
@@ -88,9 +88,9 @@ class PracticalPropEnhancer:
                     if mask.any():
                         count = mask.sum()
                         df.loc[mask, 'enhanced_prediction'] *= adjustment
-                        print(f"   ✅ {stat}: Applied {adjustment}x to {count} predictions")
+                        print(f"   SUCCESS: {stat}: Applied {adjustment}x to {count} predictions")
             else:
-                print("⚠️ No stat type column found - applying general enhancement")
+                print("WARNING: No stat type column found - applying general enhancement")
                 df['enhanced_prediction'] *= 1.05  # General 5% boost
             
             # Calculate enhanced confidence scores
@@ -145,38 +145,38 @@ class PracticalPropEnhancer:
             strong_yes = len(df[df['enhanced_recommendation'] == 'STRONG YES'])
             yes_bets = len(df[df['enhanced_recommendation'] == 'YES'])
             
-            print(f"\n📈 ENHANCEMENT RESULTS:")
-            print(f"   💎 STRONG YES bets: {strong_yes}")
-            print(f"   ✅ YES bets: {yes_bets}")
-            print(f"   📊 Total recommended: {total_bets}/{len(df)} ({total_bets/len(df)*100:.1f}%)")
-            print(f"   🎯 Selectivity: {(1-total_bets/len(df))*100:.1f}% filtered out")
-            print(f"   💾 Enhanced predictions saved: {output_file}")
+            print(f"\nPROGRESS: ENHANCEMENT RESULTS:")
+            print(f"    STRONG YES bets: {strong_yes}")
+            print(f"   SUCCESS: YES bets: {yes_bets}")
+            print(f"   DATA: Total recommended: {total_bets}/{len(df)} ({total_bets/len(df)*100:.1f}%)")
+            print(f"   TARGET: Selectivity: {(1-total_bets/len(df))*100:.1f}% filtered out")
+            print(f"    Enhanced predictions saved: {output_file}")
             
             return output_file, df
             
         except Exception as e:
-            print(f"❌ Error enhancing predictions: {e}")
+            print(f"ERROR: Error enhancing predictions: {e}")
             import traceback
             traceback.print_exc()
             return None, None
     
     def create_enhanced_betting_report(self, enhanced_df=None, enhanced_file=None):
         """Create a detailed betting report with enhanced recommendations"""
-        print("\n📋 CREATING ENHANCED BETTING REPORT")
+        print("\nINFO: CREATING ENHANCED BETTING REPORT")
         print("=" * 60)
         
         try:
             if enhanced_df is None and enhanced_file:
                 enhanced_df = pd.read_csv(enhanced_file)
             elif enhanced_df is None:
-                print("❌ No enhanced data provided")
+                print("ERROR: No enhanced data provided")
                 return None
             
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             report_file = f"{self.base_dir}/data/enhanced_betting_report_{timestamp}.txt"
             
             with open(report_file, 'w', encoding='utf-8') as f:
-                f.write("🎯 ENHANCED PROP BETTING RECOMMENDATIONS\n")
+                f.write("TARGET: ENHANCED PROP BETTING RECOMMENDATIONS\n")
                 f.write("=" * 80 + "\n")
                 f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"Total props analyzed: {len(enhanced_df)}\n\n")
@@ -184,7 +184,7 @@ class PracticalPropEnhancer:
                 # Strong YES recommendations
                 strong_yes = enhanced_df[enhanced_df['enhanced_recommendation'] == 'STRONG YES']
                 if len(strong_yes) > 0:
-                    f.write(f"💎 STRONG YES RECOMMENDATIONS ({len(strong_yes)} bets - LARGE size)\n")
+                    f.write(f" STRONG YES RECOMMENDATIONS ({len(strong_yes)} bets - LARGE size)\n")
                     f.write("-" * 60 + "\n")
                     
                     for i, (_, row) in enumerate(strong_yes.iterrows(), 1):
@@ -196,14 +196,14 @@ class PracticalPropEnhancer:
                         edge = row.get('betting_edge', 0)
                         
                         f.write(f"{i}. {player}\n")
-                        f.write(f"   📊 {stat.upper()}: Prediction {pred:.2f}, Line {line}\n")
-                        f.write(f"   🎯 Confidence: {conf:.1%} | Edge: {edge:.1%}\n")
-                        f.write(f"   💰 Bet Size: LARGE\n\n")
+                        f.write(f"   DATA: {stat.upper()}: Prediction {pred:.2f}, Line {line}\n")
+                        f.write(f"   TARGET: Confidence: {conf:.1%} | Edge: {edge:.1%}\n")
+                        f.write(f"   MONEY: Bet Size: LARGE\n\n")
                 
                 # YES recommendations
                 yes_bets = enhanced_df[enhanced_df['enhanced_recommendation'] == 'YES']
                 if len(yes_bets) > 0:
-                    f.write(f"✅ YES RECOMMENDATIONS ({len(yes_bets)} bets - MEDIUM size)\n")
+                    f.write(f"SUCCESS: YES RECOMMENDATIONS ({len(yes_bets)} bets - MEDIUM size)\n")
                     f.write("-" * 60 + "\n")
                     
                     for i, (_, row) in enumerate(yes_bets.iterrows(), 1):
@@ -215,14 +215,14 @@ class PracticalPropEnhancer:
                         edge = row.get('betting_edge', 0)
                         
                         f.write(f"{i}. {player}\n")
-                        f.write(f"   📊 {stat.upper()}: Prediction {pred:.2f}, Line {line}\n")
-                        f.write(f"   🎯 Confidence: {conf:.1%} | Edge: {edge:.1%}\n")
-                        f.write(f"   💰 Bet Size: MEDIUM\n\n")
+                        f.write(f"   DATA: {stat.upper()}: Prediction {pred:.2f}, Line {line}\n")
+                        f.write(f"   TARGET: Confidence: {conf:.1%} | Edge: {edge:.1%}\n")
+                        f.write(f"   MONEY: Bet Size: MEDIUM\n\n")
                 
                 # LEAN YES recommendations
                 lean_yes = enhanced_df[enhanced_df['enhanced_recommendation'] == 'LEAN YES']
                 if len(lean_yes) > 0:
-                    f.write(f"📈 LEAN YES RECOMMENDATIONS ({len(lean_yes)} bets - SMALL size)\n")
+                    f.write(f"PROGRESS: LEAN YES RECOMMENDATIONS ({len(lean_yes)} bets - SMALL size)\n")
                     f.write("-" * 60 + "\n")
                     
                     for i, (_, row) in enumerate(lean_yes.head(10).iterrows(), 1):  # Show top 10
@@ -234,35 +234,35 @@ class PracticalPropEnhancer:
                         edge = row.get('betting_edge', 0)
                         
                         f.write(f"{i}. {player}\n")
-                        f.write(f"   📊 {stat.upper()}: Prediction {pred:.2f}, Line {line}\n")
-                        f.write(f"   🎯 Confidence: {conf:.1%} | Edge: {edge:.1%}\n")
-                        f.write(f"   💰 Bet Size: SMALL\n\n")
+                        f.write(f"   DATA: {stat.upper()}: Prediction {pred:.2f}, Line {line}\n")
+                        f.write(f"   TARGET: Confidence: {conf:.1%} | Edge: {edge:.1%}\n")
+                        f.write(f"   MONEY: Bet Size: SMALL\n\n")
                 
                 # Summary statistics
-                f.write("📊 SUMMARY STATISTICS\n")
+                f.write("DATA: SUMMARY STATISTICS\n")
                 f.write("-" * 40 + "\n")
                 f.write(f"Strong YES bets: {len(strong_yes)}\n")
                 f.write(f"YES bets: {len(yes_bets)}\n")
                 f.write(f"Lean YES bets: {len(lean_yes)}\n")
                 f.write(f"Total recommended: {len(enhanced_df[enhanced_df['enhanced_recommendation'] != 'PASS'])}\n")
                 f.write(f"Pass rate: {len(enhanced_df[enhanced_df['enhanced_recommendation'] == 'PASS'])/len(enhanced_df)*100:.1f}%\n")
-                f.write(f"\n💡 Strategy: Focus on STRONG YES for maximum ROI\n")
-                f.write(f"Expected improvement: 57% → 70%+ win rate\n")
+                f.write(f"\nTIP: Strategy: Focus on STRONG YES for maximum ROI\n")
+                f.write(f"Expected improvement: 57%  70%+ win rate\n")
             
-            print(f"📋 Enhanced betting report saved: {report_file}")
-            print(f"💎 Strong YES bets: {len(strong_yes)}")
-            print(f"✅ YES bets: {len(yes_bets)}")
-            print(f"📈 Lean YES bets: {len(lean_yes)}")
+            print(f"INFO: Enhanced betting report saved: {report_file}")
+            print(f" Strong YES bets: {len(strong_yes)}")
+            print(f"SUCCESS: YES bets: {len(yes_bets)}")
+            print(f"PROGRESS: Lean YES bets: {len(lean_yes)}")
             
             return report_file
             
         except Exception as e:
-            print(f"❌ Error creating report: {e}")
+            print(f"ERROR: Error creating report: {e}")
             return None
     
     def analyze_stat_performance(self, backtest_files=None):
         """Analyze performance by stat type to identify improvement areas"""
-        print("\n📊 ANALYZING STAT-SPECIFIC PERFORMANCE")
+        print("\nDATA: ANALYZING STAT-SPECIFIC PERFORMANCE")
         print("=" * 60)
         
         try:
@@ -280,7 +280,7 @@ class PracticalPropEnhancer:
                     all_files.extend(glob.glob(pattern))
                 
                 if not all_files:
-                    print("❌ No backtest files found")
+                    print("ERROR: No backtest files found")
                     return None
                 
                 backtest_files = all_files
@@ -292,16 +292,16 @@ class PracticalPropEnhancer:
                     df = pd.read_csv(file)
                     if 'hit' in df.columns or 'result' in df.columns:
                         all_performance.append(df)
-                        print(f"   📁 Loaded: {os.path.basename(file)} ({len(df)} bets)")
+                        print(f"    Loaded: {os.path.basename(file)} ({len(df)} bets)")
                 except Exception as e:
-                    print(f"   ⚠️ Failed to load {os.path.basename(file)}: {e}")
+                    print(f"   WARNING: Failed to load {os.path.basename(file)}: {e}")
             
             if not all_performance:
-                print("❌ No valid performance data found")
+                print("ERROR: No valid performance data found")
                 return None
             
             combined_df = pd.concat(all_performance, ignore_index=True)
-            print(f"📊 Combined analysis: {len(combined_df)} total bets")
+            print(f"DATA: Combined analysis: {len(combined_df)} total bets")
             
             # Use 'hit' column or 'result' column for win/loss
             result_col = 'hit' if 'hit' in combined_df.columns else 'result'
@@ -312,46 +312,46 @@ class PracticalPropEnhancer:
                 stat_performance.columns = ['stat_type', 'win_rate', 'bet_count']
                 stat_performance = stat_performance.sort_values('win_rate', ascending=False)
                 
-                print("\n📈 PERFORMANCE BY STAT TYPE:")
+                print("\nPROGRESS: PERFORMANCE BY STAT TYPE:")
                 print("-" * 50)
                 for _, row in stat_performance.iterrows():
-                    status = "✅" if row['win_rate'] > 0.60 else "⚠️" if row['win_rate'] > 0.50 else "❌"
+                    status = "SUCCESS:" if row['win_rate'] > 0.60 else "WARNING:" if row['win_rate'] > 0.50 else "ERROR:"
                     print(f"   {status} {row['stat_type']}: {row['win_rate']:.1%} ({row['bet_count']} bets)")
                 
                 # Identify improvement opportunities
                 needs_improvement = stat_performance[stat_performance['win_rate'] < 0.55]
                 performing_well = stat_performance[stat_performance['win_rate'] > 0.65]
                 
-                print(f"\n🎯 IMPROVEMENT OPPORTUNITIES ({len(needs_improvement)} stats):")
+                print(f"\nTARGET: IMPROVEMENT OPPORTUNITIES ({len(needs_improvement)} stats):")
                 for _, row in needs_improvement.iterrows():
                     current_adj = self.stat_adjustments.get(row['stat_type'], 1.0)
                     suggested_adj = current_adj * 1.05  # Suggest 5% increase
-                    print(f"   📊 {row['stat_type']}: {row['win_rate']:.1%} → Suggest {suggested_adj:.2f}x adjustment")
+                    print(f"   DATA: {row['stat_type']}: {row['win_rate']:.1%}  Suggest {suggested_adj:.2f}x adjustment")
                 
-                print(f"\n✅ PERFORMING WELL ({len(performing_well)} stats):")
+                print(f"\nSUCCESS: PERFORMING WELL ({len(performing_well)} stats):")
                 for _, row in performing_well.iterrows():
-                    print(f"   🎯 {row['stat_type']}: {row['win_rate']:.1%} - Keep current approach")
+                    print(f"   TARGET: {row['stat_type']}: {row['win_rate']:.1%} - Keep current approach")
                 
                 # Save analysis
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 analysis_file = f"{self.base_dir}/data/stat_performance_analysis_{timestamp}.csv"
                 stat_performance.to_csv(analysis_file, index=False)
                 
-                print(f"\n💾 Analysis saved: {analysis_file}")
+                print(f"\n Analysis saved: {analysis_file}")
                 return stat_performance
             else:
-                print("⚠️ No stat_type column found for detailed analysis")
+                print("WARNING: No stat_type column found for detailed analysis")
                 overall_rate = combined_df[result_col].mean()
-                print(f"📊 Overall win rate: {overall_rate:.1%}")
+                print(f"DATA: Overall win rate: {overall_rate:.1%}")
                 return overall_rate
                 
         except Exception as e:
-            print(f"❌ Error analyzing performance: {e}")
+            print(f"ERROR: Error analyzing performance: {e}")
             return None
 
     def run_complete_enhancement(self):
         """Run complete prop betting enhancement workflow"""
-        print("🚀 COMPLETE PROP BETTING ENHANCEMENT")
+        print("START: COMPLETE PROP BETTING ENHANCEMENT")
         print("=" * 80)
         print("Boosting win rate from 57% to 70%+ with practical improvements")
         print()
@@ -362,20 +362,20 @@ class PracticalPropEnhancer:
         enhanced_file, enhanced_df = self.enhance_existing_predictions()
         if enhanced_file:
             results['enhanced_predictions'] = enhanced_file
-            print("✅ Step 1: Predictions enhanced")
+            print("SUCCESS: Step 1: Predictions enhanced")
         
         # Step 2: Create enhanced betting report
         if enhanced_df is not None:
             report_file = self.create_enhanced_betting_report(enhanced_df)
             if report_file:
                 results['betting_report'] = report_file
-                print("✅ Step 2: Betting report created")
+                print("SUCCESS: Step 2: Betting report created")
         
         # Step 3: Analyze stat performance
         performance_analysis = self.analyze_stat_performance()
         if performance_analysis is not None:
             results['performance_analysis'] = performance_analysis
-            print("✅ Step 3: Performance analysis completed")
+            print("SUCCESS: Step 3: Performance analysis completed")
         
         # Save complete results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -384,23 +384,23 @@ class PracticalPropEnhancer:
         with open(results_file, 'w') as f:
             json.dump(results, f, indent=2, default=str)
         
-        print(f"\n💾 Complete results saved: {results_file}")
+        print(f"\n Complete results saved: {results_file}")
         
         # Final summary
-        print("\n🎉 PROP BETTING ENHANCEMENT COMPLETE!")
+        print("\nCOMPLETE: PROP BETTING ENHANCEMENT COMPLETE!")
         print("=" * 80)
-        print("🎯 IMMEDIATE ACTIONS:")
+        print("TARGET: IMMEDIATE ACTIONS:")
         if 'betting_report' in results:
             print(f"   1. Review: {os.path.basename(results['betting_report'])}")
         print("   2. Focus on STRONG YES bets for maximum ROI")
         print("   3. Use recommended bet sizing (LARGE/MEDIUM/SMALL)")
         print("   4. Track performance to validate improvements")
         print()
-        print("📈 EXPECTED IMPROVEMENTS:")
-        print("   • Win rate: 57% → 70%+")
-        print("   • Better stat-specific accuracy")
-        print("   • Improved bet selection")
-        print("   • Higher overall profitability")
+        print("PROGRESS: EXPECTED IMPROVEMENTS:")
+        print("    Win rate: 57%  70%+")
+        print("    Better stat-specific accuracy")
+        print("    Improved bet selection")
+        print("    Higher overall profitability")
         
         return results
 

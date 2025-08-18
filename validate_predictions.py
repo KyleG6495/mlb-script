@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 
 def validate_predictions():
-    print("🔍 VALIDATING BETTING PREDICTIONS")
+    print(" VALIDATING BETTING PREDICTIONS")
     print("="*50)
     
     # Load latest betting opportunities
@@ -35,17 +35,17 @@ def validate_predictions():
         
         min_expected, max_expected = ranges[category]
         
-        print(f"\n📊 {category.upper()}:")
+        print(f"\nDATA: {category.upper()}:")
         print(f"  Predictions: {min_pred:.2f} - {max_pred:.2f} (avg: {mean_pred:.2f})")
         print(f"  Expected:    {min_expected} - {max_expected}")
         
         # Flag issues
         if min_pred < min_expected:
-            print(f"  ⚠️  ISSUE: Minimum prediction {min_pred:.2f} below expected {min_expected}")
+            print(f"  WARNING:  ISSUE: Minimum prediction {min_pred:.2f} below expected {min_expected}")
         if max_pred > max_expected:
-            print(f"  ⚠️  ISSUE: Maximum prediction {max_pred:.2f} above expected {max_expected}")
+            print(f"  WARNING:  ISSUE: Maximum prediction {max_pred:.2f} above expected {max_expected}")
         if min_pred < 0:
-            print(f"  ❌ ERROR: Negative predictions found!")
+            print(f"  ERROR: ERROR: Negative predictions found!")
         
         # Show sample lines
         sample_lines = cat_data['line'].unique()[:10]
@@ -58,7 +58,7 @@ def validate_predictions():
         print(f"  Prediction diversity: {unique_preds}/{total_preds} ({diversity:.2%})")
         
         if diversity < 0.5:
-            print(f"  ⚠️  WARNING: Low prediction diversity - possible model overfitting")
+            print(f"  WARNING:  WARNING: Low prediction diversity - possible model overfitting")
 
 if __name__ == "__main__":
     validate_predictions()

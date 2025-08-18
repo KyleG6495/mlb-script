@@ -4,13 +4,13 @@ ENHANCED MODEL TRAINER WITH TIME-SERIES VALIDATION
 =================================================
 
 Major Improvements:
-1. ✅ Time-aware validation (no data leakage)
-2. ✅ Weather & environmental features
-3. ✅ Advanced pitcher matchup analytics
-4. ✅ Market-aware modeling
-5. ✅ Ensemble meta-models
-6. ✅ Real-time feature updates
-7. ✅ Performance backtesting system
+1. SUCCESS: Time-aware validation (no data leakage)
+2. SUCCESS: Weather & environmental features
+3. SUCCESS: Advanced pitcher matchup analytics
+4. SUCCESS: Market-aware modeling
+5. SUCCESS: Ensemble meta-models
+6. SUCCESS: Real-time feature updates
+7. SUCCESS: Performance backtesting system
 
 This replaces the basic train_models.py with professional-grade ML pipeline.
 """
@@ -64,7 +64,7 @@ class EnhancedMLBPredictor:
     
     def engineer_weather_features(self, df):
         """Add weather-based predictive features"""
-        print("🌤️ Engineering weather features...")
+        print(" Engineering weather features...")
         
         # Temperature effects on power
         df['temp_hr_boost'] = np.where(df.get('temperature', 75) > 80, 1.15, 1.0)
@@ -85,7 +85,7 @@ class EnhancedMLBPredictor:
     
     def engineer_pitcher_matchup_features(self, df):
         """Advanced pitcher analytics"""
-        print("⚾ Engineering pitcher matchup features...")
+        print("BASEBALL: Engineering pitcher matchup features...")
         
         # Sort for time-series calculations
         df = df.sort_values(['pitcher_name', 'date'])
@@ -118,7 +118,7 @@ class EnhancedMLBPredictor:
     
     def engineer_advanced_hitter_features(self, df):
         """Enhanced hitter features with rolling windows"""
-        print("🏏 Engineering advanced hitter features...")
+        print(" Engineering advanced hitter features...")
         
         # Sort for time-series
         df = df.sort_values(['player_id', 'date'])
@@ -167,7 +167,7 @@ class EnhancedMLBPredictor:
     
     def adjust_for_market_bias(self, predictions, market_lines, player_features):
         """Market-aware prediction adjustments"""
-        print("💰 Applying market bias corrections...")
+        print("MONEY: Applying market bias corrections...")
         
         adjusted_predictions = predictions.copy()
         
@@ -196,7 +196,7 @@ class EnhancedMLBPredictor:
     
     def create_ensemble_model(self, stat_type):
         """Create advanced ensemble models for each stat"""
-        print(f"🎯 Creating ensemble model for {stat_type}...")
+        print(f"TARGET: Creating ensemble model for {stat_type}...")
         
         # Base models
         models = [
@@ -251,7 +251,7 @@ class EnhancedMLBPredictor:
     
     def time_series_cross_validation(self, X, y, model, n_splits=5):
         """Proper time-aware validation"""
-        print("🕐 Performing time-series cross-validation...")
+        print("TIME: Performing time-series cross-validation...")
         
         tscv = TimeSeriesSplit(n_splits=n_splits)
         scores = {
@@ -278,7 +278,7 @@ class EnhancedMLBPredictor:
     
     def train_stat_model(self, df, stat_name, target_col):
         """Train individual stat model with all enhancements"""
-        print(f"\n🎯 Training {stat_name} model...")
+        print(f"\nTARGET: Training {stat_name} model...")
         
         # Feature engineering
         df_enhanced = df.copy()
@@ -317,26 +317,26 @@ class EnhancedMLBPredictor:
         available_features = [col for col in feature_cols if col in df_enhanced.columns]
         
         if not available_features:
-            print(f"❌ No features available for {stat_name}")
+            print(f"ERROR: No features available for {stat_name}")
             return None
         
         # Prepare data
         df_model = df_enhanced[available_features + [target_col]].dropna()
         if len(df_model) < 50:
-            print(f"❌ Insufficient data for {stat_name}: {len(df_model)} samples")
+            print(f"ERROR: Insufficient data for {stat_name}: {len(df_model)} samples")
             return None
         
         X = df_model[available_features]
         y = df_model[target_col]
         
-        print(f"📊 Training {stat_name}: {len(X)} samples, {len(available_features)} features")
+        print(f"DATA: Training {stat_name}: {len(X)} samples, {len(available_features)} features")
         
         # Create ensemble model
         model = self.create_ensemble_model(stat_name)
         
         # Time-series validation
         cv_scores = self.time_series_cross_validation(X, y, model)
-        print(f"📈 CV Scores - R²: {cv_scores['r2']:.3f}, MAE: {cv_scores['mae']:.3f}, RMSE: {cv_scores['rmse']:.3f}")
+        print(f"PROGRESS: CV Scores - R: {cv_scores['r2']:.3f}, MAE: {cv_scores['mae']:.3f}, RMSE: {cv_scores['rmse']:.3f}")
         
         # Train final model on all data
         model.fit(X, y)
@@ -354,7 +354,7 @@ class EnhancedMLBPredictor:
     
     def backtest_performance(self, model_info, test_data, stat_name):
         """Backtest model performance with betting simulation"""
-        print(f"📊 Backtesting {stat_name} model...")
+        print(f"DATA: Backtesting {stat_name} model...")
         
         if model_info is None:
             return None
@@ -391,7 +391,7 @@ class EnhancedMLBPredictor:
     
     def save_enhanced_models(self, models_dict, output_dir="../models"):
         """Save all trained models with metadata"""
-        print("💾 Saving enhanced models...")
+        print(" Saving enhanced models...")
         
         os.makedirs(output_dir, exist_ok=True)
         
@@ -421,27 +421,27 @@ class EnhancedMLBPredictor:
             with open(metadata_path, 'w') as f:
                 json.dump(metadata, f, indent=2)
             
-            print(f"✅ Saved {stat_name} model: R² = {model_info['cv_scores']['r2']:.3f}")
+            print(f"SUCCESS: Saved {stat_name} model: R = {model_info['cv_scores']['r2']:.3f}")
 
 def main():
-    print("🚀 ENHANCED MLB PREDICTION MODEL TRAINER")
+    print("START: ENHANCED MLB PREDICTION MODEL TRAINER")
     print("=" * 50)
     
     # Initialize predictor
     predictor = EnhancedMLBPredictor()
     
     # Load your enhanced dataset
-    print("📊 Loading enhanced hitter features...")
+    print("DATA: Loading enhanced hitter features...")
     try:
         df = pd.read_csv("../data/hitters_enhanced_features.csv")
-        print(f"✅ Loaded dataset: {df.shape}")
+        print(f"SUCCESS: Loaded dataset: {df.shape}")
     except FileNotFoundError:
-        print("❌ Enhanced features file not found. Using aggregated features...")
+        print("ERROR: Enhanced features file not found. Using aggregated features...")
         try:
             df = pd.read_csv("../data/aggregated_hitter_features_2025.csv")
-            print(f"✅ Loaded aggregated dataset: {df.shape}")
+            print(f"SUCCESS: Loaded aggregated dataset: {df.shape}")
         except FileNotFoundError:
-            print("❌ No training data found. Please run data pipeline first.")
+            print("ERROR: No training data found. Please run data pipeline first.")
             return
     
     # Add date column if missing
@@ -459,7 +459,7 @@ def main():
     train_data = df[df['date'] <= split_date]
     test_data = df[df['date'] > split_date]
     
-    print(f"📊 Time-series split: {len(train_data)} train, {len(test_data)} test samples")
+    print(f"DATA: Time-series split: {len(train_data)} train, {len(test_data)} test samples")
     
     # Define stats to model
     stat_models = {
@@ -482,26 +482,26 @@ def main():
             if model_info and len(test_data) > 0:
                 backtest = predictor.backtest_performance(model_info, test_data, stat_name)
                 if backtest:
-                    print(f"🎯 {stat_name} backtest: {backtest['predictions_made']} predictions, "
+                    print(f"TARGET: {stat_name} backtest: {backtest['predictions_made']} predictions, "
                           f"mean = {backtest['mean_prediction']:.2f}")
         else:
-            print(f"❌ Target column '{target_col}' not found in data")
+            print(f"ERROR: Target column '{target_col}' not found in data")
     
     # Save all models
     predictor.save_enhanced_models(trained_models)
     
     # Summary report
-    print("\n🎉 ENHANCED MODEL TRAINING COMPLETE!")
+    print("\nCOMPLETE: ENHANCED MODEL TRAINING COMPLETE!")
     print("=" * 50)
     for stat_name, model_info in trained_models.items():
         if model_info:
             scores = model_info['cv_scores']
-            print(f"📊 {stat_name:12}: R² = {scores['r2']:.3f}, "
+            print(f"DATA: {stat_name:12}: R = {scores['r2']:.3f}, "
                   f"MAE = {scores['mae']:.3f}, "
                   f"Features = {len(model_info['features'])}")
     
-    print(f"\n💾 All models saved to ../models/ directory")
-    print("🚀 Ready for enhanced prediction system!")
+    print(f"\n All models saved to ../models/ directory")
+    print("START: Ready for enhanced prediction system!")
 
 if __name__ == "__main__":
     main()

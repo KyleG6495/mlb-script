@@ -14,7 +14,7 @@ def investigate_shane_bieber():
     bieber_results = actual_df[actual_df['name'].str.contains('Bieber', case=False, na=False)]
     
     if len(bieber_results) > 0:
-        print("\n🔍 FOUND SHANE BIEBER:")
+        print("\n FOUND SHANE BIEBER:")
         for _, row in bieber_results.iterrows():
             print(f"Name: {row['name']}")
             print(f"Position: {row['position']}")
@@ -27,7 +27,7 @@ def investigate_shane_bieber():
             print(f"Wins: {row['wins']}")
             print(f"Losses: {row['losses']}")
     else:
-        print("❌ Shane Bieber NOT FOUND in actual results!")
+        print("ERROR: Shane Bieber NOT FOUND in actual results!")
         print("This means he either:")
         print("1. Didn't play on August 12th")
         print("2. Was scratched from the game")
@@ -51,7 +51,7 @@ def investigate_shane_bieber():
             
             # Check if he was on IL
             if 'IL' in str(row.get('Status', '')):
-                print("🚨 STATUS: ON INJURED LIST!")
+                print(" STATUS: ON INJURED LIST!")
             
     # Check original slate 
     print("\n=== SHANE BIEBER IN ORIGINAL SLATE ===")
@@ -120,7 +120,7 @@ def check_expensive_pitcher_performance():
     print(f"Projection error: {total_actual - total_projected:.1f}")
     
     if total_actual < total_projected * 0.5:
-        print("🚨 MASSIVE BUST! Expensive pitchers failed completely!")
+        print(" MASSIVE BUST! Expensive pitchers failed completely!")
 
 if __name__ == "__main__":
     investigate_shane_bieber()

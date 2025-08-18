@@ -10,7 +10,7 @@ import os
 
 def analyze_player_fantasy_points():
     """Analyze individual player fantasy points vs projections"""
-    print("\n🏆 PLAYER FANTASY POINTS ANALYSIS")
+    print("\nLINEUP: PLAYER FANTASY POINTS ANALYSIS")
     print("=" * 60)
     
     # Find latest backtest files
@@ -18,7 +18,7 @@ def analyze_player_fantasy_points():
     detail_files = glob.glob('../data/clean_lineup_details_*.csv')
     
     if not summary_files or not detail_files:
-        print("❌ No backtest files found")
+        print("ERROR: No backtest files found")
         return
     
     latest_summary = max(summary_files)
@@ -27,7 +27,7 @@ def analyze_player_fantasy_points():
     summary_df = pd.read_csv(latest_summary)
     details_df = pd.read_csv(latest_details)
     
-    print(f"📄 Analyzing: {os.path.basename(latest_details)}")
+    print(f" Analyzing: {os.path.basename(latest_details)}")
     
     # Summary statistics
     avg_projected = summary_df['projected_fppg'].mean()
@@ -35,7 +35,7 @@ def analyze_player_fantasy_points():
     avg_accuracy = summary_df['accuracy_pct'].mean()
     avg_players_found = summary_df['players_found'].mean()
     
-    print(f"\n📊 LINEUP SUMMARY:")
+    print(f"\nDATA: LINEUP SUMMARY:")
     print(f"Average Projected FPPG: {avg_projected:.1f}")
     print(f"Average Actual FPPG: {avg_actual:.1f}")
     print(f"Average Accuracy: {avg_accuracy:.1f}%")
@@ -44,13 +44,13 @@ def analyze_player_fantasy_points():
     # Load actual results for individual player analysis
     results_files = glob.glob('../data/actual_results_*.csv')
     if not results_files:
-        print("❌ No actual results found for individual player analysis")
+        print("ERROR: No actual results found for individual player analysis")
         return
     
     latest_results = max(results_files)
     results_df = pd.read_csv(latest_results)
     
-    print(f"\n📊 INDIVIDUAL PLAYER FANTASY POINTS:")
+    print(f"\nDATA: INDIVIDUAL PLAYER FANTASY POINTS:")
     print("=" * 60)
     print(f"{'Player':<25} | {'Proj':>6} | {'Actual':>6} | {'Diff':>7} | {'Team':>4}")
     print("-" * 60)
@@ -83,20 +83,20 @@ def analyze_player_fantasy_points():
     print(f"{'TOTALS':<25} | {total_proj:6.1f} | {total_actual:6.1f} | {total_actual-total_proj:+7.1f} | {players_found}/9")
     
     # Analysis
-    print(f"\n🔍 ANALYSIS:")
+    print(f"\n ANALYSIS:")
     if avg_accuracy < 50:
-        print("❌ CRITICAL: Projections are severely overestimated")
+        print("ERROR: CRITICAL: Projections are severely overestimated")
     elif avg_accuracy < 70:
-        print("⚠️ WARNING: Projections are significantly overestimated")
+        print("WARNING: WARNING: Projections are significantly overestimated")
     else:
-        print("✅ Projections are reasonably accurate")
+        print("SUCCESS: Projections are reasonably accurate")
     
     if avg_players_found < 7:
-        print("❌ CRITICAL: Poor player matching - many players not found")
+        print("ERROR: CRITICAL: Poor player matching - many players not found")
     elif avg_players_found < 8:
-        print("⚠️ WARNING: Some players not found in results")
+        print("WARNING: WARNING: Some players not found in results")
     else:
-        print("✅ Good player matching")
+        print("SUCCESS: Good player matching")
 
 if __name__ == "__main__":
     analyze_player_fantasy_points()

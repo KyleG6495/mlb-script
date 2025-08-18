@@ -18,13 +18,13 @@ def main():
         max_proj = df['Projected_FPPG'].max()
         avg_proj = df.groupby('lineup_id')['Projected_FPPG'].sum().mean()
         
-        print(f'📁 Latest Master File: {os.path.basename(latest_file)}')
-        print(f'🏆 Total Tournament Lineups: {total_lineups}')
-        print(f'💰 Projection Range: {min_proj:.1f} - {max_proj:.1f} FPPG')
-        print(f'📊 Average Lineup Score: {avg_proj:.1f} FPPG')
-        print(f'✅ Ready for tournament submission!')
+        print(f' Latest Master File: {os.path.basename(latest_file)}')
+        print(f'LINEUP: Total Tournament Lineups: {total_lineups}')
+        print(f'MONEY: Projection Range: {min_proj:.1f} - {max_proj:.1f} FPPG')
+        print(f'DATA: Average Lineup Score: {avg_proj:.1f} FPPG')
+        print(f'SUCCESS: Ready for tournament submission!')
     else:
-        print('⚠️ No master tournament file found')
+        print('WARNING: No master tournament file found')
 
 if __name__ == "__main__":
     main()

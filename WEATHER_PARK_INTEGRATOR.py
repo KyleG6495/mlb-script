@@ -1,5 +1,5 @@
 """
-🌤️ REAL WEATHER & PARK FACTORS INTEGRATOR
+ REAL WEATHER & PARK FACTORS INTEGRATOR
 Replaces simulated data with authentic weather and ballpark analytics
 """
 
@@ -178,7 +178,7 @@ class WeatherParkIntegrator:
     
     def process_weather_enhanced_projections(self, projections_file: str) -> pd.DataFrame:
         """Apply real weather and park factors to projections"""
-        print(f"🌤️ Processing weather and park factor enhancements...")
+        print(f" Processing weather and park factor enhancements...")
         
         # Load projections
         df = pd.read_csv(projections_file)
@@ -244,7 +244,7 @@ class WeatherParkIntegrator:
         output_file = f"C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\weather_enhanced_projections_{self.timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        print(f"✅ Weather enhanced projections saved: {output_file}")
+        print(f"SUCCESS: Weather enhanced projections saved: {output_file}")
         print(f"   Average weather impact: {enhanced_df['weather_improvement_pct'].mean():.1f}%")
         print(f"   Players helped by weather: {len(enhanced_df[enhanced_df['weather_improvement_pct'] > 0])}")
         print(f"   Players hurt by weather: {len(enhanced_df[enhanced_df['weather_improvement_pct'] < 0])}")
@@ -253,18 +253,18 @@ class WeatherParkIntegrator:
     
     def generate_weather_report(self, enhanced_df: pd.DataFrame) -> None:
         """Generate detailed weather impact report"""
-        print(f"\n🌤️ WEATHER & PARK FACTORS REPORT")
+        print(f"\n WEATHER & PARK FACTORS REPORT")
         print("="*50)
         
         # Top weather beneficiaries
         top_helped = enhanced_df.nlargest(10, 'weather_improvement_pct')
-        print(f"\n🔥 TOP WEATHER BENEFICIARIES:")
+        print(f"\n TOP WEATHER BENEFICIARIES:")
         for _, player in top_helped.iterrows():
             print(f"   {player['name']} ({player['team']}): +{player['weather_improvement_pct']:.1f}% ({player['conditions']})")
         
         # Most hurt by weather
         most_hurt = enhanced_df.nsmallest(5, 'weather_improvement_pct')
-        print(f"\n❄️ MOST HURT BY WEATHER:")
+        print(f"\n MOST HURT BY WEATHER:")
         for _, player in most_hurt.iterrows():
             print(f"   {player['name']} ({player['team']}): {player['weather_improvement_pct']:.1f}% ({player['conditions']})")
         
@@ -276,19 +276,19 @@ class WeatherParkIntegrator:
             'weather_improvement_pct': 'mean'
         }).sort_values('weather_improvement_pct', ascending=False)
         
-        print(f"\n🏟️ TEAM WEATHER CONDITIONS:")
+        print(f"\n TEAM WEATHER CONDITIONS:")
         for team, data in team_weather.head(10).iterrows():
-            print(f"   {team}: {data['temperature']:.0f}°F, {data['wind_speed']:.0f}mph, {data['conditions']} (avg {data['weather_improvement_pct']:+.1f}%)")
+            print(f"   {team}: {data['temperature']:.0f}F, {data['wind_speed']:.0f}mph, {data['conditions']} (avg {data['weather_improvement_pct']:+.1f}%)")
         
         # Park factor impacts
-        print(f"\n🏟️ STRONGEST PARK FACTORS:")
+        print(f"\n STRONGEST PARK FACTORS:")
         park_impacts = enhanced_df.groupby('team')['park_factor'].first().sort_values(ascending=False)
         for team, factor in park_impacts.head(8).iterrows():
             print(f"   {team}: {factor:.3f} park factor")
 
 def main():
     """Main execution function"""
-    print("🌤️ WEATHER & PARK FACTORS INTEGRATOR")
+    print(" WEATHER & PARK FACTORS INTEGRATOR")
     print("="*50)
     
     integrator = WeatherParkIntegrator()
@@ -307,10 +307,10 @@ def main():
             break
     
     if not input_file:
-        print("❌ No projections file found. Please run your base projections first.")
+        print("ERROR: No projections file found. Please run your base projections first.")
         return
     
-    print(f"📊 Using projections: {os.path.basename(input_file)}")
+    print(f"DATA: Using projections: {os.path.basename(input_file)}")
     
     # Process weather enhancements
     enhanced_df = integrator.process_weather_enhanced_projections(input_file)
@@ -318,7 +318,7 @@ def main():
     # Generate report
     integrator.generate_weather_report(enhanced_df)
     
-    print(f"\n✅ Weather and park factor integration complete!")
+    print(f"\nSUCCESS: Weather and park factor integration complete!")
     print(f"   Enhanced projections with real weather data")
     print(f"   Applied authentic park factors for all 30 teams")
     print(f"   Ready for lineup optimization")

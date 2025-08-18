@@ -20,7 +20,7 @@ class EliteSystemArchitect:
     def audit_all_scripts(self):
         """Audit all Python scripts and categorize by function"""
         
-        print("🔍 ELITE SYSTEM ARCHITECTURE AUDIT")
+        print(" ELITE SYSTEM ARCHITECTURE AUDIT")
         print("=" * 60)
         
         # Get all Python files
@@ -47,55 +47,55 @@ class EliteSystemArchitect:
             # Data Pipeline
             if any(x in script_lower for x in ['generate_', 'fetch_', 'collect_', 'assign_', 'merge_']):
                 if any(x in script_lower for x in ['confirmed', 'enhanced', 'advanced']):
-                    categories["DATA_PIPELINE"].append(f"✅ {script}")
+                    categories["DATA_PIPELINE"].append(f"SUCCESS: {script}")
                 else:
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
             
             # Feature Engineering
             elif any(x in script_lower for x in ['build_', 'aggregate_', 'finalize_', 'features']):
                 if any(x in script_lower for x in ['rolling', 'enhanced', 'today']):
-                    categories["FEATURE_ENGINEERING"].append(f"✅ {script}")
+                    categories["FEATURE_ENGINEERING"].append(f"SUCCESS: {script}")
                 else:
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
             
             # ML Models & Training
             elif any(x in script_lower for x in ['train_', 'model', 'ensemble', 'ml_', 'automated_betting']):
                 if any(x in script_lower for x in ['enhanced', 'advanced', 'system']):
-                    categories["ML_MODELS"].append(f"🧠 {script}")
+                    categories["ML_MODELS"].append(f" {script}")
                 else:
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
             
             # DFS Optimizers
             elif any(x in script_lower for x in ['lineup', 'dfs', 'optimizer', 'tournament', 'quintuple']):
                 if any(x in script_lower for x in ['advanced', 'elite', 'enhanced', 'quintuple', 'ceiling']):
-                    categories["DFS_OPTIMIZERS"].append(f"🏆 {script}")
+                    categories["DFS_OPTIMIZERS"].append(f"LINEUP: {script}")
                 else:
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
             
             # Prop Betting
             elif any(x in script_lower for x in ['prop', 'betting', 'underdog', 'prizepicks']):
                 if any(x in script_lower for x in ['enhanced', 'analyzer', 'system']):
-                    categories["PROP_BETTING"].append(f"💰 {script}")
+                    categories["PROP_BETTING"].append(f"MONEY: {script}")
                 else:
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
             
             # Backtesting & Validation
             elif any(x in script_lower for x in ['backtest', 'validation', 'test_', 'diagnostic']):
                 if any(x in script_lower for x in ['enhanced', 'comprehensive', 'validator']):
-                    categories["BACKTESTING"].append(f"📊 {script}")
+                    categories["BACKTESTING"].append(f"DATA: {script}")
                 else:
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
             
             # Scrapers
             elif any(x in script_lower for x in ['scrape', 'scraper', 'live_']):
-                categories["SCRAPERS"].append(f"🔄 {script}")
+                categories["SCRAPERS"].append(f"SWAP: {script}")
             
             # Everything else is utility or deprecated
             else:
                 if any(x in script_lower for x in ['simple', 'clean', 'manual', 'check']):
-                    categories["DEPRECATED"].append(f"❌ {script}")
+                    categories["DEPRECATED"].append(f"ERROR: {script}")
                 else:
-                    categories["UTILITIES"].append(f"🛠️ {script}")
+                    categories["UTILITIES"].append(f" {script}")
         
         return categories
     
@@ -160,27 +160,27 @@ class EliteSystemArchitect:
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
         report_lines = [
-            "🚀 ELITE MLB DFS/PROP SYSTEM ARCHITECTURE",
+            "START: ELITE MLB DFS/PROP SYSTEM ARCHITECTURE",
             "=" * 60,
             f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             "",
-            "🎯 MISSION: Create institutional-grade system that crushes the competition",
+            "TARGET: MISSION: Create institutional-grade system that crushes the competition",
             "",
-            "🏗️ ELITE SYSTEM ARCHITECTURE:",
+            " ELITE SYSTEM ARCHITECTURE:",
             ""
         ]
         
         for engine, scripts in elite_arch.items():
-            report_lines.append(f"📁 {engine}:")
+            report_lines.append(f" {engine}:")
             for script in scripts:
                 if os.path.exists(script):
-                    report_lines.append(f"   ✅ {script}")
+                    report_lines.append(f"   SUCCESS: {script}")
                 else:
-                    report_lines.append(f"   ❌ {script} (MISSING)")
+                    report_lines.append(f"   ERROR: {script} (MISSING)")
             report_lines.append("")
         
         report_lines.extend([
-            "🗑️ SCRIPTS TO DEPRECATE:",
+            " SCRIPTS TO DEPRECATE:",
             ""
         ])
         
@@ -193,20 +193,20 @@ class EliteSystemArchitect:
         
         report_lines.extend([
             "",
-            f"📊 SYSTEM STATISTICS:",
+            f"DATA: SYSTEM STATISTICS:",
             f"   Total Scripts Found: {len(glob.glob('*.py'))}",
             f"   Elite Components: {sum(len(scripts) for scripts in elite_arch.values())}",
             f"   Scripts to Deprecate: {deprecated_count}",
             f"   System Efficiency: {(sum(len(scripts) for scripts in elite_arch.values()) / len(glob.glob('*.py')) * 100):.1f}%",
             "",
-            "🚀 NEXT STEPS:",
+            "START: NEXT STEPS:",
             "1. Consolidate elite components into unified system",
             "2. Remove deprecated scripts to reduce complexity", 
             "3. Implement advanced orchestration layer",
             "4. Add real-time monitoring and alerts",
             "5. Build professional UI dashboard",
             "",
-            "💪 TARGET: Beat professional DFS companies at their own game"
+            " TARGET: Beat professional DFS companies at their own game"
         ])
         
         # Save report
@@ -218,7 +218,7 @@ class EliteSystemArchitect:
         for line in report_lines:
             print(line)
         
-        print(f"\n💾 Full report saved: {report_file}")
+        print(f"\n Full report saved: {report_file}")
         
         return elite_arch
 
@@ -226,10 +226,10 @@ def main():
     architect = EliteSystemArchitect()
     elite_system = architect.generate_elite_system_report()
     
-    print("\n🎯 READY TO BUILD ELITE SYSTEM!")
+    print("\nTARGET: READY TO BUILD ELITE SYSTEM!")
     print("=" * 40)
     print("We have identified the best components for your institutional-grade system.")
-    print("Next: Consolidate into unified architecture that crushes the competition! 🚀")
+    print("Next: Consolidate into unified architecture that crushes the competition! START:")
 
 if __name__ == "__main__":
     main()

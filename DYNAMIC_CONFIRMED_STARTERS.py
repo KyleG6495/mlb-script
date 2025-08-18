@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 def analyze_todays_slate():
     """Analyze the FD slate to determine today's games and probable starters"""
-    logger.info("📊 ANALYZING TODAY'S FD SLATE...")
+    logger.info("DATA: ANALYZING TODAY'S FD SLATE...")
     
     # Load FD slate with proper encoding handling - try multiple file names
     fd_df = None
@@ -33,7 +33,7 @@ def analyze_todays_slate():
             for encoding in ['utf-8', 'cp1252', 'latin-1']:
                 try:
                     fd_df = pd.read_csv(file_path, encoding=encoding)
-                    logger.info(f"✅ Loaded FD slate from {file_path.split('/')[-1]} with {encoding} encoding")
+                    logger.info(f"SUCCESS: Loaded FD slate from {file_path.split('/')[-1]} with {encoding} encoding")
                     break
                 except UnicodeDecodeError:
                     continue
@@ -45,11 +45,11 @@ def analyze_todays_slate():
     if fd_df is None:
         raise FileNotFoundError("No FD slate file found")
     
-    logger.info(f"📥 Loaded FD slate: {len(fd_df)} players")
+    logger.info(f" Loaded FD slate: {len(fd_df)} players")
     
     # Get unique games
     games = fd_df['Game'].unique()
-    logger.info(f"🎮 Games detected: {list(games)}")
+    logger.info(f" Games detected: {list(games)}")
     
     # Get probable starters (marked with "Yes" in Probable Pitcher column)
     probable_starters = fd_df[
@@ -57,10 +57,10 @@ def analyze_todays_slate():
         (fd_df['Probable Pitcher'] == 'Yes')
     ]
     
-    logger.info(f"⚾ PROBABLE STARTING PITCHERS:")
+    logger.info(f"BASEBALL: PROBABLE STARTING PITCHERS:")
     probable_pitcher_info = {}
     for _, pitcher in probable_starters.iterrows():
-        logger.info(f"   ✅ {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,}")
+        logger.info(f"   SUCCESS: {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,}")
         probable_pitcher_info[pitcher['Team']] = {
             'name': pitcher['Nickname'],
             'salary': pitcher['Salary'],
@@ -71,7 +71,7 @@ def analyze_todays_slate():
 
 def fetch_rotowire_for_todays_games(games):
     """Fetch RotoWire lineups for today's specific games"""
-    logger.info("🔍 FETCHING ROTOWIRE FOR TODAY'S GAMES...")
+    logger.info(" FETCHING ROTOWIRE FOR TODAY'S GAMES...")
     
     try:
         url = "https://www.rotowire.com/baseball/daily-lineups.php"
@@ -91,12 +91,12 @@ def fetch_rotowire_for_todays_games(games):
         return confirmed_starters
         
     except Exception as e:
-        logger.error(f"❌ Error fetching RotoWire: {e}")
+        logger.error(f"ERROR: Error fetching RotoWire: {e}")
         return get_fallback_confirmed_starters(games)
 
 def extract_lineups_from_rotowire(soup, games):
     """Extract confirmed lineups from RotoWire HTML for today's games"""
-    logger.info("📋 EXTRACTING LINEUPS FROM ROTOWIRE...")
+    logger.info("INFO: EXTRACTING LINEUPS FROM ROTOWIRE...")
     
     confirmed_starters = []
     
@@ -119,7 +119,7 @@ def extract_lineups_from_rotowire(soup, games):
             home_lineup = generate_likely_lineup(home_team, game, 'home')
             confirmed_starters.extend(home_lineup)
     
-    logger.info(f"✅ Extracted {len(confirmed_starters)} confirmed starters for {len(games)} games")
+    logger.info(f"SUCCESS: Extracted {len(confirmed_starters)} confirmed starters for {len(games)} games")
     return confirmed_starters
 
 def generate_likely_lineup(team, game, home_away):
@@ -152,7 +152,7 @@ def generate_likely_lineup(team, game, home_away):
 
 def get_fallback_confirmed_starters(games):
     """Fallback confirmed starters when RotoWire fails"""
-    logger.warning("⚠️ Using fallback confirmed starters")
+    logger.warning("WARNING: Using fallback confirmed starters")
     
     confirmed_starters = []
     
@@ -174,7 +174,7 @@ def get_fallback_confirmed_starters(games):
 
 def match_confirmed_starters_to_fd_slate(fd_df, confirmed_starters, probable_pitchers):
     """Match confirmed starters to actual FD slate players"""
-    logger.info("🎯 MATCHING CONFIRMED STARTERS TO FD SLATE...")
+    logger.info("TARGET: MATCHING CONFIRMED STARTERS TO FD SLATE...")
     
     confirmed_players = []
     
@@ -188,7 +188,7 @@ def match_confirmed_starters_to_fd_slate(fd_df, confirmed_starters, probable_pit
         
         if not pitcher_row.empty:
             confirmed_players.extend(pitcher_row.to_dict('records'))
-            logger.info(f"✅ CONFIRMED STARTER: {pitcher_info['name']} (P) - ${pitcher_info['salary']:,}")
+            logger.info(f"SUCCESS: CONFIRMED STARTER: {pitcher_info['name']} (P) - ${pitcher_info['salary']:,}")
     
     # For hitters, use intelligent matching based on salary tiers and positions
     # This is where we'd normally match RotoWire names, but for now we'll use salary/position logic
@@ -198,7 +198,7 @@ def match_confirmed_starters_to_fd_slate(fd_df, confirmed_starters, probable_pit
     
     confirmed_df = pd.DataFrame(confirmed_players)
     
-    logger.info(f"📊 CONFIRMED STARTERS IDENTIFIED:")
+    logger.info(f"DATA: CONFIRMED STARTERS IDENTIFIED:")
     logger.info(f"   Total players: {len(confirmed_df)}")
     logger.info(f"   Pitchers: {len(confirmed_df[confirmed_df['Position'] == 'P'])}")
     logger.info(f"   Hitters: {len(confirmed_df[confirmed_df['Position'] != 'P'])}")
@@ -207,7 +207,7 @@ def match_confirmed_starters_to_fd_slate(fd_df, confirmed_starters, probable_pit
 
 def identify_likely_starters_by_salary(fd_df):
     """Identify likely starters based on salary tiers and position scarcity"""
-    logger.info("💰 IDENTIFYING LIKELY STARTERS BY SALARY...")
+    logger.info("MONEY: IDENTIFYING LIKELY STARTERS BY SALARY...")
     
     hitters = fd_df[fd_df['Position'] != 'P'].copy()
     likely_starters = []
@@ -246,42 +246,42 @@ def save_dynamic_confirmed_slate(confirmed_df):
     main_file = "../fd_current_slate/fd_slate_confirmed_starters_only.csv"
     confirmed_df.to_csv(main_file, index=False)
     
-    logger.info(f"💾 SAVED DYNAMIC CONFIRMED SLATE:")
-    logger.info(f"   📁 Timestamped: {timestamped_file}")
-    logger.info(f"   📁 Main file: {main_file}")
+    logger.info(f" SAVED DYNAMIC CONFIRMED SLATE:")
+    logger.info(f"    Timestamped: {timestamped_file}")
+    logger.info(f"    Main file: {main_file}")
     
     return timestamped_file, main_file
 
 def create_daily_summary(games, confirmed_df, probable_pitchers):
     """Create summary of today's confirmed starters"""
     logger.info("=" * 60)
-    logger.info("📋 DAILY CONFIRMED STARTERS SUMMARY")
+    logger.info("INFO: DAILY CONFIRMED STARTERS SUMMARY")
     logger.info("=" * 60)
     
-    logger.info(f"📅 Date: {datetime.now().strftime('%Y-%m-%d')}")
-    logger.info(f"🎮 Games: {len(games)}")
+    logger.info(f" Date: {datetime.now().strftime('%Y-%m-%d')}")
+    logger.info(f" Games: {len(games)}")
     
     for game in games:
-        logger.info(f"   🏟️ {game}")
+        logger.info(f"    {game}")
     
-    logger.info(f"⚾ Confirmed Starting Pitchers: {len(confirmed_df[confirmed_df['Position'] == 'P'])}")
+    logger.info(f"BASEBALL: Confirmed Starting Pitchers: {len(confirmed_df[confirmed_df['Position'] == 'P'])}")
     for team, pitcher_info in probable_pitchers.items():
-        logger.info(f"   ✅ {pitcher_info['name']} ({team}) - ${pitcher_info['salary']:,}")
+        logger.info(f"   SUCCESS: {pitcher_info['name']} ({team}) - ${pitcher_info['salary']:,}")
     
-    logger.info(f"🏏 Confirmed Hitters: {len(confirmed_df[confirmed_df['Position'] != 'P'])}")
+    logger.info(f" Confirmed Hitters: {len(confirmed_df[confirmed_df['Position'] != 'P'])}")
     
     # Position breakdown
     positions = confirmed_df[confirmed_df['Position'] != 'P']['Position'].value_counts()
     for pos, count in positions.items():
         logger.info(f"   {pos}: {count} players")
     
-    logger.info(f"📊 Total Confirmed Players: {len(confirmed_df)}")
-    logger.info(f"🚫 Non-starters Filtered: {len(pd.read_csv('../fd_current_slate/fd_slate_today.csv')) - len(confirmed_df)}")
+    logger.info(f"DATA: Total Confirmed Players: {len(confirmed_df)}")
+    logger.info(f" Non-starters Filtered: {len(pd.read_csv('../fd_current_slate/fd_slate_today.csv')) - len(confirmed_df)}")
 
 def main():
     """Main dynamic confirmed starters system"""
-    logger.info("🎯 DYNAMIC CONFIRMED STARTERS SYSTEM")
-    logger.info("📅 Automatically detects today's games and confirmed starters")
+    logger.info("TARGET: DYNAMIC CONFIRMED STARTERS SYSTEM")
+    logger.info(" Automatically detects today's games and confirmed starters")
     logger.info("=" * 60)
     
     try:
@@ -289,7 +289,7 @@ def main():
         games, probable_pitchers, fd_df = analyze_todays_slate()
         
         if len(games) == 0:
-            logger.error("❌ No games detected in FD slate")
+            logger.error("ERROR: No games detected in FD slate")
             return
         
         # Step 2: Get confirmed starters from RotoWire
@@ -299,7 +299,7 @@ def main():
         confirmed_df = match_confirmed_starters_to_fd_slate(fd_df, confirmed_starters, probable_pitchers)
         
         if len(confirmed_df) == 0:
-            logger.error("❌ No confirmed starters identified")
+            logger.error("ERROR: No confirmed starters identified")
             return
         
         # Step 4: Save confirmed slate
@@ -309,17 +309,17 @@ def main():
         create_daily_summary(games, confirmed_df, probable_pitchers)
         
         logger.info("=" * 60)
-        logger.info("🎉 DYNAMIC CONFIRMED STARTERS SYSTEM COMPLETE!")
-        logger.info("💡 Now your other systems will use only confirmed starters")
-        logger.info("🔄 Updates automatically based on your daily FD slate")
+        logger.info("COMPLETE: DYNAMIC CONFIRMED STARTERS SYSTEM COMPLETE!")
+        logger.info("TIP: Now your other systems will use only confirmed starters")
+        logger.info("SWAP: Updates automatically based on your daily FD slate")
         logger.info("")
-        logger.info("🚀 NEXT STEPS:")
+        logger.info("START: NEXT STEPS:")
         logger.info("1. Run your projection systems")
         logger.info("2. Run lineup optimization")
         logger.info("3. Submit disaster-proof lineups!")
         
     except Exception as e:
-        logger.error(f"❌ System error: {e}")
+        logger.error(f"ERROR: System error: {e}")
         import traceback
         traceback.print_exc()
 

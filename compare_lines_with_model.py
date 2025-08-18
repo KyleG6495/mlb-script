@@ -127,13 +127,13 @@ def generate_enhanced_report(discrepancies_df):
     """Generate enhanced report with model analysis"""
     
     if discrepancies_df.empty:
-        return "🔍 No significant line discrepancies found."
+        return " No significant line discrepancies found."
     
     # Filter for positive EV bets
     positive_ev = discrepancies_df[discrepancies_df['best_ev'] > 0].sort_values('best_ev', ascending=False)
     
     report = []
-    report.append("🎯 MLB BETTING OPPORTUNITIES WITH MODEL ANALYSIS")
+    report.append("TARGET: MLB BETTING OPPORTUNITIES WITH MODEL ANALYSIS")
     report.append("=" * 60)
     report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     report.append(f"Total Line Discrepancies: {len(discrepancies_df)}")
@@ -141,21 +141,21 @@ def generate_enhanced_report(discrepancies_df):
     report.append("")
     
     if len(positive_ev) > 0:
-        report.append("💰 BEST EXPECTED VALUE BETS:")
+        report.append("MONEY: BEST EXPECTED VALUE BETS:")
         report.append("-" * 40)
         
         for idx, row in positive_ev.head(10).iterrows():
             if not pd.isna(row['model_projection']):
-                report.append(f"🎯 {row['player_name_uf']} - {row['stat_type_uf']}")
+                report.append(f"TARGET: {row['player_name_uf']} - {row['stat_type_uf']}")
                 report.append(f"   Model Projects: {row['model_projection']:.1f}")
                 report.append(f"   Underdog Line: {row['line_uf']}")
                 report.append(f"   PrizePicks Line: {row['line_pp']}")
-                report.append(f"   ⭐ BEST BET: {row['best_bet']}")
+                report.append(f"    BEST BET: {row['best_bet']}")
                 report.append(f"   Expected Value: +{row['best_ev']:.2f}")
                 report.append("")
     
     # Original arbitrage opportunities
-    report.append("📊 TOP LINE DISCREPANCIES:")
+    report.append("DATA: TOP LINE DISCREPANCIES:")
     report.append("-" * 40)
     
     for idx, row in discrepancies_df.head(5).iterrows():
@@ -171,7 +171,7 @@ def generate_enhanced_report(discrepancies_df):
 def main():
     """Enhanced main function with model integration"""
     
-    print("🎯 Starting Enhanced MLB Analysis with Model Projections...")
+    print("TARGET: Starting Enhanced MLB Analysis with Model Projections...")
     
     try:
         # Load betting lines
@@ -181,7 +181,7 @@ def main():
         # Load model projections
         projections = load_model_projections()
         
-        print(f"📊 Data Summary:")
+        print(f"DATA: Data Summary:")
         print(f"   Underdog Fantasy: {len(uf_df)} props")
         print(f"   PrizePicks: {len(pp_df)} props")
         print(f"   Model Projections: {len(projections)} datasets loaded")
@@ -207,12 +207,12 @@ def main():
             f.write(report)
         
         print("\n" + report)
-        print(f"\n💾 Enhanced analysis saved to:")
+        print(f"\n Enhanced analysis saved to:")
         print(f"   Excel: {excel_file}")
         print(f"   Report: {report_file}")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

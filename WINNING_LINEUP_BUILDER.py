@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 SIMPLE WINNING LINEUP BUILDER
+TARGET: SIMPLE WINNING LINEUP BUILDER
 Uses actual fd_slate_today.csv with Rotowire data
 Creates WINNING lineups based on FPPG and confirmed starters
 """
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def create_winning_lineups():
     """Create winning lineups using actual fd_slate_today.csv"""
     
-    logger.info("🎯 CREATING WINNING LINEUPS")
+    logger.info("TARGET: CREATING WINNING LINEUPS")
     logger.info("="*50)
     logger.info("Using fd_slate_today.csv with current Rotowire data")
     logger.info("")
@@ -23,11 +23,11 @@ def create_winning_lineups():
     try:
         # Load the actual FD slate
         df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📥 Loaded fd_slate_today.csv: {len(df)} players")
+        logger.info(f" Loaded fd_slate_today.csv: {len(df)} players")
         
         # Remove IL players first
         healthy_players = df[df['Injury Indicator'] != 'IL'].copy()
-        logger.info(f"✅ After removing IL players: {len(healthy_players)} healthy players")
+        logger.info(f"SUCCESS: After removing IL players: {len(healthy_players)} healthy players")
         
         # Get confirmed starting pitchers (Probable Pitcher = Yes)
         starting_pitchers = healthy_players[
@@ -41,7 +41,7 @@ def create_winning_lineups():
                 healthy_players['Position'] == 'P'
             ].nlargest(20, 'FPPG')
         
-        logger.info(f"⚾ Starting pitchers available: {len(starting_pitchers)}")
+        logger.info(f"BASEBALL: Starting pitchers available: {len(starting_pitchers)}")
         
         # Get hitters with batting orders (confirmed starters)
         confirmed_hitters = healthy_players[
@@ -50,7 +50,7 @@ def create_winning_lineups():
             (healthy_players['Batting Order'] > 0)
         ].copy()
         
-        logger.info(f"⚾ Confirmed starting hitters: {len(confirmed_hitters)}")
+        logger.info(f"BASEBALL: Confirmed starting hitters: {len(confirmed_hitters)}")
         
         # If not enough confirmed hitters, add high FPPG players
         if len(confirmed_hitters) < 50:  # Need enough for lineups
@@ -65,7 +65,7 @@ def create_winning_lineups():
         else:
             all_hitters = confirmed_hitters
         
-        logger.info(f"⚾ Total hitter pool: {len(all_hitters)}")
+        logger.info(f"BASEBALL: Total hitter pool: {len(all_hitters)}")
         
         # Sort by FPPG for better selection
         starting_pitchers = starting_pitchers.sort_values('FPPG', ascending=False)
@@ -168,12 +168,12 @@ def create_winning_lineups():
                         'lineup_num': i + 1
                     }
                     lineups.append(lineup_info)
-                    logger.info(f"✅ Lineup {i+1}: ${total_salary:,} | {total_fppg:.1f} FPPG")
+                    logger.info(f"SUCCESS: Lineup {i+1}: ${total_salary:,} | {total_fppg:.1f} FPPG")
         
         return lineups, starting_pitchers, all_hitters
         
     except Exception as e:
-        logger.error(f"❌ Error creating winning lineups: {e}")
+        logger.error(f"ERROR: Error creating winning lineups: {e}")
         import traceback
         traceback.print_exc()
         return None, None, None
@@ -181,7 +181,7 @@ def create_winning_lineups():
 def format_for_fanduel_upload(lineups):
     """Format lineups exactly for FanDuel CSV upload"""
     
-    logger.info("📋 Formatting for FanDuel upload...")
+    logger.info("INFO: Formatting for FanDuel upload...")
     
     upload_rows = []
     
@@ -247,7 +247,7 @@ def format_for_fanduel_upload(lineups):
 def main():
     """Main winning lineup builder"""
     
-    logger.info("🏆 SIMPLE WINNING LINEUP BUILDER")
+    logger.info("LINEUP: SIMPLE WINNING LINEUP BUILDER")
     logger.info("="*60)
     logger.info("Creating WINNING lineups from fd_slate_today.csv")
     logger.info("")
@@ -256,7 +256,7 @@ def main():
     lineups, pitchers, hitters = create_winning_lineups()
     
     if not lineups:
-        logger.error("❌ Could not create any lineups")
+        logger.error("ERROR: Could not create any lineups")
         return
     
     # Format for FanDuel upload
@@ -274,22 +274,22 @@ def main():
     upload_df.to_csv(current_file, index=False)
     
     logger.info("")
-    logger.info("💾 WINNING LINEUPS SAVED:")
-    logger.info(f"   📁 Timestamped: {upload_file}")
-    logger.info(f"   📁 Current: {current_file}")
+    logger.info(" WINNING LINEUPS SAVED:")
+    logger.info(f"    Timestamped: {upload_file}")
+    logger.info(f"    Current: {current_file}")
     
     logger.info("")
-    logger.info("📊 LINEUP SUMMARY:")
+    logger.info("DATA: LINEUP SUMMARY:")
     logger.info(f"   Lineups created: {len(upload_df)}")
     logger.info(f"   Salary range: ${upload_df['Salary'].min():,} - ${upload_df['Salary'].max():,}")
     logger.info(f"   FPPG range: {upload_df['FPPG'].min():.1f} - {upload_df['FPPG'].max():.1f}")
     
     logger.info("")
-    logger.info("🎉 WINNING LINEUPS COMPLETE!")
+    logger.info("COMPLETE: WINNING LINEUPS COMPLETE!")
     logger.info("="*60)
-    logger.info("✅ Using actual fd_slate_today.csv data")
-    logger.info("🏆 Optimized for WINNING performance")
-    logger.info("📁 Ready for FanDuel upload")
+    logger.info("SUCCESS: Using actual fd_slate_today.csv data")
+    logger.info("LINEUP: Optimized for WINNING performance")
+    logger.info(" Ready for FanDuel upload")
 
 if __name__ == "__main__":
     main()

@@ -99,9 +99,9 @@ def update_results_file():
     # Load the template
     try:
         df = pd.read_csv(results_file)
-        print(f"✅ Loaded results template with {len(df)} players")
+        print(f"SUCCESS: Loaded results template with {len(df)} players")
     except Exception as e:
-        print(f"❌ Error loading template: {str(e)}")
+        print(f"ERROR: Error loading template: {str(e)}")
         return
     
     # Get simulated stats
@@ -121,25 +121,25 @@ def update_results_file():
             
             # Calculate fantasy points for verification
             fppg = calculate_fanduel_points(stats)
-            print(f"✅ {player_name:<25}: {fppg:5.1f} FPPG")
+            print(f"SUCCESS: {player_name:<25}: {fppg:5.1f} FPPG")
         else:
-            print(f"⚠️ No stats found for {player_name}")
+            print(f"WARNING: No stats found for {player_name}")
     
     # Save updated file
     df.to_csv(results_file, index=False)
-    print(f"\n💾 Updated results file: {results_file}")
+    print(f"\n Updated results file: {results_file}")
     
     # Show summary
     total_players = len([name for name in df['Name'] if name in july21_stats])
     total_fppg = sum(calculate_fanduel_points(july21_stats[name]) for name in july21_stats.keys())
     
-    print(f"\n📊 JULY 21, 2025 SIMULATION SUMMARY:")
+    print(f"\nDATA: JULY 21, 2025 SIMULATION SUMMARY:")
     print(f"Players with stats: {total_players}")
     print(f"Total fantasy points: {total_fppg:.1f}")
     print(f"Average per player: {total_fppg/total_players:.1f}")
     
     # Show top performers
-    print(f"\n🏆 TOP FANTASY PERFORMERS:")
+    print(f"\nLINEUP: TOP FANTASY PERFORMERS:")
     player_scores = [(name, calculate_fanduel_points(stats)) for name, stats in july21_stats.items()]
     player_scores.sort(key=lambda x: x[1], reverse=True)
     
@@ -152,7 +152,7 @@ def display_stat_lookup():
     
     july21_stats = lookup_mlb_stats_july21()
     
-    print("🔍 JULY 21, 2025 MLB STATS LOOKUP")
+    print(" JULY 21, 2025 MLB STATS LOOKUP")
     print("=" * 80)
     print(f"{'Player':<25} {'AB':<3} {'H':<3} {'R':<3} {'RBI':<3} {'HR':<3} {'SB':<3} {'2B':<3} {'BB':<3} {'FPPG':<6}")
     print("-" * 80)
@@ -164,7 +164,7 @@ def display_stat_lookup():
 def main():
     """Main function"""
     
-    print("⚾ MLB STATS LOOKUP FOR JULY 21, 2025")
+    print("BASEBALL: MLB STATS LOOKUP FOR JULY 21, 2025")
     print("=" * 50)
     print("Choose an option:")
     print("1. Display stat lookup table")
@@ -184,7 +184,7 @@ def main():
     if choice in ['2', '3']:
         update_results_file()
         print()
-        print("🎯 Next step: Run 'python validate_dfs_backtest.py' to see how lineups performed!")
+        print("TARGET: Next step: Run 'python validate_dfs_backtest.py' to see how lineups performed!")
 
 if __name__ == "__main__":
     main()

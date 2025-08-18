@@ -38,15 +38,15 @@ class EnhancedBettingAnalyzer:
         for stat, filename in model_files.items():
             try:
                 self.models[stat] = joblib.load(filename)
-                print(f"✅ Loaded {stat} model")
+                print(f"SUCCESS: Loaded {stat} model")
             except FileNotFoundError:
-                print(f"⚠️ {stat} model not found")
+                print(f"WARNING: {stat} model not found")
     
     def generate_predictions(self, features_file="prediction_features_enhanced_real_stats.csv"):
         """Generate predictions for all players and stats"""
         try:
             features_df = pd.read_csv(f"../data/{features_file}")
-            print(f"📊 Loaded features for {len(features_df)} players")
+            print(f"DATA: Loaded features for {len(features_df)} players")
             
             # Generate predictions for each stat
             for stat, model in self.models.items():
@@ -63,7 +63,7 @@ class EnhancedBettingAnalyzer:
                         X = features_df[feature_cols]
                         self.predictions[stat] = model.predict(X)
                     except Exception as e:
-                        print(f"⚠️ Error predicting {stat}: {e}")
+                        print(f"WARNING: Error predicting {stat}: {e}")
                         # Fallback prediction
                         self.predictions[stat] = np.zeros(len(features_df))
             
@@ -74,7 +74,7 @@ class EnhancedBettingAnalyzer:
             return self.predictions_df
             
         except Exception as e:
-            print(f"❌ Error generating predictions: {e}")
+            print(f"ERROR: Error generating predictions: {e}")
             return pd.DataFrame()
     
     def analyze_single_props(self, lines_file="../data/prizepicks_lines.csv"):
@@ -121,7 +121,7 @@ class EnhancedBettingAnalyzer:
                             'stat': stat,
                             'line': line_value,
                             'prediction': round(prediction, 2),
-                            'recommendation': '🟢 YES OVER',
+                            'recommendation': ' YES OVER',
                             'probability': f"{prob_over:.1%}",
                             'expected_value': f"${ev_over:.2f}",
                             'edge': f"{((prob_over/implied_prob)-1)*100:.1f}%",
@@ -138,7 +138,7 @@ class EnhancedBettingAnalyzer:
                             'stat': stat,
                             'line': line_value,
                             'prediction': round(prediction, 2),
-                            'recommendation': '🔴 YES UNDER',
+                            'recommendation': ' YES UNDER',
                             'probability': f"{prob_under:.1%}",
                             'expected_value': f"${ev_under:.2f}",
                             'edge': f"{((prob_under/implied_prob)-1)*100:.1f}%",
@@ -149,7 +149,7 @@ class EnhancedBettingAnalyzer:
             return pd.DataFrame(opportunities)
             
         except Exception as e:
-            print(f"❌ Error analyzing single props: {e}")
+            print(f"ERROR: Error analyzing single props: {e}")
             return pd.DataFrame()
     
     def identify_combo_opportunities(self):
@@ -212,17 +212,17 @@ class EnhancedBettingAnalyzer:
     def get_confidence_level(self, expected_value):
         """Determine confidence level based on expected value"""
         if expected_value >= 0.20:
-            return "🔥 VERY HIGH"
+            return " VERY HIGH"
         elif expected_value >= 0.10:
-            return "🟢 HIGH"
+            return " HIGH"
         elif expected_value >= 0.05:
-            return "🟡 MEDIUM"
+            return " MEDIUM"
         else:
-            return "🔵 LOW"
+            return " LOW"
     
     def generate_betting_recommendations(self):
         """Generate comprehensive betting recommendations"""
-        print("🎯 ENHANCED BETTING ANALYSIS")
+        print("TARGET: ENHANCED BETTING ANALYSIS")
         print("=" * 60)
         
         # Generate predictions
@@ -242,13 +242,13 @@ class EnhancedBettingAnalyzer:
         report_file = f"betting_analysis/enhanced_betting_report_{timestamp}.txt"
         
         with open(report_file, 'w', encoding='utf-8') as f:
-            f.write("🎯 ENHANCED BETTING RECOMMENDATIONS\n")
+            f.write("TARGET: ENHANCED BETTING RECOMMENDATIONS\n")
             f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("=" * 80 + "\n\n")
             
             # Single prop recommendations
             if len(single_props) > 0:
-                f.write("🎲 SINGLE PROP RECOMMENDATIONS:\n")
+                f.write(" SINGLE PROP RECOMMENDATIONS:\n")
                 f.write("-" * 50 + "\n")
                 
                 # Sort by expected value
@@ -256,22 +256,22 @@ class EnhancedBettingAnalyzer:
                 
                 for i, (_, opp) in enumerate(single_props_sorted.head(15).iterrows(), 1):
                     f.write(f"{i:2d}. {opp['recommendation']} - {opp['player']}\n")
-                    f.write(f"    📊 {opp['stat'].upper()}: {opp['reasoning']}\n")
-                    f.write(f"    💰 Expected Value: {opp['expected_value']} | Edge: {opp['edge']}\n")
-                    f.write(f"    🎯 Win Probability: {opp['probability']} | {opp['confidence']}\n\n")
+                    f.write(f"    DATA: {opp['stat'].upper()}: {opp['reasoning']}\n")
+                    f.write(f"    MONEY: Expected Value: {opp['expected_value']} | Edge: {opp['edge']}\n")
+                    f.write(f"    TARGET: Win Probability: {opp['probability']} | {opp['confidence']}\n\n")
             
             # Combo prop recommendations
             if len(combo_props) > 0:
-                f.write("\n🎰 COMBO PROP OPPORTUNITIES:\n")
+                f.write("\n COMBO PROP OPPORTUNITIES:\n")
                 f.write("-" * 50 + "\n")
                 
                 for i, (_, combo) in enumerate(combo_props.head(10).iterrows(), 1):
                     f.write(f"{i:2d}. {combo['player']} - {combo['combo_confidence']} CONFIDENCE\n")
-                    f.write(f"    📈 Strong in: {combo['strong_predictions']}\n")
-                    f.write(f"    💡 Suggested combos: {combo['suggested_lines']}\n\n")
+                    f.write(f"    PROGRESS: Strong in: {combo['strong_predictions']}\n")
+                    f.write(f"    TIP: Suggested combos: {combo['suggested_lines']}\n\n")
             
             # Summary statistics
-            f.write("\n📈 ANALYSIS SUMMARY:\n")
+            f.write("\nPROGRESS: ANALYSIS SUMMARY:\n")
             f.write("-" * 30 + "\n")
             f.write(f"Single prop opportunities: {len(single_props)}\n")
             f.write(f"Combo opportunities: {len(combo_props)}\n")
@@ -281,11 +281,11 @@ class EnhancedBettingAnalyzer:
                 avg_ev = single_props['expected_value'].str.replace('$', '').astype(float).mean()
                 f.write(f"Average expected value: ${avg_ev:.2f}\n")
         
-        print(f"✅ Enhanced report saved: {report_file}")
+        print(f"SUCCESS: Enhanced report saved: {report_file}")
         
         # Display top opportunities
         if len(single_props) > 0:
-            print(f"\n🔥 TOP 5 YES RECOMMENDATIONS:")
+            print(f"\n TOP 5 YES RECOMMENDATIONS:")
             print("-" * 50)
             for i, (_, opp) in enumerate(single_props.head(5).iterrows(), 1):
                 print(f"{i}. {opp['recommendation']} - {opp['player']}")
@@ -294,7 +294,7 @@ class EnhancedBettingAnalyzer:
                 print()
         
         if len(combo_props) > 0:
-            print(f"\n🎰 TOP 3 COMBO OPPORTUNITIES:")
+            print(f"\n TOP 3 COMBO OPPORTUNITIES:")
             print("-" * 40)
             for i, (_, combo) in enumerate(combo_props.head(3).iterrows(), 1):
                 print(f"{i}. {combo['player']} ({combo['combo_confidence']})")
@@ -307,7 +307,7 @@ def main():
     analyzer = EnhancedBettingAnalyzer()
     single_props, combo_props = analyzer.generate_betting_recommendations()
     
-    print("\n🎯 READY TO BET!")
+    print("\nTARGET: READY TO BET!")
     print("Check the enhanced_betting_report_*.txt for full details")
 
 if __name__ == "__main__":

@@ -27,9 +27,9 @@ def create_prediction_report():
     ev_file = '../data/prizepicks_ev_analysis_enhanced_20250721_1655.csv'
     try:
         df = pd.read_csv(ev_file)
-        print(f"📊 Loaded {len(df)} betting opportunities")
+        print(f"DATA: Loaded {len(df)} betting opportunities")
     except Exception as e:
-        print(f"❌ Error loading EV results: {e}")
+        print(f"ERROR: Error loading EV results: {e}")
         return
     
     # Create enhanced CSV with additional analysis columns
@@ -62,7 +62,7 @@ def create_prediction_report():
     
     # Save the enhanced CSV
     enhanced_df.to_csv(csv_output_file, index=False)
-    print(f"💾 Enhanced CSV report saved to: {csv_output_file}")
+    print(f" Enhanced CSV report saved to: {csv_output_file}")
     
     # Create summary statistics CSV
     summary_csv_file = f"../data/prizepicks_summary_stats_{timestamp}.csv"
@@ -86,7 +86,7 @@ def create_prediction_report():
     # Reset index and save
     stat_summary.reset_index(drop=True, inplace=True)
     stat_summary.to_csv(summary_csv_file, index=False)
-    print(f"💾 Summary statistics CSV saved to: {summary_csv_file}")
+    print(f" Summary statistics CSV saved to: {summary_csv_file}")
     
     # Also create the text report
     with open(txt_output_file, 'w', encoding='utf-8') as f:
@@ -99,7 +99,7 @@ def create_prediction_report():
             if len(stat_df) == 0:
                 continue
                 
-            dual_print(f"\n🎯 {stat.upper()} PREDICTIONS", f)
+            dual_print(f"\nTARGET: {stat.upper()} PREDICTIONS", f)
             dual_print("-" * 50, f)
             
             # Show top predictions for this stat
@@ -113,11 +113,11 @@ def create_prediction_report():
                 
                 # Format the prediction comparison
                 if bet_type == "OVER":
-                    comparison = f"Model: {prediction:.3f} vs Line: {line} → Bet OVER"
-                    confidence = "🔥 HIGH" if prediction > line * 1.2 else "⚠️ MEDIUM"
+                    comparison = f"Model: {prediction:.3f} vs Line: {line}  Bet OVER"
+                    confidence = " HIGH" if prediction > line * 1.2 else "WARNING: MEDIUM"
                 else:
-                    comparison = f"Model: {prediction:.3f} vs Line: {line} → Bet UNDER"
-                    confidence = "🔥 HIGH" if prediction < line * 0.8 else "⚠️ MEDIUM"
+                    comparison = f"Model: {prediction:.3f} vs Line: {line}  Bet UNDER"
+                    confidence = " HIGH" if prediction < line * 0.8 else "WARNING: MEDIUM"
                 
                 dual_print(f"{i:2d}. {row.player:<20} | {comparison}", f)
                 dual_print(f"    Edge: {edge:+.1%} | Confidence: {confidence}", f)
@@ -128,14 +128,14 @@ def create_prediction_report():
             over_count = len(stat_df[stat_df['bet_type'] == 'OVER'])
             under_count = len(stat_df[stat_df['bet_type'] == 'UNDER'])
             
-            dual_print(f"\n📈 {stat} SUMMARY:", f)
+            dual_print(f"\nPROGRESS: {stat} SUMMARY:", f)
             dual_print(f"   Avg Model Prediction: {avg_prediction:.3f}", f)
             dual_print(f"   Avg PrizePicks Line:  {avg_line:.3f}", f)
             dual_print(f"   Model vs Market:      {((avg_prediction/avg_line - 1) * 100):+.1f}%", f)
             dual_print(f"   OVER bets: {over_count} | UNDER bets: {under_count}", f)
     
         # Overall model insights
-        dual_print(f"\n🧠 OVERALL MODEL INSIGHTS", f)
+        dual_print(f"\n OVERALL MODEL INSIGHTS", f)
         dual_print("=" * 50, f)
         
         # Show which players our models are most confident about
@@ -147,13 +147,13 @@ def create_prediction_report():
         player_opportunities.columns = ['avg_edge', 'num_bets', 'avg_prediction']
         player_opportunities = player_opportunities.sort_values('avg_edge', ascending=False)
         
-        dual_print("🎯 TOP PLAYERS BY MODEL CONFIDENCE:", f)
+        dual_print("TARGET: TOP PLAYERS BY MODEL CONFIDENCE:", f)
         top_players = player_opportunities.head(10)
         for player, stats in top_players.iterrows():
             dual_print(f"   {player:<25} | {stats['num_bets']} bets | {stats['avg_edge']:+.1%} avg edge", f)
         
         # Show stat type breakdown
-        dual_print(f"\n📊 STAT TYPE BREAKDOWN:", f)
+        dual_print(f"\nDATA: STAT TYPE BREAKDOWN:", f)
         stat_summary = df.groupby('stat').agg({
             'prediction': ['mean', 'min', 'max'],
             'line': ['mean', 'min', 'max'],
@@ -168,10 +168,10 @@ def create_prediction_report():
             
             dual_print(f"   {stat:<20} | Model Avg: {pred_avg:.3f} ({pred_range}) | Line Avg: {line_avg:.3f} | Edge: {avg_edge:+.1%}", f)
         
-        dual_print(f"\n✅ Report generated at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", f)
-        dual_print(f"💾 Text report saved to: {txt_output_file}", f)
+        dual_print(f"\nSUCCESS: Report generated at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", f)
+        dual_print(f" Text report saved to: {txt_output_file}", f)
     
-    print(f"\n📊 REPORT FILES GENERATED:")
+    print(f"\nDATA: REPORT FILES GENERATED:")
     print(f"   Enhanced CSV: {csv_output_file}")
     print(f"   Summary Stats: {summary_csv_file}")
     print(f"   Text Report: {txt_output_file}")

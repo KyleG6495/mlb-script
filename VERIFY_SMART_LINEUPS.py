@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🔍 LINEUP VERIFICATION SYSTEM
+ LINEUP VERIFICATION SYSTEM
 Double-check that all players in smart lineups are confirmed starters
 """
 
@@ -13,21 +13,21 @@ logger = logging.getLogger(__name__)
 def verify_smart_lineups():
     """Verify all players in smart lineups are confirmed starters"""
     
-    logger.info("🔍 LINEUP VERIFICATION SYSTEM")
+    logger.info(" LINEUP VERIFICATION SYSTEM")
     logger.info("="*50)
     
     try:
         # Load smart lineups
         lineups = pd.read_csv('../fd_current_slate/SMART_CHAMPIONSHIP_LINEUPS.csv')
-        logger.info(f"📥 Loaded {len(lineups)} smart lineups")
+        logger.info(f" Loaded {len(lineups)} smart lineups")
         
         # Load original slate for comparison
         original_slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📥 Loaded original slate: {len(original_slate)} players")
+        logger.info(f" Loaded original slate: {len(original_slate)} players")
         
         # Load smart starter slate
         smart_starters = pd.read_csv('../data/fd_slate_SMART_STARTERS.csv')
-        logger.info(f"📥 Loaded smart starters: {len(smart_starters)} confirmed starters")
+        logger.info(f" Loaded smart starters: {len(smart_starters)} confirmed starters")
         
         # Extract all player names from lineups
         all_lineup_players = []
@@ -49,12 +49,12 @@ def verify_smart_lineups():
                     })
             all_lineup_players.extend(lineup_players)
         
-        logger.info(f"📊 Total player selections: {len(all_lineup_players)}")
-        logger.info(f"📊 Unique players used: {len(set(p['name'] for p in all_lineup_players))}")
+        logger.info(f"DATA: Total player selections: {len(all_lineup_players)}")
+        logger.info(f"DATA: Unique players used: {len(set(p['name'] for p in all_lineup_players))}")
         
         # Check each player against smart starters
         logger.info("")
-        logger.info("🔍 PLAYER VERIFICATION:")
+        logger.info(" PLAYER VERIFICATION:")
         
         problematic_players = []
         verified_players = []
@@ -87,31 +87,31 @@ def verify_smart_lineups():
                 else:
                     status = f"Batting Order: {batting_order}"
                     
-                logger.info(f"   ✅ {player_name} ({player_team}) - {status}")
+                logger.info(f"   SUCCESS: {player_name} ({player_team}) - {status}")
             else:
                 problematic_players.append(player)
-                logger.warning(f"   ❌ {player_name} ({player_team}) - NOT FOUND in smart starters!")
+                logger.warning(f"   ERROR: {player_name} ({player_team}) - NOT FOUND in smart starters!")
         
         logger.info("")
-        logger.info("📊 VERIFICATION SUMMARY:")
-        logger.info(f"   ✅ Verified players: {len(verified_players)}")
-        logger.info(f"   ❌ Problematic players: {len(problematic_players)}")
+        logger.info("DATA: VERIFICATION SUMMARY:")
+        logger.info(f"   SUCCESS: Verified players: {len(verified_players)}")
+        logger.info(f"   ERROR: Problematic players: {len(problematic_players)}")
         
         if len(problematic_players) == 0:
             logger.info("")
-            logger.info("🎉 VERIFICATION PASSED!")  
-            logger.info("✅ ALL players in smart lineups are confirmed starters")
-            logger.info("🚫 NO NS/PO players found in lineups")
-            logger.info("📁 SMART_CHAMPIONSHIP_LINEUPS.csv is SAFE to upload!")
+            logger.info("COMPLETE: VERIFICATION PASSED!")  
+            logger.info("SUCCESS: ALL players in smart lineups are confirmed starters")
+            logger.info(" NO NS/PO players found in lineups")
+            logger.info(" SMART_CHAMPIONSHIP_LINEUPS.csv is SAFE to upload!")
         else:
             logger.error("")
-            logger.error("❌ VERIFICATION FAILED!")
+            logger.error("ERROR: VERIFICATION FAILED!")
             for player in problematic_players:
                 logger.error(f"   Problem: {player['name']} ({player['team']}) in {player['lineup']}")
         
         # Show batting order breakdown
         logger.info("")
-        logger.info("📊 BATTING ORDER BREAKDOWN:")
+        logger.info("DATA: BATTING ORDER BREAKDOWN:")
         hitters = [p for p in verified_players if p['player']['position'] != 'P']
         pitchers = [p for p in verified_players if p['player']['position'] == 'P']
         
@@ -122,7 +122,7 @@ def verify_smart_lineups():
                 logger.info(f"   Batting Order {order}: {count} players")
         
     except Exception as e:
-        logger.error(f"❌ Verification error: {e}")
+        logger.error(f"ERROR: Verification error: {e}")
         import traceback
         traceback.print_exc()
 

@@ -15,11 +15,11 @@ def convert_lineups_to_fanduel_format():
     
     try:
         df = pd.read_csv(input_file)
-        print(f"✅ Loaded enhanced lineups: {input_file}")
-        print(f"📊 Found {len(df)} player entries across {df['lineup_id'].nunique()} lineups")
+        print(f"SUCCESS: Loaded enhanced lineups: {input_file}")
+        print(f"DATA: Found {len(df)} player entries across {df['lineup_id'].nunique()} lineups")
     except FileNotFoundError:
-        print(f"❌ File not found: {input_file}")
-        print("🔄 Make sure you've run the enhanced DFS optimizer first!")
+        print(f"ERROR: File not found: {input_file}")
+        print("SWAP: Make sure you've run the enhanced DFS optimizer first!")
         return
     
     # Get unique lineups
@@ -60,11 +60,11 @@ def convert_lineups_to_fanduel_format():
     output_file = rf'c:\Users\kgone\OneDrive\Personal_Information\MLB\fd_current_slate\Lineups_Ready_To_Submit_{today_str}.csv'
     fanduel_df.to_csv(output_file, index=False)
     
-    print(f"\n💾 FanDuel submission file created: {output_file}")
-    print(f"📊 Contains {len(fanduel_df)} optimized lineups")
+    print(f"\n FanDuel submission file created: {output_file}")
+    print(f"DATA: Contains {len(fanduel_df)} optimized lineups")
     
     # Show top 3 lineups summary
-    print(f"\n🏆 TOP 3 LINEUPS SUMMARY:")
+    print(f"\nLINEUP: TOP 3 LINEUPS SUMMARY:")
     print("-" * 50)
     
     for i, lineup in fanduel_df.head(3).iterrows():
@@ -81,8 +81,8 @@ def convert_lineups_to_fanduel_format():
             if player_col in lineup:
                 print(f"     {lineup[player_col]:<20} {lineup[pos_col]:<3} ${lineup[salary_col]:,} ({lineup[fppg_col]} FPPG)")
     
-    print(f"\n✅ READY FOR FANDUEL SUBMISSION!")
-    print(f"📂 Upload this file to FanDuel: {output_file}")
+    print(f"\nSUCCESS: READY FOR FANDUEL SUBMISSION!")
+    print(f" Upload this file to FanDuel: {output_file}")
     
     return output_file
 

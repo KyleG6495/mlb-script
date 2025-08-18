@@ -15,7 +15,7 @@ import os
 
 class SimplifiedMasterSystem:
     def __init__(self, initial_bankroll=1000):
-        print("🚀 INITIALIZING SIMPLIFIED MASTER BETTING SYSTEM")
+        print("START: INITIALIZING SIMPLIFIED MASTER BETTING SYSTEM")
         print("=" * 60)
         
         # Import existing modules if available
@@ -24,7 +24,7 @@ class SimplifiedMasterSystem:
             self.betting_analyzer = EnhancedBettingAnalyzer()
             self.has_enhanced_analyzer = True
         except ImportError:
-            print("⚠️ Enhanced betting analyzer not found - using basic analysis")
+            print("WARNING: Enhanced betting analyzer not found - using basic analysis")
             self.has_enhanced_analyzer = False
         
         try:
@@ -32,7 +32,7 @@ class SimplifiedMasterSystem:
             self.combo_optimizer = ComboPropOptimizer()
             self.has_combo_optimizer = True
         except ImportError:
-            print("⚠️ Combo optimizer not found - skipping combo analysis")
+            print("WARNING: Combo optimizer not found - skipping combo analysis")
             self.has_combo_optimizer = False
         
         try:
@@ -40,43 +40,43 @@ class SimplifiedMasterSystem:
             self.bankroll_manager = BankrollManager(initial_bankroll=initial_bankroll)
             self.has_bankroll_manager = True
         except ImportError:
-            print("⚠️ Bankroll manager not found - using basic bet sizing")
+            print("WARNING: Bankroll manager not found - using basic bet sizing")
             self.has_bankroll_manager = False
             self.initial_bankroll = initial_bankroll
         
-        print("✅ System initialized with available components!")
+        print("SUCCESS: System initialized with available components!")
     
     def run_analysis(self):
         """Run simplified master analysis using existing data"""
         
-        print(f"\n🎯 RUNNING SIMPLIFIED MASTER ANALYSIS")
+        print(f"\nTARGET: RUNNING SIMPLIFIED MASTER ANALYSIS")
         print("=" * 60)
         
         try:
             # Step 1: Load existing data
-            print("\n📊 STEP 1: LOADING EXISTING DATA")
+            print("\nDATA: STEP 1: LOADING EXISTING DATA")
             data = self.load_existing_data()
             
             if not data:
-                print("❌ No data available for analysis")
+                print("ERROR: No data available for analysis")
                 return None
             
             # Step 2: Enhanced betting analysis
-            print("\n🎯 STEP 2: ENHANCED BETTING ANALYSIS")
+            print("\nTARGET: STEP 2: ENHANCED BETTING ANALYSIS")
             betting_recommendations = self.run_enhanced_analysis(data)
             
             # Step 3: Combo optimization (if available)
             combo_opportunities = []
             if self.has_combo_optimizer and betting_recommendations:
-                print("\n🔥 STEP 3: COMBO PROP OPTIMIZATION")
+                print("\n STEP 3: COMBO PROP OPTIMIZATION")
                 combo_opportunities = self.find_combo_opportunities(betting_recommendations)
             
             # Step 4: Bankroll optimization
-            print("\n💰 STEP 4: BANKROLL OPTIMIZATION")
+            print("\nMONEY: STEP 4: BANKROLL OPTIMIZATION")
             portfolio = self.optimize_portfolio(betting_recommendations, combo_opportunities)
             
             # Step 5: Generate comprehensive report
-            print("\n📋 STEP 5: GENERATING MASTER REPORT")
+            print("\nINFO: STEP 5: GENERATING MASTER REPORT")
             self.generate_comprehensive_report(betting_recommendations, combo_opportunities, portfolio)
             
             return {
@@ -86,7 +86,7 @@ class SimplifiedMasterSystem:
             }
             
         except Exception as e:
-            print(f"❌ Error in analysis: {e}")
+            print(f"ERROR: Error in analysis: {e}")
             import traceback
             traceback.print_exc()
             return None
@@ -109,24 +109,24 @@ class SimplifiedMasterSystem:
                 try:
                     if 'slate' in file_path:
                         data['fd_slate'] = pd.read_csv(file_path)
-                        print(f"📊 Loaded {len(data['fd_slate'])} players from FanDuel slate")
+                        print(f"DATA: Loaded {len(data['fd_slate'])} players from FanDuel slate")
                     elif 'features' in file_path:
                         data['hitter_features'] = pd.read_csv(file_path)
-                        print(f"📈 Loaded {len(data['hitter_features'])} hitter features")
+                        print(f"PROGRESS: Loaded {len(data['hitter_features'])} hitter features")
                     elif 'base_hitter_scores' in file_path:
                         data['base_scores'] = pd.read_csv(file_path)
-                        print(f"🎯 Loaded {len(data['base_scores'])} base predictions")
+                        print(f"TARGET: Loaded {len(data['base_scores'])} base predictions")
                     elif 'fd_dk_hitter_scores' in file_path:
                         data['predictions'] = pd.read_csv(file_path)
-                        print(f"🔮 Loaded {len(data['predictions'])} enhanced predictions")
+                        print(f" Loaded {len(data['predictions'])} enhanced predictions")
                 except FileNotFoundError:
-                    print(f"⚠️ File not found: {file_path}")
+                    print(f"WARNING: File not found: {file_path}")
                     continue
             
             return data if data else None
             
         except Exception as e:
-            print(f"⚠️ Error loading data: {e}")
+            print(f"WARNING: Error loading data: {e}")
             return None
     
     def run_enhanced_analysis(self, data):
@@ -141,15 +141,15 @@ class SimplifiedMasterSystem:
                 elif 'base_scores' in data:
                     predictions_df = data['base_scores']
                 else:
-                    print("⚠️ No prediction data available")
+                    print("WARNING: No prediction data available")
                     return []
                 
                 recommendations = self.betting_analyzer.analyze_all_props(predictions_df)
-                print(f"✅ Generated {len(recommendations)} betting recommendations")
+                print(f"SUCCESS: Generated {len(recommendations)} betting recommendations")
                 return recommendations
                 
             except Exception as e:
-                print(f"⚠️ Error in enhanced analysis: {e}")
+                print(f"WARNING: Error in enhanced analysis: {e}")
                 return self.run_basic_analysis(data)
         else:
             return self.run_basic_analysis(data)
@@ -157,7 +157,7 @@ class SimplifiedMasterSystem:
     def run_basic_analysis(self, data):
         """Run basic betting analysis if enhanced analyzer unavailable"""
         
-        print("📊 Running basic betting analysis...")
+        print("DATA: Running basic betting analysis...")
         
         recommendations = []
         
@@ -167,7 +167,7 @@ class SimplifiedMasterSystem:
         elif 'base_scores' in data:
             df = data['base_scores']
         else:
-            print("⚠️ No prediction data for basic analysis")
+            print("WARNING: No prediction data for basic analysis")
             return []
         
         # Basic prop analysis
@@ -219,7 +219,7 @@ class SimplifiedMasterSystem:
                         'odds': +150
                     })
         
-        print(f"✅ Generated {len(recommendations)} basic recommendations")
+        print(f"SUCCESS: Generated {len(recommendations)} basic recommendations")
         return recommendations
     
     def find_combo_opportunities(self, betting_recommendations):
@@ -237,15 +237,15 @@ class SimplifiedMasterSystem:
             ]
             
             if len(high_confidence) < 2:
-                print("⚠️ Not enough high-confidence bets for combos")
+                print("WARNING: Not enough high-confidence bets for combos")
                 return []
             
             combos = self.combo_optimizer.find_combo_opportunities(high_confidence)
-            print(f"🔥 Found {len(combos)} combo opportunities")
+            print(f" Found {len(combos)} combo opportunities")
             return combos
             
         except Exception as e:
-            print(f"⚠️ Error in combo optimization: {e}")
+            print(f"WARNING: Error in combo optimization: {e}")
             return []
     
     def optimize_portfolio(self, betting_recommendations, combo_opportunities):
@@ -285,7 +285,7 @@ class SimplifiedMasterSystem:
                 portfolio = self.bankroll_manager.optimize_bet_portfolio(all_opportunities)
                 
             except Exception as e:
-                print(f"⚠️ Error in bankroll optimization: {e}")
+                print(f"WARNING: Error in bankroll optimization: {e}")
                 portfolio = self.simple_portfolio_optimization(betting_recommendations, combo_opportunities)
         else:
             portfolio = self.simple_portfolio_optimization(betting_recommendations, combo_opportunities)
@@ -324,60 +324,60 @@ class SimplifiedMasterSystem:
                 'reasoning': "Top combo opportunity with reduced sizing"
             })
         
-        print(f"💰 Created simple portfolio with {len(portfolio)} bets")
+        print(f"MONEY: Created simple portfolio with {len(portfolio)} bets")
         return portfolio
     
     def generate_comprehensive_report(self, betting_recommendations, combo_opportunities, portfolio):
         """Generate comprehensive master report"""
         
         print("\n" + "=" * 80)
-        print("📋 SIMPLIFIED MASTER BETTING SYSTEM REPORT")
+        print("INFO: SIMPLIFIED MASTER BETTING SYSTEM REPORT")
         print("=" * 80)
         
         # Summary stats
         yes_bets = [b for b in betting_recommendations if b.get('recommendation') == 'YES']
         total_allocation = sum([p.get('recommended_amount', 0) for p in portfolio])
         
-        print(f"\n📊 EXECUTIVE SUMMARY:")
-        print(f"   🎯 Total Opportunities: {len(betting_recommendations)}")
-        print(f"   ✅ YES Recommendations: {len(yes_bets)}")
-        print(f"   🔥 Combo Opportunities: {len(combo_opportunities)}")
-        print(f"   💰 Total Portfolio Value: ${total_allocation:.2f}")
-        print(f"   📈 Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+        print(f"\nDATA: EXECUTIVE SUMMARY:")
+        print(f"   TARGET: Total Opportunities: {len(betting_recommendations)}")
+        print(f"   SUCCESS: YES Recommendations: {len(yes_bets)}")
+        print(f"    Combo Opportunities: {len(combo_opportunities)}")
+        print(f"   MONEY: Total Portfolio Value: ${total_allocation:.2f}")
+        print(f"   PROGRESS: Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
         
         # Top single bets
-        print(f"\n🏆 TOP SINGLE BET RECOMMENDATIONS:")
+        print(f"\nLINEUP: TOP SINGLE BET RECOMMENDATIONS:")
         top_bets = sorted(yes_bets, key=lambda x: x.get('expected_value', 0), reverse=True)[:5]
         
         for i, bet in enumerate(top_bets, 1):
             print(f"   {i}. {bet.get('player', 'Unknown')} - {bet.get('prop_type', 'Unknown')}")
-            print(f"      💰 EV: {bet.get('expected_value', 0):.1f}% | Confidence: {bet.get('confidence_level', 'UNKNOWN')}")
-            print(f"      🎯 Prediction: {bet.get('prediction', 0):.2f} | Line: {bet.get('line', 'N/A')}")
+            print(f"      MONEY: EV: {bet.get('expected_value', 0):.1f}% | Confidence: {bet.get('confidence_level', 'UNKNOWN')}")
+            print(f"      TARGET: Prediction: {bet.get('prediction', 0):.2f} | Line: {bet.get('line', 'N/A')}")
         
         # Top combos
         if combo_opportunities:
-            print(f"\n🔥 TOP COMBO OPPORTUNITIES:")
+            print(f"\n TOP COMBO OPPORTUNITIES:")
             top_combos = sorted(combo_opportunities, key=lambda x: x.get('expected_value', 0), reverse=True)[:3]
             
             for i, combo in enumerate(top_combos, 1):
                 players = combo.get('players', [])
                 print(f"   {i}. {' + '.join(players[:2])}{'...' if len(players) > 2 else ''}")
-                print(f"      🎯 Payout: {combo.get('payout_multiplier', 0):.1f}x | EV: {combo.get('expected_value', 0):.1f}%")
+                print(f"      TARGET: Payout: {combo.get('payout_multiplier', 0):.1f}x | EV: {combo.get('expected_value', 0):.1f}%")
         
         # Portfolio allocation
-        print(f"\n💰 PORTFOLIO ALLOCATION:")
+        print(f"\nMONEY: PORTFOLIO ALLOCATION:")
         bankroll = getattr(self, 'current_bankroll', self.initial_bankroll) if hasattr(self, 'bankroll_manager') else self.initial_bankroll
         allocation_pct = (total_allocation / bankroll) * 100 if bankroll > 0 else 0
         
-        print(f"   💵 Available Bankroll: ${bankroll:.2f}")
-        print(f"   📊 Total Allocation: ${total_allocation:.2f} ({allocation_pct:.1f}%)")
-        print(f"   🛡️ Risk Level: {'HIGH' if allocation_pct > 15 else 'MODERATE' if allocation_pct > 8 else 'CONSERVATIVE'}")
+        print(f"    Available Bankroll: ${bankroll:.2f}")
+        print(f"   DATA: Total Allocation: ${total_allocation:.2f} ({allocation_pct:.1f}%)")
+        print(f"    Risk Level: {'HIGH' if allocation_pct > 15 else 'MODERATE' if allocation_pct > 8 else 'CONSERVATIVE'}")
         
         # Save report
         self.save_report(betting_recommendations, combo_opportunities, portfolio)
         
-        print(f"\n📁 Report saved to: simplified_master_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
-        print("\n🎯 SIMPLIFIED MASTER ANALYSIS COMPLETE! 🎯")
+        print(f"\n Report saved to: simplified_master_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
+        print("\nTARGET: SIMPLIFIED MASTER ANALYSIS COMPLETE! TARGET:")
     
     def save_report(self, betting_recs, combo_ops, portfolio):
         """Save detailed report to file"""
@@ -421,7 +421,7 @@ class SimplifiedMasterSystem:
                     f.write(f"Reasoning: {bet.get('reasoning', 'N/A')}\n\n")
                     
         except Exception as e:
-            print(f"⚠️ Error saving report: {e}")
+            print(f"WARNING: Error saving report: {e}")
 
 def main():
     """Main execution function"""
@@ -433,10 +433,10 @@ def main():
     results = system.run_analysis()
     
     if results:
-        print("\n🚀 Simplified Master System completed successfully!")
-        print("🎯 Check the generated report for betting recommendations!")
+        print("\nSTART: Simplified Master System completed successfully!")
+        print("TARGET: Check the generated report for betting recommendations!")
     else:
-        print("\n❌ Analysis failed - check error messages above")
+        print("\nERROR: Analysis failed - check error messages above")
 
 if __name__ == "__main__":
     main()

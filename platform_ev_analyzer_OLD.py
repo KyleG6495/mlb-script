@@ -31,10 +31,10 @@ class RealDataEVAnalyzer:
         
         for file_path in pp_files:
             if os.path.exists(file_path):
-                print(f"📊 Loading PrizePicks data from: {file_path}")
+                print(f"DATA: Loading PrizePicks data from: {file_path}")
                 return pd.read_excel(file_path)
         
-        print("❌ No PrizePicks data found")
+        print("ERROR: No PrizePicks data found")
         return pd.DataFrame()
     
     def load_underdog_data(self):
@@ -48,13 +48,13 @@ class RealDataEVAnalyzer:
         
         for file_path in uf_files:
             if os.path.exists(file_path):
-                print(f"📊 Loading Underdog data from: {file_path}")
+                print(f"DATA: Loading Underdog data from: {file_path}")
                 if file_path.endswith('.xlsx'):
                     return pd.read_excel(file_path)
                 else:
                     return pd.read_csv(file_path)
         
-        print("⚠️ No Underdog data found")
+        print("WARNING: No Underdog data found")
         return pd.DataFrame()
     
     def load_model_predictions(self):
@@ -72,7 +72,7 @@ class RealDataEVAnalyzer:
             if os.path.exists(file_path):
                 df = pd.read_csv(file_path)
                 predictions[file_path] = df
-                print(f"📈 Loaded predictions from: {file_path}")
+                print(f"PROGRESS: Loaded predictions from: {file_path}")
         
         return predictions
     
@@ -107,7 +107,7 @@ class RealDataEVAnalyzer:
     def analyze_prizepicks_opportunities(self, pp_df):
         """Analyze PrizePicks opportunities with realistic EV calculations"""
         
-        print(f"\n🎯 ANALYZING PRIZEPICKS OPPORTUNITIES")
+        print(f"\nTARGET: ANALYZING PRIZEPICKS OPPORTUNITIES")
         print("=" * 50)
         
         opportunities = []
@@ -178,7 +178,7 @@ class RealDataEVAnalyzer:
         """Create a clean EV sheet for the platform"""
         
         if len(opportunities_df) == 0:
-            print(f"❌ No opportunities found for {platform}")
+            print(f"ERROR: No opportunities found for {platform}")
             return
         
         # Sort by expected value
@@ -221,11 +221,11 @@ class RealDataEVAnalyzer:
         filename = f"../data/{platform}_real_ev_{timestamp}.csv"
         final_sheet.to_csv(filename, index=False)
         
-        print(f"💾 {platform.title()} EV sheet saved: {filename}")
-        print(f"🎯 Found {len(sorted_ops)} positive EV opportunities")
+        print(f" {platform.title()} EV sheet saved: {filename}")
+        print(f"TARGET: Found {len(sorted_ops)} positive EV opportunities")
         
         # Show top 10
-        print(f"\n🏆 TOP 10 {platform.upper()} OPPORTUNITIES:")
+        print(f"\nLINEUP: TOP 10 {platform.upper()} OPPORTUNITIES:")
         print("=" * 80)
         for i, row in final_sheet.head(10).iterrows():
             print(f"{row['Rank']:2d}. {row['Player'][:18]:18s} {row['Stat'][:12]:12s} "
@@ -237,29 +237,29 @@ class RealDataEVAnalyzer:
     def run_analysis(self):
         """Run complete analysis with real data"""
         
-        print("🎯 REAL DATA EV ANALYZER FOR PRIZEPICKS & UNDERDOG")
+        print("TARGET: REAL DATA EV ANALYZER FOR PRIZEPICKS & UNDERDOG")
         print("=" * 65)
         
         # Load PrizePicks data
         pp_df = self.load_prizepicks_data()
         
         if not pp_df.empty:
-            print(f"✅ PrizePicks: {len(pp_df)} players, {len([c for c in pp_df.columns if c != 'player_name'])} stat types")
+            print(f"SUCCESS: PrizePicks: {len(pp_df)} players, {len([c for c in pp_df.columns if c != 'player_name'])} stat types")
             pp_opportunities = self.analyze_prizepicks_opportunities(pp_df)
             pp_sheet = self.create_ev_sheet(pp_opportunities, 'prizepicks')
         else:
-            print("❌ No PrizePicks data available")
+            print("ERROR: No PrizePicks data available")
         
         # Load Underdog data
         uf_df = self.load_underdog_data()
         
         if not uf_df.empty:
-            print(f"✅ Underdog: {len(uf_df)} records found")
+            print(f"SUCCESS: Underdog: {len(uf_df)} records found")
             # Process Underdog data similarly...
         else:
-            print("⚠️ Underdog data not ready yet (scraper still running)")
+            print("WARNING: Underdog data not ready yet (scraper still running)")
         
-        print(f"\n📈 ANALYSIS COMPLETE!")
+        print(f"\nPROGRESS: ANALYSIS COMPLETE!")
 
 def main():
     analyzer = RealDataEVAnalyzer()

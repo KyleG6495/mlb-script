@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 
 def main():
-    print('🔍 Looking for safe enhanced tournament files...')
+    print(' Looking for safe enhanced tournament files...')
     
     # Look for files from today - try multiple path patterns
     patterns = [
@@ -25,17 +25,17 @@ def main():
             break
     
     if not files:
-        print('❌ No safe enhanced tournament files found for today')
-        print('💡 Try running: python ../SAFE_ENHANCED_TOURNAMENT_GENERATOR.py')
+        print('ERROR: No safe enhanced tournament files found for today')
+        print('TIP: Try running: python ../SAFE_ENHANCED_TOURNAMENT_GENERATOR.py')
         return False
     
-    print(f'✅ Found {len(files)} safe enhanced tournament files')
+    print(f'SUCCESS: Found {len(files)} safe enhanced tournament files')
     
     all_lineups = []
     lineup_counter = 1
     
     for i, file in enumerate(sorted(files)):
-        print(f'📊 Processing file {i+1}: {os.path.basename(file)}')
+        print(f'DATA: Processing file {i+1}: {os.path.basename(file)}')
         df = pd.read_csv(file)
         
         # Update lineup IDs to be sequential
@@ -77,11 +77,11 @@ def main():
     max_proj = combined['Projected_FPPG'].max()
     avg_proj = combined.groupby('lineup_id')['Projected_FPPG'].sum().mean()
     
-    print(f'✅ Master tournament file created: {os.path.basename(output_file)}')
-    print(f'🏆 Total lineups: {total_lineups}')
-    print(f'💰 Projection range: {min_proj:.1f} - {max_proj:.1f} FPPG')
-    print(f'📊 Average lineup score: {avg_proj:.1f} FPPG')
-    print(f'🎯 File location: {output_file}')
+    print(f'SUCCESS: Master tournament file created: {os.path.basename(output_file)}')
+    print(f'LINEUP: Total lineups: {total_lineups}')
+    print(f'MONEY: Projection range: {min_proj:.1f} - {max_proj:.1f} FPPG')
+    print(f'DATA: Average lineup score: {avg_proj:.1f} FPPG')
+    print(f'TARGET: File location: {output_file}')
     
     # Also create a FanDuel submission format
     submission_paths = [
@@ -102,13 +102,13 @@ def main():
             break
         except (OSError, FileNotFoundError):
             continue
-    print(f'📋 FanDuel submission format: {os.path.basename(submission_file)}')
+    print(f'INFO: FanDuel submission format: {os.path.basename(submission_file)}')
     
     return True
 
 if __name__ == "__main__":
     success = main()
     if success:
-        print('\n🚀 SUCCESS: Tournament files ready for submission!')
+        print('\nSTART: SUCCESS: Tournament files ready for submission!')
     else:
-        print('\n❌ Failed to combine files - but individual files may still be available')
+        print('\nERROR: Failed to combine files - but individual files may still be available')

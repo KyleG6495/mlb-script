@@ -18,11 +18,11 @@ def load_confirmed_hitter_games():
     """Load confirmed hitter games data"""
     try:
         games_df = pd.read_csv('../data/confirmed_hitter_games.csv')
-        logger.info(f"✅ Loaded {len(games_df)} confirmed hitter games")
+        logger.info(f"SUCCESS: Loaded {len(games_df)} confirmed hitter games")
         return games_df
     except FileNotFoundError:
-        logger.error("❌ confirmed_hitter_games.csv not found!")
-        logger.error("💡 Run step 1 first: 1_CONFIRMED_generate_hitter_games.py")
+        logger.error("ERROR: confirmed_hitter_games.csv not found!")
+        logger.error("TIP: Run step 1 first: 1_CONFIRMED_generate_hitter_games.py")
         return None
 
 def load_player_id_mapping():
@@ -39,19 +39,19 @@ def load_player_id_mapping():
         for file_path in mapping_files:
             try:
                 mapping_df = pd.read_csv(file_path)
-                logger.info(f"✅ Loaded player ID mapping from {file_path}")
+                logger.info(f"SUCCESS: Loaded player ID mapping from {file_path}")
                 break
             except FileNotFoundError:
                 continue
         
         if mapping_df is None:
-            logger.warning("⚠️ No existing player ID mapping found")
-            logger.info("💡 Will create basic mapping from confirmed players")
+            logger.warning("WARNING: No existing player ID mapping found")
+            logger.info("TIP: Will create basic mapping from confirmed players")
             return None
         
         return mapping_df
     except Exception as e:
-        logger.warning(f"⚠️ Error loading player mapping: {e}")
+        logger.warning(f"WARNING: Error loading player mapping: {e}")
         return None
 
 def create_confirmed_player_ids(games_df):
@@ -77,7 +77,7 @@ def create_confirmed_player_ids(games_df):
         }
         
         confirmed_players.append(player_entry)
-        logger.info(f"📋 Mapped: {player_name} ({team}) → {player_id}")
+        logger.info(f"INFO: Mapped: {player_name} ({team})  {player_id}")
     
     return pd.DataFrame(confirmed_players)
 
@@ -102,15 +102,15 @@ def assign_confirmed_hitter_ids(games_df, player_mapping):
             
             if len(matches) > 0:
                 games_with_ids.at[idx, 'player_id'] = matches.iloc[0]['player_id']
-                logger.info(f"✅ Matched: {player_name} ({team})")
+                logger.info(f"SUCCESS: Matched: {player_name} ({team})")
             else:
                 # Create new ID for unmatched players
                 new_id = f"MLB_{game['fd_id']}_{team}"
                 games_with_ids.at[idx, 'player_id'] = new_id
-                logger.info(f"🆕 New ID: {player_name} ({team}) → {new_id}")
+                logger.info(f" New ID: {player_name} ({team})  {new_id}")
     else:
         # Create all new IDs
-        logger.info("🆕 Creating new player IDs for all confirmed starters")
+        logger.info(" Creating new player IDs for all confirmed starters")
         games_with_ids = games_df.copy()
         games_with_ids['player_id'] = games_with_ids.apply(
             lambda row: f"MLB_{row['fd_id']}_{row['team']}", axis=1
@@ -130,16 +130,16 @@ def save_confirmed_hitter_ids(games_with_ids_df):
     timestamped_file = f'../data/confirmed_hitter_games_with_ids_{timestamp}.csv'
     games_with_ids_df.to_csv(timestamped_file, index=False)
     
-    logger.info(f"💾 Saved confirmed hitter games with IDs:")
-    logger.info(f"   📁 Main: {main_file}")
-    logger.info(f"   📁 Timestamped: {timestamped_file}")
+    logger.info(f" Saved confirmed hitter games with IDs:")
+    logger.info(f"    Main: {main_file}")
+    logger.info(f"    Timestamped: {timestamped_file}")
     
     return main_file
 
 def main():
     """Main function for confirmed hitter ID assignment"""
-    logger.info("🆔 CONFIRMED STARTERS HITTER ID ASSIGNMENT")
-    logger.info("🏏 Processing only confirmed starting hitters")
+    logger.info(" CONFIRMED STARTERS HITTER ID ASSIGNMENT")
+    logger.info(" Processing only confirmed starting hitters")
     logger.info("=" * 60)
     
     # Load confirmed hitter games
@@ -158,12 +158,12 @@ def main():
     
     # Summary
     logger.info("=" * 60)
-    logger.info("🎉 CONFIRMED HITTER ID ASSIGNMENT COMPLETE!")
-    logger.info(f"✅ Processed {len(games_with_ids_df)} confirmed starting hitters")
-    logger.info(f"🆔 All players now have unique IDs")
-    logger.info(f"⚡ Much faster than processing entire league!")
-    logger.info(f"📁 Ready for next pipeline step")
-    logger.info("🎯 100% focused on players that will actually play")
+    logger.info("COMPLETE: CONFIRMED HITTER ID ASSIGNMENT COMPLETE!")
+    logger.info(f"SUCCESS: Processed {len(games_with_ids_df)} confirmed starting hitters")
+    logger.info(f" All players now have unique IDs")
+    logger.info(f" Much faster than processing entire league!")
+    logger.info(f" Ready for next pipeline step")
+    logger.info("TARGET: 100% focused on players that will actually play")
 
 if __name__ == "__main__":
     main()

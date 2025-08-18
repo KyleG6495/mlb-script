@@ -19,7 +19,7 @@ class WinningDFSBuilder:
         
     def load_and_enhance_slate(self):
         """Load slate with winning-focused enhancements"""
-        print("🎯 Loading slate with WINNING enhancements...")
+        print("TARGET: Loading slate with WINNING enhancements...")
         
         slate = pd.read_csv(self.slate_dir / "fd_slate_today.csv")
         
@@ -125,7 +125,7 @@ class WinningDFSBuilder:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"  ❌ No affordable {position} players (budget: ${remaining_budget})")
+                print(f"  ERROR: No affordable {position} players (budget: ${remaining_budget})")
                 return None
             
             # Selection logic based on strategy
@@ -176,7 +176,7 @@ class WinningDFSBuilder:
     
     def build_winning_lineups(self, num_lineups=20):
         """Build lineups designed to WIN"""
-        print("🏆 BUILDING LINEUPS TO WIN (NOT JUST FILL ROSTERS)")
+        print("LINEUP: BUILDING LINEUPS TO WIN (NOT JUST FILL ROSTERS)")
         print("=" * 60)
         
         slate = self.load_and_enhance_slate()
@@ -196,16 +196,16 @@ class WinningDFSBuilder:
             
             if lineup:
                 lineups.append(lineup)
-                print(f"  ✅ ${lineup['total_salary']}, {lineup['total_fppg']:.1f} FPPG ({strategy_name})")
+                print(f"  SUCCESS: ${lineup['total_salary']}, {lineup['total_fppg']:.1f} FPPG ({strategy_name})")
             else:
-                print(f"  ❌ Failed to build lineup")
+                print(f"  ERROR: Failed to build lineup")
         
         return lineups
     
     def save_winning_lineups(self, lineups):
         """Save lineups in winning format"""
         if not lineups:
-            print("❌ No winning lineups created!")
+            print("ERROR: No winning lineups created!")
             return None
         
         fanduel_data = []
@@ -258,28 +258,28 @@ class WinningDFSBuilder:
         output_file = self.slate_dir / f"WINNING_Lineups_{timestamp}.csv"
         df.to_csv(output_file, index=False)
         
-        print(f"\n💾 WINNING LINEUPS SAVED: {output_file}")
+        print(f"\n WINNING LINEUPS SAVED: {output_file}")
         
         # Analysis
         fppgs = [l['total_fppg'] for l in lineups]
         salaries = [l['total_salary'] for l in lineups]
         strategies = [l['strategy'] for l in lineups]
         
-        print(f"\n🏆 WINNING LINEUP ANALYSIS:")
-        print(f"  📊 FPPG Range: {min(fppgs):.1f} - {max(fppgs):.1f}")
-        print(f"  💰 Average FPPG: {sum(fppgs)/len(fppgs):.1f}")
-        print(f"  💵 Salary Range: ${min(salaries):,} - ${max(salaries):,}")
-        print(f"  📈 Strategies Used: {len(set(strategies))}")
+        print(f"\nLINEUP: WINNING LINEUP ANALYSIS:")
+        print(f"  DATA: FPPG Range: {min(fppgs):.1f} - {max(fppgs):.1f}")
+        print(f"  MONEY: Average FPPG: {sum(fppgs)/len(fppgs):.1f}")
+        print(f"   Salary Range: ${min(salaries):,} - ${max(salaries):,}")
+        print(f"  PROGRESS: Strategies Used: {len(set(strategies))}")
         
         for strategy in set(strategies):
             count = strategies.count(strategy)
             avg_fppg = np.mean([l['total_fppg'] for l in lineups if l['strategy'] == strategy])
-            print(f"    • {strategy}: {count} lineups, {avg_fppg:.1f} avg FPPG")
+            print(f"     {strategy}: {count} lineups, {avg_fppg:.1f} avg FPPG")
         
         return output_file
 
 def main():
-    print("🎯 WINNING DFS SYSTEM")
+    print("TARGET: WINNING DFS SYSTEM")
     print("Built to BEAT SaberSim and subscription services!")
     print("=" * 60)
     
@@ -291,29 +291,29 @@ def main():
         if lineups:
             output_file = builder.save_winning_lineups(lineups)
             
-            print(f"\n🏆 SUCCESS! WINNING LINEUPS CREATED!")
-            print(f"📁 File: {output_file}")
-            print(f"📊 Created: {len(lineups)} winning lineups")
+            print(f"\nLINEUP: SUCCESS! WINNING LINEUPS CREATED!")
+            print(f" File: {output_file}")
+            print(f"DATA: Created: {len(lineups)} winning lineups")
             
-            print(f"\n🎯 WHY THESE WILL BEAT SABERSIM:")
-            print(f"  ✅ Multiple winning strategies (not one-size-fits-all)")
-            print(f"  ✅ Contrarian value plays (low ownership)")
-            print(f"  ✅ Ceiling-focused builds (tournament winners)")
-            print(f"  ✅ Strategic salary allocation (stars + scrubs)")
-            print(f"  ✅ Position scarcity bonuses")
-            print(f"  ✅ Custom optimization (not generic)")
+            print(f"\nTARGET: WHY THESE WILL BEAT SABERSIM:")
+            print(f"  SUCCESS: Multiple winning strategies (not one-size-fits-all)")
+            print(f"  SUCCESS: Contrarian value plays (low ownership)")
+            print(f"  SUCCESS: Ceiling-focused builds (tournament winners)")
+            print(f"  SUCCESS: Strategic salary allocation (stars + scrubs)")
+            print(f"  SUCCESS: Position scarcity bonuses")
+            print(f"  SUCCESS: Custom optimization (not generic)")
             
-            print(f"\n💪 COMPETITIVE ADVANTAGES:")
-            print(f"  🎲 SaberSim gives everyone the same lineups")
-            print(f"  🎯 These are UNIQUE to your account")
-            print(f"  📈 Multiple strategies = better coverage")
-            print(f"  💡 Value + ceiling focus = GPP winners")
-            print(f"  🔥 Contrarian plays = differentiation")
+            print(f"\n COMPETITIVE ADVANTAGES:")
+            print(f"   SaberSim gives everyone the same lineups")
+            print(f"  TARGET: These are UNIQUE to your account")
+            print(f"  PROGRESS: Multiple strategies = better coverage")
+            print(f"  TIP: Value + ceiling focus = GPP winners")
+            print(f"   Contrarian plays = differentiation")
             
-            print(f"\n🚀 READY TO CRUSH THE COMPETITION!")
+            print(f"\nSTART: READY TO CRUSH THE COMPETITION!")
             
         else:
-            print("❌ Failed to create winning lineups")
+            print("ERROR: Failed to create winning lineups")
             
     except Exception as e:
         print(f"Error: {e}")

@@ -27,11 +27,11 @@ class FixedPlatformEVAnalyzer:
         # Load the source data
         file_path = "../Scripts/betting_analysis/betting_opportunities_20250720_144550.csv"
         if not os.path.exists(file_path):
-            print("❌ Source data file not found")
+            print("ERROR: Source data file not found")
             return pd.DataFrame()
             
         df = pd.read_csv(file_path)
-        print(f"📊 Loaded {len(df)} raw opportunities")
+        print(f"DATA: Loaded {len(df)} raw opportunities")
         
         # Clean the data step by step
         cleaned_data = []
@@ -100,7 +100,7 @@ class FixedPlatformEVAnalyzer:
                 })
         
         result_df = pd.DataFrame(cleaned_data)
-        print(f"✅ Cleaned to {len(result_df)} valid opportunities")
+        print(f"SUCCESS: Cleaned to {len(result_df)} valid opportunities")
         return result_df
     
     def calculate_realistic_prob_over(self, prediction, line, category):
@@ -152,7 +152,7 @@ class FixedPlatformEVAnalyzer:
             platform_data = ev_df[ev_df['platform'] == platform].copy()
             
             if len(platform_data) == 0:
-                print(f"⚠️ No opportunities found for {platform}")
+                print(f"WARNING: No opportunities found for {platform}")
                 continue
             
             # Remove duplicates and sort by EV
@@ -185,11 +185,11 @@ class FixedPlatformEVAnalyzer:
             filename = f"../data/{platform}_fixed_ev_{timestamp}.csv"
             final_sheet.to_csv(filename, index=False)
             
-            print(f"\n💾 {platform.title()} sheet saved: {filename}")
-            print(f"🎯 Found {len(platform_data)} opportunities")
+            print(f"\n {platform.title()} sheet saved: {filename}")
+            print(f"TARGET: Found {len(platform_data)} opportunities")
             
             # Show top 10
-            print(f"\n🏆 TOP 10 {platform.upper()} OPPORTUNITIES:")
+            print(f"\nLINEUP: TOP 10 {platform.upper()} OPPORTUNITIES:")
             print("=" * 85)
             top_10 = final_sheet.head(10)
             for i, row in top_10.iterrows():
@@ -200,7 +200,7 @@ class FixedPlatformEVAnalyzer:
     def analyze_best_combos(self, ev_df):
         """Analyze the best combo opportunities"""
         
-        print(f"\n🎲 COMBO ANALYSIS WITH FIXED CALCULATIONS")
+        print(f"\n COMBO ANALYSIS WITH FIXED CALCULATIONS")
         print("=" * 50)
         
         for platform in ['prizepicks', 'underdog']:
@@ -211,7 +211,7 @@ class FixedPlatformEVAnalyzer:
             ].copy()
             
             if len(platform_data) < 2:
-                print(f"⚠️ Not enough quality bets for {platform} combos")
+                print(f"WARNING: Not enough quality bets for {platform} combos")
                 continue
                 
             # Remove duplicates and get top picks
@@ -219,7 +219,7 @@ class FixedPlatformEVAnalyzer:
                 subset=['player', 'category']
             ).nlargest(6, 'expected_value')
             
-            print(f"\n🎯 {platform.upper()} COMBO OPPORTUNITIES:")
+            print(f"\nTARGET: {platform.upper()} COMBO OPPORTUNITIES:")
             
             for combo_size in [2, 3, 4, 5, 6]:
                 if len(unique_picks) >= combo_size:
@@ -230,26 +230,26 @@ class FixedPlatformEVAnalyzer:
                     combo_prob = np.prod(picks['our_prob'])
                     combo_ev = (combo_prob * multiplier) - 1.0
                     
-                    status = "✅ POSITIVE" if combo_ev > 0 else "❌ NEGATIVE"
+                    status = "SUCCESS: POSITIVE" if combo_ev > 0 else "ERROR: NEGATIVE"
                     print(f"  {combo_size}-Pick ({multiplier}x): Prob={combo_prob:.2%}, "
                           f"EV={combo_ev:.3f} {status}")
                     
                     if combo_ev > 0 and combo_size <= 3:  # Show details for smaller combos
                         for _, pick in picks.iterrows():
-                            print(f"    • {pick['player']} {pick['category']} {pick['line']} "
+                            print(f"     {pick['player']} {pick['category']} {pick['line']} "
                                   f"({pick['our_prob']:.1%})")
     
     def run_analysis(self):
         """Run the complete fixed analysis"""
         
-        print("🔧 FIXED PRIZEPICKS & UNDERDOG EV ANALYZER")
+        print("STEP: FIXED PRIZEPICKS & UNDERDOG EV ANALYZER")
         print("=" * 60)
         
         # Load and clean data with proper calculations
         ev_df = self.load_and_clean_data()
         
         if len(ev_df) == 0:
-            print("❌ No valid opportunities found after cleaning")
+            print("ERROR: No valid opportunities found after cleaning")
             return
         
         # Create platform sheets
@@ -259,7 +259,7 @@ class FixedPlatformEVAnalyzer:
         self.analyze_best_combos(ev_df)
         
         # Summary
-        print(f"\n📊 SUMMARY:")
+        print(f"\nDATA: SUMMARY:")
         print("=" * 25)
         for platform in ['prizepicks', 'underdog']:
             platform_ops = ev_df[ev_df['platform'] == platform]
@@ -274,7 +274,7 @@ def main():
     try:
         from scipy.stats import norm
     except ImportError:
-        print("⚠️ Installing scipy for probability calculations...")
+        print("WARNING: Installing scipy for probability calculations...")
         import subprocess
         subprocess.check_call(['pip', 'install', 'scipy'])
         from scipy.stats import norm

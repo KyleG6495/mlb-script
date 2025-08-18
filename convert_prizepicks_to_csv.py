@@ -13,36 +13,36 @@ from datetime import datetime
 def convert_prizepicks_to_csv():
     """Convert PrizePicks Excel files to CSV format"""
     
-    print("🔄 PRIZEPICKS EXCEL TO CSV CONVERTER")
+    print("SWAP: PRIZEPICKS EXCEL TO CSV CONVERTER")
     print("=" * 40)
     
     # Look for the main PrizePicks file
     main_file = "../data/PrizePicks_MLB.xlsx"
     
     if os.path.exists(main_file):
-        print(f"✅ Found main PrizePicks file: {main_file}")
+        print(f"SUCCESS: Found main PrizePicks file: {main_file}")
         
         try:
             # Read the Excel file
             df = pd.read_excel(main_file)
-            print(f"📊 Loaded {len(df)} props from PrizePicks")
+            print(f"DATA: Loaded {len(df)} props from PrizePicks")
             
             # Show column structure
-            print(f"📋 Columns: {list(df.columns)}")
+            print(f"INFO: Columns: {list(df.columns)}")
             
             # Save as CSV
             csv_path = "../data/prizepicks_mlb.csv"
             df.to_csv(csv_path, index=False)
-            print(f"✅ Saved as CSV: {csv_path}")
+            print(f"SUCCESS: Saved as CSV: {csv_path}")
             
             # Show sample data
-            print(f"\n📄 Sample data:")
+            print(f"\n Sample data:")
             print(df.head().to_string())
             
             # Show stats
             if 'player_name' in df.columns:
-                print(f"\n📈 Stats:")
-                print(f"   • Unique players: {df['player_name'].nunique()}")
+                print(f"\nPROGRESS: Stats:")
+                print(f"    Unique players: {df['player_name'].nunique()}")
                 
                 # Count stat types
                 stat_cols = [col for col in df.columns if col not in ['player_name', 'team', 'position']]
@@ -53,42 +53,42 @@ def convert_prizepicks_to_csv():
                         prop_counts.append((col, non_null))
                 
                 prop_counts.sort(key=lambda x: x[1], reverse=True)
-                print(f"   • Prop types:")
+                print(f"    Prop types:")
                 for prop, count in prop_counts[:10]:  # Top 10
                     print(f"     - {prop}: {count} props")
             
             return csv_path
             
         except Exception as e:
-            print(f"❌ Error reading Excel file: {e}")
+            print(f"ERROR: Error reading Excel file: {e}")
             return None
     
     else:
-        print(f"❌ Main PrizePicks file not found: {main_file}")
+        print(f"ERROR: Main PrizePicks file not found: {main_file}")
         
         # Look for dated files
         dated_files = glob.glob("../data/PP_mlb_picks_*.xlsx")
         if dated_files:
             # Get the most recent file
             latest_file = max(dated_files, key=os.path.getmtime)
-            print(f"✅ Found latest dated file: {latest_file}")
+            print(f"SUCCESS: Found latest dated file: {latest_file}")
             
             try:
                 df = pd.read_excel(latest_file)
-                print(f"📊 Loaded {len(df)} props from latest file")
+                print(f"DATA: Loaded {len(df)} props from latest file")
                 
                 # Save as CSV
                 csv_path = "../data/prizepicks_mlb_latest.csv"
                 df.to_csv(csv_path, index=False)
-                print(f"✅ Saved as CSV: {csv_path}")
+                print(f"SUCCESS: Saved as CSV: {csv_path}")
                 
                 return csv_path
                 
             except Exception as e:
-                print(f"❌ Error reading latest file: {e}")
+                print(f"ERROR: Error reading latest file: {e}")
                 return None
         else:
-            print("❌ No PrizePicks files found!")
+            print("ERROR: No PrizePicks files found!")
             return None
 
 def show_available_props(csv_path):
@@ -100,17 +100,17 @@ def show_available_props(csv_path):
     try:
         df = pd.read_csv(csv_path)
         
-        print(f"\n🎯 PRIZEPICKS PROP ANALYSIS")
+        print(f"\nTARGET: PRIZEPICKS PROP ANALYSIS")
         print("=" * 40)
         
         # Show player sample
         if 'player_name' in df.columns:
-            print(f"📝 Sample players:")
+            print(f" Sample players:")
             for player in df['player_name'].unique()[:5]:
-                print(f"   • {player}")
+                print(f"    {player}")
         
         # Show available prop types with lines
-        print(f"\n📊 Available Props:")
+        print(f"\nDATA: Available Props:")
         stat_cols = [col for col in df.columns if col not in ['player_name', 'team', 'position']]
         
         for col in stat_cols:
@@ -119,10 +119,10 @@ def show_available_props(csv_path):
                 min_line = non_null_data[col].min()
                 max_line = non_null_data[col].max()
                 count = len(non_null_data)
-                print(f"   • {col}: {count} props (lines: {min_line} - {max_line})")
+                print(f"    {col}: {count} props (lines: {min_line} - {max_line})")
         
         # Show sample props for first few players
-        print(f"\n📋 Sample Props:")
+        print(f"\nINFO: Sample Props:")
         for _, player_row in df.head(3).iterrows():
             if 'player_name' in player_row:
                 print(f"\n   {player_row['player_name']}:")
@@ -131,7 +131,7 @@ def show_available_props(csv_path):
                         print(f"     - {col}: {player_row[col]}")
         
     except Exception as e:
-        print(f"❌ Error analyzing CSV: {e}")
+        print(f"ERROR: Error analyzing CSV: {e}")
 
 if __name__ == "__main__":
     csv_path = convert_prizepicks_to_csv()

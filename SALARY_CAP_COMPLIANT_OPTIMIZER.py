@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def create_salary_cap_compliant_lineups():
     """Create salary cap compliant versions of our ULTIMATE lineups"""
     
-    logger.info("💰 CREATING SALARY CAP COMPLIANT LINEUPS")
+    logger.info("MONEY: CREATING SALARY CAP COMPLIANT LINEUPS")
     logger.info("=" * 60)
     
     # Load FanDuel slate
@@ -24,10 +24,10 @@ def create_salary_cap_compliant_lineups():
     # Load our enhanced datasets
     try:
         df_weather = pd.read_csv("../data/real_weather_enhanced_20250812_171640.csv")
-        logger.info(f"✅ Weather data loaded: {len(df_weather)} players")
+        logger.info(f"SUCCESS: Weather data loaded: {len(df_weather)} players")
     except:
         df_weather = pd.DataFrame()
-        logger.warning("⚠️ No weather data")
+        logger.warning("WARNING: No weather data")
     
     # Create enhanced player dataset
     players = []
@@ -64,7 +64,7 @@ def create_salary_cap_compliant_lineups():
     strategies = ['BALANCED', 'VALUE', 'CEILING', 'CONTRARIAN', 'WEATHER']
     
     for i, strategy in enumerate(strategies):
-        logger.info(f"\n🎯 Creating {strategy} lineup (under $35,000)")
+        logger.info(f"\nTARGET: Creating {strategy} lineup (under $35,000)")
         
         lineup = create_cap_compliant_lineup(df_players, strategy, compliant_lineups)
         if lineup:
@@ -167,12 +167,12 @@ def display_compliant_lineup(lineup, strategy):
     for pos, player in lineup.items():
         logger.info(f"  {pos:>4}: {player['name']:<20} | ${player['salary']:<5} | {player['enhanced_fppg']:.1f} FPPG")
     
-    logger.info(f"  💰 Total: ${total_salary:,} | 📊 Projection: {total_projection:.1f} FPPG")
+    logger.info(f"  MONEY: Total: ${total_salary:,} | DATA: Projection: {total_projection:.1f} FPPG")
     
     if total_salary > 35000:
-        logger.warning(f"  ⚠️ OVER SALARY CAP by ${total_salary - 35000}")
+        logger.warning(f"  WARNING: OVER SALARY CAP by ${total_salary - 35000}")
     else:
-        logger.info(f"  ✅ UNDER SALARY CAP (${35000 - total_salary} remaining)")
+        logger.info(f"  SUCCESS: UNDER SALARY CAP (${35000 - total_salary} remaining)")
 
 def save_compliant_lineups(lineups):
     """Save compliant lineups in FanDuel format"""
@@ -221,7 +221,7 @@ def save_compliant_lineups(lineups):
     output_file = f"../data/SALARY_CAP_COMPLIANT_LINEUPS_{timestamp}.csv"
     df_submission.to_csv(output_file, index=False)
     
-    logger.info(f"\n💾 Salary cap compliant lineups saved: {output_file}")
+    logger.info(f"\n Salary cap compliant lineups saved: {output_file}")
     return output_file
 
 if __name__ == "__main__":

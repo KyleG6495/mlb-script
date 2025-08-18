@@ -25,7 +25,7 @@ class RefinedDFSValidator:
         
     def load_test_data(self):
         """Load slate and actual results for validation"""
-        print("📊 Loading test data for refined DFS validation...")
+        print("DATA: Loading test data for refined DFS validation...")
         
         # Load slate
         slate_file = self.slate_dir / "fd_slate_today.csv"
@@ -65,12 +65,12 @@ class RefinedDFSValidator:
         )
         merged['actual_fppg'] = merged['actual_fppg'].fillna(0)
         
-        print(f"✅ Loaded {len(slate_df)} slate players, {len(actual_df)} actual results")
+        print(f"SUCCESS: Loaded {len(slate_df)} slate players, {len(actual_df)} actual results")
         return merged
     
     def score_refined_lineups(self, merged_data):
         """Score all refined lineup files against actual results"""
-        print("🎯 Scoring refined lineup files...")
+        print("TARGET: Scoring refined lineup files...")
         
         results = {}
         
@@ -78,12 +78,12 @@ class RefinedDFSValidator:
         lineup_files = list(self.slate_dir.glob("refined_ml_dfs_lineups_*.csv"))
         
         if not lineup_files:
-            print("❌ No refined lineup files found")
+            print("ERROR: No refined lineup files found")
             return results
         
         # Score the most recent refined file
         latest_file = max(lineup_files, key=lambda f: f.stat().st_mtime)
-        print(f"📁 Scoring: {latest_file.name}")
+        print(f" Scoring: {latest_file.name}")
         
         lineup_df = pd.read_csv(latest_file)
         
@@ -124,7 +124,7 @@ class RefinedDFSValidator:
     
     def compare_with_baselines(self, refined_results, merged_data):
         """Compare refined results with baseline approaches"""
-        print("📊 Comparing refined approach with baselines...")
+        print("DATA: Comparing refined approach with baselines...")
         
         # Load baseline results (Enhanced ML, Ceiling, etc.)
         baseline_files = [
@@ -198,14 +198,14 @@ class RefinedDFSValidator:
                     }
                     
             except Exception as e:
-                print(f"⚠️ Could not load {filename}: {e}")
+                print(f"WARNING: Could not load {filename}: {e}")
         
         return baseline_results
     
     def analyze_tournament_performance(self, refined_results, baseline_results):
         """Analyze tournament performance vs leaderboard benchmarks"""
         print("\\n" + "="*80)
-        print("🏆 REFINED DFS VALIDATION RESULTS")
+        print("LINEUP: REFINED DFS VALIDATION RESULTS")
         print("="*80)
         
         # FanDuel leaderboard benchmarks
@@ -216,12 +216,12 @@ class RefinedDFSValidator:
             'Cash_Line': 150.0
         }
         
-        print("\\n📊 FANDUEL TOURNAMENT BENCHMARKS:")
+        print("\\nDATA: FANDUEL TOURNAMENT BENCHMARKS:")
         for level, score in benchmarks.items():
-            print(f"  🎯 {level}: {score:.1f} FPPG")
+            print(f"  TARGET: {level}: {score:.1f} FPPG")
         
         # Analyze refined lineups
-        print(f"\\n🚀 REFINED LINEUP PERFORMANCE:")
+        print(f"\\nSTART: REFINED LINEUP PERFORMANCE:")
         
         refined_scores = []
         best_refined = None
@@ -237,29 +237,29 @@ class RefinedDFSValidator:
             
             # Determine tournament position
             if actual_score >= benchmarks['Tournament_Winner']:
-                position = "🥇 TOURNAMENT WINNER"
-                color = "🟢"
+                position = " TOURNAMENT WINNER"
+                color = ""
             elif actual_score >= benchmarks['Top_5']:
-                position = "🥈 TOP 5 FINISH"
-                color = "🟢"
+                position = " TOP 5 FINISH"
+                color = ""
             elif actual_score >= benchmarks['Top_10']:
-                position = "🥉 TOP 10 FINISH"
-                color = "🟡"
+                position = " TOP 10 FINISH"
+                color = ""
             elif actual_score >= benchmarks['Cash_Line']:
-                position = "💰 CASH FINISH"
-                color = "🟡"
+                position = "MONEY: CASH FINISH"
+                color = ""
             else:
-                position = "❌ MISSED CASH"
-                color = "🔴"
+                position = "ERROR: MISSED CASH"
+                color = ""
             
             print(f"\\n{color} {lineup_id} ({result['strategy']}):")
-            print(f"  💰 Salary: ${result['salary']:,}")
-            print(f"  📈 Projected: {result['projected']:.1f} FPPG")
-            print(f"  🎯 Actual: {actual_score:.1f} FPPG")
-            print(f"  🚀 Ceiling: {result['ceiling']:.1f} FPPG")
-            print(f"  📊 Accuracy: {result['accuracy']:.1f}%")
-            print(f"  ⚡ Ceiling Efficiency: {result['ceiling_efficiency']:.1f}%")
-            print(f"  🏆 Result: {position}")
+            print(f"  MONEY: Salary: ${result['salary']:,}")
+            print(f"  PROGRESS: Projected: {result['projected']:.1f} FPPG")
+            print(f"  TARGET: Actual: {actual_score:.1f} FPPG")
+            print(f"  START: Ceiling: {result['ceiling']:.1f} FPPG")
+            print(f"  DATA: Accuracy: {result['accuracy']:.1f}%")
+            print(f"   Ceiling Efficiency: {result['ceiling_efficiency']:.1f}%")
+            print(f"  LINEUP: Result: {position}")
         
         # Portfolio analysis
         if refined_scores:
@@ -267,25 +267,25 @@ class RefinedDFSValidator:
             max_refined = max(refined_scores)
             min_refined = min(refined_scores)
             
-            print(f"\\n📈 REFINED PORTFOLIO ANALYSIS:")
-            print(f"  🎯 Best Lineup: {max_refined:.1f} FPPG")
-            print(f"  📊 Average: {avg_refined:.1f} FPPG")
-            print(f"  📉 Worst: {min_refined:.1f} FPPG")
-            print(f"  🎪 Consistency: {(min_refined/max_refined)*100:.1f}%")
+            print(f"\\nPROGRESS: REFINED PORTFOLIO ANALYSIS:")
+            print(f"  TARGET: Best Lineup: {max_refined:.1f} FPPG")
+            print(f"  DATA: Average: {avg_refined:.1f} FPPG")
+            print(f"   Worst: {min_refined:.1f} FPPG")
+            print(f"   Consistency: {(min_refined/max_refined)*100:.1f}%")
             
             # Tournament readiness
             tournament_ready = sum(1 for score in refined_scores if score >= benchmarks['Tournament_Winner'])
             cash_rate = sum(1 for score in refined_scores if score >= benchmarks['Cash_Line'])
             
-            print(f"  🏆 Tournament Winners: {tournament_ready}/{len(refined_scores)} ({tournament_ready/len(refined_scores)*100:.1f}%)")
-            print(f"  💰 Cash Rate: {cash_rate}/{len(refined_scores)} ({cash_rate/len(refined_scores)*100:.1f}%)")
+            print(f"  LINEUP: Tournament Winners: {tournament_ready}/{len(refined_scores)} ({tournament_ready/len(refined_scores)*100:.1f}%)")
+            print(f"  MONEY: Cash Rate: {cash_rate}/{len(refined_scores)} ({cash_rate/len(refined_scores)*100:.1f}%)")
         
         # Compare with baselines
-        print(f"\\n🔄 BASELINE COMPARISON:")
+        print(f"\\nSWAP: BASELINE COMPARISON:")
         
         if baseline_results:
             for baseline_name, baseline_data in baseline_results.items():
-                print(f"  📊 {baseline_name}: {baseline_data['actual']:.1f} FPPG ({baseline_data['accuracy']:.1f}% accuracy)")
+                print(f"  DATA: {baseline_name}: {baseline_data['actual']:.1f} FPPG ({baseline_data['accuracy']:.1f}% accuracy)")
             
             if refined_scores:
                 enhanced_ml_score = baseline_results.get('Enhanced_ML_Baseline', {}).get('actual', 0)
@@ -293,30 +293,30 @@ class RefinedDFSValidator:
                 
                 if enhanced_ml_score > 0:
                     improvement = ((avg_refined - enhanced_ml_score) / enhanced_ml_score) * 100
-                    print(f"  🚀 Refined vs Enhanced ML: {improvement:+.1f}% improvement")
+                    print(f"  START: Refined vs Enhanced ML: {improvement:+.1f}% improvement")
                 
                 if ceiling_score > 0:
                     improvement = ((avg_refined - ceiling_score) / ceiling_score) * 100
-                    print(f"  🎯 Refined vs Ceiling: {improvement:+.1f}% improvement")
+                    print(f"  TARGET: Refined vs Ceiling: {improvement:+.1f}% improvement")
         
         # Key insights
-        print(f"\\n💡 KEY INSIGHTS:")
+        print(f"\\nTIP: KEY INSIGHTS:")
         
         if refined_scores:
             if max_refined >= benchmarks['Tournament_Winner']:
-                print(f"  ✅ SUCCESS: Refined system can generate tournament winners!")
-                print(f"  🎯 Best performance: {max_refined:.1f} FPPG")
+                print(f"  SUCCESS: SUCCESS: Refined system can generate tournament winners!")
+                print(f"  TARGET: Best performance: {max_refined:.1f} FPPG")
             elif avg_refined >= benchmarks['Cash_Line']:
-                print(f"  💰 PROFITABLE: Refined system consistently cashes")
+                print(f"  MONEY: PROFITABLE: Refined system consistently cashes")
                 needed_improvement = benchmarks['Tournament_Winner'] - max_refined
-                print(f"  🔧 Need +{needed_improvement:.1f} FPPG for tournament wins")
+                print(f"  STEP: Need +{needed_improvement:.1f} FPPG for tournament wins")
             else:
                 needed_improvement = benchmarks['Cash_Line'] - avg_refined
-                print(f"  ⚠️  DEVELOPING: Need +{needed_improvement:.1f} FPPG for profitability")
+                print(f"  WARNING:  DEVELOPING: Need +{needed_improvement:.1f} FPPG for profitability")
         
         # Best lineup analysis
         if best_refined:
-            print(f"\\n🏆 BEST REFINED LINEUP ANALYSIS: {best_refined[0]}")
+            print(f"\\nLINEUP: BEST REFINED LINEUP ANALYSIS: {best_refined[0]}")
             best_result = best_refined[1]
             
             print(f"  Strategy: {best_result['strategy']}")
@@ -336,7 +336,7 @@ class RefinedDFSValidator:
     
     def run_validation(self):
         """Run complete refined DFS validation"""
-        print("🚀 REFINED DFS VALIDATION SYSTEM")
+        print("START: REFINED DFS VALIDATION SYSTEM")
         print("Testing refined tournament optimization against actual results")
         print("="*80)
         
@@ -347,7 +347,7 @@ class RefinedDFSValidator:
         refined_results = self.score_refined_lineups(merged_data)
         
         if not refined_results:
-            print("❌ No refined lineups to validate")
+            print("ERROR: No refined lineups to validate")
             return
         
         # Compare with baselines
@@ -356,12 +356,12 @@ class RefinedDFSValidator:
         # Analyze performance
         analysis = self.analyze_tournament_performance(refined_results, baseline_results)
         
-        print(f"\\n🎉 VALIDATION COMPLETE!")
-        print(f"📊 Analyzed {len(refined_results)} refined lineups")
-        print(f"🏆 Tournament-ready system validated!")
+        print(f"\\nCOMPLETE: VALIDATION COMPLETE!")
+        print(f"DATA: Analyzed {len(refined_results)} refined lineups")
+        print(f"LINEUP: Tournament-ready system validated!")
 
 def main():
-    print("📊 REFINED DFS VALIDATION")
+    print("DATA: REFINED DFS VALIDATION")
     print("Validate refined tournament optimization against actual performance")
     print("="*80)
     

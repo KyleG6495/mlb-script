@@ -6,7 +6,7 @@ from datetime import datetime
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("🔍 SLATE CEILING ANALYSIS")
+print(" SLATE CEILING ANALYSIS")
 print("Determining the theoretical maximum FPPG possible")
 print("="*80)
 
@@ -27,17 +27,17 @@ def analyze_slate_ceiling():
     pitchers = df[df['Position'] == 'P'].copy()
     hitters = df[df['Position'] != 'P'].copy()
     
-    logging.info("🎯 THEORETICAL MAXIMUM ANALYSIS")
+    logging.info("TARGET: THEORETICAL MAXIMUM ANALYSIS")
     logging.info("="*60)
     
     # Best pitcher
     best_pitcher = pitchers.loc[pitchers['FPPG'].idxmax()]
-    logging.info(f"💎 Best Pitcher: {best_pitcher['Nickname']} - ${best_pitcher['Salary']:,} | {best_pitcher['FPPG']:.1f} FPPG")
+    logging.info(f" Best Pitcher: {best_pitcher['Nickname']} - ${best_pitcher['Salary']:,} | {best_pitcher['FPPG']:.1f} FPPG")
     
     # Best hitters by position
     positions = ['C', '1B', '2B', '3B', 'SS', 'OF']
     
-    logging.info("\n💎 Best Hitters by Position:")
+    logging.info("\n Best Hitters by Position:")
     best_hitters = {}
     total_dream_salary = best_pitcher['Salary']
     total_dream_fppg = best_pitcher['FPPG']
@@ -61,24 +61,24 @@ def analyze_slate_ceiling():
                 total_dream_fppg += player['FPPG']
                 logging.info(f"   {pos}: {player['Nickname']} - ${player['Salary']:,} | {player['FPPG']:.1f} FPPG")
     
-    logging.info(f"\n🏆 DREAM TEAM TOTALS:")
-    logging.info(f"   💰 Total Salary: ${total_dream_salary:,}")
-    logging.info(f"   📊 Total FPPG: {total_dream_fppg:.1f}")
-    logging.info(f"   💸 Over Budget: ${total_dream_salary - SALARY_CAP:,}")
+    logging.info(f"\nLINEUP: DREAM TEAM TOTALS:")
+    logging.info(f"   MONEY: Total Salary: ${total_dream_salary:,}")
+    logging.info(f"   DATA: Total FPPG: {total_dream_fppg:.1f}")
+    logging.info(f"    Over Budget: ${total_dream_salary - SALARY_CAP:,}")
     
     # Realistic ceiling - best possible within budget
-    logging.info(f"\n🎯 REALISTIC CEILING ANALYSIS")
+    logging.info(f"\nTARGET: REALISTIC CEILING ANALYSIS")
     logging.info("="*60)
     
     best_realistic = find_realistic_ceiling(pitchers, hitters)
     if best_realistic:
-        logging.info(f"💎 Best Realistic Lineup: {best_realistic['total_fppg']:.1f} FPPG")
-        logging.info(f"💰 Total Salary: ${best_realistic['total_salary']:,}")
+        logging.info(f" Best Realistic Lineup: {best_realistic['total_fppg']:.1f} FPPG")
+        logging.info(f"MONEY: Total Salary: ${best_realistic['total_salary']:,}")
         
         # Compare to targets
-        logging.info(f"\n📊 TARGET COMPARISONS:")
-        logging.info(f"   vs 153 FPPG: {best_realistic['total_fppg'] - 153:.1f} FPPG {'✅' if best_realistic['total_fppg'] >= 153 else '❌'}")
-        logging.info(f"   vs 145 FPPG: {best_realistic['total_fppg'] - 145:.1f} FPPG {'✅' if best_realistic['total_fppg'] >= 145 else '❌'}")
+        logging.info(f"\nDATA: TARGET COMPARISONS:")
+        logging.info(f"   vs 153 FPPG: {best_realistic['total_fppg'] - 153:.1f} FPPG {'SUCCESS:' if best_realistic['total_fppg'] >= 153 else 'ERROR:'}")
+        logging.info(f"   vs 145 FPPG: {best_realistic['total_fppg'] - 145:.1f} FPPG {'SUCCESS:' if best_realistic['total_fppg'] >= 145 else 'ERROR:'}")
         
         return best_realistic
     
@@ -232,7 +232,7 @@ def main():
     ceiling_result = analyze_slate_ceiling()
     
     if ceiling_result:
-        logging.info(f"\n🏆 REALISTIC CEILING BREAKDOWN:")
+        logging.info(f"\nLINEUP: REALISTIC CEILING BREAKDOWN:")
         logging.info("="*60)
         
         pitcher = ceiling_result['pitcher']
@@ -250,26 +250,26 @@ def main():
             
             logging.info(f"{pos_label:<3} | {hitter['Nickname']:<20} | {hitter['Team']} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f}")
         
-        logging.info(f"\n🎯 CEILING ASSESSMENT:")
+        logging.info(f"\nTARGET: CEILING ASSESSMENT:")
         if ceiling_result['total_fppg'] >= 153:
-            logging.info("✅ 153+ FPPG IS ACHIEVABLE!")
+            logging.info("SUCCESS: 153+ FPPG IS ACHIEVABLE!")
         elif ceiling_result['total_fppg'] >= 150:
-            logging.info("⚠️  Close to 153 FPPG - optimization needed")
+            logging.info("WARNING:  Close to 153 FPPG - optimization needed")
         elif ceiling_result['total_fppg'] >= 145:
-            logging.info("🔍 Moderate ceiling - strong optimization required")
+            logging.info(" Moderate ceiling - strong optimization required")
         else:
-            logging.info("❌ Low ceiling slate - 153 FPPG may not be realistic")
+            logging.info("ERROR: Low ceiling slate - 153 FPPG may not be realistic")
         
         gap_to_153 = 153 - ceiling_result['total_fppg']
-        logging.info(f"📊 Gap to 153 FPPG: {gap_to_153:.1f}")
+        logging.info(f"DATA: Gap to 153 FPPG: {gap_to_153:.1f}")
         
         if gap_to_153 > 0:
-            logging.info(f"\n💡 To reach 153 FPPG, need:")
-            logging.info(f"   • {gap_to_153:.1f} additional FPPG from current selection")
-            logging.info(f"   • OR find players averaging {gap_to_153/9:.1f} more FPPG per position")
+            logging.info(f"\nTIP: To reach 153 FPPG, need:")
+            logging.info(f"    {gap_to_153:.1f} additional FPPG from current selection")
+            logging.info(f"    OR find players averaging {gap_to_153/9:.1f} more FPPG per position")
     
     else:
-        logging.info("❌ Could not determine realistic ceiling")
+        logging.info("ERROR: Could not determine realistic ceiling")
 
 if __name__ == "__main__":
     main()

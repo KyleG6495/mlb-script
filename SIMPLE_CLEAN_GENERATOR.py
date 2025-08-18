@@ -17,14 +17,14 @@ logger = logging.getLogger(__name__)
 
 def load_slate_and_results():
     """Load FD slate and actual results for backtesting"""
-    logger.info("📊 Loading slate and actual results...")
+    logger.info("DATA: Loading slate and actual results...")
     
     # Load yesterday's slate
     slate_df = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
-    logger.info(f"✅ Loaded {len(slate_df)} players from slate")
+    logger.info(f"SUCCESS: Loaded {len(slate_df)} players from slate")
     
     # FILTER TO ONLY ACTUAL STARTERS!
-    logger.info("🎯 Filtering to ONLY players who actually started...")
+    logger.info("TARGET: Filtering to ONLY players who actually started...")
     
     # For pitchers: Only probable pitchers
     pitchers = slate_df[slate_df['Position'] == 'P'].copy()
@@ -38,7 +38,7 @@ def load_slate_and_results():
     
     # Combine starters only
     slate_df = pd.concat([starting_pitchers, starting_hitters], ignore_index=True)
-    logger.info(f"🏆 FILTERED to {len(slate_df)} ACTUAL STARTERS")
+    logger.info(f"LINEUP: FILTERED to {len(slate_df)} ACTUAL STARTERS")
     
     # Clean player data
     slate_df['player_name'] = slate_df['First Name'] + ' ' + slate_df['Last Name']
@@ -52,7 +52,7 @@ def load_slate_and_results():
     # Load actual results
     actual_df = pd.read_csv("../data/actual_results_20250809.csv")  # Updated to latest available data
     actual_df['actual_fppg'] = actual_df['fanduel_points']
-    logger.info(f"✅ Loaded {len(actual_df)} actual results")
+    logger.info(f"SUCCESS: Loaded {len(actual_df)} actual results")
     
     return slate_df, actual_df
 
@@ -118,7 +118,7 @@ def build_lineup(slate_df, strategy_num=1, salary_cap=35000):
 
 def generate_10_lineups(slate_df):
     """Generate 10 unique lineups"""
-    logger.info("🏆 Generating 10 lineups...")
+    logger.info("LINEUP: Generating 10 lineups...")
     
     lineups = []
     
@@ -142,15 +142,15 @@ def generate_10_lineups(slate_df):
                 'avg_ownership': avg_ownership
             })
             
-            logger.info(f"✅ Lineup {i}: ${total_salary:,} salary, {total_projected:.1f} FPPG")
+            logger.info(f"SUCCESS: Lineup {i}: ${total_salary:,} salary, {total_projected:.1f} FPPG")
         else:
-            logger.warning(f"⚠️ Failed to build lineup {i}")
+            logger.warning(f"WARNING: Failed to build lineup {i}")
     
     return lineups
 
 def backtest_lineups(lineups, actual_df):
     """Backtest lineups against actual results"""
-    logger.info("🔍 Backtesting lineups...")
+    logger.info(" Backtesting lineups...")
     
     results = []
     
@@ -212,14 +212,14 @@ def save_results(lineups, backtest_df):
     summary_file = f"../data/clean_backtest_summary_{timestamp}.csv"
     backtest_df.to_csv(summary_file, index=False)
     
-    logger.info(f"💾 Saved: {details_file}")
-    logger.info(f"💾 Saved: {summary_file}")
+    logger.info(f" Saved: {details_file}")
+    logger.info(f" Saved: {summary_file}")
     
     return details_file, summary_file
 
 def main():
     """Main execution"""
-    logger.info("🎯 CLEAN LINEUP GENERATOR")
+    logger.info("TARGET: CLEAN LINEUP GENERATOR")
     logger.info("=" * 40)
     
     # Load data
@@ -229,10 +229,10 @@ def main():
     lineups = generate_10_lineups(slate_df)
     
     if len(lineups) == 0:
-        logger.error("❌ No lineups generated")
+        logger.error("ERROR: No lineups generated")
         return
     
-    logger.info(f"✅ Generated {len(lineups)} lineups")
+    logger.info(f"SUCCESS: Generated {len(lineups)} lineups")
     
     # Backtest
     backtest_df = backtest_lineups(lineups, actual_df)
@@ -241,11 +241,11 @@ def main():
     save_results(lineups, backtest_df)
     
     # Display summary
-    print(f"\n🏆 BACKTEST RESULTS")
+    print(f"\nLINEUP: BACKTEST RESULTS")
     print("=" * 50)
     print(backtest_df[['lineup_id', 'projected_fppg', 'actual_fppg', 'accuracy_pct', 'players_found']].to_string(index=False))
     
-    print(f"\n📊 SUMMARY:")
+    print(f"\nDATA: SUMMARY:")
     print(f"   Average Accuracy: {backtest_df['accuracy_pct'].mean():.1f}%")
     print(f"   Best Lineup: {backtest_df.loc[backtest_df['actual_fppg'].idxmax()]['lineup_id']} ({backtest_df['actual_fppg'].max():.1f} FPPG)")
     print(f"   Average Players Found: {backtest_df['players_found'].mean():.1f}/9")

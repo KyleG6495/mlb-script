@@ -26,7 +26,7 @@ class DynamicStackingEngine:
         
     def calculate_correlation_matrix(self, historical_data):
         """Calculate player correlation matrix from historical data"""
-        print("📊 Building correlation matrix...")
+        print("DATA: Building correlation matrix...")
         
         # Pivot data to get player x game matrix
         player_game_matrix = historical_data.pivot_table(
@@ -42,7 +42,7 @@ class DynamicStackingEngine:
     
     def identify_optimal_stacks(self, player_pool, weather_data, vegas_totals):
         """Identify optimal stacking opportunities"""
-        print("🔥 Identifying optimal stack combinations...")
+        print(" Identifying optimal stack combinations...")
         
         stacks = {}
         
@@ -108,7 +108,7 @@ class DynamicStackingEngine:
         """Calculate temperature impact on offense"""
         temp = weather.get('temperature', 70)
         
-        # Optimal temperature around 75-80°F
+        # Optimal temperature around 75-80F
         if 75 <= temp <= 80:
             return 1.1  # 10% boost
         elif temp >= 85:
@@ -346,4 +346,4 @@ if __name__ == "__main__":
     })
     
     stacks = engine.identify_optimal_stacks(player_pool, weather_data, vegas_totals)
-    print("📊 Stack recommendations:", stacks)
+    print("DATA: Stack recommendations:", stacks)

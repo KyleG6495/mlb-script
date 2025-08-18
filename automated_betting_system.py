@@ -81,7 +81,7 @@ class AutomatedBettingSystem:
         
     def load_all_models(self):
         """Load models from both training script formats"""
-        logging.info("🤖 Loading all trained models...")
+        logging.info(" Loading all trained models...")
         
         for category, (target, task_type, player_type) in self.CATEGORY_MAP.items():
             # Special case: pitcher_strikeouts uses the existing strikeouts model
@@ -109,21 +109,21 @@ class AutomatedBettingSystem:
                             'player_type': player_type,
                             'path': str(model_path)
                         }
-                        logging.info(f"✅ Loaded {category} model from {model_path.name}")
+                        logging.info(f"SUCCESS: Loaded {category} model from {model_path.name}")
                         model_loaded = True
                         break
                     except Exception as e:
-                        logging.warning(f"❌ Failed to load {category} from {model_path}: {e}")
+                        logging.warning(f"ERROR: Failed to load {category} from {model_path}: {e}")
             
             if not model_loaded:
-                logging.warning(f"🔍 No model found for {category}")
+                logging.warning(f" No model found for {category}")
         
-        logging.info(f"📊 Total models loaded: {len(self.models)}")
+        logging.info(f"DATA: Total models loaded: {len(self.models)}")
         return len(self.models) > 0
     
     def load_today_features(self, date_str):
         """Load feature data for today's predictions - OPTIMIZED FOR DAILY PROP ANALYSIS"""
-        logging.info(f"🎯 Loading TODAY'S CONFIRMED STARTERS ONLY for prop analysis...")
+        logging.info(f"TARGET: Loading TODAY'S CONFIRMED STARTERS ONLY for prop analysis...")
         
         # OPTIMIZATION: Use confirmed starters file to get active players only
         confirmed_starters_file = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\data\fd_slate_confirmed_starters_only.csv"
@@ -140,9 +140,9 @@ class AutomatedBettingSystem:
                         if '-' in str(fd_id):
                             player_id = str(fd_id).split('-')[1]
                             active_player_ids.add(player_id)
-                logging.info(f"🎯 Found {len(active_player_ids)} confirmed starters for prop analysis")
+                logging.info(f"TARGET: Found {len(active_player_ids)} confirmed starters for prop analysis")
             except Exception as e:
-                logging.warning(f"❌ Could not load confirmed starters: {e}")
+                logging.warning(f"ERROR: Could not load confirmed starters: {e}")
         
         feature_files = {
             'hitter': [
@@ -184,11 +184,11 @@ class AutomatedBettingSystem:
                                     df = df[df['extracted_id'].isin(active_player_ids)]
                                 else:
                                     df = df[df[player_id_col].astype(str).isin(active_player_ids)]
-                                logging.info(f"🎯 Filtered {player_type} from {original_count} to {len(df)} active players using {player_id_col}")
+                                logging.info(f"TARGET: Filtered {player_type} from {original_count} to {len(df)} active players using {player_id_col}")
                             else:
-                                logging.warning(f"⚠️ No player ID column found in {player_type} data")
+                                logging.warning(f"WARNING: No player ID column found in {player_type} data")
                         else:
-                            logging.warning(f"⚠️ No active player IDs available for filtering")
+                            logging.warning(f"WARNING: No active player IDs available for filtering")
                         
                         # Additional date filtering for hitters if available
                         if 'date' in df.columns and player_type == 'hitter':
@@ -196,21 +196,21 @@ class AutomatedBettingSystem:
                             df_today = df[df['date'] == target_date]
                             if len(df_today) > 0:
                                 df = df_today
-                                logging.info(f"🎯 Further filtered {player_type} to {len(df)} players for {date_str}")
+                                logging.info(f"TARGET: Further filtered {player_type} to {len(df)} players for {date_str}")
                         
                         if len(df) > 0:
                             features[player_type] = df
-                            logging.info(f"✅ Loaded {player_type} features: {len(df)} players from {os.path.basename(file_path)}")
+                            logging.info(f"SUCCESS: Loaded {player_type} features: {len(df)} players from {os.path.basename(file_path)}")
                             break
                         else:
-                            logging.warning(f"⚠️ No {player_type} data after filtering from {os.path.basename(file_path)}")
+                            logging.warning(f"WARNING: No {player_type} data after filtering from {os.path.basename(file_path)}")
                             
                     except Exception as e:
-                        logging.warning(f"❌ Error loading {file_path}: {e}")
+                        logging.warning(f"ERROR: Error loading {file_path}: {e}")
         
         # Final validation
         total_players = sum(len(df) for df in features.values())
-        logging.info(f"🎯 OPTIMIZATION COMPLETE: Processing {total_players} players instead of 400K+")
+        logging.info(f"TARGET: OPTIMIZATION COMPLETE: Processing {total_players} players instead of 400K+")
         
         return features
     
@@ -241,17 +241,17 @@ class AutomatedBettingSystem:
                 # Create synthetic win_binary based on available data
                 # Use a combination of offensive performance indicators
                 df['win_binary'] = ((df.get('homeRuns', 0) + df.get('rbi', 0) + df.get('runs', 0)) > 2).astype(int)
-                logging.warning(f"⚠️ Using synthetic win_binary (no wins column available)")
+                logging.warning(f"WARNING: Using synthetic win_binary (no wins column available)")
         
         return df
     
     def generate_all_predictions(self, date_str):
         """Generate predictions for all loaded models"""
-        logging.info(f"🎯 Generating predictions for {date_str}...")
+        logging.info(f"TARGET: Generating predictions for {date_str}...")
         
         features = self.load_today_features(date_str)
         if not features:
-            logging.error("❌ No feature data loaded")
+            logging.error("ERROR: No feature data loaded")
             return {}
         
         predictions = {}
@@ -261,7 +261,7 @@ class AutomatedBettingSystem:
             player_type = model_info['player_type']
             
             if player_type not in features:
-                logging.warning(f"⚠️ No {player_type} features for {category}")
+                logging.warning(f"WARNING: No {player_type} features for {category}")
                 continue
             
             try:
@@ -308,7 +308,7 @@ class AutomatedBettingSystem:
                         break
                 
                 if not player_id_col:
-                    logging.error(f"❌ No player ID column found for {category}")
+                    logging.error(f"ERROR: No player ID column found for {category}")
                     continue
                 
                 pred_df = df[[player_id_col]].copy()
@@ -332,10 +332,10 @@ class AutomatedBettingSystem:
                     pred_df[f'prob_{category}'] = probs
                 
                 predictions[category] = pred_df
-                logging.info(f"✅ Generated {category} predictions for {len(pred_df)} players")
+                logging.info(f"SUCCESS: Generated {category} predictions for {len(pred_df)} players")
                 
             except Exception as e:
-                logging.error(f"❌ Failed to predict {category}: {e}")
+                logging.error(f"ERROR: Failed to predict {category}: {e}")
         
         self.predictions = predictions
         return predictions
@@ -345,7 +345,7 @@ class AutomatedBettingSystem:
         warnings = []
         
         if df is None or len(df) == 0:
-            warnings.append(f"❌ {source_name}: No data found")
+            warnings.append(f"ERROR: {source_name}: No data found")
             return warnings
             
         # Check for reasonable line ranges
@@ -357,9 +357,9 @@ class AutomatedBettingSystem:
                 low_lines = lines[lines < 0.5]  # Very low lines might be errors
                 
                 if len(high_lines) > 0:
-                    warnings.append(f"⚠️ {source_name}: {len(high_lines)} unusually high lines (>20) found")
+                    warnings.append(f"WARNING: {source_name}: {len(high_lines)} unusually high lines (>20) found")
                 if len(low_lines) > 0:
-                    warnings.append(f"⚠️ {source_name}: {len(low_lines)} unusually low lines (<0.5) found")
+                    warnings.append(f"WARNING: {source_name}: {len(low_lines)} unusually low lines (<0.5) found")
         
         # Check timestamp freshness (if available)
         current_time = datetime.now()
@@ -372,13 +372,13 @@ class AutomatedBettingSystem:
                     if 'Pitcher Strikeouts' in df.columns and pd.notna(row.get('Pitcher Strikeouts')):
                         line_value = row.get('Pitcher Strikeouts')
                         if line_value == 8.5:
-                            warnings.append(f"🚨 KNOWN ISSUE: Hunter Brown strikeouts showing {line_value} - Verify actual line is 7.0 on PrizePicks site")
+                            warnings.append(f" KNOWN ISSUE: Hunter Brown strikeouts showing {line_value} - Verify actual line is 7.0 on PrizePicks site")
         
         if warnings:
             for warning in warnings:
                 logging.warning(warning)
         else:
-            logging.info(f"✅ {source_name}: Data validation passed")
+            logging.info(f"SUCCESS: {source_name}: Data validation passed")
             
         return warnings
 
@@ -394,12 +394,12 @@ class AutomatedBettingSystem:
                 df = pd.read_csv(fd_file)
                 df['source'] = 'FanDuel'
                 lines['fanduel'] = df
-                logging.info(f"📊 Loaded FanDuel: {len(df)} props")
+                logging.info(f"DATA: Loaded FanDuel: {len(df)} props")
             except Exception as e:
-                logging.warning(f"❌ Error loading FanDuel: {e}")
+                logging.warning(f"ERROR: Error loading FanDuel: {e}")
         
         # PrizePicks - Run the existing scraper script!
-        logging.info("🔥 Running PrizePicks scraper...")
+        logging.info(" Running PrizePicks scraper...")
         try:
             import subprocess
             # Use the full Python path that works
@@ -410,12 +410,12 @@ class AutomatedBettingSystem:
                                   capture_output=True, text=True,
                                   cwd=r"c:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts")
             if result.returncode == 0:
-                logging.info("✅ PrizePicks scraper completed successfully")
-                logging.info(f"📊 PrizePicks scraper output: {result.stdout[-500:]}")  # Show last 500 chars
+                logging.info("SUCCESS: PrizePicks scraper completed successfully")
+                logging.info(f"DATA: PrizePicks scraper output: {result.stdout[-500:]}")  # Show last 500 chars
             else:
-                logging.warning(f"⚠️ PrizePicks scraper failed: {result.stderr}")
+                logging.warning(f"WARNING: PrizePicks scraper failed: {result.stderr}")
         except Exception as e:
-            logging.warning(f"❌ Failed to run PrizePicks scraper: {e}")
+            logging.warning(f"ERROR: Failed to run PrizePicks scraper: {e}")
         
         # Load PrizePicks data (find most recent file)
         try:
@@ -432,12 +432,12 @@ class AutomatedBettingSystem:
                 df_long = pd.melt(df, id_vars=['player_name'], value_name='line').dropna(subset=['line'])
                 df_long['source'] = 'PrizePicks'
                 lines['prizepicks'] = df_long
-                logging.info(f"📊 Loaded PrizePicks: {len(df_long)} props from {pp_file}")
+                logging.info(f"DATA: Loaded PrizePicks: {len(df_long)} props from {pp_file}")
         except Exception as e:
-            logging.warning(f"❌ Error loading PrizePicks: {e}")
+            logging.warning(f"ERROR: Error loading PrizePicks: {e}")
         
         # Underdog Fantasy - Load from existing CSV file (run underdog_fantasy_mlb.py manually first)
-        logging.info("🔥 Loading Underdog data from CSV...")
+        logging.info(" Loading Underdog data from CSV...")
         try:
             # Look for today's Underdog CSV file
             today = datetime.now().strftime('%Y-%m-%d')
@@ -462,17 +462,17 @@ class AutomatedBettingSystem:
                     
                     df['source'] = 'Underdog'
                     lines['underdog'] = df
-                    logging.info(f"📊 Loaded Underdog: {len(df)} props from {ud_filename}")
+                    logging.info(f"DATA: Loaded Underdog: {len(df)} props from {ud_filename}")
                     loaded_ud = True
                     break
             
             if not loaded_ud:
-                logging.warning("⚠️ No Underdog CSV file found. Run underdog_fantasy_mlb.py manually first.")
+                logging.warning("WARNING: No Underdog CSV file found. Run underdog_fantasy_mlb.py manually first.")
                 logging.info("Expected files: " + ", ".join(ud_files_to_try))
                 
         except Exception as e:
-            logging.warning(f"❌ Error loading Underdog CSV: {e}")
-            logging.warning("⚠️ Run underdog_fantasy_mlb.py manually first to generate the CSV file.")
+            logging.warning(f"ERROR: Error loading Underdog CSV: {e}")
+            logging.warning("WARNING: Run underdog_fantasy_mlb.py manually first to generate the CSV file.")
         
         return lines
     
@@ -490,11 +490,11 @@ class AutomatedBettingSystem:
             # PrizePicks Power Play implied odds per leg
             # Based on their fixed payout multipliers
             payout_odds_map = {
-                2: -136.6,  # 3x payout → ~57.7% win rate needed per leg
-                3: -141.0,  # 5x payout → ~58.5% win rate needed per leg  
-                4: -128.0,  # 10x payout → ~56.1% win rate needed per leg
-                5: -122.0,  # 20x payout → ~55.0% win rate needed per leg
-                6: -120.0   # 25x payout → ~54.5% win rate needed per leg
+                2: -136.6,  # 3x payout  ~57.7% win rate needed per leg
+                3: -141.0,  # 5x payout  ~58.5% win rate needed per leg  
+                4: -128.0,  # 10x payout  ~56.1% win rate needed per leg
+                5: -122.0,  # 20x payout  ~55.0% win rate needed per leg
+                6: -120.0   # 25x payout  ~54.5% win rate needed per leg
             }
             implied_odds = payout_odds_map.get(num_picks, -136.6)  # Default to 2-pick
             return abs(implied_odds) / (abs(implied_odds) + 100)
@@ -503,10 +503,10 @@ class AutomatedBettingSystem:
             # Underdog Standard Entry implied odds per leg
             # Generally better payouts than PrizePicks
             payout_odds_map = {
-                2: -136.6,  # 3x payout → ~57.7% win rate needed per leg
-                3: -122.0,  # 6x payout → ~55.0% win rate needed per leg (better than PP)
-                4: -128.0,  # 10x payout → ~56.1% win rate needed per leg
-                5: -122.0   # 20x payout → ~55.0% win rate needed per leg
+                2: -136.6,  # 3x payout  ~57.7% win rate needed per leg
+                3: -122.0,  # 6x payout  ~55.0% win rate needed per leg (better than PP)
+                4: -128.0,  # 10x payout  ~56.1% win rate needed per leg
+                5: -122.0   # 20x payout  ~55.0% win rate needed per leg
             }
             implied_odds = payout_odds_map.get(num_picks, -136.6)  # Default to 2-pick
             return abs(implied_odds) / (abs(implied_odds) + 100)
@@ -556,10 +556,10 @@ class AutomatedBettingSystem:
         
         for category, pred_df in predictions.items():
             if category not in stat_mapping:
-                logging.debug(f"⏭️ Skipping {category} (not in stat mapping)")
+                logging.debug(f" Skipping {category} (not in stat mapping)")
                 continue
             
-            logging.info(f"🔍 Processing {category}: {len(pred_df)} predictions")
+            logging.info(f" Processing {category}: {len(pred_df)} predictions")
             category_matches = 0
                 
             stat_names = stat_mapping[category]
@@ -583,20 +583,20 @@ class AutomatedBettingSystem:
                     
                     # Debug logging
                     if 'Logan Webb' in player_name:
-                        logging.info(f"🔍 DEBUG Logan Webb: outs={pitcher_outs}, prediction={prediction:.2f}")
+                        logging.info(f" DEBUG Logan Webb: outs={pitcher_outs}, prediction={prediction:.2f}")
                     
                     if pitcher_outs >= 15:  # 5+ innings = starter
                         # Starters average 5.20 K vs model training average of 2.03
                         starter_adjustment = 5.20 / 2.03  # 2.56x multiplier
                         original_pred = prediction
                         prediction = prediction * starter_adjustment
-                        logging.info(f"📈 STARTER ADJUSTMENT: {player_name} prediction adjusted from {original_pred:.2f} to {prediction:.2f} K (outs: {pitcher_outs})")
+                        logging.info(f"PROGRESS: STARTER ADJUSTMENT: {player_name} prediction adjusted from {original_pred:.2f} to {prediction:.2f} K (outs: {pitcher_outs})")
                     elif pitcher_outs >= 6:  # 2-4 innings = long relief
                         # Long relief average ~2.5 K vs model average of 2.03
                         relief_adjustment = 2.5 / 2.03  # 1.23x multiplier
                         original_pred = prediction
                         prediction = prediction * relief_adjustment
-                        logging.info(f"📊 RELIEF ADJUSTMENT: {player_name} prediction adjusted from {original_pred:.2f} to {prediction:.2f} K (outs: {pitcher_outs})")
+                        logging.info(f"DATA: RELIEF ADJUSTMENT: {player_name} prediction adjusted from {original_pred:.2f} to {prediction:.2f} K (outs: {pitcher_outs})")
                     # Short relief/closers: no adjustment (matches training data)
                 
                 # Search all sportsbooks for this player/stat combo
@@ -606,7 +606,7 @@ class AutomatedBettingSystem:
                     if source == 'prizepicks':
                         # Skip home runs for PrizePicks since they only offer OVER (no betting value)
                         if category == 'home_runs':
-                            logging.debug(f"⏭️ Skipping {category} for PrizePicks (OVER only)")
+                            logging.debug(f" Skipping {category} for PrizePicks (OVER only)")
                             continue
                             
                         # Match PrizePicks format
@@ -658,7 +658,7 @@ class AutomatedBettingSystem:
                         if self.models[category]['task_type'] == 'regression':
                             # Validate prediction first - skip if unrealistic
                             if prediction < 0 or prediction > 50:  # Reasonable upper bound for baseball stats
-                                logging.warning(f"⚠️ Skipping unrealistic prediction for {player_name} {category}: {prediction}")
+                                logging.warning(f"WARNING: Skipping unrealistic prediction for {player_name} {category}: {prediction}")
                                 continue
                             
                             # Use normal distribution assumption with VALIDATED standard deviations
@@ -759,10 +759,10 @@ class AutomatedBettingSystem:
                             })
                             category_matches += 1
             
-            logging.info(f"✅ {category}: {category_matches} matches found")
+            logging.info(f"SUCCESS: {category}: {category_matches} matches found")
             total_matches_found += category_matches
         
-        logging.info(f"📊 Total opportunities found: {len(opportunities)} from {total_matches_found} matches")
+        logging.info(f"DATA: Total opportunities found: {len(opportunities)} from {total_matches_found} matches")
         return sorted(opportunities, key=lambda x: x['edge'], reverse=True)
     
     def build_optimal_combinations(self, opportunities, target_sizes=[3, 4, 5, 6]):
@@ -779,12 +779,12 @@ class AutomatedBettingSystem:
         # Filter high-quality opportunities for combinations
         quality_opps = [opp for opp in opportunities if opp['edge'] >= 0.08 and opp['kelly_bet_pct'] >= 0.02]
         
-        print(f"🔍 Building combinations from {len(quality_opps)} quality opportunities...")
+        print(f" Building combinations from {len(quality_opps)} quality opportunities...")
         
         optimal_combinations = []
         
         for size in target_sizes:
-            print(f"📊 Analyzing {size}-pick combinations...")
+            print(f"DATA: Analyzing {size}-pick combinations...")
             
             # Generate all possible combinations of this size
             best_combos = []
@@ -859,7 +859,7 @@ class AutomatedBettingSystem:
             optimal_combinations.extend(best_combos[:5])
             
             if best_combos:
-                print(f"✅ Best {size}-pick combo: {best_combos[0]['avg_edge']:.1%} avg edge, {best_combos[0]['win_probability']:.1%} win prob")
+                print(f"SUCCESS: Best {size}-pick combo: {best_combos[0]['avg_edge']:.1%} avg edge, {best_combos[0]['win_probability']:.1%} win prob")
         
         return sorted(optimal_combinations, key=lambda x: x['score'], reverse=True)
 
@@ -907,7 +907,7 @@ class AutomatedBettingSystem:
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
         if not opportunities:
-            logging.warning("⚠️ No betting opportunities found")
+            logging.warning("WARNING: No betting opportunities found")
             return
         
         # Save detailed CSV
@@ -918,12 +918,12 @@ class AutomatedBettingSystem:
         # Generate summary report
         report_file = f"{output_dir}/betting_report_{timestamp}.txt"
         with open(report_file, 'w', encoding='utf-8') as f:
-            f.write("🎯 AUTOMATED BETTING SYSTEM REPORT\n")
+            f.write("TARGET: AUTOMATED BETTING SYSTEM REPORT\n")
             f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("="*80 + "\n\n")
             
             # Top opportunities
-            f.write("🏆 TOP 10 BETTING OPPORTUNITIES:\n")
+            f.write("LINEUP: TOP 10 BETTING OPPORTUNITIES:\n")
             f.write("-"*80 + "\n")
             
             for i, opp in enumerate(opportunities[:10], 1):
@@ -937,7 +937,7 @@ class AutomatedBettingSystem:
             by_category = df.groupby('category').size()
             by_source = df.groupby('source').size()
             
-            f.write("📊 SUMMARY STATISTICS:\n")
+            f.write("DATA: SUMMARY STATISTICS:\n")
             f.write("-"*40 + "\n")
             f.write(f"Total Opportunities: {len(opportunities)}\n")
             f.write(f"Average Edge: {df['edge'].mean():.2%}\n")
@@ -955,30 +955,30 @@ class AutomatedBettingSystem:
             for source, count in by_source.items():
                 f.write(f"  {source}: {count}\n")
         
-        logging.info(f"✅ Betting report saved: {report_file}")
-        logging.info(f"✅ Detailed CSV saved: {csv_file}")
+        logging.info(f"SUCCESS: Betting report saved: {report_file}")
+        logging.info(f"SUCCESS: Detailed CSV saved: {csv_file}")
         
         return report_file, csv_file
     
     def run_daily_analysis(self, date_str, min_edge=0.05, output_dir="./betting_analysis"):
         """Run complete daily betting analysis"""
-        logging.info(f"🚀 Starting automated betting analysis for {date_str}")
+        logging.info(f"START: Starting automated betting analysis for {date_str}")
         
         # Load models
         if not self.load_all_models():
-            logging.error("❌ No models loaded - run training first!")
+            logging.error("ERROR: No models loaded - run training first!")
             return False
         
         # Generate predictions
         predictions = self.generate_all_predictions(date_str)
         if not predictions:
-            logging.error("❌ No predictions generated")
+            logging.error("ERROR: No predictions generated")
             return False
         
         # Load sportsbook lines
         lines = self.load_sportsbook_lines()
         if not lines:
-            logging.error("❌ No sportsbook lines loaded")
+            logging.error("ERROR: No sportsbook lines loaded")
             return False
         
         # Find opportunities
@@ -987,7 +987,7 @@ class AutomatedBettingSystem:
         # Generate report
         if opportunities:
             # Build optimal combinations for multi-pick entries
-            print("\n🎯 BUILDING OPTIMAL PROP COMBINATIONS...")
+            print("\nTARGET: BUILDING OPTIMAL PROP COMBINATIONS...")
             combinations = self.build_optimal_combinations(opportunities)
             
             # Save combination report
@@ -998,7 +998,7 @@ class AutomatedBettingSystem:
                 
                 # Save TXT report
                 with open(combo_file, 'w', encoding='utf-8') as f:
-                    f.write("🎯 OPTIMAL PROP COMBINATIONS REPORT\n")
+                    f.write("TARGET: OPTIMAL PROP COMBINATIONS REPORT\n")
                     f.write("="*80 + "\n\n")
                     
                     for i, combo in enumerate(combinations[:15], 1):
@@ -1076,16 +1076,16 @@ class AutomatedBettingSystem:
                 data_combo_csv = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\data\optimal_combinations_today.csv"
                 combo_df.to_csv(data_combo_csv, index=False)
                 
-                print(f"✅ Optimal combinations saved: {combo_file}")
-                print(f"✅ CSV combinations saved: {combo_csv}")
-                print(f"✅ Easy access copy saved: ../data/optimal_combinations_today.csv")
-                print(f"🏆 Best combination: {combinations[0]['summary']}")
-                print(f"   📊 {combinations[0]['avg_edge']:.1%} avg edge, {combinations[0]['win_probability']:.1%} win probability")
+                print(f"SUCCESS: Optimal combinations saved: {combo_file}")
+                print(f"SUCCESS: CSV combinations saved: {combo_csv}")
+                print(f"SUCCESS: Easy access copy saved: ../data/optimal_combinations_today.csv")
+                print(f"LINEUP: Best combination: {combinations[0]['summary']}")
+                print(f"   DATA: {combinations[0]['avg_edge']:.1%} avg edge, {combinations[0]['win_probability']:.1%} win probability")
             
             self.generate_betting_report(opportunities, output_dir)
-            logging.info(f"🎯 Found {len(opportunities)} betting opportunities!")
+            logging.info(f"TARGET: Found {len(opportunities)} betting opportunities!")
         else:
-            logging.info("💤 No profitable opportunities found today")
+            logging.info(" No profitable opportunities found today")
         
         return True
 
@@ -1110,9 +1110,9 @@ def main():
     )
     
     if success:
-        logging.info("✅ Analysis complete!")
+        logging.info("SUCCESS: Analysis complete!")
     else:
-        logging.error("❌ Analysis failed!")
+        logging.error("ERROR: Analysis failed!")
 
 if __name__ == "__main__":
     main()

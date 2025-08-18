@@ -27,7 +27,7 @@ if actual_file.exists():
     actual_df = pd.read_csv(actual_file)
     
     total_actual = 0
-    print("🎯 FILTERED LINEUP BACKTEST:")
+    print("TARGET: FILTERED LINEUP BACKTEST:")
     print("="*50)
     
     for player_name in filtered_players:
@@ -37,21 +37,21 @@ if actual_file.exists():
         if not player_row.empty:
             actual_fppg = player_row.iloc[0].get('fanduel_points', 0)
             total_actual += actual_fppg
-            print(f"✅ {player_name:20}: {actual_fppg:5.1f} FPPG")
+            print(f"SUCCESS: {player_name:20}: {actual_fppg:5.1f} FPPG")
         else:
-            print(f"❌ {player_name:20}: 0.0 FPPG (not found)")
+            print(f"ERROR: {player_name:20}: 0.0 FPPG (not found)")
     
     print("="*50)
-    print(f"🏆 TOTAL ACTUAL FPPG: {total_actual:.1f}")
-    print(f"📊 Projected: 119.4 FPPG")
-    print(f"🎪 Accuracy: {(total_actual/119.4)*100:.1f}%")
+    print(f"LINEUP: TOTAL ACTUAL FPPG: {total_actual:.1f}")
+    print(f"DATA: Projected: 119.4 FPPG")
+    print(f" Accuracy: {(total_actual/119.4)*100:.1f}%")
     
     if total_actual > 100:
-        print("🔥 EXCELLENT performance!")
+        print(" EXCELLENT performance!")
     elif total_actual > 60:
-        print("✅ Good performance!")
+        print("SUCCESS: Good performance!")
     else:
-        print("⚠️ Needs improvement")
+        print("WARNING: Needs improvement")
 
 else:
-    print("❌ No actual results file found")
+    print("ERROR: No actual results file found")

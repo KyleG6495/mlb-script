@@ -28,7 +28,7 @@ def normalize_name(name):
     name_map = {
         'Freddie Freeman': 'Frederick Freeman',
         'Mookie Betts': 'Markus Betts',
-        'Ronald Acuña Jr.': 'Ronald Acuna Jr',
+        'Ronald Acua Jr.': 'Ronald Acuna Jr',
         'Vladimir Guerrero Jr.': 'Vladimir Guerrero Jr',
         'Fernando Tatis Jr.': 'Fernando Tatis Jr',
         'William Contreras': 'Willson Contreras',
@@ -120,9 +120,9 @@ def get_actual_stat_value(player_stats, stat_type):
 def analyze_prop_performance(prop_file, actual_results_file, output_dir, platform_name):
     """Analyze prop betting performance"""
     
-    logger.info(f"🎯 ANALYZING {platform_name.upper()} PROP PERFORMANCE")
-    logger.info(f"📂 Prop file: {prop_file}")
-    logger.info(f"📂 Actual results: {actual_results_file}")
+    logger.info(f"TARGET: ANALYZING {platform_name.upper()} PROP PERFORMANCE")
+    logger.info(f" Prop file: {prop_file}")
+    logger.info(f" Actual results: {actual_results_file}")
     
     # Load data
     try:
@@ -133,11 +133,11 @@ def analyze_prop_performance(prop_file, actual_results_file, output_dir, platfor
         
         actual_df = pd.read_csv(actual_results_file)
         
-        logger.info(f"📊 Loaded {len(prop_df)} prop predictions")
-        logger.info(f"📊 Loaded {len(actual_df)} actual results")
+        logger.info(f"DATA: Loaded {len(prop_df)} prop predictions")
+        logger.info(f"DATA: Loaded {len(actual_df)} actual results")
         
     except Exception as e:
-        logger.error(f"❌ Error loading data: {e}")
+        logger.error(f"ERROR: Error loading data: {e}")
         return None
     
     results = []
@@ -231,21 +231,21 @@ def analyze_prop_performance(prop_file, actual_results_file, output_dir, platfor
                     winning_bets += 1
                     stat_performance[stat_type]['won'] += 1
                 
-                match_status = "✅ FOUND"
+                match_status = "SUCCESS: FOUND"
                 actual_name = matched_player['name']
             else:
                 actual_result = "N/A"
                 bet_won = False
                 prediction_correct = False
                 actual_stat_value = "N/A"
-                match_status = "❌ STAT NOT FOUND"
+                match_status = "ERROR: STAT NOT FOUND"
                 actual_name = matched_player['name']
         else:
             actual_result = "N/A"
             bet_won = False
             prediction_correct = False
             actual_stat_value = "N/A"
-            match_status = "❌ PLAYER NOT FOUND"
+            match_status = "ERROR: PLAYER NOT FOUND"
             actual_name = "N/A"
         
         result = {
@@ -294,60 +294,60 @@ def analyze_prop_performance(prop_file, actual_results_file, output_dir, platfor
     
     # Print summary
     logger.info(f"\n" + "="*60)
-    logger.info(f"📊 {platform_name.upper()} PROP BACKTEST SUMMARY")
+    logger.info(f"DATA: {platform_name.upper()} PROP BACKTEST SUMMARY")
     logger.info(f"="*60)
-    logger.info(f"📋 Total Predictions: {total_predictions}")
-    logger.info(f"🎯 Players Found: {players_found}/{total_predictions} ({player_match_rate:.1f}%)")
-    logger.info(f"📈 Prediction Accuracy: {correct_predictions}/{players_found} ({prediction_accuracy:.1f}%)")
-    logger.info(f"🏆 Winning Bets: {winning_bets}/{players_found} ({bet_win_rate:.1f}%)")
+    logger.info(f"INFO: Total Predictions: {total_predictions}")
+    logger.info(f"TARGET: Players Found: {players_found}/{total_predictions} ({player_match_rate:.1f}%)")
+    logger.info(f"PROGRESS: Prediction Accuracy: {correct_predictions}/{players_found} ({prediction_accuracy:.1f}%)")
+    logger.info(f"LINEUP: Winning Bets: {winning_bets}/{players_found} ({bet_win_rate:.1f}%)")
     logger.info(f"="*60)
     
     # Show stat breakdown
-    logger.info(f"\n📊 PERFORMANCE BY STAT TYPE:")
+    logger.info(f"\nDATA: PERFORMANCE BY STAT TYPE:")
     for stat, stats in sorted(stat_performance.items()):
         if stats['found'] > 0:
             stat_win_rate = (stats['won'] / stats['found']) * 100
             logger.info(f"   {stat.upper()}:")
-            logger.info(f"     • Total: {stats['won']}/{stats['found']} won ({stat_win_rate:.1f}%)")
+            logger.info(f"      Total: {stats['won']}/{stats['found']} won ({stat_win_rate:.1f}%)")
             
             # Show Over/Under breakdown if both exist
             if stats['over_bets'] > 0 and stats['under_bets'] > 0:
                 over_rate = (stats['over_won'] / stats['over_bets']) * 100 if stats['over_bets'] > 0 else 0
                 under_rate = (stats['under_won'] / stats['under_bets']) * 100 if stats['under_bets'] > 0 else 0
-                logger.info(f"     • OVER: {stats['over_won']}/{stats['over_bets']} ({over_rate:.1f}%)")
-                logger.info(f"     • UNDER: {stats['under_won']}/{stats['under_bets']} ({under_rate:.1f}%)")
+                logger.info(f"      OVER: {stats['over_won']}/{stats['over_bets']} ({over_rate:.1f}%)")
+                logger.info(f"      UNDER: {stats['under_won']}/{stats['under_bets']} ({under_rate:.1f}%)")
             elif stats['over_bets'] > 0:
                 over_rate = (stats['over_won'] / stats['over_bets']) * 100
-                logger.info(f"     • OVER only: {stats['over_won']}/{stats['over_bets']} ({over_rate:.1f}%)")
+                logger.info(f"      OVER only: {stats['over_won']}/{stats['over_bets']} ({over_rate:.1f}%)")
             elif stats['under_bets'] > 0:
                 under_rate = (stats['under_won'] / stats['under_bets']) * 100
-                logger.info(f"     • UNDER only: {stats['under_won']}/{stats['under_bets']} ({under_rate:.1f}%)")
+                logger.info(f"      UNDER only: {stats['under_won']}/{stats['under_bets']} ({under_rate:.1f}%)")
     logger.info(f"="*60)
     
     # Show best and worst performers
-    found_results = results_df[results_df['match_status'] == '✅ FOUND']
+    found_results = results_df[results_df['match_status'] == 'SUCCESS: FOUND']
     if not found_results.empty:
         winning_bets_df = found_results[found_results['bet_won'] == True]
         if not winning_bets_df.empty:
-            logger.info(f"\n🏆 WINNING BETS:")
+            logger.info(f"\nLINEUP: WINNING BETS:")
             for _, bet in winning_bets_df.head(10).iterrows():
                 try:
                     edge_val = float(bet['edge']) if bet['edge'] != 'N/A' else 0
-                    logger.info(f"   • {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {edge_val:.1f}%]")
+                    logger.info(f"    {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {edge_val:.1f}%]")
                 except (ValueError, TypeError):
-                    logger.info(f"   • {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {bet['edge']}%]")
+                    logger.info(f"    {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {bet['edge']}%]")
         
         losing_bets_df = found_results[found_results['bet_won'] == False]
         if not losing_bets_df.empty:
-            logger.info(f"\n💥 LOSING BETS:")
+            logger.info(f"\n LOSING BETS:")
             for _, bet in losing_bets_df.head(5).iterrows():
                 try:
                     edge_val = float(bet['edge']) if bet['edge'] != 'N/A' else 0
-                    logger.info(f"   • {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {edge_val:.1f}%]")
+                    logger.info(f"    {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {edge_val:.1f}%]")
                 except (ValueError, TypeError):
-                    logger.info(f"   • {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {bet['edge']}%]")
+                    logger.info(f"    {bet['player_name']} {bet['stat_type']} {bet['recommendation']} {bet['line']} (Actual: {bet['actual_value']}) [Edge: {bet['edge']}%]")
     
-    logger.info(f"\n💾 Results saved: {results_file}")
+    logger.info(f"\n Results saved: {results_file}")
     
     return results_df, summary_stats
 
@@ -376,7 +376,7 @@ def main():
     
     data_dir = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\data"
     
-    logger.info(f"🎯 STARTING PROP BETTING BACKTEST ANALYSIS")
+    logger.info(f"TARGET: STARTING PROP BETTING BACKTEST ANALYSIS")
     
     # Find prop files and actual results
     uf_file, pp_file = find_most_recent_prop_files(data_dir)
@@ -390,31 +390,31 @@ def main():
         actual_results_file = os.path.join(data_dir, "actual_results_latest.csv")
     
     if not os.path.exists(actual_results_file):
-        logger.error(f"❌ No actual results file found")
+        logger.error(f"ERROR: No actual results file found")
         return
     
     all_results = []
     
     # Analyze Underdog Fantasy props
     if uf_file and os.path.exists(uf_file):
-        logger.info(f"📂 Found Underdog file: {os.path.basename(uf_file)}")
+        logger.info(f" Found Underdog file: {os.path.basename(uf_file)}")
         uf_results, uf_summary = analyze_prop_performance(uf_file, actual_results_file, data_dir, "Underdog")
         all_results.append(("Underdog", uf_summary))
     else:
-        logger.warning(f"⚠️ No Underdog prop file found for yesterday")
+        logger.warning(f"WARNING: No Underdog prop file found for yesterday")
     
     # Analyze PrizePicks props
     if pp_file and os.path.exists(pp_file):
-        logger.info(f"📂 Found PrizePicks file: {os.path.basename(pp_file)}")
+        logger.info(f" Found PrizePicks file: {os.path.basename(pp_file)}")
         pp_results, pp_summary = analyze_prop_performance(pp_file, actual_results_file, data_dir, "PrizePicks")
         all_results.append(("PrizePicks", pp_summary))
     else:
-        logger.warning(f"⚠️ No PrizePicks prop file found for yesterday")
+        logger.warning(f"WARNING: No PrizePicks prop file found for yesterday")
     
     # Generate combined summary
     if all_results:
         logger.info(f"\n" + "="*70)
-        logger.info(f"📊 COMBINED PROP BETTING PERFORMANCE SUMMARY")
+        logger.info(f"DATA: COMBINED PROP BETTING PERFORMANCE SUMMARY")
         logger.info(f"="*70)
         
         # Create comprehensive summary report
@@ -436,14 +436,14 @@ def main():
             
             # Add to summary file
             summary_lines.append(f"{platform.upper()} PERFORMANCE:")
-            summary_lines.append(f"  • Total Predictions: {summary['total_predictions']}")
-            summary_lines.append(f"  • Players Found: {summary['players_found']}/{summary['total_predictions']} ({summary['player_match_rate']:.1f}%)")
-            summary_lines.append(f"  • Winning Bets: {summary['winning_bets']}/{summary['players_found']} ({summary['bet_win_rate']:.1f}%)")
-            summary_lines.append(f"  • Prediction Accuracy: {summary['correct_predictions']}/{summary['players_found']} ({summary['prediction_accuracy']:.1f}%)")
+            summary_lines.append(f"   Total Predictions: {summary['total_predictions']}")
+            summary_lines.append(f"   Players Found: {summary['players_found']}/{summary['total_predictions']} ({summary['player_match_rate']:.1f}%)")
+            summary_lines.append(f"   Winning Bets: {summary['winning_bets']}/{summary['players_found']} ({summary['bet_win_rate']:.1f}%)")
+            summary_lines.append(f"   Prediction Accuracy: {summary['correct_predictions']}/{summary['players_found']} ({summary['prediction_accuracy']:.1f}%)")
             
             # Add stat breakdown if available
             if 'stat_performance' in summary:
-                summary_lines.append("  • Performance by Stat:")
+                summary_lines.append("   Performance by Stat:")
                 for stat, stats in sorted(summary['stat_performance'].items()):
                     if stats['found'] > 0:
                         stat_win_rate = (stats['won'] / stats['found']) * 100
@@ -469,7 +469,7 @@ def main():
         # Overall performance
         overall_win_rate = (total_bets_won / total_bets_placed) * 100 if total_bets_placed > 0 else 0
         summary_lines.append("OVERALL PERFORMANCE:")
-        summary_lines.append(f"  • Combined Win Rate: {total_bets_won}/{total_bets_placed} ({overall_win_rate:.1f}%)")
+        summary_lines.append(f"   Combined Win Rate: {total_bets_won}/{total_bets_placed} ({overall_win_rate:.1f}%)")
         summary_lines.append("")
         
         # Performance assessment
@@ -484,13 +484,13 @@ def main():
                 assessment = "FAIR (Near Breakeven)"
             else:
                 assessment = "POOR (Unprofitable)"
-            summary_lines.append(f"  • {platform}: {assessment}")
+            summary_lines.append(f"   {platform}: {assessment}")
         
         summary_lines.append("")
         summary_lines.append("PROFIT ANALYSIS:")
-        summary_lines.append("  • Breakeven rate needed: ~52.4% (accounting for juice)")
-        summary_lines.append("  • Target win rate for profit: 55%+")
-        summary_lines.append("  • Elite win rate: 60%+")
+        summary_lines.append("   Breakeven rate needed: ~52.4% (accounting for juice)")
+        summary_lines.append("   Target win rate for profit: 55%+")
+        summary_lines.append("   Elite win rate: 60%+")
         summary_lines.append("")
         summary_lines.append("=" * 70)
         
@@ -499,9 +499,9 @@ def main():
             f.write('\n'.join(summary_lines))
         
         logger.info(f"="*70)
-        logger.info(f"💾 Comprehensive summary saved: {summary_file}")
+        logger.info(f" Comprehensive summary saved: {summary_file}")
     
-    logger.info(f"✅ PROP BETTING BACKTEST ANALYSIS COMPLETE!")
+    logger.info(f"SUCCESS: PROP BETTING BACKTEST ANALYSIS COMPLETE!")
 
 if __name__ == "__main__":
     main()

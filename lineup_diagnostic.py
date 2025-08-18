@@ -11,13 +11,13 @@ from datetime import datetime
 
 def analyze_lineup_issues():
     """Analyze current lineup generation issues"""
-    print("🔍 LINEUP DIAGNOSTIC ANALYSIS")
+    print(" LINEUP DIAGNOSTIC ANALYSIS")
     print("=" * 50)
     
     # Load latest lineup details
     detail_files = glob.glob('../data/clean_lineup_details_*.csv')
     if not detail_files:
-        print("❌ No lineup detail files found")
+        print("ERROR: No lineup detail files found")
         return
     
     latest_details = max(detail_files)
@@ -29,14 +29,14 @@ def analyze_lineup_issues():
         latest_summary = max(summary_files)
         summary_df = pd.read_csv(latest_summary)
     else:
-        print("❌ No summary files found")
+        print("ERROR: No summary files found")
         return
     
-    print(f"📄 Analyzing: {os.path.basename(latest_details)}")
-    print(f"📄 Summary: {os.path.basename(latest_summary)}")
+    print(f" Analyzing: {os.path.basename(latest_details)}")
+    print(f" Summary: {os.path.basename(latest_summary)}")
     
     # Issue 1: Duplicate lineups
-    print(f"\n🚨 ISSUE 1: DUPLICATE LINEUPS")
+    print(f"\n ISSUE 1: DUPLICATE LINEUPS")
     unique_lineups = details_df.groupby('lineup_id')['player_name'].apply(lambda x: tuple(sorted(x))).reset_index()
     unique_lineup_sets = unique_lineups['player_name'].nunique()
     total_lineups = unique_lineups['lineup_id'].nunique()
@@ -46,10 +46,10 @@ def analyze_lineup_issues():
     print(f"   Duplicates: {total_lineups - unique_lineup_sets}")
     
     if unique_lineup_sets < total_lineups:
-        print("   🔧 FIX: Add diversification logic to generate unique lineups")
+        print("   STEP: FIX: Add diversification logic to generate unique lineups")
     
     # Issue 2: Projection accuracy
-    print(f"\n🚨 ISSUE 2: PROJECTION ACCURACY")
+    print(f"\n ISSUE 2: PROJECTION ACCURACY")
     avg_projected = summary_df['projected_fppg'].mean()
     avg_actual = summary_df['actual_fppg'].mean()
     accuracy = (avg_actual / avg_projected * 100) if avg_projected > 0 else 0
@@ -59,20 +59,20 @@ def analyze_lineup_issues():
     print(f"   Accuracy: {accuracy:.1f}%")
     
     if accuracy < 70:
-        print("   🔧 FIX: Projections are too optimistic - need recalibration")
-        print("   🔧 FIX: Use historical average methodology instead of ML projections")
+        print("   STEP: FIX: Projections are too optimistic - need recalibration")
+        print("   STEP: FIX: Use historical average methodology instead of ML projections")
     
     # Issue 3: Player matching
-    print(f"\n🚨 ISSUE 3: PLAYER MATCHING")
+    print(f"\n ISSUE 3: PLAYER MATCHING")
     avg_players_found = summary_df['players_found'].mean()
     print(f"   Average players found: {avg_players_found:.1f}/9")
     
     if avg_players_found < 8:
-        print("   🔧 FIX: Improve player name matching algorithm")
-        print("   🔧 FIX: Validate slate data before lineup generation")
+        print("   STEP: FIX: Improve player name matching algorithm")
+        print("   STEP: FIX: Validate slate data before lineup generation")
     
     # Issue 4: Salary utilization
-    print(f"\n🚨 ISSUE 4: SALARY UTILIZATION")
+    print(f"\n ISSUE 4: SALARY UTILIZATION")
     avg_salary = summary_df['total_salary'].mean()
     salary_cap = 35000  # FanDuel salary cap
     utilization = (avg_salary / salary_cap * 100) if salary_cap > 0 else 0
@@ -82,19 +82,19 @@ def analyze_lineup_issues():
     print(f"   Utilization: {utilization:.1f}%")
     
     if utilization < 95:
-        print("   🔧 FIX: Increase salary utilization for better players")
+        print("   STEP: FIX: Increase salary utilization for better players")
     elif utilization > 100:
-        print("   🔧 FIX: Lineup exceeds salary cap - fix optimizer")
+        print("   STEP: FIX: Lineup exceeds salary cap - fix optimizer")
     
     # Issue 5: Position analysis
-    print(f"\n🚨 ISSUE 5: POSITION DISTRIBUTION")
+    print(f"\n ISSUE 5: POSITION DISTRIBUTION")
     position_counts = details_df['position'].value_counts()
     print("   Position distribution:")
     for pos, count in position_counts.items():
         print(f"     {pos}: {count} selections")
     
     # Generate recommendations
-    print(f"\n🔧 RECOMMENDED FIXES:")
+    print(f"\nSTEP: RECOMMENDED FIXES:")
     print("   1. Switch to conservative historical averages")
     print("   2. Add lineup diversification algorithm")
     print("   3. Improve player name matching")
@@ -131,7 +131,7 @@ def analyze_lineup_issues():
         f.write("3. Fix player name matching algorithm\n")
         f.write("4. Validate input data quality\n")
     
-    print(f"\n✅ Diagnostic report saved: {report_file}")
+    print(f"\nSUCCESS: Diagnostic report saved: {report_file}")
 
 if __name__ == "__main__":
     analyze_lineup_issues()

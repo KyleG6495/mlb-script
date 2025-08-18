@@ -370,7 +370,7 @@ class AdvancedDFSOptimizer:
         
     def run_optimization(self, num_lineups=20):
         """Run the complete optimization process"""
-        self.logger.info("🚀 Starting Advanced DFS Optimization")
+        self.logger.info("START: Starting Advanced DFS Optimization")
         
         # Load data
         self.load_and_prepare_data()
@@ -383,14 +383,14 @@ class AdvancedDFSOptimizer:
             fanduel_file, detailed_file = self.save_lineups(lineups)
             
             # Print summary
-            print(f"\n✅ Generated {len(lineups)} optimized lineups!")
-            print(f"📊 Projection range: {min(l['total_projection'] for l in lineups):.1f} - {max(l['total_projection'] for l in lineups):.1f}")
-            print(f"💰 Salary range: ${min(l['total_salary'] for l in lineups)} - ${max(l['total_salary'] for l in lineups)}")
-            print(f"📁 Files ready for FanDuel submission!")
+            print(f"\nSUCCESS: Generated {len(lineups)} optimized lineups!")
+            print(f"DATA: Projection range: {min(l['total_projection'] for l in lineups):.1f} - {max(l['total_projection'] for l in lineups):.1f}")
+            print(f"MONEY: Salary range: ${min(l['total_salary'] for l in lineups)} - ${max(l['total_salary'] for l in lineups)}")
+            print(f" Files ready for FanDuel submission!")
             
             return True
         else:
-            self.logger.error("❌ Failed to generate lineups")
+            self.logger.error("ERROR: Failed to generate lineups")
             return False
 
 if __name__ == "__main__":
@@ -398,7 +398,7 @@ if __name__ == "__main__":
     success = optimizer.run_optimization(20)
     
     if success:
-        print("\n🎯 ADVANCED DFS OPTIMIZATION COMPLETE!")
+        print("\nTARGET: ADVANCED DFS OPTIMIZATION COMPLETE!")
         print("   This system should significantly outperform SaberSim!")
     else:
-        print("\n❌ Optimization failed - check logs for details")
+        print("\nERROR: Optimization failed - check logs for details")

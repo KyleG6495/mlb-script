@@ -111,22 +111,22 @@ class MLEnsembleSystem:
     def train_ensemble(self, training_data, target_columns):
         """Train ensemble of models for each target variable"""
         
-        print("🤖 TRAINING ML ENSEMBLE SYSTEM")
+        print(" TRAINING ML ENSEMBLE SYSTEM")
         print("=" * 50)
         
         # Prepare features
         X = self.prepare_features(training_data)
         
-        print(f"📊 Training with {len(X)} samples and {len(X.columns)} features")
-        print(f"🎯 Target variables: {', '.join(target_columns)}")
+        print(f"DATA: Training with {len(X)} samples and {len(X.columns)} features")
+        print(f"TARGET: Target variables: {', '.join(target_columns)}")
         
         # Train models for each target
         for target in target_columns:
             if target not in training_data.columns:
-                print(f"⚠️ Target {target} not found in training data")
+                print(f"WARNING: Target {target} not found in training data")
                 continue
                 
-            print(f"\n🎯 Training models for: {target}")
+            print(f"\nTARGET: Training models for: {target}")
             
             y = training_data[target].fillna(0)
             
@@ -137,7 +137,7 @@ class MLEnsembleSystem:
             
             # Train each model type
             for model_name, config in self.model_configs.items():
-                print(f"  🔧 Training {model_name}...")
+                print(f"  STEP: Training {model_name}...")
                 
                 # Scale features for neural network
                 if model_name == 'neural_network':
@@ -156,14 +156,14 @@ class MLEnsembleSystem:
                 tscv = TimeSeriesSplit(n_splits=5)
                 cv_scores = cross_val_score(model, X_scaled, y, cv=tscv, scoring='neg_mean_absolute_error')
                 
-                print(f"    📈 CV Score: {-cv_scores.mean():.4f} ± {cv_scores.std():.4f}")
+                print(f"    PROGRESS: CV Score: {-cv_scores.mean():.4f}  {cv_scores.std():.4f}")
                 
                 # Store model and weight
                 self.models[target][model_name] = model
                 self.model_weights[target][model_name] = config['weight']
         
         self.is_trained = True
-        print("\n✅ Ensemble training completed!")
+        print("\nSUCCESS: Ensemble training completed!")
     
     def predict_ensemble(self, features_df):
         """Generate ensemble predictions"""
@@ -171,7 +171,7 @@ class MLEnsembleSystem:
         if not self.is_trained:
             raise ValueError("Models must be trained before prediction")
         
-        print("🔮 GENERATING ENSEMBLE PREDICTIONS")
+        print(" GENERATING ENSEMBLE PREDICTIONS")
         print("=" * 50)
         
         # Prepare features
@@ -182,7 +182,7 @@ class MLEnsembleSystem:
         
         # Generate predictions for each target
         for target in self.models.keys():
-            print(f"📊 Predicting {target}...")
+            print(f"DATA: Predicting {target}...")
             
             predictions = {}
             weights = {}
@@ -201,7 +201,7 @@ class MLEnsembleSystem:
                 predictions[model_name] = pred
                 weights[model_name] = self.model_weights[target][model_name]
                 
-                print(f"  🤖 {model_name}: {pred.mean():.3f} ± {pred.std():.3f}")
+                print(f"   {model_name}: {pred.mean():.3f}  {pred.std():.3f}")
             
             # Ensemble weighted average
             ensemble_pred = np.zeros(len(X))
@@ -218,8 +218,8 @@ class MLEnsembleSystem:
             confidence = 1 / (1 + pred_variance)  # Higher confidence = lower variance
             model_confidence[target] = confidence
             
-            print(f"  🎯 Ensemble: {ensemble_pred.mean():.3f} ± {ensemble_pred.std():.3f}")
-            print(f"  📊 Avg Confidence: {confidence.mean():.3f}")
+            print(f"  TARGET: Ensemble: {ensemble_pred.mean():.3f}  {ensemble_pred.std():.3f}")
+            print(f"  DATA: Avg Confidence: {confidence.mean():.3f}")
         
         return ensemble_predictions, model_confidence
     
@@ -252,7 +252,7 @@ class MLEnsembleSystem:
     def validate_models(self, validation_data, target_columns):
         """Validate ensemble performance"""
         
-        print("📊 VALIDATING ENSEMBLE MODELS")
+        print("DATA: VALIDATING ENSEMBLE MODELS")
         print("=" * 50)
         
         # Prepare validation features
@@ -291,14 +291,14 @@ class MLEnsembleSystem:
                 'avg_confidence': confidence.mean()
             }
             
-            print(f"\n📈 {target} Performance:")
-            print(f"  🎯 Ensemble MAE: {mae:.4f}")
-            print(f"  📊 Ensemble R²: {r2:.4f}")
-            print(f"  🔍 Avg Confidence: {confidence.mean():.3f}")
+            print(f"\nPROGRESS: {target} Performance:")
+            print(f"  TARGET: Ensemble MAE: {mae:.4f}")
+            print(f"  DATA: Ensemble R: {r2:.4f}")
+            print(f"   Avg Confidence: {confidence.mean():.3f}")
             
             for model_name, model_mae in individual_performance.items():
                 improvement = (model_mae - mae) / model_mae * 100
-                print(f"  🤖 {model_name} MAE: {model_mae:.4f} ({improvement:+.1f}% vs ensemble)")
+                print(f"   {model_name} MAE: {model_mae:.4f} ({improvement:+.1f}% vs ensemble)")
         
         return validation_results
     
@@ -313,7 +313,7 @@ class MLEnsembleSystem:
         }
         
         joblib.dump(ensemble_data, filepath)
-        print(f"💾 Ensemble saved to: {filepath}")
+        print(f" Ensemble saved to: {filepath}")
     
     def load_ensemble(self, filepath):
         """Load trained ensemble models"""
@@ -324,8 +324,8 @@ class MLEnsembleSystem:
         self.model_weights = ensemble_data['model_weights']
         self.is_trained = ensemble_data['is_trained']
         
-        print(f"📁 Ensemble loaded from: {filepath}")
-        print(f"🕐 Training date: {ensemble_data.get('training_date', 'Unknown')}")
+        print(f" Ensemble loaded from: {filepath}")
+        print(f"TIME: Training date: {ensemble_data.get('training_date', 'Unknown')}")
 
 def main():
     # Example usage
@@ -354,7 +354,7 @@ def main():
     # Validate
     validation_results = ensemble.validate_models(training_data[-200:], target_columns)
     
-    print("\n🏆 ENSEMBLE VALIDATION COMPLETE!")
+    print("\nLINEUP: ENSEMBLE VALIDATION COMPLETE!")
 
 if __name__ == "__main__":
     main()

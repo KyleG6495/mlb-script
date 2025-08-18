@@ -34,21 +34,21 @@ class TournamentVolumeGenerator:
             for path in possible_paths:
                 if os.path.exists(path):
                     self.optimized_players = pd.read_csv(path)
-                    logger.info(f"📥 Loaded {len(self.optimized_players)} optimized confirmed starters from {path}")
+                    logger.info(f" Loaded {len(self.optimized_players)} optimized confirmed starters from {path}")
                     return True
             
             # If no file found, log error
-            logger.error("❌ Could not find confirmed_optimized_projections.csv in any expected location")
+            logger.error("ERROR: Could not find confirmed_optimized_projections.csv in any expected location")
             return False
             
         except Exception as e:
-            logger.error(f"❌ Could not load optimized data: {e}")
+            logger.error(f"ERROR: Could not load optimized data: {e}")
             return False
     
     def generate_tournament_volume(self, num_lineups=20):
         """Generate diverse tournament lineups for high-volume play"""
-        logger.info(f"🏆 GENERATING {num_lineups} TOURNAMENT LINEUPS")
-        logger.info("🎯 Maximum diversity for tournament volume play")
+        logger.info(f"LINEUP: GENERATING {num_lineups} TOURNAMENT LINEUPS")
+        logger.info("TARGET: Maximum diversity for tournament volume play")
         logger.info("=" * 60)
         
         if not self.load_optimized_data():
@@ -64,7 +64,7 @@ class TournamentVolumeGenerator:
         for i in range(num_lineups):
             strategy = strategy_mix[i % len(strategy_mix)]
             
-            logger.info(f"🔄 Generating lineup {i+1}/{num_lineups} - {strategy}")
+            logger.info(f"SWAP: Generating lineup {i+1}/{num_lineups} - {strategy}")
             
             lineup = self._generate_diverse_lineup(strategy, i)
             
@@ -73,9 +73,9 @@ class TournamentVolumeGenerator:
                 lineup['lineup_id'] = i + 1
                 all_lineups.append(lineup)
                 
-                logger.info(f"✅ Lineup {i+1}: {lineup['projected_score']:.1f} FPPG (${lineup['total_salary']:,})")
+                logger.info(f"SUCCESS: Lineup {i+1}: {lineup['projected_score']:.1f} FPPG (${lineup['total_salary']:,})")
             else:
-                logger.warning(f"⚠️ Failed to generate lineup {i+1}")
+                logger.warning(f"WARNING: Failed to generate lineup {i+1}")
         
         # Save all lineups
         self._save_tournament_volume(all_lineups)
@@ -302,29 +302,29 @@ class TournamentVolumeGenerator:
         if output_file is None:
             # Fallback to current directory
             output_file = f'TOURNAMENT_VOLUME_{timestamp}.csv'
-            logger.warning(f"⚠️ Using fallback path: {output_file}")
+            logger.warning(f"WARNING: Using fallback path: {output_file}")
         
         df = pd.DataFrame(fd_lineups)
         df.to_csv(output_file, index=False)
         
-        logger.info(f"💾 Saved {len(lineups)} tournament lineups to: {output_file}")
+        logger.info(f" Saved {len(lineups)} tournament lineups to: {output_file}")
     
     def _analyze_tournament_portfolio(self, lineups):
         """Analyze the diversity and coverage of the lineup portfolio"""
         logger.info("=" * 60)
-        logger.info("📊 TOURNAMENT PORTFOLIO ANALYSIS")
+        logger.info("DATA: TOURNAMENT PORTFOLIO ANALYSIS")
         logger.info("=" * 60)
         
         # Projection analysis
         projections = [l['projected_score'] for l in lineups]
-        logger.info(f"📈 Projection Range: {min(projections):.1f} - {max(projections):.1f} FPPG")
-        logger.info(f"📊 Average Projection: {np.mean(projections):.1f} FPPG")
-        logger.info(f"📊 Projection Std Dev: {np.std(projections):.1f} FPPG")
+        logger.info(f"PROGRESS: Projection Range: {min(projections):.1f} - {max(projections):.1f} FPPG")
+        logger.info(f"DATA: Average Projection: {np.mean(projections):.1f} FPPG")
+        logger.info(f"DATA: Projection Std Dev: {np.std(projections):.1f} FPPG")
         
         # Salary analysis
         salaries = [l['total_salary'] for l in lineups]
-        logger.info(f"💰 Salary Range: ${min(salaries):,} - ${max(salaries):,}")
-        logger.info(f"💰 Average Salary: ${np.mean(salaries):,.0f}")
+        logger.info(f"MONEY: Salary Range: ${min(salaries):,} - ${max(salaries):,}")
+        logger.info(f"MONEY: Average Salary: ${np.mean(salaries):,.0f}")
         
         # Player diversity
         all_players = []
@@ -335,8 +335,8 @@ class TournamentVolumeGenerator:
         total_spots = len(lineups) * 9
         diversity_pct = unique_players / total_spots * 100
         
-        logger.info(f"👥 Player Diversity: {unique_players} unique players across {len(lineups)} lineups")
-        logger.info(f"🎯 Diversity Rate: {diversity_pct:.1f}% (higher = more diverse)")
+        logger.info(f"OWNERSHIP: Player Diversity: {unique_players} unique players across {len(lineups)} lineups")
+        logger.info(f"TARGET: Diversity Rate: {diversity_pct:.1f}% (higher = more diverse)")
         
         # Strategy breakdown
         strategies = [l['strategy'] for l in lineups]
@@ -344,7 +344,7 @@ class TournamentVolumeGenerator:
         for strategy in strategies:
             strategy_counts[strategy] = strategy_counts.get(strategy, 0) + 1
         
-        logger.info("🎭 STRATEGY BREAKDOWN:")
+        logger.info(" STRATEGY BREAKDOWN:")
         for strategy, count in strategy_counts.items():
             logger.info(f"   {strategy}: {count} lineups")
         
@@ -358,10 +358,10 @@ def main():
     lineups = generator.generate_tournament_volume(20)
     
     if lineups:
-        logger.info(f"🏆 Successfully generated {len(lineups)} diverse tournament lineups!")
-        logger.info("🎯 Ready for high-volume tournament play!")
+        logger.info(f"LINEUP: Successfully generated {len(lineups)} diverse tournament lineups!")
+        logger.info("TARGET: Ready for high-volume tournament play!")
     else:
-        logger.error("❌ Failed to generate tournament volume")
+        logger.error("ERROR: Failed to generate tournament volume")
 
 if __name__ == "__main__":
     main()

@@ -10,7 +10,7 @@ import numpy as np
 import os
 from datetime import datetime
 
-print("🎯 ADDING PITCHER FEATURES")
+print("TARGET: ADDING PITCHER FEATURES")
 print("="*50)
 
 # Paths
@@ -195,18 +195,18 @@ try:
             X_test = pred_features_with_pitchers[expected_features].fillna(0)
             predictions = model.predict(X_test)
             
-            print(f"   ✅ Strikeouts predictions: {predictions[:5]}")
+            print(f"   SUCCESS: Strikeouts predictions: {predictions[:5]}")
             print(f"   Range: {predictions.min():.2f} to {predictions.max():.2f}")
             
             if predictions.std() > 0.1:
-                print("   ✅ SUCCESS: Pitcher features enable varying predictions!")
+                print("   SUCCESS: SUCCESS: Pitcher features enable varying predictions!")
             else:
-                print("   ⚠️ Still getting uniform predictions")
+                print("   WARNING: Still getting uniform predictions")
     else:
         print(f"   Strikeouts model not found at: {strikeouts_model_path}")
         
 except Exception as e:
-    print(f"   ❌ Error testing pitcher models: {e}")
+    print(f"   ERROR: Error testing pitcher models: {e}")
 
 # 7. Update the automated betting system to use new features
 print("\n7. Updating betting system configuration...")
@@ -224,6 +224,6 @@ sys.path.append(".")
 print("   Pitcher features integration complete!")
 
 print("\n" + "="*50)
-print("✅ PITCHER FEATURES ADDED")
+print("SUCCESS: PITCHER FEATURES ADDED")
 print("Next: Update automated_betting_system.py to use new features")
 print("="*50)

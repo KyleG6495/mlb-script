@@ -49,13 +49,13 @@ class AdvancedLineupOptimizer:
         for stat, filename in model_files.items():
             try:
                 self.ml_models[stat] = joblib.load(f"{self.models_dir}/{filename}")
-                print(f"✅ Loaded {stat} model")
+                print(f"SUCCESS: Loaded {stat} model")
             except:
-                print(f"⚠️ {stat} model not found, using fallback")
+                print(f"WARNING: {stat} model not found, using fallback")
                 
     def create_ml_projections(self, player_df):
         """Generate ML-based FPPG projections"""
-        print("🧠 Generating ML-based projections...")
+        print(" Generating ML-based projections...")
         
         # Feature engineering for projections
         features = self.engineer_projection_features(player_df)
@@ -124,7 +124,7 @@ class AdvancedLineupOptimizer:
     
     def create_pitcher_matchup_matrix(self, hitters_df, pitchers_df):
         """Model pitcher-hitter matchups"""
-        print("⚔️ Creating pitcher-hitter matchup matrix...")
+        print(" Creating pitcher-hitter matchup matrix...")
         
         matchup_adjustments = {}
         
@@ -185,7 +185,7 @@ class AdvancedLineupOptimizer:
     
     def create_correlation_matrix(self, df):
         """Build correlation matrix for stacking"""
-        print("📊 Building player correlation matrix...")
+        print("DATA: Building player correlation matrix...")
         
         # Game-level correlations
         game_corr = df.groupby('Game')['Projected_FPPG'].corr().mean()
@@ -208,7 +208,7 @@ class AdvancedLineupOptimizer:
     
     def ownership_projection(self, df):
         """Project player ownership %"""
-        print("👥 Projecting player ownership...")
+        print("OWNERSHIP: Projecting player ownership...")
         
         # Factors affecting ownership
         ownership = pd.Series(index=df.index, dtype=float)
@@ -234,7 +234,7 @@ class AdvancedLineupOptimizer:
     
     def calculate_variance(self, df):
         """Calculate projection variance for risk modeling"""
-        print("📈 Calculating projection variance...")
+        print("PROGRESS: Calculating projection variance...")
         
         variance = pd.Series(index=df.index, dtype=float)
         
@@ -264,7 +264,7 @@ class AdvancedLineupOptimizer:
     
     def multi_objective_optimization(self, df, strategy='balanced'):
         """Advanced multi-objective optimization"""
-        print(f"🎯 Multi-objective optimization: {strategy}")
+        print(f"TARGET: Multi-objective optimization: {strategy}")
         
         strategies = {
             'cash': {'proj_weight': 0.8, 'safe_weight': 0.2, 'contrarian_weight': 0.0},
@@ -361,7 +361,7 @@ class AdvancedLineupOptimizer:
     
     def generate_multiple_lineups(self, df, strategies=['cash', 'balanced', 'gpp'], count=3):
         """Generate multiple lineups for different strategies"""
-        print("🔄 Generating multiple optimized lineups...")
+        print("SWAP: Generating multiple optimized lineups...")
         
         lineups = {}
         
@@ -382,7 +382,7 @@ class AdvancedLineupOptimizer:
     
     def run_advanced_optimization(self, slate_file):
         """Main optimization pipeline"""
-        print("🚀 ADVANCED ML-DRIVEN LINEUP OPTIMIZATION")
+        print("START: ADVANCED ML-DRIVEN LINEUP OPTIMIZATION")
         print("=" * 50)
         
         # Load data
@@ -416,7 +416,7 @@ class AdvancedLineupOptimizer:
             for i, lineup in enumerate(strategy_lineups):
                 filename = f"../data/advanced_lineup_{strategy}_{i+1}.csv"
                 lineup.to_csv(filename, index=False)
-                print(f"✅ Saved {strategy} lineup {i+1}: {filename}")
+                print(f"SUCCESS: Saved {strategy} lineup {i+1}: {filename}")
                 
         return lineups
         

@@ -15,12 +15,12 @@ def build_corrected_tournament_optimizer():
     import glob
     corrected_files = glob.glob(r"c:\Users\kgone\OneDrive\Personal_Information\MLB\data\CORRECTED_slate_*.csv")
     if not corrected_files:
-        print("❌ No corrected slate found! Run CRITICAL_PROJECTION_FIXES.py first")
+        print("ERROR: No corrected slate found! Run CRITICAL_PROJECTION_FIXES.py first")
         return
     
     latest_corrected = sorted(corrected_files)[-1]
     filename = latest_corrected.split('\\')[-1]
-    print(f"📊 Loading: {filename}")
+    print(f"DATA: Loading: {filename}")
     
     slate_df = pd.read_csv(latest_corrected)
     print(f"Players available: {len(slate_df)}")
@@ -42,7 +42,7 @@ def build_corrected_tournament_optimizer():
             display_lineup(strategy_name, lineup, slate_df)
             lineups.append((strategy_name, lineup))
         else:
-            print(f"❌ {strategy_name} optimization failed")
+            print(f"ERROR: {strategy_name} optimization failed")
     
     # Save all lineups
     if lineups:
@@ -249,9 +249,9 @@ def save_tournament_lineups(lineups, slate_df):
         output_filename = f"CORRECTED_TOURNAMENT_LINEUPS_{timestamp}.csv"
         output_file = f"c:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\{output_filename}"
         lineup_df.to_csv(output_file, index=False)
-        print(f"\n✅ Saved all lineups to: {output_filename}")
+        print(f"\nSUCCESS: Saved all lineups to: {output_filename}")
     
-    print(f"\n🚀 READY FOR TOURNAMENT with {len(lineups)} optimized lineups!")
+    print(f"\nSTART: READY FOR TOURNAMENT with {len(lineups)} optimized lineups!")
     print("Each lineup uses CORRECTED projections based on August 12th learnings")
 
 if __name__ == "__main__":

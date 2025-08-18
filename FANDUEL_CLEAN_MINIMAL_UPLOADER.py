@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def create_minimal_clean_format():
     """Create the minimal clean format for FanDuel"""
     
-    logger.info("🧹 CREATING MINIMAL CLEAN FORMAT")
+    logger.info(" CREATING MINIMAL CLEAN FORMAT")
     logger.info("=" * 50)
     
     # Load original to get entry info
@@ -57,8 +57,8 @@ def create_minimal_clean_format():
     output_file = "../fd_current_slate/FANDUEL_MINIMAL_CLEAN.csv"
     df_clean.to_csv(output_file, index=False)
     
-    logger.info(f"✅ Minimal clean format saved: {output_file}")
-    logger.info(f"📊 Contains {len(clean_data)} lineups")
+    logger.info(f"SUCCESS: Minimal clean format saved: {output_file}")
+    logger.info(f"DATA: Contains {len(clean_data)} lineups")
     
     # Also create an even simpler version with just player IDs
     simple_data = []
@@ -79,24 +79,24 @@ def create_minimal_clean_format():
     simple_file = "../fd_current_slate/FANDUEL_SUPER_SIMPLE.csv"
     df_simple.to_csv(simple_file, index=False)
     
-    logger.info(f"✅ Super simple format saved: {simple_file}")
+    logger.info(f"SUCCESS: Super simple format saved: {simple_file}")
     
     return output_file, simple_file
 
 def show_manual_entry_option():
     """Show manual entry as backup"""
     
-    logger.info(f"\n🖱️ MANUAL ENTRY BACKUP OPTION:")
+    logger.info(f"\n MANUAL ENTRY BACKUP OPTION:")
     logger.info("If CSV upload still fails, manually enter these lineups:")
     
     # Load our summary
     try:
         df_summary = pd.read_csv("../data/ULTIMATE_FANDUEL_SUMMARY_20250812_181717.csv")
         
-        logger.info(f"\n🏆 TOP RECOMMENDATION - LINEUP 1 (BALANCED):")
-        logger.info(f"📊 Projection: {df_summary.iloc[0]['ULTIMATE_Projection']} FPPG")
-        logger.info(f"💰 Salary: ${df_summary.iloc[0]['Total_Salary']:,}")
-        logger.info("📋 Players:")
+        logger.info(f"\nLINEUP: TOP RECOMMENDATION - LINEUP 1 (BALANCED):")
+        logger.info(f"DATA: Projection: {df_summary.iloc[0]['ULTIMATE_Projection']} FPPG")
+        logger.info(f"MONEY: Salary: ${df_summary.iloc[0]['Total_Salary']:,}")
+        logger.info("INFO: Players:")
         logger.info("   P: Shane Bieber")
         logger.info("   C/1B: Braxton Fulford")
         logger.info("   2B: Thairo Estrada")
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     minimal_file, simple_file = create_minimal_clean_format()
     show_manual_entry_option()
     
-    logger.info(f"\n🎯 TRY THESE OPTIONS:")
+    logger.info(f"\nTARGET: TRY THESE OPTIONS:")
     logger.info(f"1. Upload: {minimal_file}")
     logger.info(f"2. Upload: {simple_file}")
     logger.info(f"3. Manual entry (see above)")

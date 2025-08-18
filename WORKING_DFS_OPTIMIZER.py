@@ -86,7 +86,7 @@ def simple_optimizer():
     prob.solve(PULP_CBC_CMD(msg=0))
     
     if prob.status == 1:
-        print("✅ Solution found!")
+        print("SUCCESS: Solution found!")
         
         # Extract solution
         selected = []
@@ -108,7 +108,7 @@ def simple_optimizer():
             
         return selected
     else:
-        print(f"❌ Optimization failed with status: {prob.status}")
+        print(f"ERROR: Optimization failed with status: {prob.status}")
         return None
 
 def create_multiple_lineups(num_lineups=10):
@@ -196,11 +196,11 @@ def create_multiple_lineups(num_lineups=10):
                 player_ids = [p['Id'] for p in selected]
                 used_players.update(player_ids[:3])  # Add top 3 players
             
-            print(f"  ✅ Salary: ${total_salary}, FPPG: {total_fppg:.1f}")
+            print(f"  SUCCESS: Salary: ${total_salary}, FPPG: {total_fppg:.1f}")
         else:
-            print(f"  ❌ Failed")
+            print(f"  ERROR: Failed")
     
-    print(f"\n📊 Generated {len(lineups)} successful lineups")
+    print(f"\nDATA: Generated {len(lineups)} successful lineups")
     
     if lineups:
         # Save to FanDuel format
@@ -247,15 +247,15 @@ def create_multiple_lineups(num_lineups=10):
         output_file = slate_dir / "Working_Lineups_FD_Format.csv"
         df.to_csv(output_file, index=False)
         
-        print(f"\n💾 Saved lineups to: {output_file}")
-        print(f"🎉 Ready for FanDuel submission!")
+        print(f"\n Saved lineups to: {output_file}")
+        print(f"COMPLETE: Ready for FanDuel submission!")
         
         return output_file
     
     return None
 
 if __name__ == "__main__":
-    print("🔧 FINAL WORKING DFS OPTIMIZER")
+    print("STEP: FINAL WORKING DFS OPTIMIZER")
     print("=" * 50)
     
     # Test single lineup first
@@ -263,14 +263,14 @@ if __name__ == "__main__":
     result = simple_optimizer()
     
     if result:
-        print("\n✅ Single lineup works! Creating multiple lineups...")
+        print("\nSUCCESS: Single lineup works! Creating multiple lineups...")
         output_file = create_multiple_lineups(20)
         
         if output_file:
-            print(f"\n🎉 SUCCESS! Your working lineups are ready!")
-            print(f"📁 File: {output_file}")
-            print(f"\n💡 These should perform much better than the previous ones!")
+            print(f"\nCOMPLETE: SUCCESS! Your working lineups are ready!")
+            print(f" File: {output_file}")
+            print(f"\nTIP: These should perform much better than the previous ones!")
         else:
-            print("❌ Failed to create multiple lineups")
+            print("ERROR: Failed to create multiple lineups")
     else:
-        print("❌ Single lineup test failed")
+        print("ERROR: Single lineup test failed")

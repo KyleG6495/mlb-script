@@ -5,7 +5,7 @@ from datetime import datetime
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("⚡ SIMPLE MAXIMUM OPTIMIZATION")
+print(" SIMPLE MAXIMUM OPTIMIZATION")
 print("Final attempt using proven logic to maximize FPPG")
 print("="*80)
 
@@ -22,7 +22,7 @@ SALARY_CAP = 35000
 def build_maximum_lineup():
     """Build the absolute maximum FPPG lineup possible"""
     
-    logging.info("⚡ BUILDING MAXIMUM FPPG LINEUP")
+    logging.info(" BUILDING MAXIMUM FPPG LINEUP")
     logging.info("="*60)
     
     # Separate positions
@@ -33,7 +33,7 @@ def build_maximum_lineup():
     best_lineup = None
     
     for pitcher in pitchers.head(3).itertuples():
-        logging.info(f"\n🎯 Testing {pitcher.Nickname} (${pitcher.Salary:,} | {pitcher.FPPG:.1f} FPPG)")
+        logging.info(f"\nTARGET: Testing {pitcher.Nickname} (${pitcher.Salary:,} | {pitcher.FPPG:.1f} FPPG)")
         
         remaining_budget = SALARY_CAP - pitcher.Salary
         
@@ -44,7 +44,7 @@ def build_maximum_lineup():
             total_fppg = pitcher.FPPG + lineup['total_fppg']
             total_salary = pitcher.Salary + lineup['total_salary']
             
-            logging.info(f"   💎 Total: {total_fppg:.1f} FPPG | ${total_salary:,}")
+            logging.info(f"    Total: {total_fppg:.1f} FPPG | ${total_salary:,}")
             
             if not best_lineup or total_fppg > best_lineup['total_fppg']:
                 best_lineup = {
@@ -54,7 +54,7 @@ def build_maximum_lineup():
                     'total_salary': total_salary
                 }
         else:
-            logging.info(f"   ❌ No valid lineup found")
+            logging.info(f"   ERROR: No valid lineup found")
     
     return best_lineup
 
@@ -117,11 +117,11 @@ def display_lineup(lineup_data):
     """Display the final lineup"""
     
     if not lineup_data:
-        logging.info("❌ No lineup generated")
+        logging.info("ERROR: No lineup generated")
         return None
     
-    logging.info(f"\n🏆 MAXIMUM FPPG LINEUP")
-    logging.info(f"📊 Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
+    logging.info(f"\nLINEUP: MAXIMUM FPPG LINEUP")
+    logging.info(f"DATA: Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
     logging.info("-" * 60)
     
     pitcher = lineup_data['pitcher']
@@ -137,7 +137,7 @@ def display_lineup(lineup_data):
     for pos in position_order:
         for hitter in lineup_data['hitters']:
             if hitter['Position'] == pos and pos not in displayed_positions:
-                star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+                star = "" if hitter['Salary'] >= 4000 else ""
                 logging.info(f"{pos:<3} | {hitter['Nickname']:<20} | {hitter['Team']} | {hitter['Game']:<8} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
                 displayed_positions.add(pos)
                 break
@@ -145,39 +145,39 @@ def display_lineup(lineup_data):
     # Display OF positions
     for hitter in lineup_data['hitters']:
         if hitter['Position'] == 'OF':
-            star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+            star = "" if hitter['Salary'] >= 4000 else ""
             logging.info(f"OF{of_count:<2} | {hitter['Nickname']:<20} | {hitter['Team']} | {hitter['Game']:<8} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
             of_count += 1
     
     # Analysis
-    logging.info(f"\n📊 PERFORMANCE ANALYSIS:")
+    logging.info(f"\nDATA: PERFORMANCE ANALYSIS:")
     
     if lineup_data['total_fppg'] >= 153:
-        logging.info("🎉 EXCEEDS 153 FPPG TARGET! TOURNAMENT WINNER!")
+        logging.info("COMPLETE: EXCEEDS 153 FPPG TARGET! TOURNAMENT WINNER!")
         verdict = "TOURNAMENT_WINNER"
     elif lineup_data['total_fppg'] >= 150:
-        logging.info("🎯 EXCELLENT! Very close to tournament level")
+        logging.info("TARGET: EXCELLENT! Very close to tournament level")
         verdict = "EXCELLENT"
     elif lineup_data['total_fppg'] >= 147:
-        logging.info("✅ STRONG! Good tournament potential")
+        logging.info("SUCCESS: STRONG! Good tournament potential")
         verdict = "STRONG"
     elif lineup_data['total_fppg'] >= 145:
-        logging.info("✅ SOLID! Viable tournament lineup")
+        logging.info("SUCCESS: SOLID! Viable tournament lineup")
         verdict = "SOLID"
     else:
-        logging.info("⚠️  Below tournament threshold")
+        logging.info("WARNING:  Below tournament threshold")
         verdict = "BELOW_THRESHOLD"
     
     gap_to_153 = 153 - lineup_data['total_fppg']
     if gap_to_153 > 0:
-        logging.info(f"📈 Gap to 153 FPPG: {gap_to_153:.1f}")
+        logging.info(f"PROGRESS: Gap to 153 FPPG: {gap_to_153:.1f}")
     else:
-        logging.info(f"📈 Exceeds 153 by: {-gap_to_153:.1f} FPPG!")
+        logging.info(f"PROGRESS: Exceeds 153 by: {-gap_to_153:.1f} FPPG!")
     
     # vs disaster performance
     disaster_fppg = 31.7
     improvement = ((lineup_data['total_fppg'] - disaster_fppg) / disaster_fppg) * 100
-    logging.info(f"🚀 vs Disaster: +{improvement:.0f}% improvement")
+    logging.info(f"START: vs Disaster: +{improvement:.0f}% improvement")
     
     return verdict
 
@@ -216,8 +216,8 @@ def save_championship_lineup(lineup_data):
     filename = f"../data/CHAMPIONSHIP_LINEUP_{timestamp}.csv"
     lineup_df.to_csv(filename, index=False)
     
-    logging.info(f"\n💾 Championship lineup saved: {filename}")
-    logging.info("📋 Ready for FanDuel tournament submission!")
+    logging.info(f"\n Championship lineup saved: {filename}")
+    logging.info("INFO: Ready for FanDuel tournament submission!")
     
     return filename
 
@@ -236,35 +236,35 @@ def main():
         
         # Final summary
         logging.info(f"\n" + "="*80)
-        logging.info("🏆 CHAMPIONSHIP OPTIMIZATION COMPLETE!")
+        logging.info("LINEUP: CHAMPIONSHIP OPTIMIZATION COMPLETE!")
         logging.info("="*80)
         
-        logging.info(f"🎯 Best Achievable: {best_lineup['total_fppg']:.1f} FPPG")
-        logging.info(f"💰 Total Investment: ${best_lineup['total_salary']:,}")
-        logging.info(f"📁 Lineup File: {filename.split('/')[-1]}")
+        logging.info(f"TARGET: Best Achievable: {best_lineup['total_fppg']:.1f} FPPG")
+        logging.info(f"MONEY: Total Investment: ${best_lineup['total_salary']:,}")
+        logging.info(f" Lineup File: {filename.split('/')[-1]}")
         
         if verdict == "TOURNAMENT_WINNER":
-            logging.info("🏆 STATUS: TOURNAMENT WINNING POTENTIAL!")
+            logging.info("LINEUP: STATUS: TOURNAMENT WINNING POTENTIAL!")
         elif verdict in ["EXCELLENT", "STRONG"]:
-            logging.info("⭐ STATUS: PREMIUM TOURNAMENT LINEUP")
+            logging.info(" STATUS: PREMIUM TOURNAMENT LINEUP")
         elif verdict == "SOLID":
-            logging.info("✅ STATUS: COMPETITIVE TOURNAMENT ENTRY")
+            logging.info("SUCCESS: STATUS: COMPETITIVE TOURNAMENT ENTRY")
         else:
-            logging.info("📊 STATUS: MAXIMUM EFFORT GIVEN SLATE CONSTRAINTS")
+            logging.info("DATA: STATUS: MAXIMUM EFFORT GIVEN SLATE CONSTRAINTS")
         
         # Reality check
         if best_lineup['total_fppg'] < 153:
             gap = 153 - best_lineup['total_fppg']
-            logging.info(f"\n💡 REALITY CHECK:")
-            logging.info(f"   📊 153 FPPG target is {gap:.1f} points above our maximum")
-            logging.info(f"   🎯 This suggests 153+ may not be achievable on today's slate")
-            logging.info(f"   ✅ Our {best_lineup['total_fppg']:.1f} FPPG represents the realistic ceiling")
+            logging.info(f"\nTIP: REALITY CHECK:")
+            logging.info(f"   DATA: 153 FPPG target is {gap:.1f} points above our maximum")
+            logging.info(f"   TARGET: This suggests 153+ may not be achievable on today's slate")
+            logging.info(f"   SUCCESS: Our {best_lineup['total_fppg']:.1f} FPPG represents the realistic ceiling")
         
-        logging.info(f"\n🚀 READY FOR TOURNAMENT BATTLE!")
+        logging.info(f"\nSTART: READY FOR TOURNAMENT BATTLE!")
         
     else:
-        logging.info("❌ CRITICAL ERROR: Unable to generate any valid lineup")
-        logging.info("🔍 Check slate data and salary constraints")
+        logging.info("ERROR: CRITICAL ERROR: Unable to generate any valid lineup")
+        logging.info(" Check slate data and salary constraints")
 
 if __name__ == "__main__":
     main()

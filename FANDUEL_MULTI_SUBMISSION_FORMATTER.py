@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def create_fanduel_multi_submission():
     """Create proper FanDuel submission format with multiple lineups"""
     
-    logger.info("🏆 CREATING FANDUEL MULTI-LINEUP SUBMISSION")
+    logger.info("LINEUP: CREATING FANDUEL MULTI-LINEUP SUBMISSION")
     logger.info("=" * 60)
     
     # Load our lineups
@@ -27,15 +27,15 @@ def create_fanduel_multi_submission():
     try:
         # Load lineup data
         df_lineups = pd.read_csv(lineup_file)
-        logger.info(f"✅ Loaded {len(df_lineups)} lineup rows")
+        logger.info(f"SUCCESS: Loaded {len(df_lineups)} lineup rows")
         
         # Load slate data for player IDs
         df_slate = pd.read_csv(slate_file)
-        logger.info(f"✅ Loaded {len(df_slate)} slate players")
+        logger.info(f"SUCCESS: Loaded {len(df_slate)} slate players")
         
         # Get unique lineups (limit to top 10 for submission)
         unique_lineups = df_lineups['lineup_id'].unique()[:10]
-        logger.info(f"✅ Processing {len(unique_lineups)} lineups for submission")
+        logger.info(f"SUCCESS: Processing {len(unique_lineups)} lineups for submission")
         
         # Create player mapping from slate
         slate_mapping = {}
@@ -45,7 +45,7 @@ def create_fanduel_multi_submission():
             if player_name and player_id:
                 slate_mapping[player_name] = player_id
         
-        logger.info(f"✅ Created mapping for {len(slate_mapping)} players")
+        logger.info(f"SUCCESS: Created mapping for {len(slate_mapping)} players")
         
         # Build FanDuel submission format for all lineups
         all_submission_rows = []
@@ -148,13 +148,13 @@ def create_fanduel_multi_submission():
         output_file = f"../data/FANDUEL_MULTI_SUBMISSION_{timestamp}.csv"
         df_submission.to_csv(output_file, index=False)
         
-        logger.info("🎯 FANDUEL MULTI-LINEUP SUBMISSION CREATED")
+        logger.info("TARGET: FANDUEL MULTI-LINEUP SUBMISSION CREATED")
         logger.info("=" * 60)
-        logger.info(f"📁 File: {output_file}")
-        logger.info(f"📊 Total Lineups: {len(df_submission)}")
+        logger.info(f" File: {output_file}")
+        logger.info(f"DATA: Total Lineups: {len(df_submission)}")
         
         # Show top 3 lineups
-        logger.info("\n🏆 TOP 3 LINEUPS:")
+        logger.info("\nLINEUP: TOP 3 LINEUPS:")
         for i, lineup_id in enumerate(unique_lineups[:3]):
             lineup_players = df_lineups[df_lineups['lineup_id'] == lineup_id]
             total_salary = lineup_players['salary'].sum()
@@ -185,14 +185,14 @@ def create_fanduel_multi_submission():
         readable_file = f"../data/FANDUEL_LINEUPS_SUMMARY_{timestamp}.csv"
         df_readable.to_csv(readable_file, index=False)
         
-        logger.info(f"\n📋 Summary file: {readable_file}")
-        logger.info("\n✅ READY FOR FANDUEL MULTI-LINEUP SUBMISSION!")
-        logger.info("💡 Copy and paste all rows from the submission file into FanDuel")
+        logger.info(f"\nINFO: Summary file: {readable_file}")
+        logger.info("\nSUCCESS: READY FOR FANDUEL MULTI-LINEUP SUBMISSION!")
+        logger.info("TIP: Copy and paste all rows from the submission file into FanDuel")
         
         return output_file, readable_file
         
     except Exception as e:
-        logger.error(f"❌ Error creating FanDuel submission: {e}")
+        logger.error(f"ERROR: Error creating FanDuel submission: {e}")
         return None, None
 
 if __name__ == "__main__":

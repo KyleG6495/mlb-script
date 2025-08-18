@@ -11,14 +11,14 @@ from pulp import LpMaximize, LpProblem, LpVariable, lpSum, PULP_CBC_CMD
 def create_multiple_lineups():
     """Create multiple optimal lineups with different strategies"""
     
-    print("🚀 FanDuel Multi-Strategy Lineup Optimizer")
+    print("START: FanDuel Multi-Strategy Lineup Optimizer")
     print("=" * 60)
     
     # Load data (using your existing logic)
     todays_slate = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
     
     # CRITICAL: Filter out injured players and non-starters
-    print("🚨 FILTERING OUT INJURED PLAYERS AND NON-STARTERS...")
+    print(" FILTERING OUT INJURED PLAYERS AND NON-STARTERS...")
     
     # Remove players on IL or with injuries
     healthy_players = todays_slate[
@@ -26,7 +26,7 @@ def create_multiple_lineups():
         (todays_slate['Injury Details'].isna() | (todays_slate['Injury Details'] == ''))
     ].copy()
     
-    print(f"📊 Injury Filter: {len(todays_slate)} → {len(healthy_players)} players (removed {len(todays_slate) - len(healthy_players)} injured)")
+    print(f"DATA: Injury Filter: {len(todays_slate)}  {len(healthy_players)} players (removed {len(todays_slate) - len(healthy_players)} injured)")
     
     # Additional starter verification for hitters (for pitchers, keep all healthy ones)
     if 'Batting Order' in healthy_players.columns:
@@ -41,7 +41,7 @@ def create_multiple_lineups():
         
         if len(confirmed_hitters) >= 25:  # If we have enough confirmed starters
             healthy_players = pd.concat([pitchers, confirmed_hitters], ignore_index=True)
-            print(f"📊 Starter Filter: Using {len(pitchers)} pitchers + {len(confirmed_hitters)} confirmed hitters")
+            print(f"DATA: Starter Filter: Using {len(pitchers)} pitchers + {len(confirmed_hitters)} confirmed hitters")
     
     # Quick data prep with quality filters
     starters = healthy_players[
@@ -91,7 +91,7 @@ def create_multiple_lineups():
             count = sum(1 for positions in df_copy['Eligible_Positions'] if pos in positions)
             position_counts[pos] = count
         
-        print(f"📊 Position eligibility counts: {position_counts}")
+        print(f"DATA: Position eligibility counts: {position_counts}")
         
         # Assign primary positions with better distribution
         position_requirements = {'P': 1, 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3}
@@ -162,22 +162,22 @@ def create_multiple_lineups():
     ]
     
     if len(injured_players) > 0:
-        print(f"\n🚨 FILTERED OUT {len(injured_players)} INJURED PLAYERS:")
+        print(f"\n FILTERED OUT {len(injured_players)} INJURED PLAYERS:")
         for _, player in injured_players.head(10).iterrows():
             injury_info = f"{player.get('Injury Indicator', 'N/A')} - {player.get('Injury Details', 'N/A')}"
-            print(f"  ❌ {player['Nickname']} ({player['Position']}): {injury_info}")
+            print(f"  ERROR: {player['Nickname']} ({player['Position']}): {injury_info}")
         if len(injured_players) > 10:
             print(f"  ... and {len(injured_players) - 10} more")
     starters['Projected_FPPG'] = starters['FPPG']
     
     # Ensure position balance
     pos_counts = starters['Primary_Position'].value_counts()
-    print(f"📊 Position availability:")
+    print(f"DATA: Position availability:")
     for pos in ['P', 'C', '1B', '2B', '3B', 'SS', 'OF']:
         count = pos_counts.get(pos, 0)
         print(f"  {pos}: {count} players")
         if count == 0:
-            print(f"  ⚠️ No {pos} players - need to fix data")
+            print(f"  WARNING: No {pos} players - need to fix data")
     
     strategies = {
         'value': 'Pure Value (No Stacking)',
@@ -188,7 +188,7 @@ def create_multiple_lineups():
     results = {}
     
     for strategy_name, description in strategies.items():
-        print(f"\n🎯 OPTIMIZING: {description}")
+        print(f"\nTARGET: OPTIMIZING: {description}")
         print("-" * 40)
         
         lineup = optimize_single_strategy(starters, strategy_name)
@@ -197,7 +197,7 @@ def create_multiple_lineups():
             results[strategy_name] = lineup
             analyze_lineup(lineup, strategy_name)
         else:
-            print(f"❌ Failed to create {strategy_name} lineup")
+            print(f"ERROR: Failed to create {strategy_name} lineup")
     
     # Compare strategies
     if results:
@@ -207,7 +207,7 @@ def create_multiple_lineups():
         for strategy, lineup in results.items():
             filename = f"../data/lineup_{strategy}_{pd.Timestamp.now().strftime('%Y%m%d_%H%M')}.csv"
             lineup.to_csv(filename, index=False)
-            print(f"💾 Saved {strategy} lineup to {filename}")
+            print(f" Saved {strategy} lineup to {filename}")
 
 def optimize_single_strategy(players_df, strategy):
     """Optimize lineup for a single strategy"""
@@ -221,14 +221,14 @@ def optimize_single_strategy(players_df, strategy):
     for pos, required in position_requirements.items():
         available = len(lineup_pool[lineup_pool['Primary_Position'] == pos])
         if available < required:
-            print(f"⚠️ Only {available} {pos} players available, need {required}")
+            print(f"WARNING: Only {available} {pos} players available, need {required}")
             # Try to reassign multi-position players
             if pos == 'C' and available == 0:
                 # Look for C/1B players
                 multi_pos = lineup_pool[lineup_pool['Roster Position'].str.contains('C', na=False)]
                 if len(multi_pos) > 0:
                     lineup_pool.loc[multi_pos.index[0], 'Primary_Position'] = 'C'
-                    print(f"✅ Reassigned {multi_pos.iloc[0]['Nickname']} to C")
+                    print(f"SUCCESS: Reassigned {multi_pos.iloc[0]['Nickname']} to C")
     
     # Decision variables
     player_vars = {i: LpVariable(f"player_{i}", cat='Binary') for i in lineup_pool.index}
@@ -277,7 +277,7 @@ def optimize_single_strategy(players_df, strategy):
         if len(pos_players) >= required:
             prob += lpSum(player_vars[i] for i in pos_players) == required
         else:
-            print(f"❌ Cannot satisfy {pos} requirement: {len(pos_players)} < {required}")
+            print(f"ERROR: Cannot satisfy {pos} requirement: {len(pos_players)} < {required}")
             return None
     
     # Solve
@@ -294,33 +294,33 @@ def optimize_single_strategy(players_df, strategy):
 def analyze_lineup(lineup, strategy):
     """Analyze stacking in a lineup"""
     
-    print(f"💰 Salary: ${lineup['Salary'].sum():,}")
-    print(f"🎯 Projection: {lineup['Projected_FPPG'].sum():.1f}")
+    print(f"MONEY: Salary: ${lineup['Salary'].sum():,}")
+    print(f"TARGET: Projection: {lineup['Projected_FPPG'].sum():.1f}")
     
     # Team analysis
     hitters = lineup[lineup['Primary_Position'] != 'P']
     team_counts = hitters['Team'].value_counts()
     
-    print(f"📊 Team Distribution:")
+    print(f"DATA: Team Distribution:")
     for team, count in team_counts.items():
         if count >= 2:
-            print(f"  🔥 {team}: {count} players (STACK)")
+            print(f"   {team}: {count} players (STACK)")
         else:
-            print(f"  📊 {team}: {count} player")
+            print(f"  DATA: {team}: {count} player")
     
     # Game analysis
     game_counts = lineup['Game'].value_counts()
     game_stacks = game_counts[game_counts >= 2]
     
     if len(game_stacks) > 0:
-        print(f"🏟️ Game Stacks:")
+        print(f" Game Stacks:")
         for game, count in game_stacks.items():
-            print(f"  🔥 {game}: {count} players")
+            print(f"   {game}: {count} players")
 
 def compare_strategies(results):
     """Compare different lineup strategies"""
     
-    print(f"\n🏆 STRATEGY COMPARISON")
+    print(f"\nLINEUP: STRATEGY COMPARISON")
     print("=" * 50)
     
     comparison_data = []
@@ -347,10 +347,10 @@ def compare_strategies(results):
     best_value = comp_df.loc[comp_df['Value'].idxmax()]
     most_stacked = comp_df.loc[comp_df['Team Stacks'].idxmax()]
     
-    print(f"\n📈 Recommendations:")
-    print(f"  🎯 Highest Projection: {best_projection['Strategy']} ({best_projection['Projection']:.1f})")
-    print(f"  💰 Best Value: {best_value['Strategy']} ({best_value['Value']:.1f})")
-    print(f"  🔥 Most Stacked: {most_stacked['Strategy']} ({most_stacked['Team Stacks']} stacks)")
+    print(f"\nPROGRESS: Recommendations:")
+    print(f"  TARGET: Highest Projection: {best_projection['Strategy']} ({best_projection['Projection']:.1f})")
+    print(f"  MONEY: Best Value: {best_value['Strategy']} ({best_value['Value']:.1f})")
+    print(f"   Most Stacked: {most_stacked['Strategy']} ({most_stacked['Team Stacks']} stacks)")
 
 if __name__ == "__main__":
     create_multiple_lineups()

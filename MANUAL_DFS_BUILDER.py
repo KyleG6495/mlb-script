@@ -12,7 +12,7 @@ from pathlib import Path
 def manual_lineup_builder():
     """Build lineups manually using simple logic"""
     
-    print("🔧 ULTRA-SIMPLE DFS LINEUP BUILDER")
+    print("STEP: ULTRA-SIMPLE DFS LINEUP BUILDER")
     print("=" * 50)
     
     # Load data
@@ -121,9 +121,9 @@ def manual_lineup_builder():
                 'lineup_id': lineup_num + 1
             })
             
-            print(f"  ✅ Salary: ${total_salary}, FPPG: {total_fppg:.1f}")
+            print(f"  SUCCESS: Salary: ${total_salary}, FPPG: {total_fppg:.1f}")
         else:
-            print(f"  ❌ Only got {len(selected_players)} players")
+            print(f"  ERROR: Only got {len(selected_players)} players")
         
         # Reset slate for next lineup (reload fresh data)
         slate = pd.read_csv(slate_dir / "fd_slate_today.csv")
@@ -185,13 +185,13 @@ def save_manual_lineups(lineups):
     output_file = slate_dir / "Manual_Lineups_FD_Format.csv"
     df.to_csv(output_file, index=False)
     
-    print(f"\n💾 Saved {len(lineups)} lineups to: {output_file}")
+    print(f"\n Saved {len(lineups)} lineups to: {output_file}")
     
     # Print summary
     fppgs = [l['total_fppg'] for l in lineups]
     salaries = [l['total_salary'] for l in lineups]
     
-    print(f"📊 Summary:")
+    print(f"DATA: Summary:")
     print(f"  FPPG range: {min(fppgs):.1f} - {max(fppgs):.1f}")
     print(f"  Average FPPG: {sum(fppgs)/len(fppgs):.1f}")
     print(f"  Salary range: ${min(salaries)} - ${max(salaries)}")
@@ -206,15 +206,15 @@ if __name__ == "__main__":
         if lineups:
             output_file = save_manual_lineups(lineups)
             
-            print(f"\n🎉 SUCCESS!")
+            print(f"\nCOMPLETE: SUCCESS!")
             print(f"   Created {len(lineups)} working lineups")
             print(f"   File ready for FanDuel: {output_file}")
-            print(f"\n💡 These manual lineups should perform much better!")
+            print(f"\nTIP: These manual lineups should perform much better!")
             print(f"   They use proper value-based selection instead of")
             print(f"   the broken optimization that was creating bad lineups.")
             
         else:
-            print("❌ Failed to create lineups")
+            print("ERROR: Failed to create lineups")
             
     except Exception as e:
         print(f"Error: {e}")

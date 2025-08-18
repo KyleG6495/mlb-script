@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def fetch_rotowire_lineups():
     """Fetch MLB lineups from Rotowire"""
     
-    print("🔍 FETCHING ROTOWIRE LINEUPS")
+    print("FETCHING ROTOWIRE LINEUPS")
     print("=" * 50)
     
     # Rotowire MLB lineups URL
@@ -31,7 +31,7 @@ def fetch_rotowire_lineups():
     }
     
     try:
-        print(f"📡 Fetching lineup data from Rotowire...")
+        print("Fetching lineup data from Rotowire...")
         response = requests.get(url, headers=headers, timeout=15)
         response.raise_for_status()
         
@@ -43,13 +43,13 @@ def fetch_rotowire_lineups():
         # Find all lineup sections
         lineup_sections = soup.find_all(['div', 'table'], class_=re.compile(r'lineup|batting|order', re.I))
         
-        print(f"🔍 Found {len(lineup_sections)} potential lineup sections")
+        print(f"Found {len(lineup_sections)} potential lineup sections")
         
         # Parse lineup information (this is a simplified version - may need refinement)
         for section in lineup_sections:
             text = section.get_text(strip=True)
             if any(keyword in text.lower() for keyword in ['lineup', 'batting', 'order', 'vs']):
-                print(f"📋 Found lineup section with text: {text[:100]}...")
+                print(f"Found lineup section with text: {text[:100]}...")
         
         # For now, let's create a simple fallback that populates some batting orders
         # This would need to be enhanced based on actual Rotowire HTML structure
@@ -57,10 +57,10 @@ def fetch_rotowire_lineups():
         return True
         
     except requests.RequestException as e:
-        print(f"❌ Error fetching Rotowire data: {e}")
+        print(f"Error fetching Rotowire data: {e}")
         return False
     except Exception as e:
-        print(f"❌ Unexpected error: {e}")
+        print(f"Unexpected error: {e}")
         return False
 
 def update_slate_with_lineups():
@@ -71,7 +71,7 @@ def update_slate_with_lineups():
     try:
         # Load current slate
         df = pd.read_csv(slate_file)
-        print(f"📊 Loaded slate with {len(df)} players")
+        print(f"Loaded slate with {len(df)} players")
         
         # For now, let's assign estimated batting orders based on salary and position
         # This is a fallback until we get real Rotowire parsing working
@@ -97,36 +97,36 @@ def update_slate_with_lineups():
         
         # Save updated slate
         df.to_csv(slate_file, index=False)
-        print(f"✅ Updated {updated_count} players with estimated batting orders")
-        print(f"💾 Saved updated slate to {slate_file}")
+        print(f"Updated {updated_count} players with estimated batting orders")
+        print(f"Saved updated slate to {slate_file}")
         
         return True
         
     except Exception as e:
-        print(f"❌ Error updating slate: {e}")
+        print(f"Error updating slate: {e}")
         return False
 
 def main():
     """Main function to fetch and update lineups"""
     
-    print(f"🕐 Starting lineup fetch at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Starting lineup fetch at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     # Try to fetch from Rotowire
     success = fetch_rotowire_lineups()
     
     if not success:
-        print("⚠️ Rotowire fetch failed, using estimated batting orders")
+        print("WARNING: Rotowire fetch failed, using estimated batting orders")
     
     # Update slate with batting order information
     update_success = update_slate_with_lineups()
     
     if update_success:
-        print("\n🎉 LINEUP UPDATE COMPLETE!")
-        print("✅ FanDuel slate updated with batting order estimates")
-        print("🚀 Ready for DFS model optimization")
+        print("\nLINEUP UPDATE COMPLETE!")
+        print("SUCCESS: FanDuel slate updated with batting order estimates")
+        print("Ready for DFS model optimization")
     else:
-        print("\n❌ LINEUP UPDATE FAILED!")
-        print("🔧 Manual intervention may be required")
+        print("\nLINEUP UPDATE FAILED!")
+        print("Manual intervention may be required")
 
 if __name__ == "__main__":
     main()

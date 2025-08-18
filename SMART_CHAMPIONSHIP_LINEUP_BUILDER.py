@@ -19,7 +19,7 @@ def load_validated_players():
         for path in slate_paths:
             try:
                 slate_df = pd.read_csv(path)
-                print(f"📊 Found slate data at: {path}")
+                print(f"DATA: Found slate data at: {path}")
                 break
             except:
                 continue
@@ -27,7 +27,7 @@ def load_validated_players():
         if slate_df is None:
             raise FileNotFoundError("Could not find fd_slate_today.csv in any expected location")
         
-        print(f"🎯 Loaded {len(slate_df)} total players from today's slate")
+        print(f"TARGET: Loaded {len(slate_df)} total players from today's slate")
         
         # Filter confirmed starting pitchers only
         starting_pitchers = slate_df[
@@ -41,19 +41,19 @@ def load_validated_players():
         # Combine confirmed starters
         validated_players = pd.concat([starting_pitchers, position_players], ignore_index=True)
         
-        print(f"✅ VALIDATED STARTING PITCHERS: {len(starting_pitchers)}")
+        print(f"SUCCESS: VALIDATED STARTING PITCHERS: {len(starting_pitchers)}")
         for _, pitcher in starting_pitchers.head(5).iterrows():  # Show top 5
-            print(f"   🔥 {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,} - {pitcher.get('FPPG', 'N/A')} FPPG")
+            print(f"    {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,} - {pitcher.get('FPPG', 'N/A')} FPPG")
         
         if len(starting_pitchers) > 5:
             print(f"   ... and {len(starting_pitchers) - 5} more confirmed starters")
         
-        print(f"✅ Total validated players: {len(validated_players)}")
+        print(f"SUCCESS: Total validated players: {len(validated_players)}")
         
         return validated_players
         
     except Exception as e:
-        print(f"❌ Error loading validated players: {e}")
+        print(f"ERROR: Error loading validated players: {e}")
         return None
 
 def build_smart_lineup(players_df):
@@ -62,7 +62,7 @@ def build_smart_lineup(players_df):
     max_salary = 35000
     positions_needed = {'P': 1, 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3}
     
-    print(f"\n🏆 BUILDING SMART CHAMPIONSHIP LINEUP")
+    print(f"\nLINEUP: BUILDING SMART CHAMPIONSHIP LINEUP")
     print("=" * 60)
     
     # Step 1: Select the best value pitcher within reasonable salary range
@@ -72,7 +72,7 @@ def build_smart_lineup(players_df):
     ].copy()
     
     if len(pitchers) == 0:
-        print("❌ No confirmed starting pitchers available!")
+        print("ERROR: No confirmed starting pitchers available!")
         return None
     
     # Sort pitchers by value (FPPG per $1000 salary)
@@ -100,7 +100,7 @@ def build_smart_lineup(players_df):
     total_fppg = selected_pitcher.get('FPPG', 0)
     used_players = {selected_pitcher['Id']}
     
-    print(f"🎯 PITCHER: {selected_pitcher['Nickname']} (${selected_pitcher['Salary']:,}) - {selected_pitcher.get('FPPG', 'N/A')} FPPG")
+    print(f"TARGET: PITCHER: {selected_pitcher['Nickname']} (${selected_pitcher['Salary']:,}) - {selected_pitcher.get('FPPG', 'N/A')} FPPG")
     
     # Step 2: Build rest of lineup with smart budgeting
     position_order = ['C', '1B', '2B', '3B', 'SS', 'OF', 'OF', 'OF']  # Fill OF last for flexibility
@@ -120,7 +120,7 @@ def build_smart_lineup(players_df):
         ].copy()
         
         if len(pos_players) == 0:
-            print(f"❌ No affordable players for {position} (budget: ${max_position_salary:,})")
+            print(f"ERROR: No affordable players for {position} (budget: ${max_position_salary:,})")
             continue
         
         # Sort by value
@@ -137,23 +137,23 @@ def build_smart_lineup(players_df):
         total_fppg += selected_player.get('FPPG', 0)
         used_players.add(selected_player['Id'])
         
-        print(f"🎯 {position}: {selected_player['Nickname']} (${selected_player['Salary']:,}) - {selected_player.get('FPPG', 'N/A')} FPPG")
-        print(f"   💰 Running total: ${total_salary:,} (${max_salary - total_salary:,} remaining)")
+        print(f"TARGET: {position}: {selected_player['Nickname']} (${selected_player['Salary']:,}) - {selected_player.get('FPPG', 'N/A')} FPPG")
+        print(f"   MONEY: Running total: ${total_salary:,} (${max_salary - total_salary:,} remaining)")
     
     print("=" * 60)
-    print(f"💰 FINAL SALARY: ${total_salary:,} / ${max_salary:,}")
-    print(f"🎯 TOTAL PROJECTED FPPG: {total_fppg:.1f}")
-    print(f"👥 LINEUP SIZE: {len(lineup)}")
+    print(f"MONEY: FINAL SALARY: ${total_salary:,} / ${max_salary:,}")
+    print(f"TARGET: TOTAL PROJECTED FPPG: {total_fppg:.1f}")
+    print(f"OWNERSHIP: LINEUP SIZE: {len(lineup)}")
     
     if total_salary > max_salary:
-        print(f"❌ ERROR: Lineup over salary cap by ${total_salary - max_salary:,}")
+        print(f"ERROR: ERROR: Lineup over salary cap by ${total_salary - max_salary:,}")
         return None
     
     if len(lineup) < 9:
-        print(f"❌ ERROR: Incomplete lineup - only {len(lineup)} players selected")
+        print(f"ERROR: ERROR: Incomplete lineup - only {len(lineup)} players selected")
         return None
     
-    print("✅ VALID LINEUP CREATED!")
+    print("SUCCESS: VALID LINEUP CREATED!")
     return lineup
 
 def create_fanduel_submission(lineup):
@@ -186,26 +186,26 @@ def create_fanduel_submission(lineup):
     return pd.DataFrame(submission_data)
 
 def main():
-    print("🏆 SMART VALIDATED CHAMPIONSHIP LINEUP BUILDER")
+    print("LINEUP: SMART VALIDATED CHAMPIONSHIP LINEUP BUILDER")
     print("   Using ONLY confirmed starting players with smart salary management")
     print("=" * 70)
     
     # Load validated players
     validated_players = load_validated_players()
     if validated_players is None:
-        print("❌ Failed to load validated players")
+        print("ERROR: Failed to load validated players")
         return
     
     # Build championship lineup
     lineup = build_smart_lineup(validated_players)
     if not lineup:
-        print("❌ Failed to build valid lineup")
+        print("ERROR: Failed to build valid lineup")
         return
     
     # Create submission
     submission_df = create_fanduel_submission(lineup)
     if submission_df is None:
-        print("❌ Failed to create submission")
+        print("ERROR: Failed to create submission")
         return
     
     # Save files
@@ -215,8 +215,8 @@ def main():
     filename = f"SMART_CHAMPIONSHIP_SUBMISSION_{timestamp}.csv"
     submission_df.to_csv(filename, index=False)
     
-    print(f"\n✅ SMART CHAMPIONSHIP LINEUP SAVED: {filename}")
-    print("\n🎯 FINAL LINEUP SUMMARY:")
+    print(f"\nSUCCESS: SMART CHAMPIONSHIP LINEUP SAVED: {filename}")
+    print("\nTARGET: FINAL LINEUP SUMMARY:")
     print("=" * 50)
     
     total_salary = submission_df['Salary'].sum()
@@ -233,12 +233,12 @@ def main():
         print(f"{pos:>8}: {name:<20} ${salary:>6,} {fppg:>6.1f} FPPG ({team}) {game}")
     
     print("=" * 50)
-    print(f"💰 TOTAL: ${total_salary:,} / $35,000 ({35000 - total_salary:,} under)")
-    print(f"🎯 PROJECTED: {total_fppg:.1f} FPPG")
-    print(f"💡 VALIDATED: All players confirmed to be starting today")
-    print(f"✅ SALARY CAP: Valid lineup under $35,000")
+    print(f"MONEY: TOTAL: ${total_salary:,} / $35,000 ({35000 - total_salary:,} under)")
+    print(f"TARGET: PROJECTED: {total_fppg:.1f} FPPG")
+    print(f"TIP: VALIDATED: All players confirmed to be starting today")
+    print(f"SUCCESS: SALARY CAP: Valid lineup under $35,000")
     
-    print("\n🚀 READY FOR FANDUEL SUBMISSION!")
+    print("\nSTART: READY FOR FANDUEL SUBMISSION!")
     print(f"   Upload file: {filename}")
 
 if __name__ == "__main__":

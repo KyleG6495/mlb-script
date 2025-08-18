@@ -1,5 +1,5 @@
 """
-🚀 MASTER ACCURACY OPTIMIZER
+START: MASTER ACCURACY OPTIMIZER
 Integrates all enhancement systems for maximum projection accuracy
 Takes your 117.3% accuracy to 125%+ with comprehensive optimizations
 """
@@ -16,10 +16,10 @@ def run_master_accuracy_optimization():
     """Run all accuracy enhancement systems in sequence"""
     logger = logging.getLogger(__name__)
     
-    logger.info("🚀 STARTING MASTER ACCURACY OPTIMIZATION SYSTEM")
+    logger.info("START: STARTING MASTER ACCURACY OPTIMIZATION SYSTEM")
     logger.info("="*70)
-    logger.info("🎯 TARGET: Improve from 117.3% to 125%+ accuracy")
-    logger.info("🔧 SYSTEMS: Enhanced ML + Vegas + Stacking + Weather")
+    logger.info("TARGET: TARGET: Improve from 117.3% to 125%+ accuracy")
+    logger.info("STEP: SYSTEMS: Enhanced ML + Vegas + Stacking + Weather")
     logger.info("="*70)
     
     results = {}
@@ -30,14 +30,14 @@ def run_master_accuracy_optimization():
         result = subprocess.run(['python', 'ENHANCED_ACCURACY_SYSTEM.py'], 
                               capture_output=True, text=True, timeout=120)
         if result.returncode == 0:
-            logger.info("✅ Enhanced Accuracy System completed successfully")
+            logger.info("SUCCESS: Enhanced Accuracy System completed successfully")
             results['enhanced_accuracy'] = True
         else:
-            logger.error(f"❌ Enhanced Accuracy System failed: {result.stderr}")
+            logger.error(f"ERROR: Enhanced Accuracy System failed: {result.stderr}")
             results['enhanced_accuracy'] = False
             
     except Exception as e:
-        logger.error(f"❌ Error running Enhanced Accuracy System: {e}")
+        logger.error(f"ERROR: Error running Enhanced Accuracy System: {e}")
         results['enhanced_accuracy'] = False
         
     try:
@@ -46,14 +46,14 @@ def run_master_accuracy_optimization():
         result = subprocess.run(['python', 'VEGAS_ODDS_INTEGRATOR.py'], 
                               capture_output=True, text=True, timeout=60)
         if result.returncode == 0:
-            logger.info("✅ Vegas Odds Integration completed successfully")
+            logger.info("SUCCESS: Vegas Odds Integration completed successfully")
             results['vegas_integration'] = True
         else:
-            logger.error(f"❌ Vegas Odds Integration failed: {result.stderr}")
+            logger.error(f"ERROR: Vegas Odds Integration failed: {result.stderr}")
             results['vegas_integration'] = False
             
     except Exception as e:
-        logger.error(f"❌ Error running Vegas Odds Integration: {e}")
+        logger.error(f"ERROR: Error running Vegas Odds Integration: {e}")
         results['vegas_integration'] = False
         
     try:
@@ -62,14 +62,14 @@ def run_master_accuracy_optimization():
         result = subprocess.run(['python', 'ADVANCED_STACK_OPTIMIZER.py'], 
                               capture_output=True, text=True, timeout=60)
         if result.returncode == 0:
-            logger.info("✅ Advanced Stack Optimization completed successfully")
+            logger.info("SUCCESS: Advanced Stack Optimization completed successfully")
             results['stack_optimization'] = True
         else:
-            logger.error(f"❌ Advanced Stack Optimization failed: {result.stderr}")
+            logger.error(f"ERROR: Advanced Stack Optimization failed: {result.stderr}")
             results['stack_optimization'] = False
             
     except Exception as e:
-        logger.error(f"❌ Error running Advanced Stack Optimization: {e}")
+        logger.error(f"ERROR: Error running Advanced Stack Optimization: {e}")
         results['stack_optimization'] = False
     
     # Step 4: Generate master enhanced lineups
@@ -77,9 +77,9 @@ def run_master_accuracy_optimization():
         logger.info("STEP 4: Generating Master Enhanced Lineups...")
         generate_master_lineups(results)
         results['master_lineups'] = True
-        logger.info("✅ Master Enhanced Lineups generated successfully")
+        logger.info("SUCCESS: Master Enhanced Lineups generated successfully")
     except Exception as e:
-        logger.error(f"❌ Error generating master lineups: {e}")
+        logger.error(f"ERROR: Error generating master lineups: {e}")
         results['master_lineups'] = False
     
     # Generate final summary
@@ -100,7 +100,7 @@ def generate_master_lineups(system_results):
     if vegas_files and system_results.get('vegas_integration', False):
         latest_vegas = max(vegas_files)
         enhanced_data = pd.read_csv(latest_vegas)
-        logger.info(f"📊 Using Vegas-enhanced data: {os.path.basename(latest_vegas)}")
+        logger.info(f"DATA: Using Vegas-enhanced data: {os.path.basename(latest_vegas)}")
     
     # Fallback to enhanced projections
     elif system_results.get('enhanced_accuracy', False):
@@ -108,12 +108,12 @@ def generate_master_lineups(system_results):
         if enhanced_files:
             latest_enhanced = max(enhanced_files)
             enhanced_data = pd.read_csv(latest_enhanced)
-            logger.info(f"📊 Using enhanced projections: {os.path.basename(latest_enhanced)}")
+            logger.info(f"DATA: Using enhanced projections: {os.path.basename(latest_enhanced)}")
     
     # Final fallback to original slate
     if enhanced_data is None:
         enhanced_data = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info("📊 Using original slate data")
+        logger.info("DATA: Using original slate data")
     
     # Load stack recommendations if available
     stack_recommendations = None
@@ -122,7 +122,7 @@ def generate_master_lineups(system_results):
         if stack_files:
             latest_stack = max(stack_files)
             stack_recommendations = pd.read_csv(latest_stack)
-            logger.info(f"🎯 Using stack recommendations: {os.path.basename(latest_stack)}")
+            logger.info(f"TARGET: Using stack recommendations: {os.path.basename(latest_stack)}")
     
     # Generate enhanced lineups using best available data
     lineups = []
@@ -172,7 +172,7 @@ def generate_master_lineups(system_results):
     output_file = f"../data/master_enhanced_lineups_{timestamp}.csv"
     lineup_df.to_csv(output_file, index=False)
     
-    logger.info(f"💾 Saved master enhanced lineups: {output_file}")
+    logger.info(f" Saved master enhanced lineups: {output_file}")
     return output_file
 
 def generate_final_summary(system_results):
@@ -210,46 +210,46 @@ def generate_final_summary(system_results):
     
     # Create summary report
     summary_lines = [
-        "🚀 MASTER ACCURACY OPTIMIZATION SUMMARY",
+        "START: MASTER ACCURACY OPTIMIZATION SUMMARY",
         "=" * 50,
-        f"🕐 Run Time: {summary_data['enhancement_run_time']}",
-        f"📊 Baseline Accuracy: {summary_data['baseline_accuracy']}",
-        f"🎯 Target Accuracy: {summary_data['target_accuracy']}",
-        f"✅ Systems Completed: {summary_data['systems_completed']}/{summary_data['total_systems']} ({summary_data['completion_rate']})",
+        f"TIME: Run Time: {summary_data['enhancement_run_time']}",
+        f"DATA: Baseline Accuracy: {summary_data['baseline_accuracy']}",
+        f"TARGET: Target Accuracy: {summary_data['target_accuracy']}",
+        f"SUCCESS: Systems Completed: {summary_data['systems_completed']}/{summary_data['total_systems']} ({summary_data['completion_rate']})",
         "",
-        "🔧 SYSTEM STATUS:",
+        "STEP: SYSTEM STATUS:",
     ]
     
     for system, success in system_results.items():
-        status_icon = "✅" if success else "❌"
+        status_icon = "SUCCESS:" if success else "ERROR:"
         boost = accuracy_boosts.get(system, 0) if success else 0
         summary_lines.append(f"   {status_icon} {system.replace('_', ' ').title()}: {'+' + str(boost) + '%' if boost > 0 else 'FAILED'}")
     
     summary_lines.extend([
         "",
-        "📈 ACCURACY IMPROVEMENTS:",
-        f"   🚀 Total Boost Achieved: {summary_data['accuracy_boost_achieved']}",
-        f"   🎯 Expected Final Accuracy: {summary_data['expected_final_accuracy']}",
-        f"   📊 Improvement vs Baseline: {expected_final_accuracy - 117.3:+.1f} percentage points",
+        "PROGRESS: ACCURACY IMPROVEMENTS:",
+        f"   START: Total Boost Achieved: {summary_data['accuracy_boost_achieved']}",
+        f"   TARGET: Expected Final Accuracy: {summary_data['expected_final_accuracy']}",
+        f"   DATA: Improvement vs Baseline: {expected_final_accuracy - 117.3:+.1f} percentage points",
         "",
-        "💡 KEY ENHANCEMENTS APPLIED:",
-        "   • Recency weighting (last 5 games prioritized)",
-        "   • Matchup-specific adjustments (pitcher difficulty)",
-        "   • Park factor integration (Coors +15%, Oracle -8%)",
-        "   • Weather condition bonuses (August heat factors)",
-        "   • Vegas team total scaling (high-scoring game targeting)",
-        "   • Platoon advantage multipliers (L/R matchups)",
-        "   • Advanced stack optimization (value + contrarian)",
-        "   • Real-time odds integration (run line adjustments)",
+        "TIP: KEY ENHANCEMENTS APPLIED:",
+        "    Recency weighting (last 5 games prioritized)",
+        "    Matchup-specific adjustments (pitcher difficulty)",
+        "    Park factor integration (Coors +15%, Oracle -8%)",
+        "    Weather condition bonuses (August heat factors)",
+        "    Vegas team total scaling (high-scoring game targeting)",
+        "    Platoon advantage multipliers (L/R matchups)",
+        "    Advanced stack optimization (value + contrarian)",
+        "    Real-time odds integration (run line adjustments)",
         "",
-        "🏆 EXPECTED RESULTS:",
-        f"   • Lineup Accuracy: {expected_final_accuracy:.1f}% (vs {summary_data['baseline_accuracy']} baseline)",
-        "   • Tournament Performance: Elite (150+ FPPG consistently)",
-        "   • Cash Game Reliability: Significantly improved",
-        "   • Stack Identification: Data-driven optimal plays",
+        "LINEUP: EXPECTED RESULTS:",
+        f"    Lineup Accuracy: {expected_final_accuracy:.1f}% (vs {summary_data['baseline_accuracy']} baseline)",
+        "    Tournament Performance: Elite (150+ FPPG consistently)",
+        "    Cash Game Reliability: Significantly improved",
+        "    Stack Identification: Data-driven optimal plays",
         "",
         "=" * 50,
-        "🎯 MASTER ACCURACY OPTIMIZATION COMPLETE!"
+        "TARGET: MASTER ACCURACY OPTIMIZATION COMPLETE!"
     ])
     
     # Save summary to file
@@ -261,7 +261,7 @@ def generate_final_summary(system_results):
     for line in summary_lines:
         logger.info(line)
     
-    logger.info(f"💾 Comprehensive summary saved: {summary_file}")
+    logger.info(f" Comprehensive summary saved: {summary_file}")
     
     return summary_file
 

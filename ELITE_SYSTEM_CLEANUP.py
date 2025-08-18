@@ -127,12 +127,12 @@ class EliteSystemCleanup:
     def backup_deprecated_scripts(self):
         """Move all deprecated scripts to organized backup"""
         
-        print("🗂️ CREATING ELITE SYSTEM CLEANUP")
+        print(" CREATING ELITE SYSTEM CLEANUP")
         print("=" * 50)
         
         # Create backup structure
         backup_root = self.create_backup_structure()
-        print(f"📁 Created backup directory: {backup_root}")
+        print(f" Created backup directory: {backup_root}")
         
         # Get all Python files
         all_scripts = glob.glob("*.py")
@@ -144,7 +144,7 @@ class EliteSystemCleanup:
             if script in self.all_elite_scripts:
                 # Keep elite script
                 kept_count += 1
-                print(f"✅ KEEPING: {script}")
+                print(f"SUCCESS: KEEPING: {script}")
             else:
                 # Move deprecated script to appropriate backup folder
                 category = self.categorize_deprecated_script(script)
@@ -153,9 +153,9 @@ class EliteSystemCleanup:
                 try:
                     shutil.move(script, backup_path)
                     moved_count += 1
-                    print(f"📦 MOVED: {script} → {category}")
+                    print(f" MOVED: {script}  {category}")
                 except Exception as e:
-                    print(f"❌ ERROR moving {script}: {e}")
+                    print(f"ERROR: ERROR moving {script}: {e}")
         
         return backup_root, moved_count, kept_count
     
@@ -165,38 +165,38 @@ class EliteSystemCleanup:
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
         inventory = [
-            "🚀 ELITE MLB DFS/PROP SYSTEM - FINAL INVENTORY",
+            "START: ELITE MLB DFS/PROP SYSTEM - FINAL INVENTORY",
             "=" * 60,
             f"Cleanup Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             f"Backup Location: {backup_root}",
             "",
-            "🏆 ELITE SYSTEM COMPONENTS:",
+            "LINEUP: ELITE SYSTEM COMPONENTS:",
             ""
         ]
         
         for category, scripts in self.elite_components.items():
-            inventory.append(f"📁 {category}:")
+            inventory.append(f" {category}:")
             for script in scripts:
                 if os.path.exists(script):
-                    inventory.append(f"   ✅ {script}")
+                    inventory.append(f"   SUCCESS: {script}")
                 else:
-                    inventory.append(f"   ❌ {script} (MISSING)")
+                    inventory.append(f"   ERROR: {script} (MISSING)")
             inventory.append("")
         
         inventory.extend([
-            "🛠️ ESSENTIAL UTILITIES:",
-            "   ✅ ELITE_SYSTEM_ARCHITECT.py",
-            "   ✅ ELITE_SYSTEM_CLEANUP.py", 
-            "   ✅ fetch_rotowire_lineups.py",
-            "   ✅ PrizePicks_mlb.py",
-            "   ✅ underdog_fantasy_mlb.py",
+            " ESSENTIAL UTILITIES:",
+            "   SUCCESS: ELITE_SYSTEM_ARCHITECT.py",
+            "   SUCCESS: ELITE_SYSTEM_CLEANUP.py", 
+            "   SUCCESS: fetch_rotowire_lineups.py",
+            "   SUCCESS: PrizePicks_mlb.py",
+            "   SUCCESS: underdog_fantasy_mlb.py",
             "",
-            "🎯 SYSTEM STATUS:",
+            "TARGET: SYSTEM STATUS:",
             "   Clean, organized, elite components only",
             "   Ready for institutional-grade consolidation",
             "   Deprecated scripts safely backed up",
             "",
-            "🚀 NEXT PHASE: Build unified orchestration system"
+            "START: NEXT PHASE: Build unified orchestration system"
         ])
         
         # Save inventory
@@ -209,7 +209,7 @@ class EliteSystemCleanup:
     def execute_cleanup(self):
         """Execute the complete cleanup process"""
         
-        print("🚀 EXECUTING ELITE SYSTEM CLEANUP")
+        print("START: EXECUTING ELITE SYSTEM CLEANUP")
         print("=" * 50)
         print("This will:")
         print("1. Move deprecated scripts to organized backup")
@@ -220,7 +220,7 @@ class EliteSystemCleanup:
         # Execute backup
         backup_root, moved_count, kept_count = self.backup_deprecated_scripts()
         
-        print(f"\n📊 CLEANUP RESULTS:")
+        print(f"\nDATA: CLEANUP RESULTS:")
         print(f"   Scripts moved to backup: {moved_count}")
         print(f"   Elite scripts kept: {kept_count}")
         print(f"   Backup location: {backup_root}")
@@ -228,10 +228,10 @@ class EliteSystemCleanup:
         # Create inventory
         inventory_file, inventory_content = self.create_elite_system_inventory(backup_root)
         
-        print(f"\n💾 Elite system inventory: {inventory_file}")
+        print(f"\n Elite system inventory: {inventory_file}")
         
         # Print final status
-        print(f"\n🎯 ELITE SYSTEM IS NOW CLEAN AND ORGANIZED!")
+        print(f"\nTARGET: ELITE SYSTEM IS NOW CLEAN AND ORGANIZED!")
         print("=" * 50)
         for line in inventory_content[-10:]:  # Show last 10 lines
             print(line)
@@ -241,16 +241,16 @@ class EliteSystemCleanup:
 def main():
     cleanup = EliteSystemCleanup()
     
-    print("🚨 WARNING: This will move many scripts to backup!")
+    print(" WARNING: This will move many scripts to backup!")
     print("Press Ctrl+C to cancel, or Enter to proceed...")
     input()
     
     backup_location, inventory_file = cleanup.execute_cleanup()
     
-    print(f"\n✅ CLEANUP COMPLETE!")
-    print(f"📁 Backup: {backup_location}")
-    print(f"📋 Inventory: {inventory_file}")
-    print("\n🚀 Ready to build elite unified system!")
+    print(f"\nSUCCESS: CLEANUP COMPLETE!")
+    print(f" Backup: {backup_location}")
+    print(f"INFO: Inventory: {inventory_file}")
+    print("\nSTART: Ready to build elite unified system!")
 
 if __name__ == "__main__":
     main()

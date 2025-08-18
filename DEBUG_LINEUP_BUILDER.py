@@ -4,7 +4,7 @@ import logging
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("🔍 DEBUGGING LINEUP BUILDER")
+print(" DEBUGGING LINEUP BUILDER")
 print("Finding out why we can't build lineups")
 print("="*80)
 
@@ -21,28 +21,28 @@ SALARY_CAP = 35000
 def debug_lineup_building():
     """Debug why we can't build lineups"""
     
-    logging.info("🔍 DEBUGGING ANALYSIS")
+    logging.info(" DEBUGGING ANALYSIS")
     logging.info("="*60)
     
     # Check data structure
-    logging.info(f"📊 Total players: {len(df)}")
-    logging.info(f"📊 Columns: {list(df.columns)}")
+    logging.info(f"DATA: Total players: {len(df)}")
+    logging.info(f"DATA: Columns: {list(df.columns)}")
     
     # Check positions
     pitchers = df[df['Position'] == 'P']
     hitters = df[df['Position'] != 'P']
     
-    logging.info(f"📊 Pitchers: {len(pitchers)}")
-    logging.info(f"📊 Hitters: {len(hitters)}")
+    logging.info(f"DATA: Pitchers: {len(pitchers)}")
+    logging.info(f"DATA: Hitters: {len(hitters)}")
     
     # Check position breakdown
     for pos in ['C', '1B', '2B', '3B', 'SS', 'OF']:
         pos_count = len(hitters[hitters['Position'] == pos])
-        logging.info(f"📊 {pos}: {pos_count} players")
+        logging.info(f"DATA: {pos}: {pos_count} players")
     
     # Test with Garrett Crochet
     garrett = pitchers[pitchers['Nickname'] == 'Garrett Crochet'].iloc[0]
-    logging.info(f"\n🎯 Testing {garrett['Nickname']}")
+    logging.info(f"\nTARGET: Testing {garrett['Nickname']}")
     logging.info(f"   Salary: ${garrett['Salary']:,}")
     logging.info(f"   Remaining budget: ${SALARY_CAP - garrett['Salary']:,}")
     
@@ -54,7 +54,7 @@ def debug_lineup_building():
     total_salary = 0
     used_ids = set()
     
-    logging.info(f"\n🔨 Building lineup step by step:")
+    logging.info(f"\n Building lineup step by step:")
     
     for i, pos in enumerate(positions):
         logging.info(f"\n   Position {i+1}: {pos}")
@@ -67,7 +67,7 @@ def debug_lineup_building():
         logging.info(f"     Available candidates: {len(candidates)}")
         
         if candidates.empty:
-            logging.info(f"     ❌ No candidates available for {pos}")
+            logging.info(f"     ERROR: No candidates available for {pos}")
             break
         
         # Sort by FPPG
@@ -76,7 +76,7 @@ def debug_lineup_building():
         # Show top 3 candidates
         logging.info(f"     Top candidates:")
         for j, player in candidates.head(3).iterrows():
-            affordable = "✅" if total_salary + player['Salary'] <= remaining_budget else "❌"
+            affordable = "SUCCESS:" if total_salary + player['Salary'] <= remaining_budget else "ERROR:"
             logging.info(f"       {player['Nickname']}: ${player['Salary']:,} | {player['FPPG']:.1f} FPPG {affordable}")
         
         # Try to select
@@ -87,22 +87,22 @@ def debug_lineup_building():
                 break
         
         if selected_player:
-            logging.info(f"     ✅ Selected: {selected_player.Nickname} - ${selected_player.Salary:,}")
+            logging.info(f"     SUCCESS: Selected: {selected_player.Nickname} - ${selected_player.Salary:,}")
             selected_hitters.append(selected_player)
             total_salary += selected_player.Salary
             used_ids.add(selected_player.Id)
-            logging.info(f"     💰 Running total: ${total_salary:,} | Remaining: ${remaining_budget - total_salary:,}")
+            logging.info(f"     MONEY: Running total: ${total_salary:,} | Remaining: ${remaining_budget - total_salary:,}")
         else:
-            logging.info(f"     ❌ No affordable player found for {pos}")
-            logging.info(f"     💰 Need budget for {8 - len(selected_hitters)} more players")
+            logging.info(f"     ERROR: No affordable player found for {pos}")
+            logging.info(f"     MONEY: Need budget for {8 - len(selected_hitters)} more players")
             
             # Show cheapest available
             cheapest = candidates.iloc[0] if not candidates.empty else None
             if cheapest is not None:
-                logging.info(f"     💸 Cheapest available: {cheapest['Nickname']} - ${cheapest['Salary']:,}")
+                logging.info(f"      Cheapest available: {cheapest['Nickname']} - ${cheapest['Salary']:,}")
             break
     
-    logging.info(f"\n📊 FINAL RESULT:")
+    logging.info(f"\nDATA: FINAL RESULT:")
     logging.info(f"   Players selected: {len(selected_hitters)}/8")
     logging.info(f"   Total salary: ${total_salary:,}")
     logging.info(f"   Budget remaining: ${remaining_budget - total_salary:,}")
@@ -110,16 +110,16 @@ def debug_lineup_building():
     if len(selected_hitters) == 8:
         total_fppg = garrett['FPPG'] + sum(p.FPPG for p in selected_hitters)
         logging.info(f"   Total FPPG: {total_fppg:.1f}")
-        logging.info("   ✅ SUCCESSFUL LINEUP!")
+        logging.info("   SUCCESS: SUCCESSFUL LINEUP!")
         return True
     else:
-        logging.info("   ❌ FAILED TO BUILD COMPLETE LINEUP")
+        logging.info("   ERROR: FAILED TO BUILD COMPLETE LINEUP")
         return False
 
 def analyze_budget_constraints():
     """Analyze if budget constraints are realistic"""
     
-    logging.info(f"\n💰 BUDGET CONSTRAINT ANALYSIS")
+    logging.info(f"\nMONEY: BUDGET CONSTRAINT ANALYSIS")
     logging.info("="*60)
     
     hitters = df[df['Position'] != 'P']
@@ -145,7 +145,7 @@ def analyze_budget_constraints():
     
     for pitcher in pitchers.head(5).itertuples():
         remaining = SALARY_CAP - pitcher.Salary
-        feasible = "✅" if remaining >= min_hitter_budget else "❌"
+        feasible = "SUCCESS:" if remaining >= min_hitter_budget else "ERROR:"
         logging.info(f"   {pitcher.Nickname}: ${pitcher.Salary:,} | Remaining: ${remaining:,} {feasible}")
 
 def main():
@@ -158,7 +158,7 @@ def main():
     analyze_budget_constraints()
     
     if not success:
-        logging.info(f"\n🔧 RECOMMENDATIONS:")
+        logging.info(f"\nSTEP: RECOMMENDATIONS:")
         logging.info("   1. Check if salary cap is correct ($35,000)")
         logging.info("   2. Verify player salary data is accurate")
         logging.info("   3. Consider using cheaper pitcher options")

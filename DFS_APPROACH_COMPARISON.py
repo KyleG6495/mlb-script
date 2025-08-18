@@ -23,7 +23,7 @@ class DFSApproachComparison:
         
     def load_test_data(self):
         """Load slate and actual results for testing"""
-        print("📊 Loading test data for approach comparison...")
+        print("DATA: Loading test data for approach comparison...")
         
         # Load slate
         slate_file = self.slate_dir / "fd_slate_today.csv"
@@ -63,7 +63,7 @@ class DFSApproachComparison:
         )
         merged['actual_fppg'] = merged['actual_fppg'].fillna(0)
         
-        print(f"✅ Loaded {len(slate_df)} slate players, {len(actual_df)} actual results")
+        print(f"SUCCESS: Loaded {len(slate_df)} slate players, {len(actual_df)} actual results")
         return merged
     
     def score_lineup_file(self, filename, merged_data):
@@ -163,7 +163,7 @@ class DFSApproachComparison:
     
     def load_production_lineups(self, merged_data):
         """Load and score all available lineup files"""
-        print("📁 Loading all available lineup files...")
+        print(" Loading all available lineup files...")
         
         results = {}
         
@@ -183,9 +183,9 @@ class DFSApproachComparison:
             if result:
                 approach_name = self.identify_approach_type(filename, result)
                 results[approach_name] = result
-                print(f"  ✅ Loaded {approach_name}: {result['actual']:.1f} actual FPPG")
+                print(f"  SUCCESS: Loaded {approach_name}: {result['actual']:.1f} actual FPPG")
             else:
-                print(f"  ❌ Could not load {filename}")
+                print(f"  ERROR: Could not load {filename}")
         
         return results
     
@@ -204,7 +204,7 @@ class DFSApproachComparison:
     
     def generate_optimal_hindsight(self, merged_data):
         """Generate the optimal hindsight lineup for comparison"""
-        print("🏆 Generating optimal hindsight lineup...")
+        print("LINEUP: Generating optimal hindsight lineup...")
         
         # Filter to players who actually played
         played_players = merged_data[
@@ -254,7 +254,7 @@ class DFSApproachComparison:
     def analyze_leaderboard_performance(self, results):
         """Analyze how each approach compares to FanDuel leaderboard"""
         print("\\n" + "="*80)
-        print("🏆 DFS APPROACH COMPARISON vs FANDUEL LEADERBOARD")
+        print("LINEUP: DFS APPROACH COMPARISON vs FANDUEL LEADERBOARD")
         print("="*80)
         
         # FanDuel leaderboard benchmarks
@@ -265,11 +265,11 @@ class DFSApproachComparison:
             'Cash_Line': 150.0            # Estimated cash line
         }
         
-        print("\\n📊 FANDUEL LEADERBOARD BENCHMARKS:")
+        print("\\nDATA: FANDUEL LEADERBOARD BENCHMARKS:")
         for level, score in leaderboard_scores.items():
-            print(f"  🎯 {level}: {score:.1f} FPPG")
+            print(f"  TARGET: {level}: {score:.1f} FPPG")
         
-        print("\\n🔍 OUR APPROACHES PERFORMANCE:")
+        print("\\n OUR APPROACHES PERFORMANCE:")
         
         # Sort results by actual performance
         sorted_results = sorted(results.items(), key=lambda x: x[1]['actual'], reverse=True)
@@ -279,60 +279,60 @@ class DFSApproachComparison:
             
             # Determine leaderboard position
             if actual_score >= leaderboard_scores['Tournament_Winner']:
-                position = "🥇 TOURNAMENT WINNER"
-                color = "🟢"
+                position = " TOURNAMENT WINNER"
+                color = ""
             elif actual_score >= leaderboard_scores['Top_5']:
-                position = "🥈 TOP 5 FINISH"
-                color = "🟢"
+                position = " TOP 5 FINISH"
+                color = ""
             elif actual_score >= leaderboard_scores['Top_10']:
-                position = "🥉 TOP 10 FINISH"
-                color = "🟡"
+                position = " TOP 10 FINISH"
+                color = ""
             elif actual_score >= leaderboard_scores['Cash_Line']:
-                position = "💰 CASH FINISH"
-                color = "🟡"
+                position = "MONEY: CASH FINISH"
+                color = ""
             else:
-                position = "❌ MISSED CASH"
-                color = "🔴"
+                position = "ERROR: MISSED CASH"
+                color = ""
             
             print(f"\\n{color} {approach_name}:")
-            print(f"  💰 Salary: ${result['salary']:,}")
-            print(f"  📈 Projected: {result['projected']:.1f} FPPG")
-            print(f"  🎯 Actual: {actual_score:.1f} FPPG")
-            print(f"  📊 Accuracy: {result['accuracy']:.1f}%")
-            print(f"  🏆 Result: {position}")
+            print(f"  MONEY: Salary: ${result['salary']:,}")
+            print(f"  PROGRESS: Projected: {result['projected']:.1f} FPPG")
+            print(f"  TARGET: Actual: {actual_score:.1f} FPPG")
+            print(f"  DATA: Accuracy: {result['accuracy']:.1f}%")
+            print(f"  LINEUP: Result: {position}")
             
             # Show distance from tournament win
             win_diff = leaderboard_scores['Tournament_Winner'] - actual_score
             if win_diff > 0:
-                print(f"  📉 Gap to Win: -{win_diff:.1f} FPPG")
+                print(f"   Gap to Win: -{win_diff:.1f} FPPG")
             else:
                 win_surplus = actual_score - leaderboard_scores['Tournament_Winner']
-                print(f"  ⭐ Win Margin: +{win_surplus:.1f} FPPG")
+                print(f"   Win Margin: +{win_surplus:.1f} FPPG")
         
         # Performance analysis
-        print("\\n💡 KEY INSIGHTS:")
+        print("\\nTIP: KEY INSIGHTS:")
         
         best_approach = max(results.items(), key=lambda x: x[1]['actual'])
         best_name, best_result = best_approach
         
-        print(f"  🏆 Best Approach: {best_name} ({best_result['actual']:.1f} FPPG)")
+        print(f"  LINEUP: Best Approach: {best_name} ({best_result['actual']:.1f} FPPG)")
         
         if best_result['actual'] >= leaderboard_scores['Tournament_Winner']:
-            print(f"  ✅ TOURNAMENT READY: Our best approach would have WON!")
+            print(f"  SUCCESS: TOURNAMENT READY: Our best approach would have WON!")
         elif best_result['actual'] >= leaderboard_scores['Cash_Line']:
-            print(f"  💰 PROFITABLE: Our best approach would have cashed")
+            print(f"  MONEY: PROFITABLE: Our best approach would have cashed")
             improvement_needed = leaderboard_scores['Tournament_Winner'] - best_result['actual']
-            print(f"  🎯 Need +{improvement_needed:.1f} FPPG for tournament wins")
+            print(f"  TARGET: Need +{improvement_needed:.1f} FPPG for tournament wins")
         else:
             improvement_needed = leaderboard_scores['Cash_Line'] - best_result['actual']
-            print(f"  🔧 Need +{improvement_needed:.1f} FPPG to be profitable")
+            print(f"  STEP: Need +{improvement_needed:.1f} FPPG to be profitable")
         
         return best_approach
     
     def detailed_player_analysis(self, best_approach):
         """Analyze the players in our best approach"""
         print("\\n" + "="*80)
-        print(f"🔍 DETAILED ANALYSIS: {best_approach[0]}")
+        print(f" DETAILED ANALYSIS: {best_approach[0]}")
         print("="*80)
         
         result = best_approach[1]
@@ -346,7 +346,7 @@ class DFSApproachComparison:
             print("No player details available")
             return
         
-        print("\\n👥 LINEUP BREAKDOWN:")
+        print("\\nOWNERSHIP: LINEUP BREAKDOWN:")
         for i, (_, player) in enumerate(players_df.iterrows(), 1):
             name = f"{player['First Name']} {player['Last Name']}"
             pos = player.get('Roster Position', 'N/A')
@@ -357,15 +357,15 @@ class DFSApproachComparison:
             
             # Performance indicator
             if actual > projected * 1.5:
-                indicator = "🔥 CEILING"
+                indicator = " CEILING"
             elif actual > projected * 1.2:
-                indicator = "✅ EXCEED"
+                indicator = "SUCCESS: EXCEED"
             elif actual >= projected * 0.8:
-                indicator = "📊 SOLID"
+                indicator = "DATA: SOLID"
             elif actual > 0:
-                indicator = "⚠️  UNDER"
+                indicator = "WARNING:  UNDER"
             else:
-                indicator = "❌ ZERO"
+                indicator = "ERROR: ZERO"
             
             print(f"{i:2}. {indicator} {name:20} ({pos:8}) ${salary:5,} | Proj: {projected:5.1f} | Actual: {actual:5.1f} | Diff: {diff:+6.1f}")
         
@@ -373,14 +373,14 @@ class DFSApproachComparison:
         total_ceiling = sum(p for p in players_df['actual_fppg'] if p > players_df.loc[players_df['actual_fppg'] == p, 'FPPG'].iloc[0] * 1.2)
         ceiling_players = sum(1 for p in players_df['actual_fppg'] if p > 20)
         
-        print(f"\\n📈 PERFORMANCE SUMMARY:")
-        print(f"  🎯 Players who hit ceiling (20+ FPPG): {ceiling_players}/9")
-        print(f"  🔥 Total ceiling points: {total_ceiling:.1f}")
-        print(f"  💪 Hit rate (scored points): {sum(1 for p in players_df['actual_fppg'] if p > 0)}/9")
+        print(f"\\nPROGRESS: PERFORMANCE SUMMARY:")
+        print(f"  TARGET: Players who hit ceiling (20+ FPPG): {ceiling_players}/9")
+        print(f"   Total ceiling points: {total_ceiling:.1f}")
+        print(f"   Hit rate (scored points): {sum(1 for p in players_df['actual_fppg'] if p > 0)}/9")
     
     def run_comparison(self):
         """Run complete comparison of all DFS approaches"""
-        print("🚀 DFS APPROACH COMPARISON SYSTEM")
+        print("START: DFS APPROACH COMPARISON SYSTEM")
         print("Testing all approaches against yesterday's 210+ FPPG leaderboard")
         print("="*80)
         
@@ -396,7 +396,7 @@ class DFSApproachComparison:
             results['Optimal_Hindsight'] = optimal
         
         if not results:
-            print("❌ No lineup files found to compare")
+            print("ERROR: No lineup files found to compare")
             return
         
         # Analyze performance vs leaderboard
@@ -405,12 +405,12 @@ class DFSApproachComparison:
         # Detailed analysis of best approach
         self.detailed_player_analysis(best_approach)
         
-        print(f"\\n🎉 COMPARISON COMPLETE!")
-        print(f"📊 Analyzed {len(results)} different approaches")
-        print(f"🏆 Best: {best_approach[0]} with {best_approach[1]['actual']:.1f} FPPG")
+        print(f"\\nCOMPLETE: COMPARISON COMPLETE!")
+        print(f"DATA: Analyzed {len(results)} different approaches")
+        print(f"LINEUP: Best: {best_approach[0]} with {best_approach[1]['actual']:.1f} FPPG")
 
 def main():
-    print("📊 DFS APPROACH COMPARISON")
+    print("DATA: DFS APPROACH COMPARISON")
     print("See how all our approaches stack up against FanDuel's 210+ leaderboard")
     print("="*80)
     

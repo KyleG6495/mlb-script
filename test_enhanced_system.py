@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 def test_enhanced_models():
     """Test if enhanced models can be loaded"""
-    logger.info("🤖 Testing enhanced model loading...")
+    logger.info(" Testing enhanced model loading...")
     
     try:
         from enhanced_automated_betting_system import EnhancedBettingSystem
@@ -36,19 +36,19 @@ def test_enhanced_models():
         models_loaded = betting_system.load_enhanced_models()
         
         if models_loaded:
-            logger.info(f"✅ Enhanced models loaded successfully: {len(betting_system.models)} models")
+            logger.info(f"SUCCESS: Enhanced models loaded successfully: {len(betting_system.models)} models")
             return True
         else:
-            logger.warning("⚠️ Enhanced models not found - will use original models")
+            logger.warning("WARNING: Enhanced models not found - will use original models")
             return False
             
     except Exception as e:
-        logger.error(f"❌ Error loading enhanced models: {e}")
+        logger.error(f"ERROR: Error loading enhanced models: {e}")
         return False
 
 def test_weather_integration():
     """Test weather integration"""
-    logger.info("🌤️ Testing weather integration...")
+    logger.info(" Testing weather integration...")
     
     try:
         from enhanced_weather_analytics import EnhancedWeatherAnalytics
@@ -65,18 +65,18 @@ def test_weather_integration():
             
             impact_factors = weather_analytics.calculate_weather_impact_factors(weather_data, team)
             
-            logger.info(f"   {team}: {weather_data['temperature']:.0f}°F, HR factor: {impact_factors['home_run_factor']:.2f}")
+            logger.info(f"   {team}: {weather_data['temperature']:.0f}F, HR factor: {impact_factors['home_run_factor']:.2f}")
         
-        logger.info("✅ Weather integration working correctly")
+        logger.info("SUCCESS: Weather integration working correctly")
         return True
         
     except Exception as e:
-        logger.error(f"❌ Error testing weather integration: {e}")
+        logger.error(f"ERROR: Error testing weather integration: {e}")
         return False
 
 def test_feature_engineering():
     """Test advanced feature engineering"""
-    logger.info("🏗️ Testing feature engineering...")
+    logger.info(" Testing feature engineering...")
     
     try:
         # Create sample player data
@@ -107,20 +107,20 @@ def test_feature_engineering():
         missing_features = [f for f in key_features if f not in enhanced_data.index]
         
         if not missing_features:
-            logger.info("✅ Feature engineering working correctly")
+            logger.info("SUCCESS: Feature engineering working correctly")
             logger.info(f"   Generated {len(enhanced_data)} features for test player")
             return True
         else:
-            logger.warning(f"⚠️ Missing features: {missing_features}")
+            logger.warning(f"WARNING: Missing features: {missing_features}")
             return False
             
     except Exception as e:
-        logger.error(f"❌ Error testing feature engineering: {e}")
+        logger.error(f"ERROR: Error testing feature engineering: {e}")
         return False
 
 def test_prediction_generation():
     """Test enhanced prediction generation"""
-    logger.info("🔮 Testing prediction generation...")
+    logger.info(" Testing prediction generation...")
     
     try:
         # Create test player data
@@ -162,22 +162,22 @@ def test_prediction_generation():
                         successful_predictions += 1
             
             if successful_predictions > 0:
-                logger.info(f"✅ Prediction generation working: {successful_predictions}/{len(test_stats)} successful")
+                logger.info(f"SUCCESS: Prediction generation working: {successful_predictions}/{len(test_stats)} successful")
                 return True
             else:
-                logger.warning("⚠️ No successful predictions generated")
+                logger.warning("WARNING: No successful predictions generated")
                 return False
         else:
-            logger.warning("⚠️ Cannot test predictions - no models loaded")
+            logger.warning("WARNING: Cannot test predictions - no models loaded")
             return False
             
     except Exception as e:
-        logger.error(f"❌ Error testing prediction generation: {e}")
+        logger.error(f"ERROR: Error testing prediction generation: {e}")
         return False
 
 def test_data_files():
     """Test if required data files exist"""
-    logger.info("📁 Testing data file availability...")
+    logger.info(" Testing data file availability...")
     
     required_files = [
         "../data/prediction_features_enhanced_real_stats.csv",
@@ -196,20 +196,20 @@ def test_data_files():
     logger.info("   Required files:")
     for file_path in required_files:
         if os.path.exists(file_path):
-            logger.info(f"   ✅ {file_path}")
+            logger.info(f"   SUCCESS: {file_path}")
             files_found += 1
         else:
-            logger.warning(f"   ❌ {file_path} (REQUIRED)")
+            logger.warning(f"   ERROR: {file_path} (REQUIRED)")
     
     logger.info("   Optional files:")
     for file_path in optional_files:
         if os.path.exists(file_path):
-            logger.info(f"   ✅ {file_path}")
+            logger.info(f"   SUCCESS: {file_path}")
             files_found += 1
         else:
-            logger.info(f"   ⚪ {file_path} (optional)")
+            logger.info(f"    {file_path} (optional)")
     
-    logger.info(f"📊 Data files: {files_found}/{total_files} available")
+    logger.info(f"DATA: Data files: {files_found}/{total_files} available")
     
     # Check if minimum required files exist
     required_found = sum(1 for f in required_files if os.path.exists(f))
@@ -217,7 +217,7 @@ def test_data_files():
 
 def test_performance_tracking():
     """Test performance tracking system"""
-    logger.info("📊 Testing performance tracking...")
+    logger.info("DATA: Testing performance tracking...")
     
     try:
         from enhanced_performance_tracker import PerformanceTracker
@@ -229,21 +229,21 @@ def test_performance_tracking():
         predictions_df = tracker.load_historical_predictions()
         
         if not results_df.empty or not predictions_df.empty:
-            logger.info(f"✅ Performance tracking working")
+            logger.info(f"SUCCESS: Performance tracking working")
             logger.info(f"   Historical results: {len(results_df)} records")
             logger.info(f"   Historical predictions: {len(predictions_df)} records")
             return True
         else:
-            logger.info("⚪ Performance tracking ready (no historical data yet)")
+            logger.info(" Performance tracking ready (no historical data yet)")
             return True
             
     except Exception as e:
-        logger.error(f"❌ Error testing performance tracking: {e}")
+        logger.error(f"ERROR: Error testing performance tracking: {e}")
         return False
 
 def run_comprehensive_test():
     """Run comprehensive system test"""
-    print("🧪 ENHANCED SYSTEM VERIFICATION TEST")
+    print(" ENHANCED SYSTEM VERIFICATION TEST")
     print("=" * 45)
     print()
     
@@ -262,7 +262,7 @@ def run_comprehensive_test():
     passed_tests = 0
     
     for test_name, test_function in tests:
-        print(f"\n🔍 Testing {test_name}...")
+        print(f"\n Testing {test_name}...")
         print("-" * 30)
         
         try:
@@ -273,30 +273,30 @@ def run_comprehensive_test():
                 passed_tests += 1
                 
         except Exception as e:
-            logger.error(f"❌ Test {test_name} failed with exception: {e}")
+            logger.error(f"ERROR: Test {test_name} failed with exception: {e}")
             test_results[test_name] = False
     
     # Summary
-    print(f"\n🎯 TEST SUMMARY")
+    print(f"\nTARGET: TEST SUMMARY")
     print("=" * 20)
     print(f"Tests passed: {passed_tests}/{len(tests)}")
     print()
     
     for test_name, result in test_results.items():
-        status = "✅ PASS" if result else "❌ FAIL"
+        status = "SUCCESS: PASS" if result else "ERROR: FAIL"
         print(f"{test_name:20}: {status}")
     
     print()
     
     if passed_tests == len(tests):
-        print("🎉 ALL TESTS PASSED! Enhanced system is ready to use.")
-        print("🚀 Run ENHANCED_PREDICTION_SYSTEM.bat to start the full system")
+        print("COMPLETE: ALL TESTS PASSED! Enhanced system is ready to use.")
+        print("START: Run ENHANCED_PREDICTION_SYSTEM.bat to start the full system")
     elif passed_tests >= len(tests) * 0.7:  # 70% pass rate
-        print("⚠️ Most tests passed. System should work with minor issues.")
-        print("🔧 Review failed tests and fix issues for optimal performance")
+        print("WARNING: Most tests passed. System should work with minor issues.")
+        print("STEP: Review failed tests and fix issues for optimal performance")
     else:
-        print("❌ Multiple test failures detected.")
-        print("🛠️ Please fix the failing components before using the system")
+        print("ERROR: Multiple test failures detected.")
+        print(" Please fix the failing components before using the system")
     
     print()
     
@@ -314,7 +314,7 @@ def run_comprehensive_test():
         import json
         json.dump(test_report, f, indent=2)
     
-    print("💾 Test report saved to system_test_report.json")
+    print(" Test report saved to system_test_report.json")
     
     return passed_tests >= len(tests) * 0.7
 

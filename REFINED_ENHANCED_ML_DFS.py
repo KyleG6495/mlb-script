@@ -29,15 +29,15 @@ class RefinedEnhancedMLDFS:
         
     def load_slate_with_enhancements(self):
         """Load slate with enhanced injury filtering and game analysis"""
-        print("🚀 REFINED ENHANCED ML DFS - Loading slate...")
+        print("START: REFINED ENHANCED ML DFS - Loading slate...")
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
             
         slate_df = pd.read_csv(slate_file)
-        print(f"✅ Loaded slate with {len(slate_df)} players")
+        print(f"SUCCESS: Loaded slate with {len(slate_df)} players")
         
         # Apply proven injury filtering (173% performance improvement)
         original_count = len(slate_df)
@@ -46,7 +46,7 @@ class RefinedEnhancedMLDFS:
         if 'Injury Indicator' in slate_df.columns:
             injured_players = slate_df['Injury Indicator'].notna()
             injured_count = injured_players.sum()
-            print(f"🔧 Removing {injured_count} injured players")
+            print(f"STEP: Removing {injured_count} injured players")
             slate_df = slate_df[~injured_players]
         
         # Remove non-probable pitchers
@@ -56,16 +56,16 @@ class RefinedEnhancedMLDFS:
             non_probable_ids = set(pitchers[non_probable]['Id'])
             slate_df = slate_df[~slate_df['Id'].isin(non_probable_ids)]
             probable_count = (pitchers['Probable Pitcher'] == 'Yes').sum()
-            print(f"⚾ Keeping only {probable_count} probable pitchers")
+            print(f"BASEBALL: Keeping only {probable_count} probable pitchers")
         
         filtered_count = len(slate_df)
-        print(f"📊 Filtered: {original_count} → {filtered_count} players ({filtered_count/original_count*100:.1f}% remaining)")
+        print(f"DATA: Filtered: {original_count}  {filtered_count} players ({filtered_count/original_count*100:.1f}% remaining)")
         
         return slate_df
     
     def analyze_game_environment(self, slate_df):
         """Analyze games for stacking and ceiling opportunities"""
-        print("🎯 Analyzing game environment for stacking opportunities...")
+        print("TARGET: Analyzing game environment for stacking opportunities...")
         
         slate_df = slate_df.copy()
         
@@ -119,7 +119,7 @@ class RefinedEnhancedMLDFS:
         if not game_analysis_df.empty:
             game_analysis_df = game_analysis_df.sort_values('game_score', ascending=False)
             
-            print(f"🔥 Top stacking games:")
+            print(f" Top stacking games:")
             for i, game_info in game_analysis_df.head(3).iterrows():
                 print(f"  {i+1}. {game_info['game']} (Score: {game_info['game_score']:.1f}, Avg FPPG: {game_info['total_fppg']/game_info['player_count']:.1f})")
         
@@ -136,7 +136,7 @@ class RefinedEnhancedMLDFS:
     
     def calculate_tournament_scores(self, slate_df):
         """Calculate tournament-optimized scores based on variance and game theory"""
-        print("🏆 Calculating tournament optimization scores...")
+        print("LINEUP: Calculating tournament optimization scores...")
         
         slate_df = slate_df.copy()
         
@@ -178,13 +178,13 @@ class RefinedEnhancedMLDFS:
         # Tournament value (score per dollar)
         slate_df['tournament_value'] = slate_df['tournament_score'] / slate_df['Salary'] * 1000
         
-        print(f"📈 Tournament scores range: {slate_df['tournament_score'].min():.1f} - {slate_df['tournament_score'].max():.1f}")
+        print(f"PROGRESS: Tournament scores range: {slate_df['tournament_score'].min():.1f} - {slate_df['tournament_score'].max():.1f}")
         
         return slate_df
     
     def identify_core_plays(self, enhanced_slate):
         """Identify core plays for tournament lineups"""
-        print("💎 Identifying core tournament plays...")
+        print(" Identifying core tournament plays...")
         
         enhanced_slate = enhanced_slate.copy()
         enhanced_slate['core_category'] = 'Standard'
@@ -241,7 +241,7 @@ class RefinedEnhancedMLDFS:
         
         # Print core categories
         category_counts = enhanced_slate['core_category'].value_counts()
-        print("🏷️ Core Play Categories:")
+        print(" Core Play Categories:")
         for category, count in category_counts.items():
             print(f"  {category}: {count} players")
         
@@ -249,7 +249,7 @@ class RefinedEnhancedMLDFS:
     
     def build_tournament_lineup(self, enhanced_slate, strategy='balanced'):
         """Build single tournament-optimized lineup"""
-        print(f"🏆 Building {strategy} tournament lineup...")
+        print(f"LINEUP: Building {strategy} tournament lineup...")
         
         selected_players = []
         remaining_budget = 35000
@@ -385,7 +385,7 @@ class RefinedEnhancedMLDFS:
                 # Emergency fallback
                 affordable = candidates[candidates['Salary'] <= max_spend]
                 if affordable.empty:
-                    print(f"    ❌ No affordable {position} players")
+                    print(f"    ERROR: No affordable {position} players")
                     return None
             
             # Prioritize by strategy
@@ -428,7 +428,7 @@ class RefinedEnhancedMLDFS:
     
     def generate_tournament_lineups(self, enhanced_slate, count=10):
         """Generate multiple tournament lineups with different strategies"""
-        print(f"🎯 Generating {count} tournament-optimized lineups...")
+        print(f"TARGET: Generating {count} tournament-optimized lineups...")
         
         strategies = ['ace_stack', 'value_ceiling', 'contrarian', 'balanced']
         lineups = []
@@ -440,19 +440,19 @@ class RefinedEnhancedMLDFS:
             if lineup:
                 lineup['lineup_id'] = f"REFINED_ML_{i+1}"
                 lineups.append(lineup)
-                print(f"  ✅ Lineup {i+1} ({strategy}): ${lineup['total_salary']:,}, {lineup['total_projected']:.1f} proj, {lineup['total_ceiling']:.1f} ceiling")
+                print(f"  SUCCESS: Lineup {i+1} ({strategy}): ${lineup['total_salary']:,}, {lineup['total_projected']:.1f} proj, {lineup['total_ceiling']:.1f} ceiling")
             else:
-                print(f"  ❌ Failed to build lineup {i+1} ({strategy})")
+                print(f"  ERROR: Failed to build lineup {i+1} ({strategy})")
         
         return lineups
     
     def export_refined_lineups(self, lineups):
         """Export lineups in FanDuel format"""
         if not lineups:
-            print("❌ No lineups to export")
+            print("ERROR: No lineups to export")
             return
         
-        print("📄 Exporting refined tournament lineups...")
+        print(" Exporting refined tournament lineups...")
         
         # Create detailed lineup file
         lineup_data = []
@@ -480,33 +480,33 @@ class RefinedEnhancedMLDFS:
         filepath = self.slate_dir / filename
         
         lineup_df.to_csv(filepath, index=False)
-        print(f"✅ Refined lineups exported: {filename}")
+        print(f"SUCCESS: Refined lineups exported: {filename}")
         
         # Summary stats
-        print(f"\n🏆 REFINED LINEUP SUMMARY:")
+        print(f"\nLINEUP: REFINED LINEUP SUMMARY:")
         for lineup in lineups:
             print(f"  {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | Proj: {lineup['total_projected']:.1f} | Ceil: {lineup['total_ceiling']:.1f} | Mult: {lineup['ceiling_multiplier']:.1f}x")
         
         avg_projected = np.mean([l['total_projected'] for l in lineups])
         avg_ceiling = np.mean([l['total_ceiling'] for l in lineups])
         
-        print(f"\n📊 PORTFOLIO STATS:")
+        print(f"\nDATA: PORTFOLIO STATS:")
         print(f"  Average Projected: {avg_projected:.1f} FPPG")
         print(f"  Average Ceiling: {avg_ceiling:.1f} FPPG")
         print(f"  Portfolio Ceiling Multiplier: {avg_ceiling/avg_projected:.1f}x")
         
         if avg_ceiling >= 200:
-            print(f"  ✅ EXCELLENT: Portfolio has 200+ tournament ceiling!")
+            print(f"  SUCCESS: EXCELLENT: Portfolio has 200+ tournament ceiling!")
         elif avg_ceiling >= 150:
-            print(f"  ⚠️  GOOD: Solid tournament upside")
+            print(f"  WARNING:  GOOD: Solid tournament upside")
         else:
-            print(f"  🔧 FAIR: May need more ceiling optimization")
+            print(f"  STEP: FAIR: May need more ceiling optimization")
         
         return filepath
     
     def run_refined_optimization(self):
         """Run complete refined tournament optimization"""
-        print("🚀 REFINED ENHANCED ML DFS OPTIMIZATION")
+        print("START: REFINED ENHANCED ML DFS OPTIMIZATION")
         print("Building tournament-winning lineups based on proven performance analysis")
         print("="*80)
         
@@ -531,16 +531,16 @@ class RefinedEnhancedMLDFS:
             # Export lineups
             filepath = self.export_refined_lineups(lineups)
             
-            print(f"\n🎉 REFINED OPTIMIZATION COMPLETE!")
-            print(f"🎯 Generated {len(lineups)} tournament-optimized lineups")
-            print(f"📈 Target: Beat 106.9 FPPG baseline, reach 200+ tournament scores")
-            print(f"💡 Strategy: Game theory + stacking + proven injury filtering")
+            print(f"\nCOMPLETE: REFINED OPTIMIZATION COMPLETE!")
+            print(f"TARGET: Generated {len(lineups)} tournament-optimized lineups")
+            print(f"PROGRESS: Target: Beat 106.9 FPPG baseline, reach 200+ tournament scores")
+            print(f"TIP: Strategy: Game theory + stacking + proven injury filtering")
             
         else:
-            print("❌ Failed to generate lineups")
+            print("ERROR: Failed to generate lineups")
 
 def main():
-    print("🎯 REFINED ENHANCED ML DFS SYSTEM")
+    print("TARGET: REFINED ENHANCED ML DFS SYSTEM")
     print("Tournament optimization refined from 106.9 FPPG actual performance")
     print("="*80)
     

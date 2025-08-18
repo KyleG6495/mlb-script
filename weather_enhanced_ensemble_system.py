@@ -1,5 +1,5 @@
 """
-🌤️🏟️ WEATHER & PARK ENHANCED ENSEMBLE SYSTEM 🏟️🌤️
+ WEATHER & PARK ENHANCED ENSEMBLE SYSTEM 
 Advanced ensemble system with comprehensive weather and ballpark intelligence
 """
 
@@ -24,31 +24,31 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
     def load_current_weather_park_data(self):
         """Load and refresh current weather and park factor data"""
         
-        logging.info("🌤️ Loading weather and park factor data...")
+        logging.info(" Loading weather and park factor data...")
         
         # Load park factors
         try:
             park_df = pd.read_csv("../park_factors/park_factors.csv")
-            logging.info(f"✅ Loaded park factors for {len(park_df)} teams")
+            logging.info(f"SUCCESS: Loaded park factors for {len(park_df)} teams")
         except Exception as e:
-            logging.warning(f"⚠️ Could not load park factors: {e}")
+            logging.warning(f"WARNING: Could not load park factors: {e}")
             park_df = pd.DataFrame()
         
         # Load weather data
         try:
             weather_df = pd.read_csv("../data/weather_today.csv")
-            logging.info(f"✅ Loaded weather data for {len(weather_df)} games")
+            logging.info(f"SUCCESS: Loaded weather data for {len(weather_df)} games")
         except Exception as e:
-            logging.warning(f"⚠️ Could not load weather data: {e}")
+            logging.warning(f"WARNING: Could not load weather data: {e}")
             weather_df = pd.DataFrame()
         
         # Load merged weather/park data if available
         try:
             merged_df = pd.read_csv("../data/merged_weather_park.csv")
-            logging.info(f"✅ Loaded merged weather/park data for {len(merged_df)} games")
+            logging.info(f"SUCCESS: Loaded merged weather/park data for {len(merged_df)} games")
             return merged_df
         except Exception as e:
-            logging.warning(f"⚠️ Could not load merged data: {e}")
+            logging.warning(f"WARNING: Could not load merged data: {e}")
             return pd.DataFrame()
     
     def calculate_weather_adjustments(self, weather_park_df):
@@ -101,7 +101,7 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
                 }
             }
         
-        logging.info(f"🌤️ Calculated weather adjustments for {len(adjustments)} games")
+        logging.info(f" Calculated weather adjustments for {len(adjustments)} games")
         return adjustments
     
     def calculate_park_adjustments(self, weather_park_df):
@@ -134,14 +134,14 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
                 'team': team
             }
         
-        logging.info(f"🏟️ Calculated park adjustments for {len(adjustments)} games")
+        logging.info(f" Calculated park adjustments for {len(adjustments)} games")
         return adjustments
     
     def apply_weather_park_enhancements(self, predictions_df, weather_park_df):
         """Apply weather and park factor enhancements to predictions"""
         
         if weather_park_df.empty:
-            logging.warning("⚠️ No weather/park data available - using base predictions")
+            logging.warning("WARNING: No weather/park data available - using base predictions")
             return predictions_df
         
         # Calculate adjustments
@@ -194,13 +194,13 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
             
             enhanced_count += 1
         
-        logging.info(f"🌟 Enhanced {enhanced_count} predictions with weather/park factors")
+        logging.info(f" Enhanced {enhanced_count} predictions with weather/park factors")
         return enhanced_predictions
     
     def run_weather_enhanced_analysis(self):
         """Run the complete weather-enhanced ensemble analysis"""
         
-        logging.info("🌤️🏟️ Starting Weather-Enhanced Ensemble Analysis...")
+        logging.info(" Starting Weather-Enhanced Ensemble Analysis...")
         
         # Load weather and park data
         weather_park_df = self.load_current_weather_park_data()
@@ -209,14 +209,14 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
         base_results = self.run_ultimate_analysis()
         
         if weather_park_df.empty:
-            logging.warning("⚠️ No weather/park enhancements applied")
+            logging.warning("WARNING: No weather/park enhancements applied")
             return base_results
         
         # Load ensemble predictions for enhancement
         try:
             ensemble_predictions = pd.read_csv("ultimate_ensemble_opportunities.csv")
         except Exception as e:
-            logging.error(f"❌ Could not load ensemble predictions: {e}")
+            logging.error(f"ERROR: Could not load ensemble predictions: {e}")
             return base_results
         
         # Apply weather and park enhancements
@@ -274,9 +274,9 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
         # Generate enhanced report
         self.generate_weather_enhanced_report(enhanced_opportunities, weather_enhanced_count, timestamp)
         
-        logging.info(f"🌟 Weather-Enhanced Analysis Complete!")
-        logging.info(f"🎯 Generated {len(enhanced_opportunities)} weather-enhanced opportunities")
-        logging.info(f"🌤️ {weather_enhanced_count} predictions enhanced with weather/park factors")
+        logging.info(f" Weather-Enhanced Analysis Complete!")
+        logging.info(f"TARGET: Generated {len(enhanced_opportunities)} weather-enhanced opportunities")
+        logging.info(f" {weather_enhanced_count} predictions enhanced with weather/park factors")
         
         return {
             'enhanced_opportunities': enhanced_opportunities,
@@ -291,29 +291,29 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
             return
         
         report_lines = [
-            "🌤️🏟️🔥 WEATHER-ENHANCED ENSEMBLE BETTING SYSTEM 🔥🏟️🌤️",
+            " WEATHER-ENHANCED ENSEMBLE BETTING SYSTEM ",
             f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             "=" * 80,
             "",
-            "🌟 WEATHER & PARK FACTOR ENHANCEMENTS:",
+            " WEATHER & PARK FACTOR ENHANCEMENTS:",
             "-" * 60,
             f"Predictions Enhanced with Weather: {enhanced_count}",
             f"Total Enhanced Opportunities: {len(opportunities)}",
             f"Average Edge (Top 100): {np.mean([op['edge'] for op in opportunities[:100]]):.2f}%",
             "",
-            "🌤️ WEATHER INTELLIGENCE:",
-            "✅ Temperature effects on offense",
-            "✅ Humidity impact on ball flight", 
-            "✅ Wind direction and speed analysis",
-            "✅ Real-time game conditions",
+            " WEATHER INTELLIGENCE:",
+            "SUCCESS: Temperature effects on offense",
+            "SUCCESS: Humidity impact on ball flight", 
+            "SUCCESS: Wind direction and speed analysis",
+            "SUCCESS: Real-time game conditions",
             "",
-            "🏟️ BALLPARK INTELLIGENCE:",
-            "✅ Park factor adjustments",
-            "✅ Home run friendly/pitcher friendly parks",
-            "✅ Strikeout rate adjustments",
-            "✅ Offensive environment scoring",
+            " BALLPARK INTELLIGENCE:",
+            "SUCCESS: Park factor adjustments",
+            "SUCCESS: Home run friendly/pitcher friendly parks",
+            "SUCCESS: Strikeout rate adjustments",
+            "SUCCESS: Offensive environment scoring",
             "",
-            "🎯 TOP 20 WEATHER-ENHANCED OPPORTUNITIES:",
+            "TARGET: TOP 20 WEATHER-ENHANCED OPPORTUNITIES:",
             "-" * 70
         ]
         
@@ -343,7 +343,7 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
         
         report_lines.extend([
             "",
-            "📊 CATEGORY BREAKDOWN (WEATHER-ENHANCED):",
+            "DATA: CATEGORY BREAKDOWN (WEATHER-ENHANCED):",
             "-" * 60
         ])
         
@@ -357,16 +357,16 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
         
         report_lines.extend([
             "",
-            "🚀 ADVANCED FEATURES:",
+            "START: ADVANCED FEATURES:",
             "-" * 40,
-            "✅ Real-time weather condition analysis",
-            "✅ Multi-factor park adjustments", 
-            "✅ Wind direction impact modeling",
-            "✅ Temperature-based offensive scaling",
-            "✅ Humidity effects on ball flight",
-            "✅ Stadium-specific environmental factors",
-            "✅ Enhanced ensemble prediction confidence",
-            "✅ Weather-adjusted Kelly sizing"
+            "SUCCESS: Real-time weather condition analysis",
+            "SUCCESS: Multi-factor park adjustments", 
+            "SUCCESS: Wind direction impact modeling",
+            "SUCCESS: Temperature-based offensive scaling",
+            "SUCCESS: Humidity effects on ball flight",
+            "SUCCESS: Stadium-specific environmental factors",
+            "SUCCESS: Enhanced ensemble prediction confidence",
+            "SUCCESS: Weather-adjusted Kelly sizing"
         ])
         
         # Save report
@@ -374,7 +374,7 @@ class WeatherEnhancedEnsembleSystem(UltimateEnsembleBettingSystem):
         with open(report_filename, 'w', encoding='utf-8') as f:
             f.write('\n'.join(report_lines))
         
-        logging.info(f"📊 Weather-Enhanced report saved: {report_filename}")
+        logging.info(f"DATA: Weather-Enhanced report saved: {report_filename}")
 
 
 if __name__ == "__main__":
@@ -382,6 +382,6 @@ if __name__ == "__main__":
     weather_system = WeatherEnhancedEnsembleSystem()
     results = weather_system.run_weather_enhanced_analysis()
     
-    print(f"\n🌟 Weather-Enhanced Ensemble System Complete!")
-    print(f"🎯 Generated {results['total_opportunities']} enhanced opportunities")
-    print(f"🌤️ {results['weather_enhanced_count']} predictions enhanced with weather/park factors")
+    print(f"\n Weather-Enhanced Ensemble System Complete!")
+    print(f"TARGET: Generated {results['total_opportunities']} enhanced opportunities")
+    print(f" {results['weather_enhanced_count']} predictions enhanced with weather/park factors")

@@ -197,13 +197,13 @@ class ComboPropOptimizer:
     def get_combo_confidence(self, expected_value):
         """Get confidence level for combo bet"""
         if expected_value >= 0.30:
-            return "🔥 VERY HIGH"
+            return " VERY HIGH"
         elif expected_value >= 0.20:
-            return "🟢 HIGH" 
+            return " HIGH" 
         elif expected_value >= 0.15:
-            return "🟡 MEDIUM"
+            return " MEDIUM"
         else:
-            return "🔵 LOW"
+            return " LOW"
     
     def get_risk_level(self, num_players, combined_prob):
         """Assess risk level of combo"""
@@ -216,13 +216,13 @@ class ComboPropOptimizer:
     
     def generate_combo_report(self):
         """Generate comprehensive combo prop report"""
-        print("🎰 COMBO PROP BET OPTIMIZER")
+        print(" COMBO PROP BET OPTIMIZER")
         print("=" * 50)
         
         combos = self.find_power_combos()
         
         if not combos:
-            print("❌ No profitable combo opportunities found")
+            print("ERROR: No profitable combo opportunities found")
             return
         
         # Create report
@@ -230,37 +230,37 @@ class ComboPropOptimizer:
         report_file = f"betting_analysis/combo_prop_report_{timestamp}.txt"
         
         with open(report_file, 'w', encoding='utf-8') as f:
-            f.write("🎰 COMBO PROP BET RECOMMENDATIONS\n")
+            f.write(" COMBO PROP BET RECOMMENDATIONS\n")
             f.write(f"Generated: {pd.Timestamp.now()}\n")
             f.write("=" * 60 + "\n\n")
             
-            f.write("🏆 TOP COMBO OPPORTUNITIES:\n")
+            f.write("LINEUP: TOP COMBO OPPORTUNITIES:\n")
             f.write("-" * 40 + "\n\n")
             
             for i, combo in enumerate(combos, 1):
                 f.write(f"{i:2d}. {combo['combo_description']}\n")
-                f.write(f"    💰 Expected Value: ${combo['expected_value']:.2f} ({combo['confidence']})\n")
-                f.write(f"    📊 Win Probability: {combo['combined_probability']:.1%}\n")
-                f.write(f"    🎯 Payout: {combo['payout']} | Edge: {combo['edge']:.1%}\n")
-                f.write(f"    ⚠️  Risk Level: {combo['risk_level']}\n")
-                f.write(f"    🔢 Individual Probs: {[f'{p:.1%}' for p in combo['individual_probabilities']]}\n\n")
+                f.write(f"    MONEY: Expected Value: ${combo['expected_value']:.2f} ({combo['confidence']})\n")
+                f.write(f"    DATA: Win Probability: {combo['combined_probability']:.1%}\n")
+                f.write(f"    TARGET: Payout: {combo['payout']} | Edge: {combo['edge']:.1%}\n")
+                f.write(f"    WARNING:  Risk Level: {combo['risk_level']}\n")
+                f.write(f"     Individual Probs: {[f'{p:.1%}' for p in combo['individual_probabilities']]}\n\n")
             
-            f.write("\n📋 COMBO BETTING STRATEGY:\n")
+            f.write("\nINFO: COMBO BETTING STRATEGY:\n")
             f.write("-" * 30 + "\n")
-            f.write("• Focus on 2-player combos for steady returns\n")
-            f.write("• Use 3-player combos sparingly for big payouts\n") 
-            f.write("• Only bet combos with 60%+ combined probability\n")
-            f.write("• Diversify across multiple smaller combos\n")
+            f.write(" Focus on 2-player combos for steady returns\n")
+            f.write(" Use 3-player combos sparingly for big payouts\n") 
+            f.write(" Only bet combos with 60%+ combined probability\n")
+            f.write(" Diversify across multiple smaller combos\n")
         
-        print(f"✅ Combo report saved: {report_file}")
+        print(f"SUCCESS: Combo report saved: {report_file}")
         
         # Display top 5 combos
-        print(f"\n🏆 TOP 5 COMBO RECOMMENDATIONS:")
+        print(f"\nLINEUP: TOP 5 COMBO RECOMMENDATIONS:")
         print("-" * 45)
         
         for i, combo in enumerate(combos[:5], 1):
             print(f"{i}. {combo['combo_description']}")
-            print(f"   💰 EV: ${combo['expected_value']:.2f} | Win: {combo['combined_probability']:.1%} | {combo['confidence']}")
+            print(f"   MONEY: EV: ${combo['expected_value']:.2f} | Win: {combo['combined_probability']:.1%} | {combo['confidence']}")
             print(f"   {combo['payout']} payout | {combo['risk_level']}")
             print()
 

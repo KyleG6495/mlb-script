@@ -20,7 +20,7 @@ class MasterTournamentCombiner:
         
     def load_all_tournament_lineups(self):
         """Load lineups from all tournament systems"""
-        print("🏆 MASTER TOURNAMENT COMBINER")
+        print("LINEUP: MASTER TOURNAMENT COMBINER")
         print("Selecting the ultimate tournament portfolio")
         print("="*80)
         
@@ -29,7 +29,7 @@ class MasterTournamentCombiner:
         # Find all tournament lineup files
         lineup_files = list(self.slate_dir.glob("*tournament_lineups_*.csv"))
         
-        print(f"📊 Found {len(lineup_files)} tournament lineup files:")
+        print(f"DATA: Found {len(lineup_files)} tournament lineup files:")
         
         for file in lineup_files:
             try:
@@ -49,24 +49,24 @@ class MasterTournamentCombiner:
                 df['Source_File'] = file.name
                 
                 all_lineups.append(df)
-                print(f"  ✅ {system_type}: {len(df)} lineups from {file.name}")
+                print(f"  SUCCESS: {system_type}: {len(df)} lineups from {file.name}")
                 
             except Exception as e:
-                print(f"  ❌ Error loading {file.name}: {e}")
+                print(f"  ERROR: Error loading {file.name}: {e}")
         
         if not all_lineups:
-            print("❌ No tournament lineup files found!")
+            print("ERROR: No tournament lineup files found!")
             return None
         
         # Combine all lineups
         combined_df = pd.concat(all_lineups, ignore_index=True)
-        print(f"\n📊 Total tournament lineups loaded: {len(combined_df)}")
+        print(f"\nDATA: Total tournament lineups loaded: {len(combined_df)}")
         
         return combined_df
     
     def analyze_lineup_quality(self, df):
         """Analyze and score all lineups for tournament potential"""
-        print(f"\n🎯 ANALYZING LINEUP QUALITY:")
+        print(f"\nTARGET: ANALYZING LINEUP QUALITY:")
         
         # Calculate quality metrics
         df['Ceiling_Score'] = df['Ceiling_FPPG'] / 250  # Target 250+ ceiling
@@ -98,14 +98,14 @@ class MasterTournamentCombiner:
         for system, bonus in system_bonuses.items():
             df.loc[df['System_Type'] == system, 'Tournament_Score'] += bonus
         
-        print(f"  📊 Lineup scoring complete")
-        print(f"  🎯 Top tournament scores: {df['Tournament_Score'].max():.3f} - {df['Tournament_Score'].min():.3f}")
+        print(f"  DATA: Lineup scoring complete")
+        print(f"  TARGET: Top tournament scores: {df['Tournament_Score'].max():.3f} - {df['Tournament_Score'].min():.3f}")
         
         return df
     
     def select_master_portfolio(self, df, target_lineups=15):
         """Select the ultimate tournament portfolio"""
-        print(f"\n🏆 SELECTING MASTER TOURNAMENT PORTFOLIO:")
+        print(f"\nLINEUP: SELECTING MASTER TOURNAMENT PORTFOLIO:")
         print(f"Target: {target_lineups} elite lineups for maximum tournament potential")
         
         selected_lineups = []
@@ -115,13 +115,13 @@ class MasterTournamentCombiner:
         # Sort by tournament score
         df_sorted = df.sort_values('Tournament_Score', ascending=False)
         
-        print(f"\n🎯 SELECTION CRITERIA:")
+        print(f"\nTARGET: SELECTION CRITERIA:")
         print(f"  1. Tournament Score (ceiling, projection, upside)")
         print(f"  2. Stack Diversity (max 3 per team)")
         print(f"  3. System Representation")
         print(f"  4. Strategy Balance")
         
-        print(f"\n🔍 LINEUP SELECTION PROCESS:")
+        print(f"\n LINEUP SELECTION PROCESS:")
         
         for idx, lineup in df_sorted.iterrows():
             if len(selected_lineups) >= target_lineups:
@@ -146,19 +146,19 @@ class MasterTournamentCombiner:
             used_teams[team] += 1
             used_strategies[system] += 1
             
-            print(f"  ✅ #{len(selected_lineups):2d}: {lineup['Lineup_ID']} ({system}) | {lineup['Stack_Team']} stack | {lineup['Tournament_Score']:.3f} score")
+            print(f"  SUCCESS: #{len(selected_lineups):2d}: {lineup['Lineup_ID']} ({system}) | {lineup['Stack_Team']} stack | {lineup['Tournament_Score']:.3f} score")
         
-        print(f"\n📊 PORTFOLIO COMPOSITION:")
-        print(f"  📋 Total lineups selected: {len(selected_lineups)}")
+        print(f"\nDATA: PORTFOLIO COMPOSITION:")
+        print(f"  INFO: Total lineups selected: {len(selected_lineups)}")
         
         # System breakdown
-        print(f"  🎯 System representation:")
+        print(f"  TARGET: System representation:")
         for system, count in used_strategies.items():
             percentage = count / len(selected_lineups) * 100
             print(f"    {system}: {count} lineups ({percentage:.1f}%)")
         
         # Team breakdown
-        print(f"  🏈 Team stack diversity:")
+        print(f"   Team stack diversity:")
         for team, count in sorted(used_teams.items(), key=lambda x: x[1], reverse=True):
             print(f"    {team}: {count} lineups")
         
@@ -166,7 +166,7 @@ class MasterTournamentCombiner:
     
     def create_master_export(self, selected_lineups):
         """Create the master tournament export"""
-        print(f"\n📄 CREATING MASTER TOURNAMENT EXPORT:")
+        print(f"\n CREATING MASTER TOURNAMENT EXPORT:")
         
         # Convert to DataFrame
         master_df = pd.DataFrame(selected_lineups)
@@ -191,68 +191,68 @@ class MasterTournamentCombiner:
         filepath = self.slate_dir / filename
         
         master_df.to_csv(filepath, index=False)
-        print(f"✅ Master portfolio exported: {filename}")
+        print(f"SUCCESS: Master portfolio exported: {filename}")
         
         return master_df, filepath
     
     def analyze_master_portfolio(self, master_df):
         """Analyze the final master portfolio"""
-        print(f"\n🏆 MASTER PORTFOLIO ANALYSIS:")
+        print(f"\nLINEUP: MASTER PORTFOLIO ANALYSIS:")
         
         # Performance metrics
         ceiling_scores = master_df['Ceiling_FPPG'].values
         projection_scores = master_df['Projected_FPPG'].values
         tournament_scores = master_df['Tournament_Score'].values
         
-        print(f"  📊 PERFORMANCE METRICS:")
-        print(f"    🚀 Ceiling Range: {ceiling_scores.min():.1f} - {ceiling_scores.max():.1f} FPPG")
-        print(f"    📈 Projection Range: {projection_scores.min():.1f} - {projection_scores.max():.1f} FPPG")
-        print(f"    🎯 Average Ceiling: {ceiling_scores.mean():.1f} FPPG")
-        print(f"    📊 Average Projection: {projection_scores.mean():.1f} FPPG")
+        print(f"  DATA: PERFORMANCE METRICS:")
+        print(f"    START: Ceiling Range: {ceiling_scores.min():.1f} - {ceiling_scores.max():.1f} FPPG")
+        print(f"    PROGRESS: Projection Range: {projection_scores.min():.1f} - {projection_scores.max():.1f} FPPG")
+        print(f"    TARGET: Average Ceiling: {ceiling_scores.mean():.1f} FPPG")
+        print(f"    DATA: Average Projection: {projection_scores.mean():.1f} FPPG")
         
         # Tournament competitiveness
         elite_lineups = sum(1 for c in ceiling_scores if c >= 235)
         competitive_lineups = sum(1 for c in ceiling_scores if c >= 225)
         total_lineups = len(ceiling_scores)
         
-        print(f"\n🎯 TOURNAMENT COMPETITIVENESS:")
-        print(f"    ⭐ 235+ ceiling lineups: {elite_lineups}/{total_lineups} ({elite_lineups/total_lineups*100:.0f}%)")
-        print(f"    💪 225+ ceiling lineups: {competitive_lineups}/{total_lineups} ({competitive_lineups/total_lineups*100:.0f}%)")
+        print(f"\nTARGET: TOURNAMENT COMPETITIVENESS:")
+        print(f"     235+ ceiling lineups: {elite_lineups}/{total_lineups} ({elite_lineups/total_lineups*100:.0f}%)")
+        print(f"     225+ ceiling lineups: {competitive_lineups}/{total_lineups} ({competitive_lineups/total_lineups*100:.0f}%)")
         
         # Diversity analysis
         unique_teams = master_df['Stack_Team'].nunique()
         unique_systems = master_df['System_Type'].nunique()
         
-        print(f"\n📊 PORTFOLIO DIVERSITY:")
-        print(f"    🏈 Team stacks: {unique_teams} different teams")
-        print(f"    🎯 System types: {unique_systems} different systems")
+        print(f"\nDATA: PORTFOLIO DIVERSITY:")
+        print(f"     Team stacks: {unique_teams} different teams")
+        print(f"    TARGET: System types: {unique_systems} different systems")
         
         # Risk assessment
         avg_upside = master_df['Upside_Ratio'].mean()
         
-        print(f"\n⚡ UPSIDE POTENTIAL:")
-        print(f"    🚀 Average upside ratio: {avg_upside:.1f}x")
-        print(f"    💥 Ceiling potential: {ceiling_scores.mean():.1f} FPPG average")
+        print(f"\n UPSIDE POTENTIAL:")
+        print(f"    START: Average upside ratio: {avg_upside:.1f}x")
+        print(f"     Ceiling potential: {ceiling_scores.mean():.1f} FPPG average")
         
         # Tournament readiness rating
         if elite_lineups >= total_lineups * 0.6:
-            rating = "LEGENDARY 👑"
+            rating = "LEGENDARY "
         elif competitive_lineups >= total_lineups * 0.8:
-            rating = "ELITE ⭐"
+            rating = "ELITE "
         elif competitive_lineups >= total_lineups * 0.6:
-            rating = "STRONG 💪"
+            rating = "STRONG "
         else:
-            rating = "GOOD ✅"
+            rating = "GOOD SUCCESS:"
         
-        print(f"\n🏆 TOURNAMENT READINESS: {rating}")
+        print(f"\nLINEUP: TOURNAMENT READINESS: {rating}")
         
         # Top 5 lineups showcase
-        print(f"\n🌟 TOP 5 MASTER LINEUPS:")
+        print(f"\n TOP 5 MASTER LINEUPS:")
         top_lineups = master_df.nlargest(5, 'Tournament_Score')
         
         for i, (_, lineup) in enumerate(top_lineups.iterrows(), 1):
             print(f"  {i}. {lineup['Lineup_ID']} ({lineup['System_Type']})")
-            print(f"     {lineup['Projected_FPPG']:.1f} proj → {lineup['Ceiling_FPPG']:.1f} ceil | {lineup['Stack_Team']} stack | Score: {lineup['Tournament_Score']:.3f}")
+            print(f"     {lineup['Projected_FPPG']:.1f} proj  {lineup['Ceiling_FPPG']:.1f} ceil | {lineup['Stack_Team']} stack | Score: {lineup['Tournament_Score']:.3f}")
         
         return {
             'avg_ceiling': ceiling_scores.mean(),
@@ -266,7 +266,7 @@ class MasterTournamentCombiner:
     
     def run_master_combination(self):
         """Run the complete master tournament combination"""
-        print("🏆 MASTER TOURNAMENT COMBINER")
+        print("LINEUP: MASTER TOURNAMENT COMBINER")
         print("Selecting the ultimate tournament portfolio from all systems")
         print("="*80)
         
@@ -275,7 +275,7 @@ class MasterTournamentCombiner:
             all_lineups_df = self.load_all_tournament_lineups()
             
             if all_lineups_df is None or len(all_lineups_df) == 0:
-                print("❌ No tournament lineups found to combine!")
+                print("ERROR: No tournament lineups found to combine!")
                 return
             
             # Analyze lineup quality
@@ -285,7 +285,7 @@ class MasterTournamentCombiner:
             selected_lineups = self.select_master_portfolio(analyzed_df, target_lineups=15)
             
             if not selected_lineups:
-                print("❌ Failed to select master portfolio!")
+                print("ERROR: Failed to select master portfolio!")
                 return
             
             # Create master export
@@ -294,11 +294,11 @@ class MasterTournamentCombiner:
             # Analyze final portfolio
             portfolio_stats = self.analyze_master_portfolio(master_df)
             
-            print(f"\n🎉 MASTER COMBINATION COMPLETE!")
-            print(f"🏆 Created ultimate tournament portfolio: {len(selected_lineups)} lineups")
-            print(f"🎯 Tournament Rating: {portfolio_stats['tournament_rating']}")
-            print(f"📊 Average Ceiling: {portfolio_stats['avg_ceiling']:.1f} FPPG")
-            print(f"⚡ Ready to dominate tournaments!")
+            print(f"\nCOMPLETE: MASTER COMBINATION COMPLETE!")
+            print(f"LINEUP: Created ultimate tournament portfolio: {len(selected_lineups)} lineups")
+            print(f"TARGET: Tournament Rating: {portfolio_stats['tournament_rating']}")
+            print(f"DATA: Average Ceiling: {portfolio_stats['avg_ceiling']:.1f} FPPG")
+            print(f" Ready to dominate tournaments!")
             
             return filepath
             
@@ -308,7 +308,7 @@ class MasterTournamentCombiner:
             traceback.print_exc()
 
 def main():
-    print("🏆 MASTER TOURNAMENT COMBINER")
+    print("LINEUP: MASTER TOURNAMENT COMBINER")
     print("Creating the ultimate tournament portfolio")
     print("="*80)
     

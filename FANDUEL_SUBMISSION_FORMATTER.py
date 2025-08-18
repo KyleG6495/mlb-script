@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def create_fanduel_submission():
     """Create proper FanDuel submission format"""
     
-    logger.info("🏆 CREATING FANDUEL SUBMISSION FORMAT")
+    logger.info("LINEUP: CREATING FANDUEL SUBMISSION FORMAT")
     logger.info("=" * 50)
     
     # Load our best lineup
@@ -27,15 +27,15 @@ def create_fanduel_submission():
     try:
         # Load lineup data
         df_lineups = pd.read_csv(lineup_file)
-        logger.info(f"✅ Loaded {len(df_lineups)} lineup rows")
+        logger.info(f"SUCCESS: Loaded {len(df_lineups)} lineup rows")
         
         # Load slate data for player IDs
         df_slate = pd.read_csv(slate_file)
-        logger.info(f"✅ Loaded {len(df_slate)} slate players")
+        logger.info(f"SUCCESS: Loaded {len(df_slate)} slate players")
         
         # Get all unique lineups for submission
         unique_lineups = df_lineups['lineup_id'].unique()
-        logger.info(f"✅ Found {len(unique_lineups)} unique lineups")
+        logger.info(f"SUCCESS: Found {len(unique_lineups)} unique lineups")
         
         # Create player mapping from slate
         slate_mapping = {}
@@ -45,7 +45,7 @@ def create_fanduel_submission():
             if player_name and player_id:
                 slate_mapping[player_name] = player_id
         
-        logger.info(f"✅ Created mapping for {len(slate_mapping)} players")
+        logger.info(f"SUCCESS: Created mapping for {len(slate_mapping)} players")
         
         # Get the best lineup (highest projected points)
         best_lineup_id = df_lineups.groupby('lineup_id')['ml_projected_fppg'].sum().idxmax()
@@ -102,10 +102,10 @@ def create_fanduel_submission():
         output_file = f"../data/FANDUEL_SUBMISSION_{timestamp}.csv"
         df_submission.to_csv(output_file, index=False)
         
-        logger.info("🎯 FANDUEL SUBMISSION CREATED")
+        logger.info("TARGET: FANDUEL SUBMISSION CREATED")
         logger.info("=" * 50)
-        logger.info(f"📁 File: {output_file}")
-        logger.info("\n🏆 LINEUP FOR FANDUEL:")
+        logger.info(f" File: {output_file}")
+        logger.info("\nLINEUP: LINEUP FOR FANDUEL:")
         
         # Show lineup details
         for _, player in best_lineup.iterrows():
@@ -118,8 +118,8 @@ def create_fanduel_submission():
         
         total_salary = best_lineup['salary'].sum()
         total_proj = best_lineup['ml_projected_fppg'].sum()
-        logger.info(f"\n💰 Total Salary: ${total_salary:,}")
-        logger.info(f"📊 Total Projection: {total_proj:.1f} FPPG")
+        logger.info(f"\nMONEY: Total Salary: ${total_salary:,}")
+        logger.info(f"DATA: Total Projection: {total_proj:.1f} FPPG")
         
         # Also create a readable format
         readable_data = []
@@ -136,13 +136,13 @@ def create_fanduel_submission():
         readable_file = f"../data/FANDUEL_LINEUP_READABLE_{timestamp}.csv"
         df_readable.to_csv(readable_file, index=False)
         
-        logger.info(f"📋 Readable format: {readable_file}")
-        logger.info("\n✅ READY FOR FANDUEL SUBMISSION!")
+        logger.info(f"INFO: Readable format: {readable_file}")
+        logger.info("\nSUCCESS: READY FOR FANDUEL SUBMISSION!")
         
         return output_file, readable_file
         
     except Exception as e:
-        logger.error(f"❌ Error creating FanDuel submission: {e}")
+        logger.error(f"ERROR: Error creating FanDuel submission: {e}")
         return None, None
 
 if __name__ == "__main__":

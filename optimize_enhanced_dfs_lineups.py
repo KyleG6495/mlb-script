@@ -182,7 +182,7 @@ class EnhancedDFSOptimizer:
                     'features': available_features
                 }
                 
-                print(f"✓ {component} model trained with {len(available_features)} features")
+                print(f" {component} model trained with {len(available_features)} features")
         
         print(f"Trained {len(self.component_models)} component models")
         
@@ -451,7 +451,7 @@ def main():
     output_path = r'c:\Users\kgone\OneDrive\Personal_Information\MLB\data\enhanced_fanduel_lineups.csv'
     output_df.to_csv(output_path, index=False)
     
-    print(f"\n🚀 Enhanced DFS Optimization Complete!")
+    print(f"\nSTART: Enhanced DFS Optimization Complete!")
     print(f"Generated {len(lineups)} diverse lineups")
     print(f"Saved to: {output_path}")
     print("\nExpected improvements:")

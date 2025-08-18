@@ -21,11 +21,11 @@ def create_pipeline_ready_starters():
     try:
         # Load the starting lineups master file
         starters_df = pd.read_csv('../data/starting_lineups.csv')
-        logger.info(f"📊 Loaded {len(starters_df)} confirmed starters")
+        logger.info(f"DATA: Loaded {len(starters_df)} confirmed starters")
         
         # Load the original FanDuel slate to get full column structure
         original_slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📥 Loaded original slate with {len(original_slate)} players")
+        logger.info(f" Loaded original slate with {len(original_slate)} players")
         
         # Match starters with original slate data using player names
         # Extract first and last names from player_name in starters
@@ -56,12 +56,12 @@ def create_pipeline_ready_starters():
                     unmatched_starters.append(starter['player_name'])
         
         if unmatched_starters:
-            logger.warning(f"⚠️ Could not match {len(unmatched_starters)} starters:")
+            logger.warning(f"WARNING: Could not match {len(unmatched_starters)} starters:")
             for name in unmatched_starters[:5]:  # Show first 5
                 logger.warning(f"   - {name}")
         
         if not matched_starters:
-            logger.error("❌ No starters could be matched with original slate!")
+            logger.error("ERROR: No starters could be matched with original slate!")
             return False
         
         # Convert to DataFrame with original FanDuel structure
@@ -85,43 +85,43 @@ def create_pipeline_ready_starters():
         output_file = '../data/fd_slate_starters_only.csv'
         pipeline_ready_df.to_csv(output_file, index=False)
         
-        logger.info(f"✅ Created pipeline-ready starters file: {output_file}")
-        logger.info(f"📊 Contains {len(pipeline_ready_df)} confirmed starters with full FanDuel structure")
+        logger.info(f"SUCCESS: Created pipeline-ready starters file: {output_file}")
+        logger.info(f"DATA: Contains {len(pipeline_ready_df)} confirmed starters with full FanDuel structure")
         
         # Show position breakdown
         position_counts = pipeline_ready_df['Position'].value_counts()
-        logger.info("🎯 Pipeline-ready starters by position:")
+        logger.info("TARGET: Pipeline-ready starters by position:")
         for pos, count in position_counts.items():
             logger.info(f"   {pos}: {count} players")
         
         return True
         
     except FileNotFoundError as e:
-        logger.error(f"❌ File not found: {e}")
+        logger.error(f"ERROR: File not found: {e}")
         logger.error("   Make sure starting_lineups.csv and fd_slate_today.csv exist")
         return False
     except Exception as e:
-        logger.error(f"❌ Error creating pipeline-ready file: {e}")
+        logger.error(f"ERROR: Error creating pipeline-ready file: {e}")
         return False
 
 def main():
-    logger.info("🔄 CREATING PIPELINE-READY STARTERS FILE")
+    logger.info("SWAP: CREATING PIPELINE-READY STARTERS FILE")
     logger.info("=" * 50)
     
     if create_pipeline_ready_starters():
         logger.info("")
-        logger.info("🎉 SUCCESS!")
-        logger.info("✅ Data pipeline scripts can now use fd_slate_starters_only.csv")
-        logger.info("✅ File maintains full FanDuel column structure")
-        logger.info("✅ Only contains confirmed starters (no bench players)")
+        logger.info("COMPLETE: SUCCESS!")
+        logger.info("SUCCESS: Data pipeline scripts can now use fd_slate_starters_only.csv")
+        logger.info("SUCCESS: File maintains full FanDuel column structure")
+        logger.info("SUCCESS: Only contains confirmed starters (no bench players)")
         logger.info("")
         logger.info("Benefits:")
-        logger.info("• Historical data pulled only for confirmed starters")
-        logger.info("• Weather/park factors only for starters")
-        logger.info("• Faster pipeline execution")
-        logger.info("• No more Drake Baldwin-type issues")
+        logger.info(" Historical data pulled only for confirmed starters")
+        logger.info(" Weather/park factors only for starters")
+        logger.info(" Faster pipeline execution")
+        logger.info(" No more Drake Baldwin-type issues")
     else:
-        logger.error("❌ Failed to create pipeline-ready file")
+        logger.error("ERROR: Failed to create pipeline-ready file")
 
 if __name__ == "__main__":
     main()

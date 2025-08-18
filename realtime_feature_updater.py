@@ -38,7 +38,7 @@ class RealTimeFeatureUpdater:
         
     def check_lineup_changes(self):
         """Monitor for lineup changes throughout the day"""
-        logger.info("👥 Checking for lineup changes...")
+        logger.info("OWNERSHIP: Checking for lineup changes...")
         
         try:
             # Load today's expected lineups
@@ -55,7 +55,7 @@ class RealTimeFeatureUpdater:
                     changes = self.detect_lineup_changes(current_lineups, previous_lineups)
                     
                     if changes:
-                        logger.info(f"🚨 {len(changes)} lineup changes detected!")
+                        logger.info(f" {len(changes)} lineup changes detected!")
                         for change in changes:
                             logger.info(f"   {change}")
                             self.lineup_changes.append({
@@ -70,10 +70,10 @@ class RealTimeFeatureUpdater:
                 current_lineups.to_csv(previous_file, index=False)
                 
             else:
-                logger.warning("❌ No confirmed starters file found")
+                logger.warning("ERROR: No confirmed starters file found")
                 
         except Exception as e:
-            logger.error(f"❌ Error checking lineup changes: {e}")
+            logger.error(f"ERROR: Error checking lineup changes: {e}")
     
     def detect_lineup_changes(self, current_df, previous_df):
         """Detect specific lineup changes"""
@@ -104,13 +104,13 @@ class RealTimeFeatureUpdater:
                 previous_order = previous_row.iloc[0].get('Batting_Order', 0)
                 
                 if current_order != previous_order and current_order > 0 and previous_order > 0:
-                    changes.append(f"BATTING ORDER CHANGE: {player} ({previous_order} → {current_order})")
+                    changes.append(f"BATTING ORDER CHANGE: {player} ({previous_order}  {current_order})")
         
         return changes
     
     def monitor_injury_reports(self):
         """Check for injury report updates"""
-        logger.info("🏥 Checking injury reports...")
+        logger.info(" Checking injury reports...")
         
         try:
             # This would integrate with MLB injury report APIs
@@ -137,7 +137,7 @@ class RealTimeFeatureUpdater:
                         })
                 
                 if questionable_players:
-                    logger.info(f"⚠️ {len(questionable_players)} players with injury concerns:")
+                    logger.info(f"WARNING: {len(questionable_players)} players with injury concerns:")
                     for player_info in questionable_players:
                         logger.info(f"   {player_info['player']} ({player_info['team']}) - {player_info['status']}")
                         
@@ -145,11 +145,11 @@ class RealTimeFeatureUpdater:
                         self.adjust_for_injury_risk(player_info)
                 
         except Exception as e:
-            logger.error(f"❌ Error checking injury reports: {e}")
+            logger.error(f"ERROR: Error checking injury reports: {e}")
     
     def update_weather_conditions(self):
         """Update weather conditions for all games"""
-        logger.info("🌤️ Updating weather conditions...")
+        logger.info(" Updating weather conditions...")
         
         try:
             # Load enhanced weather analytics
@@ -177,7 +177,7 @@ class RealTimeFeatureUpdater:
                         wind_change = abs(current_weather['wind_speed'] - prev_weather['wind_speed'])
                         
                         if temp_change > 10:  # 10+ degree change
-                            significant_changes.append(f"{team}: Temperature changed by {temp_change:.0f}°F")
+                            significant_changes.append(f"{team}: Temperature changed by {temp_change:.0f}F")
                         
                         if wind_change > 5:  # 5+ mph wind change
                             significant_changes.append(f"{team}: Wind changed by {wind_change:.0f} mph")
@@ -185,7 +185,7 @@ class RealTimeFeatureUpdater:
                     weather_updates[team] = current_weather
                 
                 if significant_changes:
-                    logger.info("🌪️ Significant weather changes detected:")
+                    logger.info(" Significant weather changes detected:")
                     for change in significant_changes:
                         logger.info(f"   {change}")
                     
@@ -195,11 +195,11 @@ class RealTimeFeatureUpdater:
                 self.weather_updates = weather_updates
                 
         except Exception as e:
-            logger.error(f"❌ Error updating weather: {e}")
+            logger.error(f"ERROR: Error updating weather: {e}")
     
     def track_line_movements(self):
         """Monitor sportsbook line movements"""
-        logger.info("📈 Tracking line movements...")
+        logger.info("PROGRESS: Tracking line movements...")
         
         try:
             # Load current PrizePicks lines
@@ -215,7 +215,7 @@ class RealTimeFeatureUpdater:
                     line_changes = self.detect_line_movements(current_lines, prev_lines)
                     
                     if line_changes:
-                        logger.info(f"📊 {len(line_changes)} line movements detected:")
+                        logger.info(f"DATA: {len(line_changes)} line movements detected:")
                         for change in line_changes:
                             logger.info(f"   {change}")
                             
@@ -232,7 +232,7 @@ class RealTimeFeatureUpdater:
                 current_lines.to_excel(prev_lines_file, index=False)
                 
         except Exception as e:
-            logger.error(f"❌ Error tracking line movements: {e}")
+            logger.error(f"ERROR: Error tracking line movements: {e}")
     
     def detect_line_movements(self, current_df, prev_df):
         """Detect significant line movements"""
@@ -261,7 +261,7 @@ class RealTimeFeatureUpdater:
                             change_amount = current_line - prev_line
                             direction = "increased" if change_amount > 0 else "decreased"
                             movements.append(
-                                f"{player} {stat}: {prev_line} → {current_line} ({direction} by {abs(change_amount)})"
+                                f"{player} {stat}: {prev_line}  {current_line} ({direction} by {abs(change_amount)})"
                             )
         
         return movements
@@ -298,26 +298,26 @@ class RealTimeFeatureUpdater:
                     # Save updated predictions
                     df.to_csv(predictions_file, index=False)
                     
-                    logger.info(f"🏥 Adjusted predictions for {player_name} (injury risk: {status})")
+                    logger.info(f" Adjusted predictions for {player_name} (injury risk: {status})")
                     
         except Exception as e:
-            logger.error(f"❌ Error adjusting for injury risk: {e}")
+            logger.error(f"ERROR: Error adjusting for injury risk: {e}")
     
     def regenerate_weather_predictions(self):
         """Regenerate predictions with updated weather"""
-        logger.info("🔄 Regenerating weather-enhanced predictions...")
+        logger.info("SWAP: Regenerating weather-enhanced predictions...")
         
         try:
             # Run the weather analytics script
             os.system("python enhanced_weather_analytics.py")
-            logger.info("✅ Weather predictions regenerated")
+            logger.info("SUCCESS: Weather predictions regenerated")
             
         except Exception as e:
-            logger.error(f"❌ Error regenerating weather predictions: {e}")
+            logger.error(f"ERROR: Error regenerating weather predictions: {e}")
     
     def update_affected_predictions(self, lineup_changes):
         """Update predictions for players affected by lineup changes"""
-        logger.info("🔄 Updating predictions for lineup changes...")
+        logger.info("SWAP: Updating predictions for lineup changes...")
         
         try:
             # For significant lineup changes, regenerate predictions
@@ -325,16 +325,16 @@ class RealTimeFeatureUpdater:
                                  'NEW STARTER' in change or 'BATTING ORDER' in change]
             
             if significant_changes:
-                logger.info("🔄 Significant changes detected - regenerating all predictions")
+                logger.info("SWAP: Significant changes detected - regenerating all predictions")
                 os.system("python enhanced_automated_betting_system.py")
-                logger.info("✅ Predictions updated for lineup changes")
+                logger.info("SUCCESS: Predictions updated for lineup changes")
                 
         except Exception as e:
-            logger.error(f"❌ Error updating predictions: {e}")
+            logger.error(f"ERROR: Error updating predictions: {e}")
     
     def run_update_cycle(self):
         """Run complete update cycle"""
-        logger.info("🔄 Running real-time update cycle...")
+        logger.info("SWAP: Running real-time update cycle...")
         
         try:
             # Check all real-time factors
@@ -346,21 +346,21 @@ class RealTimeFeatureUpdater:
             # Generate summary
             self.generate_update_summary()
             
-            logger.info("✅ Update cycle completed successfully")
+            logger.info("SUCCESS: Update cycle completed successfully")
             
         except Exception as e:
-            logger.error(f"❌ Error in update cycle: {e}")
+            logger.error(f"ERROR: Error in update cycle: {e}")
     
     def generate_update_summary(self):
         """Generate summary of all updates"""
-        logger.info("\n📋 REAL-TIME UPDATE SUMMARY")
+        logger.info("\nINFO: REAL-TIME UPDATE SUMMARY")
         logger.info("=" * 30)
         
-        logger.info(f"🕐 Update time: {datetime.now().strftime('%H:%M:%S')}")
-        logger.info(f"👥 Lineup changes tracked: {len(self.lineup_changes)}")
-        logger.info(f"🏥 Injury updates: {len(self.injury_updates)}")
-        logger.info(f"🌤️ Weather updates: {len(self.weather_updates)} teams")
-        logger.info(f"📊 Line movements: {len(self.line_movements)}")
+        logger.info(f"TIME: Update time: {datetime.now().strftime('%H:%M:%S')}")
+        logger.info(f"OWNERSHIP: Lineup changes tracked: {len(self.lineup_changes)}")
+        logger.info(f" Injury updates: {len(self.injury_updates)}")
+        logger.info(f" Weather updates: {len(self.weather_updates)} teams")
+        logger.info(f"DATA: Line movements: {len(self.line_movements)}")
         
         # Save summary to file
         summary = {
@@ -377,7 +377,7 @@ class RealTimeFeatureUpdater:
 
 def run_continuous_updates(update_interval_minutes=30):
     """Run continuous updates throughout the day"""
-    logger.info(f"🚀 Starting continuous real-time updates (every {update_interval_minutes} minutes)")
+    logger.info(f"START: Starting continuous real-time updates (every {update_interval_minutes} minutes)")
     
     updater = RealTimeFeatureUpdater()
     
@@ -400,11 +400,11 @@ def run_continuous_updates(update_interval_minutes=30):
         while True:
             time.sleep(60)  # Check every minute
     except KeyboardInterrupt:
-        logger.info("🛑 Real-time updates stopped by user")
+        logger.info(" Real-time updates stopped by user")
 
 def main():
     """Main real-time updater execution"""
-    print("🔄 REAL-TIME FEATURE UPDATE SYSTEM")
+    print("SWAP: REAL-TIME FEATURE UPDATE SYSTEM")
     print("=" * 40)
     
     updater = RealTimeFeatureUpdater()
@@ -419,8 +419,8 @@ def main():
         # Run single update cycle
         print("Running single update cycle...")
         updater.run_update_cycle()
-        print("\n✅ Single update cycle completed")
-        print("💡 Use --continuous [minutes] for ongoing updates")
+        print("\nSUCCESS: Single update cycle completed")
+        print("TIP: Use --continuous [minutes] for ongoing updates")
 
 if __name__ == "__main__":
     main()

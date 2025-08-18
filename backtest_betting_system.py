@@ -15,10 +15,10 @@ def run_backtest(start_date, end_date, min_edge=0.05):
     
     # Load models
     if not system.load_all_models():
-        print("❌ Failed to load models")
+        print("ERROR: Failed to load models")
         return
     
-    print(f"🔬 Running backtest from {start_date} to {end_date}")
+    print(f" Running backtest from {start_date} to {end_date}")
     
     # Track results
     backtest_results = []
@@ -31,7 +31,7 @@ def run_backtest(start_date, end_date, min_edge=0.05):
     
     while current_date <= end_date:
         date_str = current_date.strftime('%Y-%m-%d')
-        print(f"📅 Testing {date_str}")
+        print(f" Testing {date_str}")
         
         try:
             # Generate predictions
@@ -49,17 +49,17 @@ def run_backtest(start_date, end_date, min_edge=0.05):
                     daily_results = simulate_betting_results(opportunities, date_str)
                     backtest_results.extend(daily_results)
                     
-                    print(f"  📊 {len(opportunities)} opportunities found")
+                    print(f"  DATA: {len(opportunities)} opportunities found")
                 
         except Exception as e:
-            print(f"  ❌ Error on {date_str}: {e}")
+            print(f"  ERROR: Error on {date_str}: {e}")
         
         current_date += timedelta(days=1)
     
     # Generate backtest report
     if backtest_results:
         df = pd.DataFrame(backtest_results)
-        print(f"\n🏆 BACKTEST RESULTS:")
+        print(f"\nLINEUP: BACKTEST RESULTS:")
         print(f"Total Bets: {len(df)}")
         print(f"Win Rate: {df['won'].mean():.1%}")
         print(f"Total Profit: ${df['profit'].sum():.2f}")
@@ -67,7 +67,7 @@ def run_backtest(start_date, end_date, min_edge=0.05):
         
         # Save results
         df.to_csv(f"backtest_results_{start_date}_{end_date}.csv", index=False)
-        print(f"✅ Results saved to backtest_results_{start_date}_{end_date}.csv")
+        print(f"SUCCESS: Results saved to backtest_results_{start_date}_{end_date}.csv")
 
 def simulate_betting_results(opportunities, date_str):
     """

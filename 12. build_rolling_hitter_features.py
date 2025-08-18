@@ -8,7 +8,7 @@ INPUT_PATH = "../data/hitter_boxscores_full.csv"
 OUTPUT_PATH = "../data/hitter_rolling_5game_features.csv"
 
 # Load hitter game logs
-logging.info(f"📥 Loading hitter box scores from {INPUT_PATH}")
+logging.info(f" Loading hitter box scores from {INPUT_PATH}")
 df = pd.read_csv(INPUT_PATH)
 
 # Ensure correct date format and sort
@@ -27,7 +27,7 @@ rolling_cols = [col for col in all_rolling_cols if col in df.columns]
 # Log missing columns if any
 missing = set(all_rolling_cols) - set(rolling_cols)
 if missing:
-    logging.warning(f"⚠️ Missing columns excluded from rolling stats: {missing}")
+    logging.warning(f"WARNING: Missing columns excluded from rolling stats: {missing}")
 
 # Ensure numeric and clean
 for col in rolling_cols:
@@ -48,4 +48,4 @@ rolling["name"] = df["name"].values
 # Save
 rolling = rolling[["player_id", "name", "date"] + rolling_cols]
 rolling.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"✅ Saved rolling 5-game averages → {OUTPUT_PATH} with {len(rolling)} rows")
+logging.info(f"SUCCESS: Saved rolling 5-game averages  {OUTPUT_PATH} with {len(rolling)} rows")

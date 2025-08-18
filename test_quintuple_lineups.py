@@ -11,7 +11,7 @@ from datetime import datetime
 def main():
     """Test quintuple lineups performance"""
     
-    print("🎯 TESTING IMPROVED QUINTUPLE LINEUPS")
+    print("TARGET: TESTING IMPROVED QUINTUPLE LINEUPS")
     print("=" * 50)
     
     # Load our improved quintuple lineups
@@ -20,9 +20,9 @@ def main():
     
     try:
         lineups = pd.read_csv(quintuple_file)
-        print(f"   ✅ Loaded {len(lineups)} players from quintuple lineups")
+        print(f"   SUCCESS: Loaded {len(lineups)} players from quintuple lineups")
     except FileNotFoundError:
-        print(f"   ❌ File not found: {quintuple_file}")
+        print(f"   ERROR: File not found: {quintuple_file}")
         return
     
     # Load actual results
@@ -30,8 +30,8 @@ def main():
     actual_file = "../data/actual_results_latest.csv"
     actual = pd.read_csv(actual_file)
     actual['FPPG'] = actual['fanduel_points']
-    print(f"   ✅ Loaded {len(actual)} actual player results")
-    print(f"   📊 FPPG range: {actual['FPPG'].min():.1f} - {actual['FPPG'].max():.1f}")
+    print(f"   SUCCESS: Loaded {len(actual)} actual player results")
+    print(f"   DATA: FPPG range: {actual['FPPG'].min():.1f} - {actual['FPPG'].max():.1f}")
     
     # Test each lineup
     print("\n3. TESTING LINEUP PERFORMANCE...")
@@ -41,7 +41,7 @@ def main():
     print("\n4. GENERATING QUINTUPLE REPORT...")
     save_quintuple_report(results)
     
-    print("\n🎯 QUINTUPLE LINEUPS TEST COMPLETE!")
+    print("\nTARGET: QUINTUPLE LINEUPS TEST COMPLETE!")
 
 def test_quintuple_performance(lineups, actual):
     """Test quintuple lineup performance"""
@@ -65,7 +65,7 @@ def test_quintuple_performance(lineups, actual):
         total_actual = 0
         matched_details = []
         
-        print(f"\n   🏆 {lineup_type.upper()} LINEUP:")
+        print(f"\n   LINEUP: {lineup_type.upper()} LINEUP:")
         print(f"   Projected Total: {total_projected:.1f} FPPG")
         print(f"   Salary: ${total_salary:,}")
         
@@ -100,9 +100,9 @@ def test_quintuple_performance(lineups, actual):
                     'salary': player['Salary'],
                     'team': player['Team']
                 })
-                print(f"   ✅ {player['Player']}: {player['Projected_FPPG']:.1f} → {best_match['FPPG']:.1f} FPPG")
+                print(f"   SUCCESS: {player['Player']}: {player['Projected_FPPG']:.1f}  {best_match['FPPG']:.1f} FPPG")
             else:
-                print(f"   ❌ {player['Player']}: {player['Projected_FPPG']:.1f} → NOT FOUND")
+                print(f"   ERROR: {player['Player']}: {player['Projected_FPPG']:.1f}  NOT FOUND")
         
         accuracy = (total_actual / total_projected * 100) if total_projected > 0 else 0
         
@@ -117,8 +117,8 @@ def test_quintuple_performance(lineups, actual):
             'matched_players': matched_details
         })
         
-        print(f"   📊 RESULT: {accuracy:.1f}% accuracy, {players_found}/{len(lineup_players)} players found")
-        print(f"   🎯 Actual Total: {total_actual:.1f} FPPG")
+        print(f"   DATA: RESULT: {accuracy:.1f}% accuracy, {players_found}/{len(lineup_players)} players found")
+        print(f"   TARGET: Actual Total: {total_actual:.1f} FPPG")
     
     return results
 
@@ -127,10 +127,10 @@ def save_quintuple_report(results):
     
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     
-    print(f"\n   🎯 QUINTUPLE LINEUP RESULTS SUMMARY:")
+    print(f"\n   TARGET: QUINTUPLE LINEUP RESULTS SUMMARY:")
     
     for result in results:
-        print(f"\n   🏆 {result['lineup_type'].upper()}:")
+        print(f"\n   LINEUP: {result['lineup_type'].upper()}:")
         print(f"      Projected: {result['projected_fppg']:.1f} FPPG")
         print(f"      Actual: {result['actual_fppg']:.1f} FPPG")
         print(f"      Accuracy: {result['accuracy_pct']:.1f}%")
@@ -144,7 +144,7 @@ def save_quintuple_report(results):
         avg_projected = sum(r['projected_fppg'] for r in results) / len(results)
         avg_actual = sum(r['actual_fppg'] for r in results) / len(results)
         
-        print(f"\n   📊 OVERALL QUINTUPLE PERFORMANCE:")
+        print(f"\n   DATA: OVERALL QUINTUPLE PERFORMANCE:")
         print(f"      Average Accuracy: {avg_accuracy:.1f}%")
         print(f"      Average Players Found: {avg_players_found:.1f}/9")
         print(f"      Average Projected: {avg_projected:.1f} FPPG")
@@ -154,25 +154,25 @@ def save_quintuple_report(results):
         results_df = pd.DataFrame(results)
         results_file = f"../data/quintuple_test_results_{timestamp}.csv"
         results_df.to_csv(results_file, index=False)
-        print(f"\n   💾 Results saved to: {results_file}")
+        print(f"\n    Results saved to: {results_file}")
         
         # Key insights
-        print(f"\n   🔍 KEY INSIGHTS:")
+        print(f"\n    KEY INSIGHTS:")
         if avg_accuracy > 50:
-            print(f"      ✅ GOOD: Conservative approach showing solid accuracy")
+            print(f"      SUCCESS: GOOD: Conservative approach showing solid accuracy")
         elif avg_accuracy > 20:
-            print(f"      🔄 MODERATE: Better than old system, room for improvement")
+            print(f"      SWAP: MODERATE: Better than old system, room for improvement")
         else:
-            print(f"      ❌ POOR: Still need methodology improvements")
+            print(f"      ERROR: POOR: Still need methodology improvements")
         
         if avg_players_found > 5:
-            print(f"      ✅ GOOD: Player matching working reasonably well")
+            print(f"      SUCCESS: GOOD: Player matching working reasonably well")
         else:
-            print(f"      ❌ ISSUE: Player matching still needs work")
+            print(f"      ERROR: ISSUE: Player matching still needs work")
         
         # Compare to old system
-        print(f"      📈 vs OLD SYSTEM: Conservative projections are more realistic")
-        print(f"      🎯 vs OLD SYSTEM: Better player diversification")
+        print(f"      PROGRESS: vs OLD SYSTEM: Conservative projections are more realistic")
+        print(f"      TARGET: vs OLD SYSTEM: Better player diversification")
 
 if __name__ == "__main__":
     main()

@@ -30,7 +30,7 @@ logging.basicConfig(
 
 def fetch_game_pk(player_id: str, season: int) -> int | None:
     """
-    Query MLB Stats API via /stats?stats=gameLog for a player’s hitting logs in the given season,
+    Query MLB Stats API via /stats?stats=gameLog for a players hitting logs in the given season,
     return the gamePk for their most recent game (if any).
     """
     # Normalize player_id and skip if invalid
@@ -64,25 +64,25 @@ def fetch_game_pk(player_id: str, season: int) -> int | None:
 def main():
     # 1) Load hitters list
     hitters = pd.read_csv(HITTERS_FILE, dtype={"player_id": str})
-    logging.info(f"📂 Loaded {len(hitters)} rows from {HITTERS_FILE}")
-    logging.info(f"📂 Columns: {hitters.columns.tolist()}")
+    logging.info(f" Loaded {len(hitters)} rows from {HITTERS_FILE}")
+    logging.info(f" Columns: {hitters.columns.tolist()}")
 
     # Drop any rows lacking a player_id
     hitters = hitters.dropna(subset=["player_id"])
-    logging.info(f"✂️ Dropped rows with missing player_id; {len(hitters)} remaining")
+    logging.info(f" Dropped rows with missing player_id; {len(hitters)} remaining")
 
     # 2) Determine season
     if "game_date" in hitters.columns:
         hitters["game_date"] = pd.to_datetime(hitters["game_date"])
         season = hitters["game_date"].dt.year.iloc[0]
-        logging.info(f"ℹ️ Inferred season {season} from game_date column")
+        logging.info(f" Inferred season {season} from game_date column")
     else:
         season = datetime.datetime.now().year
-        logging.warning(f"⚠️ No game_date column; defaulting to current season {season}")
+        logging.warning(f"WARNING: No game_date column; defaulting to current season {season}")
 
     # 3) Fetch game_pks
     rows, failed = [], []
-    logging.info(f"🔄 Fetching most recent game_pk for {len(hitters)} hitters...")
+    logging.info(f"SWAP: Fetching most recent game_pk for {len(hitters)} hitters...")
     for _, row in tqdm(hitters.iterrows(), total=len(hitters)):
         gp = fetch_game_pk(row["player_id"], season)
         if gp:
@@ -95,15 +95,15 @@ def main():
             failed.append(row["player_id"])
 
     # 4) Save failures
-    logging.info(f"⚠️ {len(failed)} rows have no game_pk")
+    logging.info(f"WARNING: {len(failed)} rows have no game_pk")
     if failed:
-        logging.info(f"📝 Saving failed IDs to {FAILED_IDS_FILE}")
+        logging.info(f" Saving failed IDs to {FAILED_IDS_FILE}")
         with open(FAILED_IDS_FILE, "w") as f:
             json.dump(failed, f, indent=2)
 
     # 5) Write mapping CSV
     pd.DataFrame(rows).to_csv(OUTPUT_MAP, index=False)
-    logging.info(f"✅ Saved {len(rows)} rows to {OUTPUT_MAP}")
+    logging.info(f"SUCCESS: Saved {len(rows)} rows to {OUTPUT_MAP}")
 
 if __name__ == "__main__":
     main()

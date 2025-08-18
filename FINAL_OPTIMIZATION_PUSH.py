@@ -6,7 +6,7 @@ from datetime import datetime
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("🎯 FINAL OPTIMIZATION PUSH")
+print("TARGET: FINAL OPTIMIZATION PUSH")
 print("Last attempt to find 150+ FPPG lineup using micro-optimizations")
 print("="*80)
 
@@ -23,7 +23,7 @@ SALARY_CAP = 35000
 def micro_optimize_lineup():
     """Try micro-optimizations to squeeze out maximum FPPG"""
     
-    logging.info("🔬 MICRO-OPTIMIZATION ANALYSIS")
+    logging.info(" MICRO-OPTIMIZATION ANALYSIS")
     logging.info("="*60)
     
     # Get the best combinations we've found
@@ -42,7 +42,7 @@ def micro_optimize_lineup():
             continue
         pitcher = pitcher_row.iloc[0]
         
-        logging.info(f"\n🎯 Optimizing around {pitcher_name} (${pitcher['Salary']:,} | {pitcher['FPPG']:.1f} FPPG)")
+        logging.info(f"\nTARGET: Optimizing around {pitcher_name} (${pitcher['Salary']:,} | {pitcher['FPPG']:.1f} FPPG)")
         
         remaining_budget = SALARY_CAP - pitcher['Salary']
         
@@ -53,7 +53,7 @@ def micro_optimize_lineup():
             total_fppg = pitcher['FPPG'] + best_combo['total_fppg']
             total_salary = pitcher['Salary'] + best_combo['total_salary']
             
-            logging.info(f"   💎 Best combo: {total_fppg:.1f} FPPG | ${total_salary:,}")
+            logging.info(f"    Best combo: {total_fppg:.1f} FPPG | ${total_salary:,}")
             
             best_lineups.append({
                 'name': f"{pitcher_name} Optimized",
@@ -64,7 +64,7 @@ def micro_optimize_lineup():
             })
     
     # Try value pitcher + premium hitters approach
-    logging.info(f"\n🎯 Value pitcher + premium hitters strategy")
+    logging.info(f"\nTARGET: Value pitcher + premium hitters strategy")
     value_pitchers = pitchers[pitchers['Salary'] <= 9500].sort_values('FPPG', ascending=False)
     
     for pitcher in value_pitchers.head(5).itertuples():
@@ -78,7 +78,7 @@ def micro_optimize_lineup():
             total_salary = pitcher.Salary + best_combo['total_salary']
             
             if total_fppg > 147:  # Only show promising ones
-                logging.info(f"   💎 {pitcher.Nickname}: {total_fppg:.1f} FPPG | ${total_salary:,}")
+                logging.info(f"    {pitcher.Nickname}: {total_fppg:.1f} FPPG | ${total_salary:,}")
                 
                 best_lineups.append({
                     'name': f"{pitcher.Nickname} Value Strategy",
@@ -116,7 +116,7 @@ def find_absolute_best_hitters(hitters, budget):
     # Generate combinations
     import itertools
     
-    logging.info(f"   🔍 Searching combinations...")
+    logging.info(f"    Searching combinations...")
     
     # Try different OF combinations first (3 OF needed)
     for of_combo in itertools.combinations(position_candidates['OF'], 3):
@@ -163,11 +163,11 @@ def display_final_lineup(lineup_data):
     """Display the final optimized lineup"""
     
     if not lineup_data:
-        logging.info("❌ No lineup found")
+        logging.info("ERROR: No lineup found")
         return
     
-    logging.info(f"\n🏆 {lineup_data['name'].upper()}")
-    logging.info(f"📊 Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
+    logging.info(f"\nLINEUP: {lineup_data['name'].upper()}")
+    logging.info(f"DATA: Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
     logging.info("-" * 60)
     
     if isinstance(lineup_data['pitcher'], dict):
@@ -195,25 +195,25 @@ def display_final_lineup(lineup_data):
             of_count += 1
     
     for pos_label, hitter in sorted_hitters:
-        star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+        star = "" if hitter['Salary'] >= 4000 else ""
         logging.info(f"{pos_label:<3} | {hitter['Nickname']:<20} | {hitter['Team']} | {hitter['Game']:<8} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
     
     # Analysis
-    logging.info(f"\n📊 FINAL ANALYSIS:")
+    logging.info(f"\nDATA: FINAL ANALYSIS:")
     if lineup_data['total_fppg'] >= 153:
-        logging.info("🎉 EXCEEDS 153 FPPG TARGET!")
+        logging.info("COMPLETE: EXCEEDS 153 FPPG TARGET!")
     elif lineup_data['total_fppg'] >= 150:
-        logging.info("🎯 Strong lineup - very close to target")
+        logging.info("TARGET: Strong lineup - very close to target")
     elif lineup_data['total_fppg'] >= 145:
-        logging.info("✅ Solid tournament lineup")
+        logging.info("SUCCESS: Solid tournament lineup")
     else:
-        logging.info("⚠️  Below tournament threshold")
+        logging.info("WARNING:  Below tournament threshold")
     
     gap = 153 - lineup_data['total_fppg']
     if gap > 0:
-        logging.info(f"📈 Gap to 153 FPPG: {gap:.1f}")
+        logging.info(f"PROGRESS: Gap to 153 FPPG: {gap:.1f}")
     else:
-        logging.info(f"📈 Exceeds 153 by: {-gap:.1f}")
+        logging.info(f"PROGRESS: Exceeds 153 by: {-gap:.1f}")
     
     return lineup_data
 
@@ -265,8 +265,8 @@ def save_final_lineup(lineup_data):
     filename = f"../data/FINAL_OPTIMIZED_LINEUP_{timestamp}.csv"
     lineup_df.to_csv(filename, index=False)
     
-    logging.info(f"\n💾 Lineup saved: {filename}")
-    logging.info("📋 Ready for FanDuel upload!")
+    logging.info(f"\n Lineup saved: {filename}")
+    logging.info("INFO: Ready for FanDuel upload!")
 
 def main():
     """Run final optimization"""
@@ -277,26 +277,26 @@ def main():
         final_result = display_final_lineup(best_lineup)
         save_final_lineup(final_result)
         
-        logging.info(f"\n🎯 FINAL VERDICT:")
+        logging.info(f"\nTARGET: FINAL VERDICT:")
         logging.info("="*60)
         
         if best_lineup['total_fppg'] >= 153:
-            logging.info("✅ TARGET ACHIEVED! 153+ FPPG lineup found!")
+            logging.info("SUCCESS: TARGET ACHIEVED! 153+ FPPG lineup found!")
         elif best_lineup['total_fppg'] >= 150:
-            logging.info("🎯 CLOSE! Strong tournament potential")
+            logging.info("TARGET: CLOSE! Strong tournament potential")
         elif best_lineup['total_fppg'] >= 145:
-            logging.info("✅ SOLID! Good tournament lineup")
+            logging.info("SUCCESS: SOLID! Good tournament lineup")
         else:
-            logging.info("⚠️  Below optimal, but still viable")
+            logging.info("WARNING:  Below optimal, but still viable")
         
-        logging.info(f"🏆 Best achievable: {best_lineup['total_fppg']:.1f} FPPG")
+        logging.info(f"LINEUP: Best achievable: {best_lineup['total_fppg']:.1f} FPPG")
         
         if best_lineup['total_fppg'] < 153:
-            logging.info(f"📊 Reality check: 153 FPPG may not be achievable on this slate")
-            logging.info(f"🎯 Our best effort: {best_lineup['total_fppg']:.1f} FPPG")
+            logging.info(f"DATA: Reality check: 153 FPPG may not be achievable on this slate")
+            logging.info(f"TARGET: Our best effort: {best_lineup['total_fppg']:.1f} FPPG")
     
     else:
-        logging.info("❌ Unable to generate optimized lineup")
+        logging.info("ERROR: Unable to generate optimized lineup")
 
 if __name__ == "__main__":
     main()

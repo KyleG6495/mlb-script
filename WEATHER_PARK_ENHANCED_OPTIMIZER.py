@@ -1,5 +1,5 @@
 """
-🏟️🌤️ WEATHER & PARK ENHANCED DFS OPTIMIZER
+ WEATHER & PARK ENHANCED DFS OPTIMIZER
 Combines real weather data with authentic park factors
 Replaces all simulated data with genuine MLB analytics
 """
@@ -98,11 +98,11 @@ class WeatherParkOptimizer:
     def process_comprehensive_enhancements(self, projections_file: str) -> pd.DataFrame:
         """Apply comprehensive weather and park enhancements"""
         
-        print(f"🏟️🌤️ Processing comprehensive weather & park enhancements...")
+        print(f" Processing comprehensive weather & park enhancements...")
         
         # Load projections
         if not os.path.exists(projections_file):
-            print(f"❌ Projections file not found: {projections_file}")
+            print(f"ERROR: Projections file not found: {projections_file}")
             return pd.DataFrame()
             
         df = pd.read_csv(projections_file)
@@ -115,9 +115,9 @@ class WeatherParkOptimizer:
         print(f"   Collecting real weather for {len(teams)} teams...")
         
         for team in teams:
-            print(f"   • {team}...", end=" ")
+            print(f"    {team}...", end=" ")
             weather_data[team] = self.weather_integrator.get_free_weather_data(team)
-            print(f"{weather_data[team]['conditions']} {weather_data[team]['temperature']:.0f}°F")
+            print(f"{weather_data[team]['conditions']} {weather_data[team]['temperature']:.0f}F")
         
         # Process all enhancements
         enhanced_projections = []
@@ -173,7 +173,7 @@ class WeatherParkOptimizer:
         output_file = f"C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\comprehensive_enhanced_projections_{self.timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        print(f"\n✅ Comprehensive enhancements saved: {output_file}")
+        print(f"\nSUCCESS: Comprehensive enhancements saved: {output_file}")
         print(f"   Total players enhanced: {len(enhanced_df)}")
         print(f"   Average improvement: {enhanced_df['improvement_pct'].mean():.1f}%")
         print(f"   Players in elite environments: {len(enhanced_df[enhanced_df['environment_category'] == 'Elite Hitter Environment'])}")
@@ -288,31 +288,31 @@ class WeatherParkOptimizer:
     def generate_environment_report(self, enhanced_df: pd.DataFrame, elite_plays: Dict) -> None:
         """Generate comprehensive environment analysis report"""
         
-        print(f"\n🏟️🌤️ COMPREHENSIVE ENVIRONMENT ANALYSIS")
+        print(f"\n COMPREHENSIVE ENVIRONMENT ANALYSIS")
         print("="*60)
         
         # Environment distribution
         env_dist = enhanced_df['environment_category'].value_counts()
-        print(f"\n🏟️ ENVIRONMENT DISTRIBUTION:")
+        print(f"\n ENVIRONMENT DISTRIBUTION:")
         for env, count in env_dist.items():
             print(f"   {env}: {count} players")
         
         # Top environments for stacking
-        print(f"\n🔥 ELITE STACK OPPORTUNITIES:")
+        print(f"\n ELITE STACK OPPORTUNITIES:")
         for stack in elite_plays['stack_opportunities']:
             print(f"   {stack['team']}: {stack['avg_improvement']:+.1f}% avg boost")
-            print(f"      {stack['environment']} ({stack['conditions']}, {stack['temperature']:.0f}°F)")
+            print(f"      {stack['environment']} ({stack['conditions']}, {stack['temperature']:.0f}F)")
             print(f"      Top players: {', '.join([p['name'] for p in stack['top_players'][:3]])}")
             print()
         
         # Elite individual plays
-        print(f"🏆 TOP ENVIRONMENT PLAYS:")
+        print(f"LINEUP: TOP ENVIRONMENT PLAYS:")
         for play in elite_plays['elite_environment_hitters'][:8]:
             print(f"   {play['name']} ({play['team']}): {play['enhanced_fppg']:.1f} FPPG (+{play['improvement_pct']:.1f}%)")
-            print(f"      ${play['salary']:,} | {play['conditions']}, {play['temperature']:.0f}°F")
+            print(f"      ${play['salary']:,} | {play['conditions']}, {play['temperature']:.0f}F")
         
         # Value plays
-        print(f"\n💎 VALUE ENVIRONMENT PLAYS:")
+        print(f"\n VALUE ENVIRONMENT PLAYS:")
         for play in elite_plays['value_environment_plays']:
             print(f"   {play['name']} ({play['team']}): ${play['salary']:,} | {play['enhanced_fppg']:.1f} FPPG (+{play['improvement_pct']:.1f}%)")
         
@@ -323,14 +323,14 @@ class WeatherParkOptimizer:
             'improvement_pct': 'mean'
         }).sort_values('improvement_pct', ascending=False)
         
-        print(f"\n🌤️ WEATHER CONDITIONS IMPACT:")
+        print(f"\n WEATHER CONDITIONS IMPACT:")
         for (team, conditions), data in weather_summary.head(10).iterrows():
-            impact_emoji = "🔥" if data['improvement_pct'] > 5 else "❄️" if data['improvement_pct'] < -3 else "⚖️"
-            print(f"   {impact_emoji} {team}: {conditions}, {data['temperature']:.0f}°F, {data['wind_speed']:.0f}mph ({data['improvement_pct']:+.1f}%)")
+            impact_emoji = "" if data['improvement_pct'] > 5 else "" if data['improvement_pct'] < -3 else ""
+            print(f"   {impact_emoji} {team}: {conditions}, {data['temperature']:.0f}F, {data['wind_speed']:.0f}mph ({data['improvement_pct']:+.1f}%)")
 
 def main():
     """Main execution function"""
-    print("🏟️🌤️ WEATHER & PARK ENHANCED DFS OPTIMIZER")
+    print(" WEATHER & PARK ENHANCED DFS OPTIMIZER")
     print("="*60)
     
     optimizer = WeatherParkOptimizer()
@@ -350,17 +350,17 @@ def main():
             break
     
     if not input_file:
-        print("❌ No projections file found.")
+        print("ERROR: No projections file found.")
         print("   Please run your base projections first, then re-run this script.")
         return
     
-    print(f"📊 Using projections: {os.path.basename(input_file)}")
+    print(f"DATA: Using projections: {os.path.basename(input_file)}")
     
     # Process comprehensive enhancements
     enhanced_df = optimizer.process_comprehensive_enhancements(input_file)
     
     if enhanced_df.empty:
-        print("❌ Failed to process enhancements")
+        print("ERROR: Failed to process enhancements")
         return
     
     # Identify elite plays
@@ -384,7 +384,7 @@ def main():
             'salary': play['salary'],
             'enhanced_fppg': play['enhanced_fppg'],
             'improvement_pct': play['improvement_pct'],
-            'notes': f"{play['conditions']}, {play['temperature']:.0f}°F"
+            'notes': f"{play['conditions']}, {play['temperature']:.0f}F"
         })
     
     # Add value plays
@@ -402,13 +402,13 @@ def main():
     summary_df = pd.DataFrame(summary_data)
     summary_df.to_csv(summary_file, index=False)
     
-    print(f"\n✅ COMPREHENSIVE WEATHER & PARK INTEGRATION COMPLETE!")
-    print(f"   📈 Enhanced projections: comprehensive_enhanced_projections_{optimizer.timestamp}.csv")
-    print(f"   🏆 Elite plays summary: elite_environment_plays_{optimizer.timestamp}.csv")
-    print(f"   🎯 {len(elite_plays['stack_opportunities'])} elite stack opportunities identified")
-    print(f"   💎 {len(elite_plays['value_environment_plays'])} value plays in good environments")
-    print(f"   🌤️ Real weather data integrated for all teams")
-    print(f"   🏟️ Authentic park factors applied for all 30 stadiums")
+    print(f"\nSUCCESS: COMPREHENSIVE WEATHER & PARK INTEGRATION COMPLETE!")
+    print(f"   PROGRESS: Enhanced projections: comprehensive_enhanced_projections_{optimizer.timestamp}.csv")
+    print(f"   LINEUP: Elite plays summary: elite_environment_plays_{optimizer.timestamp}.csv")
+    print(f"   TARGET: {len(elite_plays['stack_opportunities'])} elite stack opportunities identified")
+    print(f"    {len(elite_plays['value_environment_plays'])} value plays in good environments")
+    print(f"    Real weather data integrated for all teams")
+    print(f"    Authentic park factors applied for all 30 stadiums")
 
 if __name__ == "__main__":
     main()

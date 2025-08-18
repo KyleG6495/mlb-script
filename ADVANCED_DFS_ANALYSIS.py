@@ -76,7 +76,7 @@ class AdvancedDFSTechniques:
         
     def analyze_current_gaps(self):
         """Analyze what we're missing vs. premium services"""
-        print("🔍 ADVANCED DFS OPTIMIZATION ANALYSIS")
+        print(" ADVANCED DFS OPTIMIZATION ANALYSIS")
         print("What premium services like SaberSim do that we don't")
         print("="*70)
         
@@ -184,28 +184,28 @@ class AdvancedDFSTechniques:
             }
         }
         
-        print("🎯 KEY GAPS IN OUR CURRENT APPROACH:")
+        print("TARGET: KEY GAPS IN OUR CURRENT APPROACH:")
         print("="*50)
         
         for category, info in gaps.items():
-            print(f"\n📊 {category.replace('_', ' ')}:")
-            print(f"  📝 {info['description']}")
-            print(f"  💥 Impact: {info['impact']}")
-            print(f"  🔧 Difficulty: {info['difficulty']}")
+            print(f"\nDATA: {category.replace('_', ' ')}:")
+            print(f"   {info['description']}")
+            print(f"   Impact: {info['impact']}")
+            print(f"  STEP: Difficulty: {info['difficulty']}")
             
-            print(f"  🏆 What premium services do:")
+            print(f"  LINEUP: What premium services do:")
             for item in info['what_they_do']:
-                print(f"    ✅ {item}")
+                print(f"    SUCCESS: {item}")
             
-            print(f"  ❌ What we currently do:")
+            print(f"  ERROR: What we currently do:")
             for item in info['what_we_do']:
-                print(f"    ⚠️  {item}")
+                print(f"    WARNING:  {item}")
         
         return gaps
     
     def prioritize_improvements(self, gaps):
         """Prioritize which gaps to address first"""
-        print(f"\n🚀 IMPROVEMENT PRIORITY MATRIX:")
+        print(f"\nSTART: IMPROVEMENT PRIORITY MATRIX:")
         print("="*50)
         
         # Score each gap by impact and feasibility
@@ -228,8 +228,8 @@ class AdvancedDFSTechniques:
         # Sort by priority
         sorted_priorities = sorted(priority_scores.items(), key=lambda x: x[1], reverse=True)
         
-        print("📋 RECOMMENDED IMPLEMENTATION ORDER:")
-        print("   (Impact × Feasibility = Priority Score)")
+        print("INFO: RECOMMENDED IMPLEMENTATION ORDER:")
+        print("   (Impact  Feasibility = Priority Score)")
         
         for i, (category, score) in enumerate(sorted_priorities, 1):
             info = gaps[category]
@@ -237,22 +237,22 @@ class AdvancedDFSTechniques:
             difficulty = info['difficulty'].split(' - ')[0]
             
             if i <= 2:
-                priority = "🥇 HIGH PRIORITY"
+                priority = " HIGH PRIORITY"
             elif i <= 4:
-                priority = "🥈 MEDIUM PRIORITY"
+                priority = " MEDIUM PRIORITY"
             else:
-                priority = "🥉 LOW PRIORITY"
+                priority = " LOW PRIORITY"
             
             print(f"\n{i}. {priority}")
-            print(f"   📊 {category.replace('_', ' ')}")
-            print(f"   🎯 Impact: {impact} | Difficulty: {difficulty} | Score: {score}")
-            print(f"   💡 {info['description']}")
+            print(f"   DATA: {category.replace('_', ' ')}")
+            print(f"   TARGET: Impact: {impact} | Difficulty: {difficulty} | Score: {score}")
+            print(f"   TIP: {info['description']}")
         
         return sorted_priorities
     
     def recommend_immediate_actions(self, priorities):
         """Recommend specific actions we can take now"""
-        print(f"\n🎯 IMMEDIATE ACTION PLAN:")
+        print(f"\nTARGET: IMMEDIATE ACTION PLAN:")
         print("="*50)
         
         top_3 = priorities[:3]
@@ -299,33 +299,33 @@ class AdvancedDFSTechniques:
             }
         }
         
-        print("🚀 TOP 3 PRIORITIES TO IMPLEMENT:")
+        print("START: TOP 3 PRIORITIES TO IMPLEMENT:")
         
         for i, (category, _) in enumerate(top_3, 1):
             if category in recommendations:
                 rec = recommendations[category]
                 print(f"\n{i}. {category.replace('_', ' ')}:")
-                print(f"   ⏱️  {rec['implementation']}")
-                print(f"   🎯 Quick wins:")
+                print(f"     {rec['implementation']}")
+                print(f"   TARGET: Quick wins:")
                 for win in rec['quick_wins']:
-                    print(f"     ✅ {win}")
+                    print(f"     SUCCESS: {win}")
         
-        print(f"\n💡 SPECIFIC NEXT STEPS:")
+        print(f"\nTIP: SPECIFIC NEXT STEPS:")
         print("1. Implement ownership prediction (lowest hanging fruit)")
         print("2. Add advanced stacking to lineup builder")
         print("3. Integrate real-time weather/news data")
         print("4. Build Monte Carlo simulation engine")
         
-        print(f"\n🏆 EXPECTED IMPACT:")
-        print("• Ownership prediction: +15-25 FPPG edge")
-        print("• Advanced stacking: +20-40 FPPG ceiling")
-        print("• Real-time data: +10-20 FPPG consistency")
-        print("• Simulation: +30-50 FPPG tournament upside")
-        print("• Combined: Potential to reach 180+ FPPG consistently")
+        print(f"\nLINEUP: EXPECTED IMPACT:")
+        print(" Ownership prediction: +15-25 FPPG edge")
+        print(" Advanced stacking: +20-40 FPPG ceiling")
+        print(" Real-time data: +10-20 FPPG consistency")
+        print(" Simulation: +30-50 FPPG tournament upside")
+        print(" Combined: Potential to reach 180+ FPPG consistently")
     
     def run_analysis(self):
         """Run complete analysis of premium DFS techniques"""
-        print("🧠 REVERSE ENGINEERING PREMIUM DFS SERVICES")
+        print(" REVERSE ENGINEERING PREMIUM DFS SERVICES")
         print("Understanding what SaberSim, FantasyLabs, etc. do differently")
         print("="*80)
         
@@ -338,12 +338,12 @@ class AdvancedDFSTechniques:
         # Recommend actions
         self.recommend_immediate_actions(priorities)
         
-        print(f"\n🎉 ANALYSIS COMPLETE!")
+        print(f"\nCOMPLETE: ANALYSIS COMPLETE!")
         print("Now we know exactly what premium services do that we don't.")
-        print("Priority: Game theory (ownership) → Stacking → Real-time data → Simulation")
+        print("Priority: Game theory (ownership)  Stacking  Real-time data  Simulation")
 
 def main():
-    print("🧠 ADVANCED DFS OPTIMIZATION ANALYSIS")
+    print(" ADVANCED DFS OPTIMIZATION ANALYSIS")
     print("Reverse engineering what premium services do better")
     print("="*70)
     

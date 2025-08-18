@@ -22,7 +22,7 @@ class StackingOptimizer:
     def identify_stack_opportunities(self):
         """Identify the best stacking opportunities"""
         
-        print("\n🎯 ANALYZING STACKING OPPORTUNITIES")
+        print("\nTARGET: ANALYZING STACKING OPPORTUNITIES")
         print("=" * 50)
         
         stack_opportunities = []
@@ -84,7 +84,7 @@ class StackingOptimizer:
         # Sort by stack score
         team_stacks = sorted(team_stacks, key=lambda x: x['stack_score'], reverse=True)
         
-        print(f"📊 Top Team Stack Opportunities:")
+        print(f"DATA: Top Team Stack Opportunities:")
         for i, stack in enumerate(team_stacks[:5], 1):
             print(f"  {i}. {stack['team']}: {stack['player_count']} players, "
                   f"{stack['avg_projection']:.1f} avg proj, "
@@ -122,7 +122,7 @@ class StackingOptimizer:
         
         game_stacks = sorted(game_stacks, key=lambda x: x['total_projection'], reverse=True)
         
-        print(f"\n📊 Top Game Stack Opportunities:")
+        print(f"\nDATA: Top Game Stack Opportunities:")
         for i, stack in enumerate(game_stacks[:3], 1):
             print(f"  {i}. {stack['game']}: {stack['player_count']} players, "
                   f"{stack['total_projection']:.1f} total proj")
@@ -161,7 +161,7 @@ class StackingOptimizer:
         
         pitcher_stacks = sorted(pitcher_stacks, key=lambda x: x['combined_projection'], reverse=True)
         
-        print(f"\n📊 Top Pitcher Stack Opportunities:")
+        print(f"\nDATA: Top Pitcher Stack Opportunities:")
         for i, stack in enumerate(pitcher_stacks[:3], 1):
             print(f"  {i}. {stack['pitcher_name']} + {stack['hitter_count']} hitters: "
                   f"{stack['combined_projection']:.1f} combined proj")
@@ -171,7 +171,7 @@ class StackingOptimizer:
     def optimize_with_stacking(self, stack_strategy='team_stack_3'):
         """Optimize lineup with specific stacking strategy"""
         
-        print(f"\n🎯 OPTIMIZING WITH {stack_strategy.upper()} STRATEGY")
+        print(f"\nTARGET: OPTIMIZING WITH {stack_strategy.upper()} STRATEGY")
         print("=" * 50)
         
         prob = LpProblem(f"FanDuel_Stack_{stack_strategy}", LpMaximize)
@@ -305,7 +305,7 @@ def main():
         lineup, analysis = stack_optimizer.optimize_with_stacking(strategy)
         
         if lineup is not None:
-            print(f"\n🏆 {strategy.upper()} LINEUP:")
+            print(f"\nLINEUP: {strategy.upper()} LINEUP:")
             print(f"Total Salary: ${lineup['Salary'].sum():,}")
             print(f"Total Projection: {lineup['Projected_FPPG'].sum():.1f}")
             print(f"Stacks: {analysis}")

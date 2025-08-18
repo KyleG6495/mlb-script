@@ -306,7 +306,7 @@ def show_backtest_results(analysis, lineup_performance):
         print()
         print("LINEUP BREAKDOWN:")
         for player in lineup_performance['lineup_details']:
-            status = "✓" if player['found'] else "✗"
+            status = "" if player['found'] else ""
             print(f"  {status} {player['player_name']:<20} {player['position']:<4} "
                   f"${player['salary']:>5} | Proj: {player['projected_fppg']:>5.1f} | "
                   f"Actual: {player['actual_fppg']:>5.1f}")
@@ -315,14 +315,14 @@ def show_backtest_results(analysis, lineup_performance):
     print("ANALYSIS INSIGHTS:")
     
     if analysis['match_rate'] < 50:
-        print("  ⚠️ Low player match rate suggests date mismatch or data issues")
+        print("  WARNING: Low player match rate suggests date mismatch or data issues")
     else:
-        print("  ✓ Good player match rate for analysis")
+        print("   Good player match rate for analysis")
     
     if lineup_performance and lineup_performance['accuracy_pct'] > 80:
-        print("  ✓ Conservative projections showing good accuracy")
+        print("   Conservative projections showing good accuracy")
     elif lineup_performance:
-        print("  ⚠️ Conservative projections may need adjustment")
+        print("  WARNING: Conservative projections may need adjustment")
     
     print()
     print("This backtest validates our conservative approach against")

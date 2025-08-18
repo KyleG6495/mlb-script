@@ -109,7 +109,7 @@ class EnhancedPlayerMatcher:
 def improve_player_matching():
     """Test and improve player matching logic"""
     
-    print("🔧 ENHANCED PLAYER MATCHING SYSTEM")
+    print("STEP: ENHANCED PLAYER MATCHING SYSTEM")
     print("=" * 50)
     
     # Load test data
@@ -121,8 +121,8 @@ def improve_player_matching():
     
     matcher = EnhancedPlayerMatcher()
     
-    print(f"📊 Testing on {len(lineups_df)} lineup players")
-    print(f"📊 Against {len(actual_df)} actual results")
+    print(f"DATA: Testing on {len(lineups_df)} lineup players")
+    print(f"DATA: Against {len(actual_df)} actual results")
     
     # Test matching improvement
     original_matches = 0
@@ -155,15 +155,15 @@ def improve_player_matching():
                 'original_found': not original_match.empty
             })
     
-    print(f"\n📈 MATCHING IMPROVEMENT RESULTS:")
+    print(f"\nPROGRESS: MATCHING IMPROVEMENT RESULTS:")
     print(f"Original method: {original_matches}/{total_players} ({original_matches/total_players*100:.1f}%)")
     print(f"Enhanced method: {enhanced_matches}/{total_players} ({enhanced_matches/total_players*100:.1f}%)")
     print(f"Improvement: +{enhanced_matches - original_matches} matches (+{(enhanced_matches - original_matches)/total_players*100:.1f}%)")
     
-    print(f"\n🎯 EXAMPLE MATCHES:")
+    print(f"\nTARGET: EXAMPLE MATCHES:")
     for example in match_examples[:5]:
-        status = "✅ NEW" if not example['original_found'] else "🔄 CONFIRMED"
-        print(f"{status} {example['lineup_player']} → {example['matched_to']} ({example['similarity']:.2f})")
+        status = "SUCCESS: NEW" if not example['original_found'] else "SWAP: CONFIRMED"
+        print(f"{status} {example['lineup_player']}  {example['matched_to']} ({example['similarity']:.2f})")
     
     return matcher
 

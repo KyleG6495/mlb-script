@@ -50,11 +50,11 @@ def load_player_pool():
     slate_file = BASE_DIR / "fd_slate_starters_only.csv"
     
     if not slate_file.exists():
-        logger.warning("⚠️ fd_slate_starters_only.csv not found, falling back to main slate")
+        logger.warning("WARNING: fd_slate_starters_only.csv not found, falling back to main slate")
         slate_file = BASE_DIR / "fd_slate_today.csv"
     
     if not slate_file.exists():
-        logger.warning("⚠️ fd_slate_today.csv not found, checking fd_current_slate directory")
+        logger.warning("WARNING: fd_slate_today.csv not found, checking fd_current_slate directory")
         slate_patterns = [
             BASE_DIR.parent / "fd_current_slate" / "fd_slate_today.csv",
             BASE_DIR.parent / "fd_current_slate" / "FanDuel-MLB-*.csv"
@@ -74,33 +74,33 @@ def load_player_pool():
                     break
         
         if not slate_file:
-            logger.warning("⚠️ No current slate found, using sample data")
+            logger.warning("WARNING: No current slate found, using sample data")
             return create_sample_player_pool()
     
     try:
         df = pd.read_csv(slate_file)
         
         if 'fd_slate_starters_only.csv' in str(slate_file):
-            logger.info(f"📊 Loaded {len(df)} confirmed starters from pre-filtered slate")
-            logger.info("✅ Using validated starting lineups only - no complex filtering needed")
+            logger.info(f"DATA: Loaded {len(df)} confirmed starters from pre-filtered slate")
+            logger.info("SUCCESS: Using validated starting lineups only - no complex filtering needed")
         else:
-            logger.info(f"📊 Loaded {len(df)} players from main slate - applying filters")
+            logger.info(f"DATA: Loaded {len(df)} players from main slate - applying filters")
             # Apply injury and status filters for non-pre-filtered files
             initial_count = len(df)
             
             # Filter out injured players
             if 'Injury Indicator' in df.columns:
                 df = df[(df['Injury Indicator'].isna()) | (df['Injury Indicator'] == '')]
-                logger.info(f"🏥 Filtered out injured players: {initial_count - len(df)} removed")
+                logger.info(f" Filtered out injured players: {initial_count - len(df)} removed")
             
             # Filter for probable pitchers only
             pitchers = df[df['Position'] == 'P']
             if 'Probable Pitcher' in pitchers.columns:
                 probable_pitchers = pitchers[pitchers['Probable Pitcher'] == 'Yes']
-                logger.info(f"⚾ Probable pitchers available: {len(probable_pitchers)}")
+                logger.info(f"BASEBALL: Probable pitchers available: {len(probable_pitchers)}")
             else:
                 probable_pitchers = pitchers
-                logger.info(f"⚾ All pitchers (no probable pitcher data): {len(probable_pitchers)}")
+                logger.info(f"BASEBALL: All pitchers (no probable pitcher data): {len(probable_pitchers)}")
             
             # Filter hitters by batting order - only include starters (batting order 1-9)
             hitters = df[df['Position'] != 'P']
@@ -116,24 +116,24 @@ def load_player_pool():
                 # Keep only starting hitters (batting order 1-9)
                 starting_hitters = hitters[(hitters['batting_order_num'] >= 1) & (hitters['batting_order_num'] <= 9)]
                 
-                logger.info(f"🏏 Total hitters: {len(hitters)}")
-                logger.info(f"🚫 Non-starters filtered out: {non_starters}")
-                logger.info(f"✅ Starting hitters (batting order 1-9): {len(starting_hitters)}")
+                logger.info(f" Total hitters: {len(hitters)}")
+                logger.info(f" Non-starters filtered out: {non_starters}")
+                logger.info(f"SUCCESS: Starting hitters (batting order 1-9): {len(starting_hitters)}")
                 
                 # If no starting hitters found, check if we have actual starting lineups yet
                 if len(starting_hitters) == 0:
-                    logger.warning("⚠️ No starting hitters found (batting orders not set yet)")
-                    logger.error("❌ NO STARTING LINEUPS POSTED YET - All players have batting order 0")
-                    logger.error("❌ Cannot generate realistic lineups without confirmed starters")
+                    logger.warning("WARNING: No starting hitters found (batting orders not set yet)")
+                    logger.error("ERROR: NO STARTING LINEUPS POSTED YET - All players have batting order 0")
+                    logger.error("ERROR: Cannot generate realistic lineups without confirmed starters")
                     return pd.DataFrame()  # Return empty dataframe
                 else:
                     hitters = starting_hitters
             else:
-                logger.info(f"🏏 Hitters available: {len(hitters)} (no batting order filtering)")
+                logger.info(f" Hitters available: {len(hitters)} (no batting order filtering)")
             
             # Combine probable pitchers and all hitters
             df = pd.concat([probable_pitchers, hitters], ignore_index=True)
-            logger.info(f"✅ Final player pool: {len(df)} players ({len(probable_pitchers)} pitchers, {len(hitters)} hitters)")
+            logger.info(f"SUCCESS: Final player pool: {len(df)} players ({len(probable_pitchers)} pitchers, {len(hitters)} hitters)")
         
         # Standardize column names for quintuple system
         df['name'] = df.get('Nickname', df.get('Last Name', 'Unknown'))
@@ -152,20 +152,20 @@ def load_player_pool():
         return df
         
     except Exception as e:
-        logger.error(f"❌ Error loading slate: {e}")
-        logger.info("📦 Using sample data due to slate loading error")
+        logger.error(f"ERROR: Error loading slate: {e}")
+        logger.info(" Using sample data due to slate loading error")
         return create_sample_player_pool()
 
 def create_sample_player_pool():
     """Create sample player pool for testing"""
-    logger.info("🎯 Creating sample player pool...")
+    logger.info("TARGET: Creating sample player pool...")
     
     sample_players = [
         # Pitchers
         {'name': 'Gerrit Cole', 'position': 'P', 'salary': 11200, 'team': 'NYY', 'projected_fppg': 42.5, 'ownership_proj': 25},
         {'name': 'Spencer Strider', 'position': 'P', 'salary': 10800, 'team': 'ATL', 'projected_fppg': 40.8, 'ownership_proj': 20},
         {'name': 'Logan Webb', 'position': 'P', 'salary': 9600, 'team': 'SF', 'projected_fppg': 38.2, 'ownership_proj': 15},
-        {'name': 'Pablo López', 'position': 'P', 'salary': 8800, 'team': 'MIN', 'projected_fppg': 35.7, 'ownership_proj': 12},
+        {'name': 'Pablo Lpez', 'position': 'P', 'salary': 8800, 'team': 'MIN', 'projected_fppg': 35.7, 'ownership_proj': 12},
         {'name': 'Hunter Brown', 'position': 'P', 'salary': 8000, 'team': 'HOU', 'projected_fppg': 32.1, 'ownership_proj': 8},
         
         # Catchers
@@ -198,7 +198,7 @@ def create_sample_player_pool():
         {'name': 'Mike Trout', 'position': 'OF', 'salary': 10200, 'team': 'LAA', 'projected_fppg': 14.8, 'ownership_proj': 25},
         {'name': 'Aaron Judge', 'position': 'OF', 'salary': 9900, 'team': 'NYY', 'projected_fppg': 14.5, 'ownership_proj': 28},
         {'name': 'Kyle Tucker', 'position': 'OF', 'salary': 9500, 'team': 'HOU', 'projected_fppg': 14.1, 'ownership_proj': 20},
-        {'name': 'Ronald Acuña Jr.', 'position': 'OF', 'salary': 9800, 'team': 'ATL', 'projected_fppg': 14.3, 'ownership_proj': 24},
+        {'name': 'Ronald Acua Jr.', 'position': 'OF', 'salary': 9800, 'team': 'ATL', 'projected_fppg': 14.3, 'ownership_proj': 24},
         {'name': 'Juan Soto', 'position': 'OF', 'salary': 9300, 'team': 'NYY', 'projected_fppg': 13.7, 'ownership_proj': 18},
         {'name': 'Randy Arozarena', 'position': 'OF', 'salary': 7200, 'team': 'TB', 'projected_fppg': 11.2, 'ownership_proj': 12},
         {'name': 'Jesse Winker', 'position': 'OF', 'salary': 6500, 'team': 'WSH', 'projected_fppg': 10.1, 'ownership_proj': 6},
@@ -287,7 +287,7 @@ def select_lineup_core(player_pool, strategy_type):
     
     if strategy_type == "BALANCED_CEILING":
         # Strategy 1: Balanced ceiling with safe floor
-        logger.info("🎯 Building Balanced Ceiling lineup...")
+        logger.info("TARGET: Building Balanced Ceiling lineup...")
         
         # Select pitcher in $8K-$9.5K range with good value
         pitchers = player_pool[player_pool['position'] == 'P']
@@ -311,7 +311,7 @@ def select_lineup_core(player_pool, strategy_type):
         
     elif strategy_type == "CONTRARIAN_CEILING":
         # Strategy 2: More contrarian with higher ceiling
-        logger.info("🎯 Building Contrarian Ceiling lineup...")
+        logger.info("TARGET: Building Contrarian Ceiling lineup...")
         
         # Select lower-owned pitcher with upside
         pitchers = player_pool[player_pool['position'] == 'P']
@@ -412,7 +412,7 @@ def build_complete_lineup(player_pool, strategy_type):
 
 def format_lineup_output(lineup, remaining_salary, strategy_name):
     """Format lineup for display and saving"""
-    logger.info(f"\n🏆 {strategy_name}")
+    logger.info(f"\nLINEUP: {strategy_name}")
     logger.info("=" * 50)
     
     total_salary = 0
@@ -454,10 +454,10 @@ def format_lineup_output(lineup, remaining_salary, strategy_name):
             })
     
     logger.info("-" * 50)
-    logger.info(f"💰 Total Salary: ${total_salary:,} (${remaining_salary:,} remaining)")
-    logger.info(f"📊 Projected Total: {total_projected:.1f} FPPG")
-    logger.info(f"🚀 Ceiling Total: {total_ceiling:.1f} FPPG")
-    logger.info(f"📈 Avg Ownership: {np.mean([lineup[pos]['ownership_proj'] for pos in lineup]):.1f}%")
+    logger.info(f"MONEY: Total Salary: ${total_salary:,} (${remaining_salary:,} remaining)")
+    logger.info(f"DATA: Projected Total: {total_projected:.1f} FPPG")
+    logger.info(f"START: Ceiling Total: {total_ceiling:.1f} FPPG")
+    logger.info(f"PROGRESS: Avg Ownership: {np.mean([lineup[pos]['ownership_proj'] for pos in lineup]):.1f}%")
     
     return pd.DataFrame(lineup_list)
 
@@ -468,11 +468,11 @@ def save_quintuple_lineups(lineup1_df, lineup2_df):
     # Save individual lineups
     lineup1_file = BASE_DIR / f"quintuple_lineup_1_balanced_{timestamp}.csv"
     lineup1_df.to_csv(lineup1_file, index=False)
-    logger.info(f"💾 Saved Lineup 1: {lineup1_file}")
+    logger.info(f" Saved Lineup 1: {lineup1_file}")
     
     lineup2_file = BASE_DIR / f"quintuple_lineup_2_contrarian_{timestamp}.csv"
     lineup2_df.to_csv(lineup2_file, index=False)
-    logger.info(f"💾 Saved Lineup 2: {lineup2_file}")
+    logger.info(f" Saved Lineup 2: {lineup2_file}")
     
     # Save combined file
     lineup1_df['Lineup_Type'] = 'Balanced_Ceiling'
@@ -481,16 +481,16 @@ def save_quintuple_lineups(lineup1_df, lineup2_df):
     combined_df = pd.concat([lineup1_df, lineup2_df], ignore_index=True)
     combined_file = BASE_DIR / f"quintuple_lineups_combined_{timestamp}.csv"
     combined_df.to_csv(combined_file, index=False)
-    logger.info(f"💾 Saved Combined: {combined_file}")
+    logger.info(f" Saved Combined: {combined_file}")
     
     return lineup1_file, lineup2_file, combined_file
 
 def main():
     """Main execution function"""
-    logger.info("🏆 QUINTUPLE TOURNAMENT LINEUP GENERATOR")
+    logger.info("LINEUP: QUINTUPLE TOURNAMENT LINEUP GENERATOR")
     logger.info("=" * 60)
-    logger.info("🎯 Target: 200-player quintuple tournaments")
-    logger.info("💡 Strategy: Balanced ceiling + contrarian plays")
+    logger.info("TARGET: Target: 200-player quintuple tournaments")
+    logger.info("TIP: Strategy: Balanced ceiling + contrarian plays")
     logger.info("")
     
     try:
@@ -498,21 +498,21 @@ def main():
         player_pool = load_player_pool()
         
         if len(player_pool) == 0:
-            logger.error("❌ No valid players available - cannot generate lineups")
-            logger.error("❌ This typically means batting orders haven't been posted yet")
-            logger.error("❌ All players currently show batting order '0' (not starting)")
-            logger.error("❌ Please try again later when lineups are confirmed")
+            logger.error("ERROR: No valid players available - cannot generate lineups")
+            logger.error("ERROR: This typically means batting orders haven't been posted yet")
+            logger.error("ERROR: All players currently show batting order '0' (not starting)")
+            logger.error("ERROR: Please try again later when lineups are confirmed")
             return
         
         # Generate Lineup 1: Balanced Ceiling
-        logger.info("🏗️ Generating Lineup 1: Balanced Ceiling Strategy")
+        logger.info(" Generating Lineup 1: Balanced Ceiling Strategy")
         lineup1, remaining1 = build_complete_lineup(player_pool, "BALANCED_CEILING")
         lineup1_df = format_lineup_output(lineup1, remaining1, "LINEUP 1: BALANCED CEILING")
         
         logger.info("\n" + "="*60 + "\n")
         
         # Generate Lineup 2: Contrarian Ceiling  
-        logger.info("🏗️ Generating Lineup 2: Contrarian Ceiling Strategy")
+        logger.info(" Generating Lineup 2: Contrarian Ceiling Strategy")
         lineup2, remaining2 = build_complete_lineup(player_pool, "CONTRARIAN_CEILING")
         lineup2_df = format_lineup_output(lineup2, remaining2, "LINEUP 2: CONTRARIAN CEILING")
         
@@ -520,15 +520,15 @@ def main():
         logger.info("\n" + "="*60)
         file1, file2, combined = save_quintuple_lineups(lineup1_df, lineup2_df)
         
-        logger.info("\n🎉 QUINTUPLE LINEUPS GENERATED SUCCESSFULLY!")
-        logger.info(f"📁 Files saved in: {BASE_DIR}")
-        logger.info("\n💡 STRATEGY SUMMARY:")
-        logger.info("🔹 Lineup 1: Balanced ceiling with 60% floor, 40% upside")
-        logger.info("🔹 Lineup 2: Higher ceiling with contrarian plays")
-        logger.info("🔹 Both optimized for 200-player tournaments")
+        logger.info("\nCOMPLETE: QUINTUPLE LINEUPS GENERATED SUCCESSFULLY!")
+        logger.info(f" Files saved in: {BASE_DIR}")
+        logger.info("\nTIP: STRATEGY SUMMARY:")
+        logger.info(" Lineup 1: Balanced ceiling with 60% floor, 40% upside")
+        logger.info(" Lineup 2: Higher ceiling with contrarian plays")
+        logger.info(" Both optimized for 200-player tournaments")
         
     except Exception as e:
-        logger.error(f"❌ Error generating lineups: {e}")
+        logger.error(f"ERROR: Error generating lineups: {e}")
         raise
 
 if __name__ == "__main__":

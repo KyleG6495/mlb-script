@@ -11,7 +11,7 @@ import numpy as np
 import os
 from datetime import datetime
 
-print("🎯 FINAL PREDICTION FEATURES FIX")
+print("TARGET: FINAL PREDICTION FEATURES FIX")
 print("="*60)
 
 # Paths
@@ -138,14 +138,14 @@ print(f"   Features with variance: {len(has_variance)}/{len(required_features)}"
 print(f"   Variable features: {has_variance}")
 
 if len(has_variance) > 5:
-    print("   ✅ SUCCESS: Multiple features have real variance!")
+    print("   SUCCESS: SUCCESS: Multiple features have real variance!")
 else:
-    print("   ⚠️ WARNING: Limited feature variance")
+    print("   WARNING: WARNING: Limited feature variance")
 
 # 9. Save the final prediction features
 output_path = os.path.join(data_dir, "final_prediction_features.csv")
 final_prediction_data.to_csv(output_path, index=False)
-print(f"\n✅ Saved final prediction features to: {output_path}")
+print(f"\nSUCCESS: Saved final prediction features to: {output_path}")
 
 # 10. Test with actual model
 print("\n10. Testing with trained model...")
@@ -172,7 +172,7 @@ try:
     print(f"    Std: {predictions.std():.3f}")
     
     if predictions.std() > 0.1:
-        print("    ✅ SUCCESS: Predictions are realistic and varying!")
+        print("    SUCCESS: SUCCESS: Predictions are realistic and varying!")
         
         # Show sample predictions
         print(f"\n    Sample player predictions:")
@@ -180,14 +180,14 @@ try:
             player_name = final_prediction_data.iloc[i]['name']
             print(f"      {player_name}: {predictions[i]:.2f} total bases")
     else:
-        print("    ❌ Still getting uniform predictions")
+        print("    ERROR: Still getting uniform predictions")
         
 except Exception as e:
-    print(f"    ❌ Model test failed: {e}")
+    print(f"    ERROR: Model test failed: {e}")
     import traceback
     traceback.print_exc()
 
 print("\n" + "="*60)
-print("🎯 FINAL PREDICTION FEATURES COMPLETE")
+print("TARGET: FINAL PREDICTION FEATURES COMPLETE")
 print("Use 'final_prediction_features.csv' for realistic predictions")
 print("="*60)

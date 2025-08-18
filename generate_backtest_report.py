@@ -124,7 +124,7 @@ def add_dfs_lineup_details(files):
                 
                 if len(available_lineups) > 0:
                     html_content += f"""
-                        <h3>🏆 DFS Lineups with Player Details</h3>
+                        <h3>LINEUP: DFS Lineups with Player Details</h3>
                         <div style="margin: 20px 0;">
                         <p><em>Note: Showing {len(available_lineups)} lineup(s) with available player details</em></p>
                     """
@@ -196,13 +196,13 @@ def add_dfs_lineup_details(files):
                     
                     html_content += "</div>"
                 else:
-                    html_content += '<div class="warning-box">⚠️ No lineup details available for top performing lineups - showing performance summary only</div>'
+                    html_content += '<div class="warning-box">WARNING: No lineup details available for top performing lineups - showing performance summary only</div>'
             else:
-                html_content += '<div class="warning-box">⚠️ DFS lineup details file not found - showing performance summary only</div>'
+                html_content += '<div class="warning-box">WARNING: DFS lineup details file not found - showing performance summary only</div>'
                 
         except Exception as e:
             logger.warning(f"Could not load DFS lineup details: {e}")
-            html_content += '<div class="warning-box">⚠️ Could not load DFS lineup details</div>'
+            html_content += '<div class="warning-box">WARNING: Could not load DFS lineup details</div>'
     
     return html_content
 
@@ -235,7 +235,7 @@ def load_summary_data(files):
 
 def generate_html_report(files, summaries):
     """Generate comprehensive HTML report"""
-    logger.info("📊 Generating HTML performance report...")
+    logger.info("DATA: Generating HTML performance report...")
     
     html_content = f"""
     <!DOCTYPE html>
@@ -265,7 +265,7 @@ def generate_html_report(files, summaries):
     </head>
     <body>
         <div class="container">
-            <h1>🏆 MLB Performance Analysis Report</h1>
+            <h1>LINEUP: MLB Performance Analysis Report</h1>
             <p style="text-align: center; color: #7f8c8d;">Generated on {datetime.now().strftime('%Y-%m-%d at %I:%M %p')}</p>
     """
     
@@ -273,7 +273,7 @@ def generate_html_report(files, summaries):
     if 'dfs' in summaries:
         dfs_data = summaries['dfs']
         html_content += f"""
-            <h2>🎯 DFS Lineup Performance</h2>
+            <h2>TARGET: DFS Lineup Performance</h2>
             <div class="summary-grid">
                 <div class="metric-card">
                     <div class="metric-value {'positive' if float(str(dfs_data.get('overall_accuracy', 0))) > 90 else 'negative' if float(str(dfs_data.get('overall_accuracy', 0))) < 70 else 'neutral'}">{float(str(dfs_data.get('overall_accuracy', 0))):.1f}%</div>
@@ -297,13 +297,13 @@ def generate_html_report(files, summaries):
         # Add insights based on performance
         accuracy = float(str(dfs_data.get('overall_accuracy', 0)))
         if accuracy > 90:
-            html_content += '<div class="insight-box">🎉 <strong>Excellent Performance:</strong> Your DFS projections are highly accurate! Your models are performing exceptionally well.</div>'
+            html_content += '<div class="insight-box">COMPLETE: <strong>Excellent Performance:</strong> Your DFS projections are highly accurate! Your models are performing exceptionally well.</div>'
         elif accuracy > 80:
-            html_content += '<div class="insight-box">✅ <strong>Good Performance:</strong> Your DFS projections are solid with room for minor improvements.</div>'
+            html_content += '<div class="insight-box">SUCCESS: <strong>Good Performance:</strong> Your DFS projections are solid with room for minor improvements.</div>'
         elif accuracy > 70:
-            html_content += '<div class="warning-box">⚠️ <strong>Moderate Performance:</strong> Your DFS projections need some calibration to improve accuracy.</div>'
+            html_content += '<div class="warning-box">WARNING: <strong>Moderate Performance:</strong> Your DFS projections need some calibration to improve accuracy.</div>'
         else:
-            html_content += '<div class="error-box">❌ <strong>Poor Performance:</strong> Your DFS projections require significant model improvements.</div>'
+            html_content += '<div class="error-box">ERROR: <strong>Poor Performance:</strong> Your DFS projections require significant model improvements.</div>'
         
         # Add top-performing DFS lineups
         html_content += add_dfs_lineup_details(files)
@@ -312,7 +312,7 @@ def generate_html_report(files, summaries):
     if 'prizepicks' in summaries:
         pp_data = summaries['prizepicks']
         html_content += f"""
-            <h2>💰 PrizePicks Performance</h2>
+            <h2>MONEY: PrizePicks Performance</h2>
             <div class="summary-grid">
                 <div class="metric-card">
                     <div class="metric-value {'positive' if float(str(pp_data.get('hit_rate_pct', 0))) > 60 else 'negative' if float(str(pp_data.get('hit_rate_pct', 0))) < 45 else 'neutral'}">{float(str(pp_data.get('hit_rate_pct', 0))):.1f}%</div>
@@ -338,19 +338,19 @@ def generate_html_report(files, summaries):
         avg_edge = float(str(pp_data.get('avg_edge', 0)))
         
         if hit_rate > 60 and avg_edge > 0.05:
-            html_content += '<div class="insight-box">🚀 <strong>Profitable Strategy:</strong> Your PrizePicks selections show strong profitability potential!</div>'
+            html_content += '<div class="insight-box">START: <strong>Profitable Strategy:</strong> Your PrizePicks selections show strong profitability potential!</div>'
         elif hit_rate > 55:
-            html_content += '<div class="insight-box">✅ <strong>Good Selection:</strong> Your pick selection is above breakeven with solid performance.</div>'
+            html_content += '<div class="insight-box">SUCCESS: <strong>Good Selection:</strong> Your pick selection is above breakeven with solid performance.</div>'
         elif hit_rate > 45:
-            html_content += '<div class="warning-box">⚠️ <strong>Room for Improvement:</strong> Your hit rate needs improvement for long-term profitability.</div>'
+            html_content += '<div class="warning-box">WARNING: <strong>Room for Improvement:</strong> Your hit rate needs improvement for long-term profitability.</div>'
         else:
-            html_content += '<div class="error-box">❌ <strong>Strategy Review Needed:</strong> Consider revising your PrizePicks selection criteria.</div>'
+            html_content += '<div class="error-box">ERROR: <strong>Strategy Review Needed:</strong> Consider revising your PrizePicks selection criteria.</div>'
     
     # Underdog Fantasy Performance Section
     if 'underdog' in summaries:
         ud_data = summaries['underdog']
         html_content += f"""
-            <h2>🏈 Underdog Fantasy Performance</h2>
+            <h2> Underdog Fantasy Performance</h2>
             <div class="summary-grid">
                 <div class="metric-card">
                     <div class="metric-value {'positive' if float(str(ud_data.get('hit_rate_pct', 0))) > 60 else 'negative' if float(str(ud_data.get('hit_rate_pct', 0))) < 45 else 'neutral'}">{float(str(ud_data.get('hit_rate_pct', 0))):.1f}%</div>
@@ -376,19 +376,19 @@ def generate_html_report(files, summaries):
         avg_edge = float(str(ud_data.get('avg_edge', 0)))
         
         if hit_rate > 70:
-            html_content += '<div class="insight-box">🚀 <strong>Excellent Performance:</strong> Your Underdog Fantasy selections are highly profitable!</div>'
+            html_content += '<div class="insight-box">START: <strong>Excellent Performance:</strong> Your Underdog Fantasy selections are highly profitable!</div>'
         elif hit_rate > 60:
-            html_content += '<div class="insight-box">✅ <strong>Strong Performance:</strong> Your Underdog picks show consistent profitability.</div>'
+            html_content += '<div class="insight-box">SUCCESS: <strong>Strong Performance:</strong> Your Underdog picks show consistent profitability.</div>'
         elif hit_rate > 50:
-            html_content += '<div class="warning-box">⚠️ <strong>Room for Improvement:</strong> Your Underdog hit rate is above breakeven but could be optimized.</div>'
+            html_content += '<div class="warning-box">WARNING: <strong>Room for Improvement:</strong> Your Underdog hit rate is above breakeven but could be optimized.</div>'
         else:
-            html_content += '<div class="error-box">❌ <strong>Strategy Review:</strong> Consider refining your Underdog selection approach.</div>'
+            html_content += '<div class="error-box">ERROR: <strong>Strategy Review:</strong> Consider refining your Underdog selection approach.</div>'
     
     # Recommendations Section
     html_content += """
-        <h2>💡 Key Recommendations</h2>
+        <h2>TIP: Key Recommendations</h2>
         <div class="insight-box">
-            <h3>🎯 DFS Optimization Tips:</h3>
+            <h3>TARGET: DFS Optimization Tips:</h3>
             <ul>
                 <li>Focus on players with consistent floor performance for cash games</li>
                 <li>Use high-ceiling players for tournament entries</li>
@@ -398,7 +398,7 @@ def generate_html_report(files, summaries):
         </div>
         
         <div class="insight-box">
-            <h3>💰 PrizePicks Strategy Tips:</h3>
+            <h3>MONEY: PrizePicks Strategy Tips:</h3>
             <ul>
                 <li>Target props with positive expected value (EV > 0.1)</li>
                 <li>Focus on prop types where your models show highest accuracy</li>
@@ -411,7 +411,7 @@ def generate_html_report(files, summaries):
     # Data Tables Section (if files exist)
     if 'dfs_performance' in files:
         html_content += """
-            <h2>📊 Detailed Data</h2>
+            <h2>DATA: Detailed Data</h2>
             <p>For detailed analysis, check these files in your data folder:</p>
             <ul>
         """
@@ -430,7 +430,7 @@ def generate_html_report(files, summaries):
 
 def create_csv_summary(files, summaries):
     """Create a CSV summary of all performance metrics"""
-    logger.info("📋 Creating CSV performance summary...")
+    logger.info("INFO: Creating CSV performance summary...")
     
     summary_data = []
     
@@ -504,28 +504,28 @@ def save_reports(html_content, csv_summary):
     html_file = BASE_DIR / f"performance_report_{timestamp}.html"
     with open(html_file, 'w', encoding='utf-8') as f:
         f.write(html_content)
-    logger.info(f"📊 Saved HTML report: {html_file}")
+    logger.info(f"DATA: Saved HTML report: {html_file}")
     
     # Save CSV summary
     csv_file = BASE_DIR / f"performance_summary_{timestamp}.csv"
     csv_summary.to_csv(csv_file, index=False)
-    logger.info(f"📋 Saved CSV summary: {csv_file}")
+    logger.info(f"INFO: Saved CSV summary: {csv_file}")
     
     return html_file, csv_file
 
 def main():
     """Main execution function"""
-    logger.info("📊 GENERATING COMPREHENSIVE BACKTEST REPORT")
+    logger.info("DATA: GENERATING COMPREHENSIVE BACKTEST REPORT")
     logger.info("=" * 60)
     
     try:
         # Find latest backtest files
         files = find_latest_backtest_files()
-        logger.info(f"📁 Found {len(files)} backtest files")
+        logger.info(f" Found {len(files)} backtest files")
         
         # Load summary data
         summaries = load_summary_data(files)
-        logger.info(f"📊 Loaded {len(summaries)} summary files")
+        logger.info(f"DATA: Loaded {len(summaries)} summary files")
         
         # Generate HTML report
         html_content = generate_html_report(files, summaries)
@@ -536,13 +536,13 @@ def main():
         # Save reports
         html_file, csv_file = save_reports(html_content, csv_summary)
         
-        logger.info("🎉 REPORT GENERATION COMPLETE!")
-        logger.info(f"📊 HTML Report: {html_file}")
-        logger.info(f"📋 CSV Summary: {csv_file}")
-        logger.info("💡 Open the HTML file in your browser for interactive analysis")
+        logger.info("COMPLETE: REPORT GENERATION COMPLETE!")
+        logger.info(f"DATA: HTML Report: {html_file}")
+        logger.info(f"INFO: CSV Summary: {csv_file}")
+        logger.info("TIP: Open the HTML file in your browser for interactive analysis")
     
     except Exception as e:
-        logger.error(f"❌ Error generating report: {e}")
+        logger.error(f"ERROR: Error generating report: {e}")
         raise
 
 if __name__ == "__main__":

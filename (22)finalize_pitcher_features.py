@@ -9,10 +9,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 INPUT_PATH = "../data/fd_hitter_features_enriched.csv"
 OUTPUT_PATH = "../data/fd_hitter_features_final.csv"
 
-logging.info(f"📥 Loading enriched hitter features from {INPUT_PATH}")
+logging.info(f" Loading enriched hitter features from {INPUT_PATH}")
 # Read enriched hitter features
 df = pd.read_csv(INPUT_PATH)
-logging.info(f"✅ Loaded {len(df)} rows with {len(df.columns)} columns")
+logging.info(f"SUCCESS: Loaded {len(df)} rows with {len(df.columns)} columns")
 
 # Compute current season year dynamically
 current_year = date.today().year
@@ -26,12 +26,12 @@ weather_cols = [col for col in df.columns if any(kw in col.lower() for kw in wea
 park_cols = [col for col in ["park_factor", "park_1B", "park_2B", "park_3B", "park_HR", "park_SO", "park_BB", "park_GB", "park_FB", "park_LD", "park_IFFB", "park_FIP"] if col in df.columns]
 
 to_drop = weather_cols + park_cols
-logging.info(f"🧹 Dropping columns: {to_drop}")
+logging.info(f" Dropping columns: {to_drop}")
 
 # Drop and produce final DataFrame
 df_final = df.drop(columns=to_drop)
-logging.info(f"✅ df_final shape: {df_final.shape}")
+logging.info(f"SUCCESS: df_final shape: {df_final.shape}")
 
 # Save the cleaned DataFrame
 df_final.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"💾 Saved final hitter features → {OUTPUT_PATH}")
+logging.info(f" Saved final hitter features  {OUTPUT_PATH}")

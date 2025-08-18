@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def translate_lineups_to_names():
     """Translate our ULTIMATE lineups to player names"""
     
-    logger.info("🔍 TRANSLATING ULTIMATE LINEUPS TO PLAYER NAMES")
+    logger.info(" TRANSLATING ULTIMATE LINEUPS TO PLAYER NAMES")
     logger.info("=" * 60)
     
     # Load FanDuel slate for player lookup
@@ -33,8 +33,8 @@ def translate_lineups_to_names():
         projection = df_summary.iloc[i]['ULTIMATE_Projection']
         salary = df_summary.iloc[i]['Total_Salary']
         
-        logger.info(f"\n🏆 LINEUP {i+1}: {strategy} Strategy")
-        logger.info(f"📊 Projection: {projection} FPPG | 💰 Salary: ${salary:,}")
+        logger.info(f"\nLINEUP: LINEUP {i+1}: {strategy} Strategy")
+        logger.info(f"DATA: Projection: {projection} FPPG | MONEY: Salary: ${salary:,}")
         logger.info("-" * 50)
         
         lineup_data = {}
@@ -65,13 +65,13 @@ def translate_lineups_to_names():
         lineup_names.append(lineup_data)
     
     # Create manual entry guide
-    logger.info(f"\n📋 MANUAL ENTRY GUIDE:")
+    logger.info(f"\nINFO: MANUAL ENTRY GUIDE:")
     logger.info("=" * 60)
     logger.info("Copy these lineups into FanDuel manually:")
     
     for i, lineup in enumerate(lineup_names):
         strategy = df_summary.iloc[i]['Strategy']
-        logger.info(f"\n🎯 LINEUP {i+1} ({strategy}):")
+        logger.info(f"\nTARGET: LINEUP {i+1} ({strategy}):")
         
         for pos in ['P', 'C/1B', '2B', '3B', 'SS', 'OF', 'OF.1', 'OF.2', 'UTIL']:
             if pos in lineup:

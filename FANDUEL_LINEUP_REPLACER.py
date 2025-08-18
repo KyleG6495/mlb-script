@@ -15,30 +15,30 @@ logger = logging.getLogger(__name__)
 def replace_fanduel_lineups():
     """Replace FanDuel lineups with our ULTIMATE optimized ones"""
     
-    logger.info("🔄 FANDUEL LINEUP REPLACER")
+    logger.info("SWAP: FANDUEL LINEUP REPLACER")
     logger.info("=" * 50)
     
     # 1. Load our ULTIMATE optimized lineups
     ultimate_file = "../data/ULTIMATE_FANDUEL_LINEUPS_20250812_181717.csv"
     try:
         df_ultimate = pd.read_csv(ultimate_file)
-        logger.info(f"✅ Loaded ULTIMATE lineups: {len(df_ultimate)} lineups")
+        logger.info(f"SUCCESS: Loaded ULTIMATE lineups: {len(df_ultimate)} lineups")
     except Exception as e:
-        logger.error(f"❌ Could not load ULTIMATE lineups: {e}")
+        logger.error(f"ERROR: Could not load ULTIMATE lineups: {e}")
         return
     
     # 2. Load current FanDuel template
     fanduel_file = "../fd_current_slate/Lineups.csv"
     try:
         df_fanduel = pd.read_csv(fanduel_file)
-        logger.info(f"✅ Loaded FanDuel template: {len(df_fanduel)} rows")
+        logger.info(f"SUCCESS: Loaded FanDuel template: {len(df_fanduel)} rows")
     except Exception as e:
-        logger.error(f"❌ Could not load FanDuel template: {e}")
+        logger.error(f"ERROR: Could not load FanDuel template: {e}")
         return
     
     # 3. Find the lineup rows (they have entry_id)
     lineup_rows = df_fanduel[df_fanduel['entry_id'].notna()].head(len(df_ultimate))
-    logger.info(f"📋 Found {len(lineup_rows)} lineup entries to replace")
+    logger.info(f"INFO: Found {len(lineup_rows)} lineup entries to replace")
     
     # 4. Replace each lineup with our ULTIMATE optimized ones
     replaced_count = 0
@@ -59,25 +59,25 @@ def replace_fanduel_lineups():
             df_fanduel.loc[row_idx, 'UTIL'] = ultimate_lineup['UTIL']
             
             replaced_count += 1
-            logger.info(f"🔄 Replaced lineup {i+1}")
+            logger.info(f"SWAP: Replaced lineup {i+1}")
     
     # 5. Save the updated FanDuel file
     backup_file = "../fd_current_slate/Lineups_BACKUP.csv"
     df_fanduel.to_csv(backup_file, index=False)
-    logger.info(f"💾 Backup saved: {backup_file}")
+    logger.info(f" Backup saved: {backup_file}")
     
     output_file = "../fd_current_slate/Lineups_ULTIMATE.csv"
     df_fanduel.to_csv(output_file, index=False)
-    logger.info(f"💾 ULTIMATE lineups saved: {output_file}")
+    logger.info(f" ULTIMATE lineups saved: {output_file}")
     
     # 6. Show what we replaced
-    logger.info(f"\n🏆 REPLACEMENT SUMMARY:")
-    logger.info(f"✅ Replaced {replaced_count} lineups with ULTIMATE optimized versions")
-    logger.info(f"📋 Files created:")
+    logger.info(f"\nLINEUP: REPLACEMENT SUMMARY:")
+    logger.info(f"SUCCESS: Replaced {replaced_count} lineups with ULTIMATE optimized versions")
+    logger.info(f"INFO: Files created:")
     logger.info(f"   - Backup: {backup_file}")
     logger.info(f"   - ULTIMATE: {output_file}")
     
-    logger.info(f"\n📋 NEXT STEPS:")
+    logger.info(f"\nINFO: NEXT STEPS:")
     logger.info(f"1. Upload {output_file} to FanDuel")
     logger.info(f"2. Or copy contents to replace current Lineups.csv")
     logger.info(f"3. Your lineups now use ULTIMATE optimization!")
@@ -92,16 +92,16 @@ def show_lineup_comparison():
         summary_file = "../data/ULTIMATE_FANDUEL_SUMMARY_20250812_181717.csv"
         df_summary = pd.read_csv(summary_file)
         
-        logger.info(f"\n🔬 ULTIMATE LINEUP STRATEGIES:")
+        logger.info(f"\n ULTIMATE LINEUP STRATEGIES:")
         for _, row in df_summary.iterrows():
             logger.info(f"   {row['Strategy']:>12}: {row['ULTIMATE_Projection']} FPPG | ${row['Total_Salary']:,} | Value: {row['Value_Score']}")
     
     except Exception as e:
-        logger.warning(f"⚠️ Could not load summary: {e}")
+        logger.warning(f"WARNING: Could not load summary: {e}")
 
 if __name__ == "__main__":
     output_file = replace_fanduel_lineups()
     show_lineup_comparison()
     
-    logger.info(f"\n🎯 READY TO SUBMIT!")
-    logger.info(f"Your FanDuel lineups are now ELITE optimized! 🚀")
+    logger.info(f"\nTARGET: READY TO SUBMIT!")
+    logger.info(f"Your FanDuel lineups are now ELITE optimized! START:")

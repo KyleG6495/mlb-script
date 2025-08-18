@@ -150,13 +150,13 @@ def test_tournament_crusher_on_august_12():
         print(f"Gap to Winner: {306.0 - total_actual:.1f} points")
         
         if total_actual > 250:
-            print("🏆 CHAMPION LEVEL! Would have won or placed high!")
+            print("LINEUP: CHAMPION LEVEL! Would have won or placed high!")
         elif total_actual > 200:
-            print("🎯 EXCELLENT! Would have been very competitive!")
+            print("TARGET: EXCELLENT! Would have been very competitive!")
         elif total_actual > 160:
-            print("✅ GOOD! Significant improvement!")
+            print("SUCCESS: GOOD! Significant improvement!")
         else:
-            print("📈 BETTER! Still room for improvement")
+            print("PROGRESS: BETTER! Still room for improvement")
             
         return selected_players, total_actual
     

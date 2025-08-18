@@ -12,17 +12,17 @@ import random
 def generate_conservative_lineups():
     """Generate conservative lineups for today's slate"""
     
-    print("🏆 CONSERVATIVE LINEUP GENERATOR")
+    print("LINEUP: CONSERVATIVE LINEUP GENERATOR")
     print("=" * 50)
     
     # Load slate with conservative projections
     slate_file = "../data/fd_slate_conservative_projections.csv"
     df = pd.read_csv(slate_file)
     
-    print(f"📊 Loaded {len(df)} players from today's slate")
+    print(f"DATA: Loaded {len(df)} players from today's slate")
     
     # Show position breakdown
-    print(f"\n📋 POSITION BREAKDOWN:")
+    print(f"\nINFO: POSITION BREAKDOWN:")
     position_counts = df['Position'].value_counts()
     for pos, count in position_counts.items():
         print(f"   {pos}: {count} players")
@@ -37,19 +37,19 @@ def generate_conservative_lineups():
     
     if lineups:
         save_conservative_lineups(lineups)
-        print(f"\n✅ Successfully generated {len(lineups)} conservative lineups!")
+        print(f"\nSUCCESS: Successfully generated {len(lineups)} conservative lineups!")
         
         # Show summary
-        print(f"\n🏆 LINEUP SUMMARY:")
+        print(f"\nLINEUP: LINEUP SUMMARY:")
         for lineup in lineups:
             print(f"   {lineup['lineup_id']}: ${lineup['total_salary']:,} salary, {lineup['projected_fppg']:.1f} FPPG")
         
         avg_salary = sum(l['total_salary'] for l in lineups) / len(lineups)
         avg_fppg = sum(l['projected_fppg'] for l in lineups) / len(lineups)
-        print(f"\n📊 AVERAGES: ${avg_salary:,.0f} salary, {avg_fppg:.1f} FPPG")
+        print(f"\nDATA: AVERAGES: ${avg_salary:,.0f} salary, {avg_fppg:.1f} FPPG")
         
     else:
-        print("❌ Failed to generate any lineups")
+        print("ERROR: Failed to generate any lineups")
 
 def build_lineup(df, lineup_num):
     """Build a single conservative lineup"""
@@ -126,11 +126,11 @@ def build_lineup(df, lineup_num):
                 'projected_fppg': total_fppg
             }
         else:
-            print(f"⚠️ Lineup {lineup_num}: {len(selected_players)} players, ${total_salary:,} salary")
+            print(f"WARNING: Lineup {lineup_num}: {len(selected_players)} players, ${total_salary:,} salary")
             return None
             
     except Exception as e:
-        print(f"❌ Error building lineup {lineup_num}: {e}")
+        print(f"ERROR: Error building lineup {lineup_num}: {e}")
         return None
 
 def save_conservative_lineups(lineups):
@@ -201,9 +201,9 @@ def save_conservative_lineups(lineups):
     fanduel_file = f"../data/conservative_lineups_fanduel_{timestamp}.csv"
     fanduel_df.to_csv(fanduel_file, index=False)
     
-    print(f"✅ Saved conservative lineup details: {details_file}")
-    print(f"✅ Saved conservative lineup summary: {summary_file}")
-    print(f"✅ Saved FanDuel submission format: {fanduel_file}")
+    print(f"SUCCESS: Saved conservative lineup details: {details_file}")
+    print(f"SUCCESS: Saved conservative lineup summary: {summary_file}")
+    print(f"SUCCESS: Saved FanDuel submission format: {fanduel_file}")
     
     return details_file, summary_file, fanduel_file
 

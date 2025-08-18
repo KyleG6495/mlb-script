@@ -2,7 +2,7 @@
 """
 predict_prop.py
 
-Load a trained strikeouts model and compute P(K ≥ line) for today’s probables,
+Load a trained strikeouts model and compute P(K  line) for todays probables,
 automatically aligning any missing or extra features.
 """
 import argparse
@@ -16,13 +16,13 @@ def main():
     parser.add_argument("--model",    required=True,
                         help="Path to your trained model (.joblib)")
     parser.add_argument("--features", required=True,
-                        help="CSV of today’s probables with feature columns")
+                        help="CSV of todays probables with feature columns")
     parser.add_argument("--lines",    nargs="+", type=float, required=True,
                         help="Prop lines to compute P(over) for (e.g. 5.5 6.5 7.5)")
     parser.add_argument("--output",   required=True,
                         help="Where to save the predictions CSV")
     parser.add_argument("--sigma",    type=float, default=1.24,
-                        help="Error σ (use your validation RMSE)")
+                        help="Error  (use your validation RMSE)")
     args = parser.parse_args()
 
     # Load model and grab exact feature names
@@ -32,7 +32,7 @@ def main():
     # Load your probables table
     df = pd.read_csv(args.features)
 
-    # If last‐game K’s column exists, rename it to match training
+    # If lastgame Ks column exists, rename it to match training
     if "strikeOuts" in df.columns and "strikeOuts_feat" in expected:
         df = df.rename(columns={"strikeOuts": "strikeOuts_feat"})
 
@@ -47,18 +47,18 @@ def main():
     # Drop any extras and ensure column order matches training
     X = X[expected]
 
-    # Predict point‐estimate
+    # Predict pointestimate
     df["predicted_K"] = model.predict(X)
 
-    # Compute P(K ≥ line) for each requested line
+    # Compute P(K  line) for each requested line
     for line in args.lines:
-        df[f"P(K ≥ {line})"] = 1 - stats.norm.cdf(
+        df[f"P(K  {line})"] = 1 - stats.norm.cdf(
             line, loc=df["predicted_K"], scale=args.sigma
         )
 
     # Save results
     df.to_csv(args.output, index=False)
-    print(f"✅ Saved predictions to {args.output}")
+    print(f"SUCCESS: Saved predictions to {args.output}")
 
 if __name__ == "__main__":
     main()

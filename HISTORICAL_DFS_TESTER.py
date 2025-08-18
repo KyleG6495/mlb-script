@@ -21,39 +21,39 @@ class HistoricalDFSTester:
         
     def load_historical_slate(self):
         """Load yesterday's slate (what we would have seen)"""
-        print("📊 Loading yesterday's slate data (pre-game)...")
+        print("DATA: Loading yesterday's slate data (pre-game)...")
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
             
         slate_df = pd.read_csv(slate_file)
-        print(f"✅ Loaded slate with {len(slate_df)} available players")
+        print(f"SUCCESS: Loaded slate with {len(slate_df)} available players")
         
         return slate_df
     
     def load_actual_results(self):
         """Load actual results (what happened after games)"""
-        print("🎯 Loading actual game results...")
+        print("TARGET: Loading actual game results...")
         
         actual_file = self.data_dir / "actual_results_latest.csv"
         if not actual_file.exists():
-            print("❌ No actual results found")
+            print("ERROR: No actual results found")
             return None
             
         actual_df = pd.read_csv(actual_file)
-        print(f"✅ Loaded actual results for {len(actual_df)} players")
+        print(f"SUCCESS: Loaded actual results for {len(actual_df)} players")
         
         if 'date' in actual_df.columns:
             latest_date = actual_df['date'].max()
-            print(f"📅 Results from: {latest_date}")
+            print(f" Results from: {latest_date}")
         
         return actual_df
     
     def calculate_actual_fppg(self, actual_df):
         """Calculate actual FPPG from game results"""
-        print("🔢 Calculating actual FPPG scores...")
+        print(" Calculating actual FPPG scores...")
         
         actual_df = actual_df.copy()
         
@@ -77,13 +77,13 @@ class HistoricalDFSTester:
         if 'fanduel_points' in actual_df.columns:
             actual_df['actual_fppg'] = actual_df['fanduel_points'].fillna(actual_df['actual_fppg'])
         
-        print(f"📈 Actual FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
+        print(f"PROGRESS: Actual FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
         
         return actual_df
     
     def generate_old_system_lineup(self, slate_df):
         """Generate lineup using OLD system (basic validation only)"""
-        print("🎯 Generating lineup using OLD validation system...")
+        print("TARGET: Generating lineup using OLD validation system...")
         
         # Basic validation only (what we used to do)
         safe_players = slate_df[
@@ -112,7 +112,7 @@ class HistoricalDFSTester:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable {position} players")
+                print(f"ERROR: No affordable {position} players")
                 return None
             
             # Pick best value
@@ -133,7 +133,7 @@ class HistoricalDFSTester:
     
     def generate_filtered_system_lineup(self, slate_df):
         """Generate lineup using NEW filtered system (injury/probable pitcher filtering)"""
-        print("🔧 Generating lineup using NEW filtered system...")
+        print("STEP: Generating lineup using NEW filtered system...")
         
         # Apply slate-based filtering (our new approach)
         filtered_slate = slate_df.copy()
@@ -142,7 +142,7 @@ class HistoricalDFSTester:
         if 'Injury Indicator' in filtered_slate.columns:
             injured_players = filtered_slate['Injury Indicator'].notna()
             injured_count = injured_players.sum()
-            print(f"  🚨 Filtering out {injured_count} injured players")
+            print(f"   Filtering out {injured_count} injured players")
             filtered_slate = filtered_slate[~injured_players]
         
         # Remove non-probable pitchers
@@ -151,7 +151,7 @@ class HistoricalDFSTester:
             non_probable = pitchers['Probable Pitcher'] != 'Yes'
             non_probable_ids = set(pitchers[non_probable]['Id'])
             filtered_slate = filtered_slate[~filtered_slate['Id'].isin(non_probable_ids)]
-            print(f"  🎯 Keeping only {(pitchers['Probable Pitcher'] == 'Yes').sum()} probable pitchers")
+            print(f"  TARGET: Keeping only {(pitchers['Probable Pitcher'] == 'Yes').sum()} probable pitchers")
         
         # Quality filter
         filtered_slate = filtered_slate[
@@ -159,10 +159,10 @@ class HistoricalDFSTester:
             (filtered_slate['Salary'] >= 2000)
         ]
         
-        print(f"  ✅ Working with {len(filtered_slate)} filtered players")
+        print(f"  SUCCESS: Working with {len(filtered_slate)} filtered players")
         
         if len(filtered_slate) < 50:
-            print("❌ Not enough filtered players")
+            print("ERROR: Not enough filtered players")
             return None
         
         # Calculate value
@@ -191,7 +191,7 @@ class HistoricalDFSTester:
             affordable = candidates[candidates['Salary'] <= max_spend]
             
             if affordable.empty:
-                print(f"❌ No affordable filtered {position} players")
+                print(f"ERROR: No affordable filtered {position} players")
                 return None
             
             # Pick best value
@@ -215,7 +215,7 @@ class HistoricalDFSTester:
         if not lineup:
             return None
         
-        print(f"\n📊 Scoring {lineup['system']} lineup against actual results...")
+        print(f"\nDATA: Scoring {lineup['system']} lineup against actual results...")
         
         # Create name lookup for actual results
         actual_df['full_name'] = actual_df['name'].str.lower().str.strip()
@@ -250,28 +250,28 @@ class HistoricalDFSTester:
     def analyze_lineup_results(self, results):
         """Analyze and compare lineup results"""
         print("\n" + "="*70)
-        print("🏆 HISTORICAL LINEUP PERFORMANCE ANALYSIS")
+        print("LINEUP: HISTORICAL LINEUP PERFORMANCE ANALYSIS")
         print("="*70)
         
         for result in results:
             if not result:
                 continue
                 
-            print(f"\n📊 {result['system']}:")
-            print(f"  💰 Salary: ${result['total_salary']:,}")
-            print(f"  📈 Projected: {result['total_projected']:.1f} FPPG")
-            print(f"  🎯 Actual: {result['total_actual']:.1f} FPPG")
-            print(f"  🎪 Accuracy: {result['accuracy']:.1f}%")
+            print(f"\nDATA: {result['system']}:")
+            print(f"  MONEY: Salary: ${result['total_salary']:,}")
+            print(f"  PROGRESS: Projected: {result['total_projected']:.1f} FPPG")
+            print(f"  TARGET: Actual: {result['total_actual']:.1f} FPPG")
+            print(f"   Accuracy: {result['accuracy']:.1f}%")
             
-            print(f"  👥 Players:")
+            print(f"  OWNERSHIP: Players:")
             points_scored = 0
             for player in result['players']:
-                status = "🔥" if player['actual'] > player['projected'] * 1.2 else "✅" if player['actual'] >= player['projected'] * 0.8 else "❌"
+                status = "" if player['actual'] > player['projected'] * 1.2 else "SUCCESS:" if player['actual'] >= player['projected'] * 0.8 else "ERROR:"
                 if player['actual'] > 0:
                     points_scored += 1
                 print(f"    {status} {player['name']:20} ({player['position']:4}) ${player['salary']:5,} | Proj: {player['projected']:5.1f} | Actual: {player['actual']:5.1f} | Diff: {player['diff']:+5.1f}")
             
-            print(f"  📊 Players who scored points: {points_scored}/9")
+            print(f"  DATA: Players who scored points: {points_scored}/9")
         
         # Performance comparison
         if len(results) >= 2:
@@ -281,23 +281,23 @@ class HistoricalDFSTester:
             if old_result and new_result:
                 improvement = ((new_result['total_actual'] - old_result['total_actual']) / old_result['total_actual']) * 100 if old_result['total_actual'] > 0 else 0
                 
-                print(f"\n🚀 PERFORMANCE COMPARISON:")
-                print(f"  🎯 Old System: {old_result['total_actual']:.1f} FPPG")
-                print(f"  🔧 New Filtered: {new_result['total_actual']:.1f} FPPG")
-                print(f"  📈 Improvement: {improvement:+.1f}%")
+                print(f"\nSTART: PERFORMANCE COMPARISON:")
+                print(f"  TARGET: Old System: {old_result['total_actual']:.1f} FPPG")
+                print(f"  STEP: New Filtered: {new_result['total_actual']:.1f} FPPG")
+                print(f"  PROGRESS: Improvement: {improvement:+.1f}%")
                 
                 if improvement > 100:
-                    print(f"  🎉 MASSIVE IMPROVEMENT! New system is {improvement:.0f}% better!")
+                    print(f"  COMPLETE: MASSIVE IMPROVEMENT! New system is {improvement:.0f}% better!")
                 elif improvement > 50:
-                    print(f"  ✅ SIGNIFICANT IMPROVEMENT! New system is {improvement:.0f}% better!")
+                    print(f"  SUCCESS: SIGNIFICANT IMPROVEMENT! New system is {improvement:.0f}% better!")
                 elif improvement > 0:
-                    print(f"  ⚡ IMPROVEMENT! New system is {improvement:.0f}% better!")
+                    print(f"   IMPROVEMENT! New system is {improvement:.0f}% better!")
                 else:
-                    print(f"  ⚠️  Old system performed better this time")
+                    print(f"  WARNING:  Old system performed better this time")
     
     def run_historical_test(self):
         """Run complete historical test"""
-        print("🕐 HISTORICAL DFS LINEUP TEST")
+        print("TIME: HISTORICAL DFS LINEUP TEST")
         print("Testing what would have happened with different systems")
         print("="*70)
         
@@ -307,20 +307,20 @@ class HistoricalDFSTester:
             return
         
         # Step 2: Generate lineups using different systems (no hindsight)
-        print("\n🎯 GENERATING LINEUPS (No hindsight - just slate data)...")
+        print("\nTARGET: GENERATING LINEUPS (No hindsight - just slate data)...")
         old_lineup = self.generate_old_system_lineup(slate_df)
         new_lineup = self.generate_filtered_system_lineup(slate_df)
         
         # Step 3: Load actual results
         actual_df = self.load_actual_results()
         if actual_df is None:
-            print("❌ Cannot score lineups without actual results")
+            print("ERROR: Cannot score lineups without actual results")
             return
         
         actual_df = self.calculate_actual_fppg(actual_df)
         
         # Step 4: Score the lineups against actual results
-        print("\n🎯 SCORING LINEUPS AGAINST ACTUAL RESULTS...")
+        print("\nTARGET: SCORING LINEUPS AGAINST ACTUAL RESULTS...")
         results = []
         
         if old_lineup:
@@ -337,14 +337,14 @@ class HistoricalDFSTester:
         if results:
             self.analyze_lineup_results(results)
             
-            print(f"\n🎉 HISTORICAL TEST COMPLETE!")
-            print(f"📈 This shows what ACTUALLY would have happened")
-            print(f"💡 Generated lineups first, then scored against real results")
+            print(f"\nCOMPLETE: HISTORICAL TEST COMPLETE!")
+            print(f"PROGRESS: This shows what ACTUALLY would have happened")
+            print(f"TIP: Generated lineups first, then scored against real results")
         else:
-            print("❌ Failed to generate any lineups")
+            print("ERROR: Failed to generate any lineups")
 
 def main():
-    print("🕐 HISTORICAL DFS LINEUP TESTER")
+    print("TIME: HISTORICAL DFS LINEUP TESTER")
     print("Generate lineups first, then check against actual results")
     print("="*70)
     

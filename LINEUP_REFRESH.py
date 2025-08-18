@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🔄 LINEUP REFRESH SYSTEM
+SWAP: LINEUP REFRESH SYSTEM
 Quick update for new fd_slate_today.csv with batting orders/lineups
 No historical data pull needed - just weather and projections refresh
 """
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def check_slate_updates():
     """Check what's new in the slate file"""
-    logger.info("🔍 CHECKING SLATE UPDATES...")
+    logger.info(" CHECKING SLATE UPDATES...")
     
     try:
         df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
@@ -29,7 +29,7 @@ def check_slate_updates():
         # Check IL players
         il_count = len(df[df['Injury Indicator'] == 'IL']) if 'Injury Indicator' in df.columns else 0
         
-        logger.info(f"📊 SLATE ANALYSIS:")
+        logger.info(f"DATA: SLATE ANALYSIS:")
         logger.info(f"   Total players: {len(df)}")
         logger.info(f"   Batting orders available: {has_batting_order}")
         logger.info(f"   Confirmed starters: {confirmed_count}")
@@ -44,12 +44,12 @@ def check_slate_updates():
         }
         
     except Exception as e:
-        logger.error(f"❌ Error reading slate: {e}")
+        logger.error(f"ERROR: Error reading slate: {e}")
         return None
 
 def update_weather_data():
     """Update weather data for today's games"""
-    logger.info("🌤️  UPDATING WEATHER DATA...")
+    logger.info("  UPDATING WEATHER DATA...")
     
     try:
         # Try different weather update methods
@@ -68,26 +68,26 @@ def update_weather_data():
                 break
         
         if not weather_updated:
-            logger.warning("⚠️  No weather update script found")
+            logger.warning("WARNING:  No weather update script found")
             
         # Check if weather data exists
         weather_files = ['../data/weather_today.csv', 'weather_today.csv']
         weather_available = any(os.path.exists(f) for f in weather_files)
         
         if weather_available:
-            logger.info("✅ Weather data available")
+            logger.info("SUCCESS: Weather data available")
         else:
-            logger.warning("⚠️  No weather data found")
+            logger.warning("WARNING:  No weather data found")
             
         return weather_available
         
     except Exception as e:
-        logger.error(f"❌ Weather update error: {e}")
+        logger.error(f"ERROR: Weather update error: {e}")
         return False
 
 def rebuild_today_features():
     """Rebuild today's features with new lineup data"""
-    logger.info("🏗️  REBUILDING TODAY'S FEATURES...")
+    logger.info("  REBUILDING TODAY'S FEATURES...")
     
     feature_scripts = [
         ('11. build_today_pitcher_features.py', 'Pitcher features'),
@@ -103,17 +103,17 @@ def rebuild_today_features():
             try:
                 os.system(f'python "{script}"')
                 updated_features.append(description)
-                logger.info(f"   ✅ {description} updated")
+                logger.info(f"   SUCCESS: {description} updated")
             except Exception as e:
-                logger.error(f"   ❌ Error updating {description}: {e}")
+                logger.error(f"   ERROR: Error updating {description}: {e}")
         else:
-            logger.warning(f"   ⚠️  {script} not found")
+            logger.warning(f"   WARNING:  {script} not found")
     
     return updated_features
 
 def update_projections():
     """Update player projections with new data"""
-    logger.info("🎯 UPDATING PROJECTIONS...")
+    logger.info("TARGET: UPDATING PROJECTIONS...")
     
     projection_scripts = [
         ('(23)project_base_hitter_scores.py', 'Base hitter scores'),
@@ -130,21 +130,21 @@ def update_projections():
             try:
                 os.system(f'python "{script}"')
                 updated_projections.append(description)
-                logger.info(f"   ✅ {description} updated")
+                logger.info(f"   SUCCESS: {description} updated")
             except Exception as e:
-                logger.error(f"   ❌ Error updating {description}: {e}")
+                logger.error(f"   ERROR: Error updating {description}: {e}")
         else:
-            logger.warning(f"   ⚠️  {script} not found")
+            logger.warning(f"   WARNING:  {script} not found")
     
     return updated_projections
 
 def update_confirmed_starters():
     """Update confirmed starters from Rotowire"""
-    logger.info("🎯 UPDATING CONFIRMED STARTERS FROM ROTOWIRE...")
+    logger.info("TARGET: UPDATING CONFIRMED STARTERS FROM ROTOWIRE...")
     
     try:
         if os.path.exists('DYNAMIC_CONFIRMED_STARTERS.py'):
-            logger.info("   📡 Fetching latest lineup information from Rotowire...")
+            logger.info("    Fetching latest lineup information from Rotowire...")
             os.system('python DYNAMIC_CONFIRMED_STARTERS.py')
             
             # Check if confirmed starters file was created
@@ -156,23 +156,23 @@ def update_confirmed_starters():
             for file_path in confirmed_files:
                 if os.path.exists(file_path):
                     df = pd.read_csv(file_path)
-                    logger.info(f"✅ Confirmed starters updated: {len(df)} players confirmed")
+                    logger.info(f"SUCCESS: Confirmed starters updated: {len(df)} players confirmed")
                     return True
             
-            logger.warning("⚠️  Confirmed starters file not found after update")
+            logger.warning("WARNING:  Confirmed starters file not found after update")
             return False
             
         else:
-            logger.warning("⚠️  DYNAMIC_CONFIRMED_STARTERS.py not found")
+            logger.warning("WARNING:  DYNAMIC_CONFIRMED_STARTERS.py not found")
             return False
             
     except Exception as e:
-        logger.error(f"❌ Error updating confirmed starters: {e}")
+        logger.error(f"ERROR: Error updating confirmed starters: {e}")
         return False
 
 def create_healthy_slate(slate_df):
     """Create IL-free slate"""
-    logger.info("🏥 CREATING HEALTHY-ONLY SLATE...")
+    logger.info(" CREATING HEALTHY-ONLY SLATE...")
     
     # Remove IL players
     healthy_df = slate_df[slate_df['Injury Indicator'] != 'IL'].copy()
@@ -180,7 +180,7 @@ def create_healthy_slate(slate_df):
     # Save healthy slate
     healthy_df.to_csv('../data/fd_slave_NO_IL_PLAYERS.csv', index=False)
     
-    logger.info(f"✅ Healthy slate created:")
+    logger.info(f"SUCCESS: Healthy slate created:")
     logger.info(f"   Original: {len(slate_df)} players")
     logger.info(f"   Healthy: {len(healthy_df)} players")
     logger.info(f"   Removed: {len(slate_df) - len(healthy_df)} IL players")
@@ -189,7 +189,7 @@ def create_healthy_slate(slate_df):
 
 def filter_only_confirmed_starters():
     """Filter to only confirmed starting players"""
-    logger.info("🔒 FILTERING TO CONFIRMED STARTERS ONLY...")
+    logger.info(" FILTERING TO CONFIRMED STARTERS ONLY...")
     
     try:
         # Look for confirmed starters file
@@ -202,17 +202,17 @@ def filter_only_confirmed_starters():
         for file_path in confirmed_files:
             if os.path.exists(file_path):
                 confirmed_df = pd.read_csv(file_path)
-                logger.info(f"📊 Loaded confirmed starters: {len(confirmed_df)} players")
+                logger.info(f"DATA: Loaded confirmed starters: {len(confirmed_df)} players")
                 break
         
         if confirmed_df is None:
-            logger.warning("⚠️  No confirmed starters file found - using healthy slate")
+            logger.warning("WARNING:  No confirmed starters file found - using healthy slate")
             return False
         
         # Also check batting order information
         batting_order_count = confirmed_df['Batting Order'].notna().sum() if 'Batting Order' in confirmed_df.columns else 0
         
-        logger.info(f"✅ Confirmed starters analysis:")
+        logger.info(f"SUCCESS: Confirmed starters analysis:")
         logger.info(f"   Total confirmed: {len(confirmed_df)} players")
         logger.info(f"   With batting order: {batting_order_count} players")
         logger.info(f"   Pitchers: {len(confirmed_df[confirmed_df['Position'] == 'P'])} starters")
@@ -223,32 +223,32 @@ def filter_only_confirmed_starters():
         return True
         
     except Exception as e:
-        logger.error(f"❌ Error filtering confirmed starters: {e}")
+        logger.error(f"ERROR: Error filtering confirmed starters: {e}")
         return False
 
 def regenerate_lineups():
     """Regenerate championship lineups and combine into single sheet"""
-    logger.info("🏆 REGENERATING CHAMPIONSHIP LINEUPS...")
+    logger.info("LINEUP: REGENERATING CHAMPIONSHIP LINEUPS...")
     
     try:
         if os.path.exists('MULTIPLE_CHAMPIONSHIP_BUILDER.py'):
             os.system('python MULTIPLE_CHAMPIONSHIP_BUILDER.py')
-            logger.info("✅ Championship lineups regenerated")
+            logger.info("SUCCESS: Championship lineups regenerated")
             
             # Combine all individual lineup files into one sheet
             combine_lineups_to_single_sheet()
             
             return True
         else:
-            logger.error("❌ MULTIPLE_CHAMPIONSHIP_BUILDER.py not found")
+            logger.error("ERROR: MULTIPLE_CHAMPIONSHIP_BUILDER.py not found")
             return False
     except Exception as e:
-        logger.error(f"❌ Error regenerating lineups: {e}")
+        logger.error(f"ERROR: Error regenerating lineups: {e}")
         return False
 
 def combine_lineups_to_single_sheet():
     """Combine all individual lineup files into a single FanDuel-ready sheet"""
-    logger.info("📋 COMBINING LINEUPS INTO SINGLE SHEET...")
+    logger.info("INFO: COMBINING LINEUPS INTO SINGLE SHEET...")
     
     try:
         import glob
@@ -259,7 +259,7 @@ def combine_lineups_to_single_sheet():
         lineup_files = glob.glob(lineup_pattern)
         
         if not lineup_files:
-            logger.warning("⚠️  No championship lineup files found")
+            logger.warning("WARNING:  No championship lineup files found")
             return False
         
         # Sort by modification time to get the newest batch
@@ -285,10 +285,10 @@ def combine_lineups_to_single_sheet():
                 continue
         
         if not latest_files:
-            logger.warning("⚠️  Could not identify latest lineup batch")
+            logger.warning("WARNING:  Could not identify latest lineup batch")
             return False
         
-        logger.info(f"   📁 Found {len(latest_files)} lineup files from latest batch")
+        logger.info(f"    Found {len(latest_files)} lineup files from latest batch")
         
         # Read and combine all lineups
         combined_lineups = []
@@ -303,14 +303,14 @@ def combine_lineups_to_single_sheet():
                     
                     # Extract lineup info for logging
                     filename = os.path.basename(file_path)
-                    logger.info(f"   ✅ Added {filename}")
+                    logger.info(f"   SUCCESS: Added {filename}")
                     
             except Exception as e:
-                logger.warning(f"   ⚠️  Could not read {file_path}: {e}")
+                logger.warning(f"   WARNING:  Could not read {file_path}: {e}")
                 continue
         
         if not combined_lineups:
-            logger.error("❌ No valid lineup data found")
+            logger.error("ERROR: No valid lineup data found")
             return False
         
         # Combine all lineups into single DataFrame
@@ -324,45 +324,45 @@ def combine_lineups_to_single_sheet():
         final_df.to_csv(output_file, index=False)
         
         logger.info(f"")
-        logger.info(f"✅ COMBINED LINEUP SHEET CREATED:")
-        logger.info(f"   📊 Total lineups: {len(final_df)}")
-        logger.info(f"   💾 File: {output_file}")
-        logger.info(f"   🎯 Format: Ready for FanDuel multi-entry upload")
-        logger.info(f"   📋 Lineup IDs: LINEUP_1 through LINEUP_{len(final_df)}")
+        logger.info(f"SUCCESS: COMBINED LINEUP SHEET CREATED:")
+        logger.info(f"   DATA: Total lineups: {len(final_df)}")
+        logger.info(f"    File: {output_file}")
+        logger.info(f"   TARGET: Format: Ready for FanDuel multi-entry upload")
+        logger.info(f"   INFO: Lineup IDs: LINEUP_1 through LINEUP_{len(final_df)}")
         
         # Also create a copy in fd_current_slate for easy access
         easy_access_file = '../fd_current_slate/ALL_CHAMPIONSHIP_LINEUPS_READY.csv'
         final_df.to_csv(easy_access_file, index=False)
-        logger.info(f"   📁 Quick access copy: {easy_access_file}")
+        logger.info(f"    Quick access copy: {easy_access_file}")
         
         return True
         
     except Exception as e:
-        logger.error(f"❌ Error combining lineups: {e}")
+        logger.error(f"ERROR: Error combining lineups: {e}")
         import traceback
         traceback.print_exc()
         return False
 
 def validate_lineups():
     """Validate the regenerated lineups"""
-    logger.info("🔍 VALIDATING LINEUPS...")
+    logger.info(" VALIDATING LINEUPS...")
     
     try:
         if os.path.exists('QUICK_LINEUP_CHECK.py'):
             os.system('python QUICK_LINEUP_CHECK.py')
-            logger.info("✅ Lineup validation complete")
+            logger.info("SUCCESS: Lineup validation complete")
             return True
         else:
-            logger.warning("⚠️  QUICK_LINEUP_CHECK.py not found")
+            logger.warning("WARNING:  QUICK_LINEUP_CHECK.py not found")
             return False
     except Exception as e:
-        logger.error(f"❌ Error validating lineups: {e}")
+        logger.error(f"ERROR: Error validating lineups: {e}")
         return False
 
 def main():
     """Main lineup refresh process"""
     
-    logger.info("🔄 LINEUP REFRESH SYSTEM")
+    logger.info("SWAP: LINEUP REFRESH SYSTEM")
     logger.info("=" * 60)
     logger.info("Quick update for new slate with batting orders/lineups")
     logger.info("No historical data pull - just weather and projections")
@@ -372,7 +372,7 @@ def main():
         # Step 1: Check slate updates
         slate_info = check_slate_updates()
         if not slate_info:
-            logger.error("❌ Could not read slate file")
+            logger.error("ERROR: Could not read slate file")
             return
         
         # Step 2: Update weather
@@ -401,35 +401,35 @@ def main():
         
         # Summary
         logger.info("=" * 60)
-        logger.info("🎉 LINEUP REFRESH COMPLETE!")
+        logger.info("COMPLETE: LINEUP REFRESH COMPLETE!")
         logger.info("=" * 60)
         
-        logger.info("📊 SUMMARY:")
-        logger.info(f"   🌤️  Weather updated: {'✅' if weather_updated else '⚠️'}")
-        logger.info(f"   🏗️  Features updated: {len(updated_features)} scripts")
-        logger.info(f"   🎯 Projections updated: {len(updated_projections)} scripts")
-        logger.info(f"   📡 Confirmed starters: {'✅' if confirmed_updated else '⚠️'}")
-        logger.info(f"   🏥 Healthy players: {len(healthy_df)}")
-        logger.info(f"   🔒 Confirmed filtering: {'✅' if confirmed_filtered else '⚠️'}")
-        logger.info(f"   🏆 Lineups regenerated: {'✅' if lineups_updated else '❌'}")
-        logger.info(f"   🔍 Validation complete: {'✅' if validation_complete else '⚠️'}")
+        logger.info("DATA: SUMMARY:")
+        logger.info(f"     Weather updated: {'SUCCESS:' if weather_updated else 'WARNING:'}")
+        logger.info(f"     Features updated: {len(updated_features)} scripts")
+        logger.info(f"   TARGET: Projections updated: {len(updated_projections)} scripts")
+        logger.info(f"    Confirmed starters: {'SUCCESS:' if confirmed_updated else 'WARNING:'}")
+        logger.info(f"    Healthy players: {len(healthy_df)}")
+        logger.info(f"    Confirmed filtering: {'SUCCESS:' if confirmed_filtered else 'WARNING:'}")
+        logger.info(f"   LINEUP: Lineups regenerated: {'SUCCESS:' if lineups_updated else 'ERROR:'}")
+        logger.info(f"    Validation complete: {'SUCCESS:' if validation_complete else 'WARNING:'}")
         
         if lineups_updated:
             logger.info("")
-            logger.info("🚀 NEXT STEPS:")
+            logger.info("START: NEXT STEPS:")
             logger.info("1. Review the combined championship lineups file")
             logger.info("2. Check for any last-minute injury news")
             logger.info("3. Upload the single file to FanDuel (supports multi-entry)")
             logger.info("4. Monitor weather/lineup changes until lock")
             logger.info("")
-            logger.info("📁 FILES READY:")
-            logger.info("   • ALL_CHAMPIONSHIP_LINEUPS_READY.csv (in fd_current_slate)")
-            logger.info("   • Individual files still available in data folder")
+            logger.info(" FILES READY:")
+            logger.info("    ALL_CHAMPIONSHIP_LINEUPS_READY.csv (in fd_current_slate)")
+            logger.info("    Individual files still available in data folder")
         else:
-            logger.error("❌ Lineup generation failed - check logs above")
+            logger.error("ERROR: Lineup generation failed - check logs above")
             
     except Exception as e:
-        logger.error(f"❌ Lineup refresh error: {e}")
+        logger.error(f"ERROR: Lineup refresh error: {e}")
         import traceback
         traceback.print_exc()
 

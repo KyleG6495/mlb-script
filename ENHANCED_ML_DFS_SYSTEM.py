@@ -31,8 +31,10 @@ SCRIPTS_DIR = Path(__file__).resolve().parent
 MODELS_DIR = SCRIPTS_DIR / "models"
 FD_SLATE_DIR = Path(__file__).resolve().parent.parent / "fd_current_slate"
 
-# Input files - USE CONFIRMED STARTERS ONLY
-SLATE_FILE = BASE_DIR / "fd_slate_starters_only.csv"
+# Input files - USE CURRENT SLATE (UPDATED TODAY 2:36 PM)
+# CRITICAL: Always use fd_current_slate directory, never data directory
+# See CONFIG_CRITICAL_PATHS.py for documentation
+SLATE_FILE = FD_SLATE_DIR / "fd_slate_today.csv"
 HITTER_FEATURES = BASE_DIR / "fd_hitter_features_final.csv" 
 PITCHER_FEATURES = BASE_DIR / "fd_pitcher_features_final.csv"
 
@@ -562,7 +564,7 @@ def load_enhanced_player_data():
         logger.info(f"After filtering out inactive players: {filtered_count} players (removed {initial_count - filtered_count})")
         logger.info(f"Kept {len(starting_pitchers)} starting pitchers and {len(active_non_pitchers)} active non-pitchers")
     
-    # 🚀 CRITICAL INJURY FILTERING - Prevents selecting injured players (86.7 vs 31.7 FPPG improvement!)
+    # START: CRITICAL INJURY FILTERING - Prevents selecting injured players (86.7 vs 31.7 FPPG improvement!)
     if 'Injury Indicator' in slate.columns:
         pre_injury_count = len(slate)
         injured_players = slate['Injury Indicator'].notna()
@@ -570,12 +572,12 @@ def load_enhanced_player_data():
         
         if injured_count > 0:
             slate = slate[~injured_players]
-            logger.info(f"🚨 INJURY FILTER: Removed {injured_count} injured players (prevents disaster lineups!)")
+            logger.info(f" INJURY FILTER: Removed {injured_count} injured players (prevents disaster lineups!)")
             logger.info(f"After injury filtering: {len(slate)} players (removed {pre_injury_count - len(slate)} total)")
         else:
-            logger.info("✅ No injured players found in slate")
+            logger.info("SUCCESS: No injured players found in slate")
     
-    # 🎯 PROBABLE PITCHER FILTERING - Only use confirmed starters
+    # TARGET: PROBABLE PITCHER FILTERING - Only use confirmed starters
     if 'Probable Pitcher' in slate.columns:
         pitchers = slate[slate['Position'] == 'P']
         probable_pitchers = pitchers[pitchers['Probable Pitcher'] == 'Yes']
@@ -586,9 +588,9 @@ def load_enhanced_player_data():
         
         removed_pitchers = len(pitchers) - len(probable_pitchers)
         if removed_pitchers > 0:
-            logger.info(f"🎯 PITCHER FILTER: Kept {len(probable_pitchers)} probable starters, removed {removed_pitchers} non-probable pitchers")
+            logger.info(f"TARGET: PITCHER FILTER: Kept {len(probable_pitchers)} probable starters, removed {removed_pitchers} non-probable pitchers")
         else:
-            logger.info("✅ All pitchers are probable starters")
+            logger.info("SUCCESS: All pitchers are probable starters")
     
     # Extract player_id from FanDuel format
     if 'Id' in slate.columns:
@@ -778,7 +780,7 @@ def create_fanduel_submission_format(lineups_df, rankings_df):
 def print_detailed_summary(rankings_df):
     """Print comprehensive summary of optimization results"""
     print("\n" + "="*80)
-    print("🚀 ENHANCED ML-POWERED DFS OPTIMIZATION - COMPLETE!")
+    print("START: ENHANCED ML-POWERED DFS OPTIMIZATION - COMPLETE!")
     print("="*80)
     
     # Overall statistics
@@ -787,10 +789,10 @@ def print_detailed_summary(rankings_df):
     avg_ceiling = rankings_df['ceiling_fppg'].mean()
     avg_floor = rankings_df['floor_fppg'].mean()
     
-    print(f"📊 GENERATED {total_lineups} OPTIMIZED LINEUPS")
-    print(f"📈 Average Projection: {avg_projection:.1f} FPPG")
-    print(f"🎯 Average Ceiling: {avg_ceiling:.1f} FPPG")
-    print(f"🛡️ Average Floor: {avg_floor:.1f} FPPG")
+    print(f"DATA: GENERATED {total_lineups} OPTIMIZED LINEUPS")
+    print(f"PROGRESS: Average Projection: {avg_projection:.1f} FPPG")
+    print(f"TARGET: Average Ceiling: {avg_ceiling:.1f} FPPG")
+    print(f" Average Floor: {avg_floor:.1f} FPPG")
     print()
     
     # Contest-specific breakdown
@@ -798,16 +800,16 @@ def print_detailed_summary(rankings_df):
         contest_data = rankings_df[rankings_df['contest_type'] == contest_type]
         contest_config = CONTEST_CONFIGS[contest_type]
         
-        print(f"🏆 {contest_type.upper().replace('_', ' ')} LINEUPS:")
-        print(f"   📝 Strategy: {contest_config['description']}")
-        print(f"   📊 Count: {len(contest_data)} lineups")
-        print(f"   💰 Avg Salary: ${contest_data['salary'].mean():,.0f}")
-        print(f"   📈 Avg Projection: {contest_data['ml_projected_fppg'].mean():.1f} FPPG")
-        print(f"   🎯 Best Projection: {contest_data['ml_projected_fppg'].max():.1f} FPPG")
+        print(f"LINEUP: {contest_type.upper().replace('_', ' ')} LINEUPS:")
+        print(f"    Strategy: {contest_config['description']}")
+        print(f"   DATA: Count: {len(contest_data)} lineups")
+        print(f"   MONEY: Avg Salary: ${contest_data['salary'].mean():,.0f}")
+        print(f"   PROGRESS: Avg Projection: {contest_data['ml_projected_fppg'].mean():.1f} FPPG")
+        print(f"   TARGET: Best Projection: {contest_data['ml_projected_fppg'].max():.1f} FPPG")
         print()
     
     # Top lineups summary
-    print("🥇 TOP 3 LINEUPS BY CONTEST TYPE:")
+    print(" TOP 3 LINEUPS BY CONTEST TYPE:")
     for contest_type in rankings_df['contest_type'].unique():
         contest_rankings = rankings_df[rankings_df['contest_type'] == contest_type]
         top_3 = contest_rankings.nsmallest(3, f'{contest_type}_rank')
@@ -818,11 +820,11 @@ def print_detailed_summary(rankings_df):
                   f"(${lineup['salary']:,} salary, {lineup['ceiling_fppg']:.1f} ceiling)")
     
     print("\n" + "="*80)
-    print("📁 FILES CREATED:")
-    print(f"   📊 Detailed Lineups: {OUTPUT_LINEUPS.name}")
-    print(f"   🏆 Rankings & Analysis: {OUTPUT_RANKED.name}")
-    print(f"   🎯 FanDuel Submission: {OUTPUT_FANDUEL.name}")
-    print("\n🤖 POWERED BY YOUR ADVANCED ML MODELS!")
+    print(" FILES CREATED:")
+    print(f"   DATA: Detailed Lineups: {OUTPUT_LINEUPS.name}")
+    print(f"   LINEUP: Rankings & Analysis: {OUTPUT_RANKED.name}")
+    print(f"   TARGET: FanDuel Submission: {OUTPUT_FANDUEL.name}")
+    print("\n POWERED BY YOUR ADVANCED ML MODELS!")
     print("="*80)
 
 # =============================================================================
@@ -857,7 +859,7 @@ def main():
         
     except Exception as e:
         logger.error(f"Enhanced ML DFS optimization failed: {str(e)}")
-        print(f"\n❌ ERROR: {str(e)}")
+        print(f"\nERROR: ERROR: {str(e)}")
         raise
 
 if __name__ == "__main__":

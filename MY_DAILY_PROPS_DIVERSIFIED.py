@@ -20,10 +20,10 @@ def load_player_data():
     try:
         # Use the same data source as your working system
         slate_df = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
-        logger.info(f"✅ Loaded {len(slate_df)} players from slate")
+        logger.info(f"SUCCESS: Loaded {len(slate_df)} players from slate")
         
         # FILTER TO ONLY ACTUAL STARTERS (same as SIMPLE_CLEAN_GENERATOR)
-        logger.info("🎯 Filtering to ONLY players who actually started...")
+        logger.info("TARGET: Filtering to ONLY players who actually started...")
         
         # For pitchers: Only probable pitchers
         pitchers = slate_df[slate_df['Position'] == 'P'].copy()
@@ -37,7 +37,7 @@ def load_player_data():
         
         # Combine starters only
         df = pd.concat([starting_pitchers, starting_hitters], ignore_index=True)
-        logger.info(f"🏆 FILTERED to {len(df)} ACTUAL STARTERS")
+        logger.info(f"LINEUP: FILTERED to {len(df)} ACTUAL STARTERS")
         
         # Clean and standardize column names
         df['name'] = df['First Name'] + ' ' + df['Last Name']
@@ -51,13 +51,13 @@ def load_player_data():
         return df
         
     except FileNotFoundError:
-        logger.error("❌ fd_slate_today.csv not found!")
+        logger.error("ERROR: fd_slate_today.csv not found!")
         return None
 
 def get_prop_decisions():
     """Interactive prop bet input"""
     
-    print("\n🎯 DAILY PROP BET INPUT")
+    print("\nTARGET: DAILY PROP BET INPUT")
     print("=" * 40)
     print("Enter your prop bet decisions for today's slate")
     print("Press Enter with empty player name when done")
@@ -113,7 +113,7 @@ def get_prop_decisions():
                 'confidence': confidence
             })
             
-            print(f"✅ Added: {player_name} {prop_type} {pick} {line} (confidence: {confidence})")
+            print(f"SUCCESS: Added: {player_name} {prop_type} {pick} {line} (confidence: {confidence})")
             
         except ValueError:
             print("Invalid input, skipping...")
@@ -157,9 +157,9 @@ def apply_prop_boosts(df, props):
                 'boost_pct': (boost_multiplier - 1) * 100
             })
             
-            logger.info(f"✅ Boosted {player_name}: {original_fppg:.1f} → {boosted_fppg:.1f} FPPG ({(boost_multiplier-1)*100:.0f}% boost)")
+            logger.info(f"SUCCESS: Boosted {player_name}: {original_fppg:.1f}  {boosted_fppg:.1f} FPPG ({(boost_multiplier-1)*100:.0f}% boost)")
         else:
-            logger.warning(f"❌ Player not found: {player_name}")
+            logger.warning(f"ERROR: Player not found: {player_name}")
     
     return df_boosted, applied_boosts
 
@@ -220,9 +220,9 @@ def generate_diversified_lineups(df, num_lineups=5):
                 used_combinations.add(lineup_signature)
                 lineup_info = format_lineup(lineup, strategy, i+1)
                 lineups.append(lineup_info)
-                logger.info(f"✅ Generated unique lineup {i+1} using {strategy} strategy")
+                logger.info(f"SUCCESS: Generated unique lineup {i+1} using {strategy} strategy")
             else:
-                logger.warning(f"⚠️ Lineup {i+1} was duplicate, keeping anyway")
+                logger.warning(f"WARNING: Lineup {i+1} was duplicate, keeping anyway")
                 lineup_info = format_lineup(lineup, f"{strategy} (Duplicate)", i+1)
                 lineups.append(lineup_info)
     
@@ -323,21 +323,21 @@ def save_results(props, boosts, lineups):
         props_df = pd.DataFrame(props)
         props_file = f"../data/diversified_prop_summary_{timestamp}.csv"
         props_df.to_csv(props_file, index=False)
-        logger.info(f"💾 Prop decisions saved: {props_file}")
+        logger.info(f" Prop decisions saved: {props_file}")
     
     # Save applied boosts
     if boosts:
         boosts_df = pd.DataFrame(boosts)
         boosts_file = f"../data/diversified_prop_boosts_{timestamp}.csv"
         boosts_df.to_csv(boosts_file, index=False)
-        logger.info(f"💾 Prop boosts saved: {boosts_file}")
+        logger.info(f" Prop boosts saved: {boosts_file}")
     
     # Save lineups
     if lineups:
         lineups_df = pd.DataFrame(lineups)
         lineups_file = f"../data/diversified_prop_lineups_{timestamp}.csv"
         lineups_df.to_csv(lineups_file, index=False)
-        logger.info(f"💾 Diversified lineups saved: {lineups_file}")
+        logger.info(f" Diversified lineups saved: {lineups_file}")
         
         # Also save in FanDuel format
         fd_lineups = []
@@ -357,12 +357,12 @@ def save_results(props, boosts, lineups):
         
         fd_file = f"../fd_current_slate/Diversified_Lineups_FD_Format_{timestamp}.csv"
         pd.DataFrame(fd_lineups).to_csv(fd_file, index=False)
-        logger.info(f"💾 FanDuel format saved: {fd_file}")
+        logger.info(f" FanDuel format saved: {fd_file}")
 
 def main():
     """Main execution"""
     
-    print("\n🎯 DIVERSIFIED DAILY PROPS SYSTEM")
+    print("\nTARGET: DIVERSIFIED DAILY PROPS SYSTEM")
     print("=" * 50)
     
     # Load player data
@@ -374,34 +374,34 @@ def main():
     props = get_prop_decisions()
     
     if not props:
-        print("\n⚠️ No props entered, generating standard diversified lineups...")
+        print("\nWARNING: No props entered, generating standard diversified lineups...")
         boosts = []
         df_final = df
     else:
         # Apply prop boosts
         df_final, boosts = apply_prop_boosts(df, props)
         
-        print(f"\n✅ Applied {len(boosts)} prop boosts")
+        print(f"\nSUCCESS: Applied {len(boosts)} prop boosts")
         for boost in boosts:
-            print(f"   🚀 {boost['player_name']}: +{boost['boost_pct']:.0f}% boost")
+            print(f"   START: {boost['player_name']}: +{boost['boost_pct']:.0f}% boost")
     
     # Generate diversified lineups
-    print(f"\n🎯 Generating 5 diversified lineups...")
+    print(f"\nTARGET: Generating 5 diversified lineups...")
     lineups = generate_diversified_lineups(df_final)
     
     # Display results
-    print(f"\n📊 DIVERSIFIED LINEUP SUMMARY:")
+    print(f"\nDATA: DIVERSIFIED LINEUP SUMMARY:")
     print("-" * 50)
     for lineup in lineups:
-        print(f"🏆 {lineup['Lineup']} ({lineup['Strategy']})")
-        print(f"   💰 Salary: ${lineup['Total_Salary']:,}")
-        print(f"   🎯 Projected: {lineup['Projected_FPPG']:.1f} FPPG")
+        print(f"LINEUP: {lineup['Lineup']} ({lineup['Strategy']})")
+        print(f"   MONEY: Salary: ${lineup['Total_Salary']:,}")
+        print(f"   TARGET: Projected: {lineup['Projected_FPPG']:.1f} FPPG")
         print()
     
     # Save results
     save_results(props, boosts, lineups)
     
-    print("✅ Diversified prop system complete!")
+    print("SUCCESS: Diversified prop system complete!")
 
 if __name__ == "__main__":
     main()

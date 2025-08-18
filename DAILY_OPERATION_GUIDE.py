@@ -4,28 +4,28 @@ DAILY MLB BETTING SYSTEM - COMPLETE OPERATION GUIDE
 ==================================================
 
 Your automated ML betting system is now fully operational with:
-✅ 11/11 models working (100% success rate)
-✅ Real player statistics 
-✅ Pitcher features for enhanced predictions
-✅ Live monitoring capabilities
-✅ 1,555+ daily opportunities
+SUCCESS: 11/11 models working (100% success rate)
+SUCCESS: Real player statistics 
+SUCCESS: Pitcher features for enhanced predictions
+SUCCESS: Live monitoring capabilities
+SUCCESS: 1,555+ daily opportunities
 
 STEP-BY-STEP DAILY OPERATION GUIDE
 ==================================
 """
 
-print("🚀 MLB AUTOMATED BETTING SYSTEM - DAILY OPERATION GUIDE")
+print("START: MLB AUTOMATED BETTING SYSTEM - DAILY OPERATION GUIDE")
 print("="*60)
 
-print("\n📋 PREREQUISITES:")
-print("  ✅ All 11 ML models trained and working")
-print("  ✅ Real player stats integrated")  
-print("  ✅ Pitcher features enabled")
-print("  ✅ Live monitoring system ready")
-print("  ✅ System finding 1,555+ daily opportunities")
+print("\nINFO: PREREQUISITES:")
+print("  SUCCESS: All 11 ML models trained and working")
+print("  SUCCESS: Real player stats integrated")  
+print("  SUCCESS: Pitcher features enabled")
+print("  SUCCESS: Live monitoring system ready")
+print("  SUCCESS: System finding 1,555+ daily opportunities")
 
 print("\n" + "="*60)
-print("🎯 DAILY WORKFLOW - FOLLOW THESE STEPS:")
+print("TARGET: DAILY WORKFLOW - FOLLOW THESE STEPS:")
 print("="*60)
 
 steps = [
@@ -228,14 +228,14 @@ steps = [
 ]
 
 for i, step in enumerate(steps, 1):
-    print(f"\n📍 STEP {i}: {step['step']}")
-    print(f"   📝 {step['description']}")
-    print(f"   📂 Location: {step['location']}")
-    print(f"   💻 Command: {step['command']}")
-    print(f"   ⏱️  Time: {step['time']}")
+    print(f"\n STEP {i}: {step['step']}")
+    print(f"    {step['description']}")
+    print(f"    Location: {step['location']}")
+    print(f"    Command: {step['command']}")
+    print(f"     Time: {step['time']}")
 
 print("\n" + "="*60)
-print("🎯 COMPLETE PIPELINE COMMANDS (Run in Scripts folder):")
+print("TARGET: COMPLETE PIPELINE COMMANDS (Run in Scripts folder):")
 print("="*60)
 
 complete_commands = [
@@ -270,7 +270,7 @@ for i, cmd in enumerate(complete_commands, 1):
     print(f"  {i:2d}. {cmd}")
 
 print("\n" + "="*60)
-print("🚀 QUICK START (FINAL 4 STEPS ONLY):")
+print("START: QUICK START (FINAL 4 STEPS ONLY):")
 print("="*60)
 print("If you already have processed data, run these final steps:")
 
@@ -285,52 +285,52 @@ for i, cmd in enumerate(quick_commands, 1):
     print(f"  {i}. {cmd}")
 
 print("\n" + "="*60)
-print("📊 WHAT TO EXPECT:")
+print("DATA: WHAT TO EXPECT:")
 print("="*60)
-print("  🎯 Models: 11/11 working (hits, total_bases, runs, rbi, home_runs, hrr,")
+print("  TARGET: Models: 11/11 working (hits, total_bases, runs, rbi, home_runs, hrr,")
 print("             stolen_bases, hr_binary, strikeouts, outs, win_binary)")
-print("  📈 Players: ~254 analyzed with real stats")  
-print("  🔍 Props: ~2,619 sportsbook props analyzed")
-print("  💰 Opportunities: 1,555+ betting opportunities found")
-print("  📁 Reports: Saved in betting_analysis/ folder")
+print("  PROGRESS: Players: ~254 analyzed with real stats")  
+print("   Props: ~2,619 sportsbook props analyzed")
+print("  MONEY: Opportunities: 1,555+ betting opportunities found")
+print("   Reports: Saved in betting_analysis/ folder")
 
 print("\n" + "="*60)
-print("📂 OUTPUT FILES YOU'LL GET:")
+print(" OUTPUT FILES YOU'LL GET:")
 print("="*60)
-print("  📋 betting_report_YYYYMMDD_HHMMSS.txt")
-print("     → Summary of best opportunities, organized by edge %")
+print("  INFO: betting_report_YYYYMMDD_HHMMSS.txt")
+print("      Summary of best opportunities, organized by edge %")
 print("")
-print("  📊 betting_opportunities_YYYYMMDD_HHMMSS.csv") 
-print("     → Detailed spreadsheet with all opportunities")
+print("  DATA: betting_opportunities_YYYYMMDD_HHMMSS.csv") 
+print("      Detailed spreadsheet with all opportunities")
 print("")
-print("  📈 Features created:")
-print("     → fd_hitter_features_final.csv (processed slate)")
-print("     → prediction_features_with_pitchers.csv (with pitcher data)")
-print("     → prediction_features_enhanced_real_stats.csv (final features)")
+print("  PROGRESS: Features created:")
+print("      fd_hitter_features_final.csv (processed slate)")
+print("      prediction_features_with_pitchers.csv (with pitcher data)")
+print("      prediction_features_enhanced_real_stats.csv (final features)")
 
 print("\n" + "="*60)
-print("🔄 LIVE MONITORING MODE:")
+print("SWAP: LIVE MONITORING MODE:")
 print("="*60)
-print("  🚀 Command: python live_betting_runner.py")
-print("  ⏰ Schedule: Analysis every 15 minutes, line refresh every 30 minutes")  
-print("  💻 Features: Continuous monitoring, automatic updates")
-print("  🛑 Stop: Press Ctrl+C")
+print("  START: Command: python live_betting_runner.py")
+print("   Schedule: Analysis every 15 minutes, line refresh every 30 minutes")  
+print("   Features: Continuous monitoring, automatic updates")
+print("   Stop: Press Ctrl+C")
 
 print("\n" + "="*60)
-print("🆘 TROUBLESHOOTING:")
+print(" TROUBLESHOOTING:")
 print("="*60)
-print("  ❌ If step fails: Check the specific error message")
-print("  📁 Missing files: Ensure fd_current_slate.csv is uploaded correctly")
-print("  🔧 Model errors: All 11 models are working - should not occur")
-print("  📊 No opportunities: Check if sportsbook data is available")
+print("  ERROR: If step fails: Check the specific error message")
+print("   Missing files: Ensure fd_current_slate.csv is uploaded correctly")
+print("  STEP: Model errors: All 11 models are working - should not occur")
+print("  DATA: No opportunities: Check if sportsbook data is available")
 
 print("\n" + "="*60)
-print("🎯 READY TO START!")
+print("TARGET: READY TO START!")
 print("="*60)
 print("1. Upload your fd_current_slate.csv file")
 print("2. Run the 4 commands above in sequence") 
 print("3. Check betting_analysis/ folder for results")
 print("4. Optionally start live monitoring")
 print("")
-print("🚀 Your system is fully operational and ready for daily use!")
+print("START: Your system is fully operational and ready for daily use!")
 print("="*60)

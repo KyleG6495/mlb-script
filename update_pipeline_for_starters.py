@@ -14,7 +14,7 @@ def update_script_for_starters(script_path, backup=True):
     """Update a script to use confirmed starters instead of full slate"""
     
     if not os.path.exists(script_path):
-        print(f"❌ Script not found: {script_path}")
+        print(f"ERROR: Script not found: {script_path}")
         return False
     
     # Create backup if requested
@@ -24,7 +24,7 @@ def update_script_for_starters(script_path, backup=True):
             with open(script_path, 'r', encoding='utf-8') as f:
                 with open(backup_path, 'w', encoding='utf-8') as backup_f:
                     backup_f.write(f.read())
-            print(f"📋 Created backup: {backup_path}")
+            print(f"INFO: Created backup: {backup_path}")
     
     with open(script_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -76,16 +76,16 @@ def update_script_for_starters(script_path, backup=True):
     if content != original_content:
         with open(script_path, 'w', encoding='utf-8') as f:
             f.write(content)
-        print(f"✅ Updated: {os.path.basename(script_path)}")
+        print(f"SUCCESS: Updated: {os.path.basename(script_path)}")
         return True
     else:
-        print(f"ℹ️ No changes needed: {os.path.basename(script_path)}")
+        print(f" No changes needed: {os.path.basename(script_path)}")
         return False
 
 def main():
     """Update all data pipeline scripts"""
     
-    print("🔄 UPDATING DATA PIPELINE TO USE CONFIRMED STARTERS")
+    print("SWAP: UPDATING DATA PIPELINE TO USE CONFIRMED STARTERS")
     print("=" * 60)
     print()
     
@@ -94,17 +94,17 @@ def main():
     starters_file = "../data/fd_slate_starters_only.csv"
     
     if not os.path.exists(master_file):
-        print("❌ starting_lineups.csv not found!")
-        print("❌ Please run create_starting_lineups.py first")
+        print("ERROR: starting_lineups.csv not found!")
+        print("ERROR: Please run create_starting_lineups.py first")
         return
     
     if not os.path.exists(starters_file):
-        print("❌ fd_slate_starters_only.csv not found!")
-        print("❌ Please run prepare_starters_for_existing_scripts.py first")
+        print("ERROR: fd_slate_starters_only.csv not found!")
+        print("ERROR: Please run prepare_starters_for_existing_scripts.py first")
         return
     
-    print(f"✅ Master file found: {master_file}")
-    print(f"✅ Starters file found: {starters_file}")
+    print(f"SUCCESS: Master file found: {master_file}")
+    print(f"SUCCESS: Starters file found: {starters_file}")
     print()
     
     # Scripts that need to be updated (data pipeline scripts)
@@ -130,14 +130,14 @@ def main():
     
     print()
     print("=" * 60)
-    print(f"🎉 PIPELINE UPDATE COMPLETE!")
-    print(f"📊 Updated {updated_count} scripts to use confirmed starters")
+    print(f"COMPLETE: PIPELINE UPDATE COMPLETE!")
+    print(f"DATA: Updated {updated_count} scripts to use confirmed starters")
     print()
     print("Benefits:")
-    print("✅ Only confirmed starters get historical data pulled")
-    print("✅ Only confirmed starters get weather/park factors")
-    print("✅ Faster pipeline execution (less data to process)")
-    print("✅ No more bench players in analysis")
+    print("SUCCESS: Only confirmed starters get historical data pulled")
+    print("SUCCESS: Only confirmed starters get weather/park factors")
+    print("SUCCESS: Faster pipeline execution (less data to process)")
+    print("SUCCESS: No more bench players in analysis")
     print()
     print("Next: Run 1_DATA_PIPELINE.bat to test the updated pipeline")
 

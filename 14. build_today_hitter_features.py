@@ -69,12 +69,12 @@ def normalize_fanduel_id(fanduel_id):
     return str(fanduel_id).split('-')[-1]
 
 # Load hitter data
-logging.info("📄 Loading hitter data")
+logging.info(" Loading hitter data")
 try:
     df_hitters = pd.read_csv(HITTER_FILE)
-    logging.info(f"✅ Hitters: {len(df_hitters)} rows")
+    logging.info(f"SUCCESS: Hitters: {len(df_hitters)} rows")
 except FileNotFoundError:
-    logging.error(f"❌ Hitter file {HITTER_FILE} not found")
+    logging.error(f"ERROR: Hitter file {HITTER_FILE} not found")
     exit(1)
 
 # Filter to hitters only (exclude pitchers)
@@ -82,7 +82,7 @@ if 'Position' in df_hitters.columns:
     df_hitters = df_hitters[~df_hitters['Position'].str.contains('P', na=False)]
     logging.info(f"Filtered to hitters only: {len(df_hitters)} rows")
 else:
-    logging.warning("⚠️ No 'Position' column to filter pitchers")
+    logging.warning("WARNING: No 'Position' column to filter pitchers")
 
 # Normalize player_id
 logging.info(f"Available columns in hitter data: {df_hitters.columns.tolist()}")
@@ -102,17 +102,17 @@ if 'First Name' in df_hitters.columns and 'Last Name' in df_hitters.columns:
     df_hitters['name_key'] = (df_hitters['First Name'].fillna('') + ' ' + df_hitters['Last Name'].fillna('')).apply(normalize_name)
     logging.info("Created name_key in df_hitters from First Name and Last Name")
 else:
-    logging.warning("⚠️ Missing First Name or Last Name columns in df_hitters")
+    logging.warning("WARNING: Missing First Name or Last Name columns in df_hitters")
 
 # # Load ID mapping file with game_pk
-# logging.info(f"📥 Loading ID mapping file from {ID_MAP_FILE}")
+# logging.info(f" Loading ID mapping file from {ID_MAP_FILE}")
 # try:
 #     id_map_df = pd.read_csv(ID_MAP_FILE)
 #     id_map_df['player_id'] = id_map_df['player_id'].astype(str)
 #     id_map_df['target_name'] = id_map_df['target_name'].apply(normalize_name)
 #     logging.info(f"Sample id_map_df:\n{id_map_df[['game_pk', 'target_name', 'player_id']].head().to_string()}")
 # except FileNotFoundError:
-#     logging.error(f"❌ ID mapping file {ID_MAP_FILE} not found")
+#     logging.error(f"ERROR: ID mapping file {ID_MAP_FILE} not found")
 #     exit(1)
 
 # # Merge with ID mapping to add game_pk
@@ -127,17 +127,17 @@ else:
 # logging.info(f"Sample df_hitters after ID mapping:\n{df_hitters[['player_id', 'name_key', 'team_standardized', 'game_pk']].head().to_string()}")
 
 # Load hitter game_pk mapping
-logging.info("📄 Loading hitter ID and game_pk mapping")
+logging.info(" Loading hitter ID and game_pk mapping")
 try:
     df_id_map = pd.read_csv(ID_MAP_FILE)
-    logging.info(f"✅ ID Map: {len(df_id_map)} rows")
+    logging.info(f"SUCCESS: ID Map: {len(df_id_map)} rows")
     
     # Normalize the target_name for matching
     df_id_map['name_key'] = df_id_map['target_name'].apply(normalize_name)
     logging.info(f"Sample ID map names: {df_id_map['name_key'].head().tolist()}")
     
 except FileNotFoundError:
-    logging.error(f"❌ ID map file {ID_MAP_FILE} not found")
+    logging.error(f"ERROR: ID map file {ID_MAP_FILE} not found")
     exit(1)
 
 # Merge hitters with game_pk data BY NAME (not by player_id)
@@ -148,7 +148,7 @@ df_hitters = pd.merge(
     how='left',
     suffixes=('_fd', '_mlb')  # Change this to ensure the suffix is applied
 )
-logging.info(f"✅ Merged hitters with game_pk data: {len(df_hitters)} rows")
+logging.info(f"SUCCESS: Merged hitters with game_pk data: {len(df_hitters)} rows")
 logging.info(f"Hitters with game_pk: {df_hitters['game_pk'].notna().sum()}")
 
 # Use the MLB player_id from the game_pk file
@@ -159,12 +159,12 @@ else:
     logging.info("No player_id_mlb column found, keeping original player_id")
 
 # Load weather and park factors
-logging.info("📄 Loading weather and park factors data")
+logging.info(" Loading weather and park factors data")
 try:
     df_weather_park = pd.read_csv(WEATHER_PARK_FILE)
-    logging.info(f"✅ Weather+Park: {len(df_weather_park)} rows")
+    logging.info(f"SUCCESS: Weather+Park: {len(df_weather_park)} rows")
 except FileNotFoundError:
-    logging.error(f"❌ Weather and park file {WEATHER_PARK_FILE} not found")
+    logging.error(f"ERROR: Weather and park file {WEATHER_PARK_FILE} not found")
     exit(1)
 
 # Normalize team_standardized in weather data
@@ -179,7 +179,7 @@ if missing_teams:
     logging.warning(f"Teams in df_hitters['opponent_standardized'] not in df_weather_park: {missing_teams}")
 
 # Merge hitters with weather and park data
-logging.info("🔄 Merging hitters with weather and park data")
+logging.info("SWAP: Merging hitters with weather and park data")
 df_final = pd.merge(
     df_hitters,
     df_weather_park,
@@ -188,7 +188,7 @@ df_final = pd.merge(
     how='left',
     suffixes=('', '_weather')
 )
-logging.info(f"✅ Final merged: {len(df_final)} rows")
+logging.info(f"SUCCESS: Final merged: {len(df_final)} rows")
 
 # Fill missing weather/park data with defaults
 default_weather = {'temperature': 75.0, 'wind_speed': 5.0, 'condition': 'Clear Sky', 'Season': 2025}

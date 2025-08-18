@@ -10,7 +10,7 @@ import numpy as np
 import joblib
 import os
 
-print("🔬 Testing Model Predictions Directly")
+print(" Testing Model Predictions Directly")
 print("="*50)
 
 # Load the prediction features
@@ -77,7 +77,7 @@ if X is not None:
         print(f"   Unique values: {len(np.unique(predictions))}")
         
         if predictions.std() < 0.001:
-            print("   ❌ ISSUE: All predictions are identical!")
+            print("   ERROR: ISSUE: All predictions are identical!")
             
             # Debug further
             print("\n5. Debugging identical predictions...")
@@ -86,14 +86,14 @@ if X is not None:
             
             # Check if input data is all zeros
             if (X == 0).all().all():
-                print("   ❌ All input features are zero!")
+                print("   ERROR: All input features are zero!")
             elif X.std().sum() < 0.001:
-                print("   ❌ Input features have no variance!")
+                print("   ERROR: Input features have no variance!")
             else:
-                print("   ✅ Input features look reasonable")
+                print("   SUCCESS: Input features look reasonable")
                 
         else:
-            print("   ✅ SUCCESS: Predictions vary!")
+            print("   SUCCESS: SUCCESS: Predictions vary!")
             
             # Show some examples
             print(f"\n   Sample player predictions:")
@@ -102,7 +102,7 @@ if X is not None:
                 print(f"     {name}: {predictions[i]:.3f}")
     
     except Exception as e:
-        print(f"   ❌ Prediction failed: {e}")
+        print(f"   ERROR: Prediction failed: {e}")
         import traceback
         traceback.print_exc()
 
@@ -127,5 +127,5 @@ except Exception as e:
     print(f"   Error comparing with historical: {e}")
 
 print("\n" + "="*50)
-print("🔬 MODEL TEST COMPLETE")
+print(" MODEL TEST COMPLETE")
 print("="*50)

@@ -11,10 +11,10 @@ unique_names = df["target_name"].dropna().unique()
 
 # Fetch all active MLB players once
 url = "https://statsapi.mlb.com/api/v1/sports/1/players"
-print("🔄 Fetching active MLB player list...")
+print("SWAP: Fetching active MLB player list...")
 res = requests.get(url)
 players = res.json().get("people", [])
-print(f"✅ Retrieved {len(players)} active MLB players")
+print(f"SUCCESS: Retrieved {len(players)} active MLB players")
 
 # Create mapping of full name to ID
 name_to_id = {
@@ -27,10 +27,10 @@ id_map = {}
 for name in unique_names:
     pid = name_to_id.get(name.lower())
     id_map[name] = pid
-    print(f"{name} → {'✅ ' + str(pid) if pid else '❌ Not found'}")
+    print(f"{name}  {'SUCCESS: ' + str(pid) if pid else 'ERROR: Not found'}")
     time.sleep(0.05)
 
-# 🔧 Manual overrides for known missing players (active, inactive, or international)
+# STEP: Manual overrides for known missing players (active, inactive, or international)
 manual_ids = {
     "Gavin Stone": 694973,
     "Albert Suarez": 500871,
@@ -581,4 +581,4 @@ id_map.update(manual_ids)
 df["player_id"] = df["target_name"].map(id_map)
 df["player_id"] = df["player_id"].astype(float).astype("Int64").fillna(0)  # Ensure integer IDs
 df.to_csv(OUTPUT_FILE, index=False)
-print(f"\n✅ Updated {OUTPUT_FILE} with player_id column (including manual overrides).")
+print(f"\nSUCCESS: Updated {OUTPUT_FILE} with player_id column (including manual overrides).")

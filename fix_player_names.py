@@ -6,7 +6,7 @@ Quick fix: Add player names to prediction features
 import pandas as pd
 import os
 
-print("🔧 Adding player names to prediction features...")
+print("STEP: Adding player names to prediction features...")
 
 # Load FD slate with names
 fd_slate = pd.read_csv("../data/fd_hitter_features_final.csv")
@@ -37,7 +37,7 @@ print(f"Names added: {pred_features_fixed['name'].notna().sum()}/{len(pred_featu
 
 # Save fixed version
 pred_features_fixed.to_csv("../data/final_prediction_features.csv", index=False)
-print("✅ Player names fixed!")
+print("SUCCESS: Player names fixed!")
 
 # Show sample
 print(f"Sample names: {pred_features_fixed['name'].head().tolist()}")

@@ -142,7 +142,7 @@ def create_master_confirmed_list():
 
 def match_fd_players_to_confirmed(fd_df, confirmed_list):
     """Match FanDuel players to confirmed RotoWire list with high accuracy"""
-    logger.info("🔍 MATCHING FANDUEL PLAYERS TO CONFIRMED ROTOWIRE LIST...")
+    logger.info(" MATCHING FANDUEL PLAYERS TO CONFIRMED ROTOWIRE LIST...")
     
     matched_players = []
     unmatched_confirmed = []
@@ -223,11 +223,11 @@ def match_fd_players_to_confirmed(fd_df, confirmed_list):
         if not matched:
             unmatched_confirmed.append(confirmed_name)
     
-    logger.info(f"✅ MATCHED {len(matched_players)} players from FD slate")
-    logger.info(f"❌ UNMATCHED confirmed players: {len(unmatched_confirmed)}")
+    logger.info(f"SUCCESS: MATCHED {len(matched_players)} players from FD slate")
+    logger.info(f"ERROR: UNMATCHED confirmed players: {len(unmatched_confirmed)}")
     
     if unmatched_confirmed:
-        logger.warning("⚠️ Could not find these confirmed players in FD slate:")
+        logger.warning("WARNING: Could not find these confirmed players in FD slate:")
         for name in unmatched_confirmed[:10]:  # Show first 10
             logger.warning(f"   - {name}")
     
@@ -235,7 +235,7 @@ def match_fd_players_to_confirmed(fd_df, confirmed_list):
 
 def build_multiple_optimized_lineups(matched_df, num_lineups=5):
     """Build multiple optimized lineups using different strategies"""
-    logger.info(f"🏆 BUILDING {num_lineups} OPTIMIZED LINEUPS...")
+    logger.info(f"LINEUP: BUILDING {num_lineups} OPTIMIZED LINEUPS...")
     
     lineups = []
     
@@ -378,7 +378,7 @@ def save_multiple_lineups(lineups):
         total_salary = sum(player['salary'] for _, player in lineup)
         total_fppg = sum(player['fppg'] for _, player in lineup)
         
-        logger.info(f"\n🏆 LINEUP {i}: {strategy.upper()}")
+        logger.info(f"\nLINEUP: LINEUP {i}: {strategy.upper()}")
         logger.info("=" * 50)
         
         for pos, player in lineup:
@@ -396,36 +396,36 @@ def save_multiple_lineups(lineups):
                 'game': player['game']
             })
         
-        logger.info(f"💰 Total: ${total_salary:,} | 📊 FPPG: {total_fppg:.1f} | 💵 Remaining: ${35000-total_salary:,}")
+        logger.info(f"MONEY: Total: ${total_salary:,} | DATA: FPPG: {total_fppg:.1f} |  Remaining: ${35000-total_salary:,}")
     
     # Save all lineups
     all_df = pd.DataFrame(all_lineups_data)
     filename = f"../data/VALIDATED_REAL_LINEUPS_ALL_{timestamp}.csv"
     all_df.to_csv(filename, index=False)
-    logger.info(f"\n💾 Saved all lineups: {filename}")
+    logger.info(f"\n Saved all lineups: {filename}")
     
     return filename
 
 def main():
     """Main function"""
-    logger.info("🚀 ULTIMATE REAL PLAYERS VALIDATOR & LINEUP BUILDER")
-    logger.info("🎯 Building lineups for July 30, 2025 with CONFIRMED PLAYERS ONLY")
+    logger.info("START: ULTIMATE REAL PLAYERS VALIDATOR & LINEUP BUILDER")
+    logger.info("TARGET: Building lineups for July 30, 2025 with CONFIRMED PLAYERS ONLY")
     logger.info("=" * 70)
     
     try:
         # Get confirmed players
         confirmed_list = create_master_confirmed_list()
-        logger.info(f"📋 Created master list: {len(confirmed_list)} confirmed players")
+        logger.info(f"INFO: Created master list: {len(confirmed_list)} confirmed players")
         
         # Load FD slate
         fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📊 Loaded FD slate: {len(fd_df)} players")
+        logger.info(f"DATA: Loaded FD slate: {len(fd_df)} players")
         
         # Match players
         matched_df = match_fd_players_to_confirmed(fd_df, confirmed_list)
         
         if len(matched_df) < 9:
-            logger.error(f"❌ Only {len(matched_df)} confirmed players found - need at least 9")
+            logger.error(f"ERROR: Only {len(matched_df)} confirmed players found - need at least 9")
             return
         
         # Build multiple lineups
@@ -435,15 +435,15 @@ def main():
             filename = save_multiple_lineups(lineups)
             
             logger.info("\n" + "=" * 70)
-            logger.info("🎉 VALIDATED REAL PLAYERS LINEUPS COMPLETE!")
-            logger.info(f"📁 File: {filename}")
-            logger.info("✅ ALL PLAYERS CONFIRMED TO BE PLAYING JULY 30, 2025")
-            logger.info("🎯 These lineups will NOT have players who didn't play!")
+            logger.info("COMPLETE: VALIDATED REAL PLAYERS LINEUPS COMPLETE!")
+            logger.info(f" File: {filename}")
+            logger.info("SUCCESS: ALL PLAYERS CONFIRMED TO BE PLAYING JULY 30, 2025")
+            logger.info("TARGET: These lineups will NOT have players who didn't play!")
         else:
-            logger.error("❌ Failed to build any complete lineups")
+            logger.error("ERROR: Failed to build any complete lineups")
     
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

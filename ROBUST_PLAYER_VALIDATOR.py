@@ -29,7 +29,7 @@ class RobustPlayerValidator:
     
     def get_simple_validation_rules(self):
         """Simple validation rules based on slate data"""
-        print("📋 Applying basic validation rules...")
+        print("INFO: Applying basic validation rules...")
         
         return {
             'min_salary': 2000,      # Players under $2K often inactive
@@ -40,7 +40,7 @@ class RobustPlayerValidator:
     
     def validate_slate_basic(self, slate_df):
         """Apply basic validation to filter out obviously bad players"""
-        print("🔍 Running basic player validation...")
+        print(" Running basic player validation...")
         
         slate_df = slate_df.copy()
         rules = self.get_simple_validation_rules()
@@ -108,21 +108,21 @@ class RobustPlayerValidator:
                 issues_summary['total_flagged'] += 1
         
         # Print summary
-        print(f"📊 BASIC VALIDATION SUMMARY:")
-        print(f"  👥 Total players: {len(slate_df)}")
-        print(f"  ✅ Validated (70+ score): {slate_df['is_validated'].sum()}")
-        print(f"  ❌ Flagged: {issues_summary['total_flagged']}")
-        print(f"  📋 Issues breakdown:")
-        print(f"    • Missing data: {issues_summary['missing_data']}")
-        print(f"    • Low salary: {issues_summary['low_salary']}")
-        print(f"    • Bad FPPG: {issues_summary['bad_fppg']}")
-        print(f"    • Invalid team: {issues_summary['invalid_team']}")
+        print(f"DATA: BASIC VALIDATION SUMMARY:")
+        print(f"  OWNERSHIP: Total players: {len(slate_df)}")
+        print(f"  SUCCESS: Validated (70+ score): {slate_df['is_validated'].sum()}")
+        print(f"  ERROR: Flagged: {issues_summary['total_flagged']}")
+        print(f"  INFO: Issues breakdown:")
+        print(f"     Missing data: {issues_summary['missing_data']}")
+        print(f"     Low salary: {issues_summary['low_salary']}")
+        print(f"     Bad FPPG: {issues_summary['bad_fppg']}")
+        print(f"     Invalid team: {issues_summary['invalid_team']}")
         
         return slate_df
     
     def enhance_projections(self, validated_slate):
         """Enhance projections with validation-based adjustments"""
-        print("📈 Enhancing projections with validation adjustments...")
+        print("PROGRESS: Enhancing projections with validation adjustments...")
         
         validated_slate = validated_slate.copy()
         
@@ -141,13 +141,13 @@ class RobustPlayerValidator:
         # Safety score (prefer validated players)
         validated_slate['safety_score'] = validated_slate['validation_score'] * 0.6 + validated_slate['FPPG'] * 0.4
         
-        print(f"✅ Enhanced {len(validated_slate)} player projections")
+        print(f"SUCCESS: Enhanced {len(validated_slate)} player projections")
         
         return validated_slate
     
     def build_safe_lineup(self, enhanced_slate):
         """Build lineup prioritizing validated, safe players"""
-        print("🏗️ Building SAFE lineup with validated players...")
+        print(" Building SAFE lineup with validated players...")
         
         # Filter to validated players only
         safe_players = enhanced_slate[
@@ -159,7 +159,7 @@ class RobustPlayerValidator:
         print(f"Working with {len(safe_players)} validated players")
         
         if len(safe_players) < 50:
-            print("⚠️ Low validated player count - relaxing standards...")
+            print("WARNING: Low validated player count - relaxing standards...")
             # Fallback to players with decent scores
             safe_players = enhanced_slate[
                 (enhanced_slate['validation_score'] >= 50) &
@@ -168,7 +168,7 @@ class RobustPlayerValidator:
             print(f"Fallback: {len(safe_players)} players with 50+ validation score")
         
         if len(safe_players) < 20:
-            print("❌ Not enough players for lineup construction")
+            print("ERROR: Not enough players for lineup construction")
             return None
         
         selected_players = []
@@ -196,7 +196,7 @@ class RobustPlayerValidator:
                 # Emergency fallback - take cheapest available
                 affordable = candidates.nsmallest(5, 'Salary')
                 if affordable.empty:
-                    print(f"❌ No {position} players available")
+                    print(f"ERROR: No {position} players available")
                     return None
             
             # Selection strategy: balance value and safety
@@ -229,7 +229,7 @@ class RobustPlayerValidator:
     def save_safe_lineup(self, lineup):
         """Save the safe validated lineup"""
         if not lineup:
-            print("❌ No safe lineup to save")
+            print("ERROR: No safe lineup to save")
             return None
         
         # Create FanDuel format
@@ -280,15 +280,15 @@ class RobustPlayerValidator:
         output_file = self.slate_dir / f"SAFE_VALIDATED_Lineup_{timestamp}.csv"
         df.to_csv(output_file, index=False)
         
-        print(f"\n💾 SAFE LINEUP SAVED: {output_file}")
+        print(f"\n SAFE LINEUP SAVED: {output_file}")
         
         # Analysis
-        print(f"\n🏆 SAFE LINEUP ANALYSIS:")
-        print(f"  💰 Salary: ${lineup['total_salary']:,}")
-        print(f"  🎯 Projected FPPG: {lineup['total_fppg']:.1f}")
-        print(f"  ✅ Avg Validation: {lineup['avg_validation_score']:.1f}/100")
+        print(f"\nLINEUP: SAFE LINEUP ANALYSIS:")
+        print(f"  MONEY: Salary: ${lineup['total_salary']:,}")
+        print(f"  TARGET: Projected FPPG: {lineup['total_fppg']:.1f}")
+        print(f"  SUCCESS: Avg Validation: {lineup['avg_validation_score']:.1f}/100")
         
-        print(f"\n👥 VALIDATED PLAYERS:")
+        print(f"\nOWNERSHIP: VALIDATED PLAYERS:")
         for player in players:
             name = f"{player['First Name']} {player['Last Name']}"
             pos = player['Roster Position']
@@ -297,26 +297,26 @@ class RobustPlayerValidator:
             val_score = player['validation_score']
             issues = player.get('validation_issues', 'OK')
             
-            status = "✅" if val_score >= 90 else "⚠️" if val_score >= 70 else "❌"
+            status = "SUCCESS:" if val_score >= 90 else "WARNING:" if val_score >= 70 else "ERROR:"
             print(f"  {status} {name:20} ({pos:4}) ${salary:5,} | {fppg:5.1f} FPPG | Val: {val_score:3.0f}")
             if issues != 'OK':
-                print(f"      ⚠️ {issues}")
+                print(f"      WARNING: {issues}")
         
         return output_file
     
     def run_robust_validation(self):
         """Run the complete robust validation pipeline"""
-        print("🚀 ROBUST PLAYER VALIDATION SYSTEM v2")
+        print("START: ROBUST PLAYER VALIDATION SYSTEM v2")
         print("="*60)
         
         # Load slate
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
         
         slate_df = pd.read_csv(slate_file)
-        print(f"📄 Loaded slate with {len(slate_df)} players")
+        print(f" Loaded slate with {len(slate_df)} players")
         
         # Basic validation
         validated_slate = self.validate_slate_basic(slate_df)
@@ -331,24 +331,24 @@ class RobustPlayerValidator:
             # Save lineup
             output_file = self.save_safe_lineup(lineup)
             
-            print(f"\n🎉 ROBUST VALIDATION COMPLETE!")
-            print(f"✅ Built safe lineup with validated players")
-            print(f"📁 File: {output_file}")
-            print(f"\n💪 KEY IMPROVEMENTS:")
-            print(f"  🔍 Filtered out players with missing/bad data")
-            print(f"  💰 Excluded ultra-low salary players (likely inactive)")
-            print(f"  📊 Enhanced value calculations with validation scores")
-            print(f"  🎯 Prioritized safety over pure projection optimization")
-            print(f"\n🏆 This lineup should perform MUCH better!")
+            print(f"\nCOMPLETE: ROBUST VALIDATION COMPLETE!")
+            print(f"SUCCESS: Built safe lineup with validated players")
+            print(f" File: {output_file}")
+            print(f"\n KEY IMPROVEMENTS:")
+            print(f"   Filtered out players with missing/bad data")
+            print(f"  MONEY: Excluded ultra-low salary players (likely inactive)")
+            print(f"  DATA: Enhanced value calculations with validation scores")
+            print(f"  TARGET: Prioritized safety over pure projection optimization")
+            print(f"\nLINEUP: This lineup should perform MUCH better!")
             print(f"   No more picking players who don't play!")
             
             return lineup
         else:
-            print("❌ Failed to create safe lineup")
+            print("ERROR: Failed to create safe lineup")
             return None
 
 def main():
-    print("🔍 ROBUST PLAYER VALIDATION SYSTEM v2")
+    print(" ROBUST PLAYER VALIDATION SYSTEM v2")
     print("FIXING THE ROOT CAUSE OF TERRIBLE DFS LINEUPS")
     print("="*60)
     
@@ -358,10 +358,10 @@ def main():
         lineup = validator.run_robust_validation()
         
         if lineup:
-            print(f"\n🚀 SUCCESS! SAFE LINEUP CREATED!")
+            print(f"\nSTART: SUCCESS! SAFE LINEUP CREATED!")
             print(f"   Ready to compete instead of embarrassing yourself!")
         else:
-            print("❌ Validation system failed")
+            print("ERROR: Validation system failed")
             
     except Exception as e:
         print(f"Error: {e}")

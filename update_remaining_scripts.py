@@ -25,7 +25,7 @@ def update_script_references():
         "SIMPLE_CLEAN_GENERATOR.py"
     ]
     
-    logger.info("🔄 UPDATING REMAINING SCRIPTS TO USE STARTING LINEUPS MASTER FILE")
+    logger.info("SWAP: UPDATING REMAINING SCRIPTS TO USE STARTING LINEUPS MASTER FILE")
     logger.info("=" * 70)
     
     updated_count = 0
@@ -34,7 +34,7 @@ def update_script_references():
         script_path = f"./{script}"
         
         if os.path.exists(script_path):
-            logger.info(f"📝 Processing: {script}")
+            logger.info(f" Processing: {script}")
             
             # Read the file
             try:
@@ -60,32 +60,32 @@ def update_script_references():
                 for old, new in replacements:
                     if old in content:
                         content = content.replace(old, new)
-                        logger.info(f"   ✅ Updated: {old} -> {new}")
+                        logger.info(f"   SUCCESS: Updated: {old} -> {new}")
                 
                 # Write back if changed
                 if content != original_content:
                     with open(script_path, 'w', encoding='utf-8') as f:
                         f.write(content)
-                    logger.info(f"   💾 Saved updated {script}")
+                    logger.info(f"    Saved updated {script}")
                     updated_count += 1
                 else:
-                    logger.info(f"   ℹ️ No changes needed for {script}")
+                    logger.info(f"    No changes needed for {script}")
                 
             except Exception as e:
-                logger.error(f"   ❌ Error processing {script}: {str(e)}")
+                logger.error(f"   ERROR: Error processing {script}: {str(e)}")
         else:
-            logger.warning(f"   ⚠️ Script not found: {script}")
+            logger.warning(f"   WARNING: Script not found: {script}")
     
     logger.info("=" * 70)
-    logger.info(f"🎉 SCRIPT UPDATE COMPLETE!")
-    logger.info(f"📊 Updated {updated_count} scripts to use starters-only file")
+    logger.info(f"COMPLETE: SCRIPT UPDATE COMPLETE!")
+    logger.info(f"DATA: Updated {updated_count} scripts to use starters-only file")
     logger.info("")
-    logger.info("💡 BENEFITS OF USING STARTERS-ONLY FILE:")
-    logger.info("   ✅ No more Drake Baldwin or bench players in lineups")
-    logger.info("   ✅ No complex batting order filtering needed")
-    logger.info("   ✅ Pre-validated starting lineups only")
-    logger.info("   ✅ Consistent across all scripts")
-    logger.info("   ✅ 90 confirmed starters vs 524 total players")
+    logger.info("TIP: BENEFITS OF USING STARTERS-ONLY FILE:")
+    logger.info("   SUCCESS: No more Drake Baldwin or bench players in lineups")
+    logger.info("   SUCCESS: No complex batting order filtering needed")
+    logger.info("   SUCCESS: Pre-validated starting lineups only")
+    logger.info("   SUCCESS: Consistent across all scripts")
+    logger.info("   SUCCESS: 90 confirmed starters vs 524 total players")
 
 if __name__ == "__main__":
     update_script_references()

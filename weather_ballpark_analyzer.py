@@ -108,7 +108,7 @@ class WeatherBallparkAnalyzer:
     def apply_ballpark_factors(self, predictions_df, games_df):
         """Apply ballpark and weather adjustments to predictions"""
         
-        print("🌤️ APPLYING WEATHER & BALLPARK FACTORS")
+        print(" APPLYING WEATHER & BALLPARK FACTORS")
         print("=" * 50)
         
         enhanced_predictions = predictions_df.copy()
@@ -120,7 +120,7 @@ class WeatherBallparkAnalyzer:
             
             # Get weather data
             weather = self.get_weather_for_game(city, datetime.now())
-            print(f"🏟️ {venue}: {weather['temperature']}°F, {weather['conditions']}")
+            print(f" {venue}: {weather['temperature']}F, {weather['conditions']}")
             
             # Get ballpark factors
             ballpark_key = venue.lower().replace(' ', '_')
@@ -189,7 +189,7 @@ class WeatherBallparkAnalyzer:
                         adjustments['home_runs'] *= 0.95
             
         except Exception as e:
-            print(f"⚠️ Weather impact analysis using defaults: {e}")
+            print(f"WARNING: Weather impact analysis using defaults: {e}")
         
         return adjustments
     
@@ -243,10 +243,10 @@ def main():
     enhanced = analyzer.apply_ballpark_factors(sample_predictions, sample_games)
     opportunities = analyzer.identify_weather_opportunities(enhanced)
     
-    print(f"\n🌟 TOP WEATHER/BALLPARK OPPORTUNITIES:")
+    print(f"\n TOP WEATHER/BALLPARK OPPORTUNITIES:")
     for i, opp in enumerate(opportunities[:5], 1):
         print(f"{i}. {opp['player']} - {opp['stat'].upper()}")
-        print(f"   Base: {opp['base_prediction']:.2f} → Adjusted: {opp['adjusted_prediction']:.2f}")
+        print(f"   Base: {opp['base_prediction']:.2f}  Adjusted: {opp['adjusted_prediction']:.2f}")
         print(f"   Weather boost: +{opp['boost_percentage']:.1f}%")
         print()
 

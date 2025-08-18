@@ -52,12 +52,12 @@ def create_mock_data():
     
     mock_projections.to_csv("../data/dfs_projections_for_optimizer.csv", index=False)
     
-    print("✅ Created mock data files")
+    print("SUCCESS: Created mock data files")
 
 def test_baseball_simulator():
     """Test the core baseball simulator"""
     
-    print("🔧 Testing Baseball Simulator...")
+    print("STEP: Testing Baseball Simulator...")
     
     simulator = BaseballSimulator()
     
@@ -82,72 +82,72 @@ def test_baseball_simulator():
         results = simulator.simulate_full_game(away_lineup, home_lineup, away_pitcher, home_pitcher)
         
         total_fppg = sum(player.calculate_fppg() for player in results.values())
-        print(f"   ✅ Game simulation successful")
-        print(f"   📊 Total FPPG generated: {total_fppg:.1f}")
-        print(f"   👥 Players simulated: {len(results)}")
+        print(f"   SUCCESS: Game simulation successful")
+        print(f"   DATA: Total FPPG generated: {total_fppg:.1f}")
+        print(f"   OWNERSHIP: Players simulated: {len(results)}")
         
         return True
         
     except Exception as e:
-        print(f"   ❌ Game simulation failed: {e}")
+        print(f"   ERROR: Game simulation failed: {e}")
         return False
 
 def test_data_integration():
     """Test the data integration layer"""
     
-    print("🔧 Testing Data Integration...")
+    print("STEP: Testing Data Integration...")
     
     try:
         integrator = DFSDataIntegrator("../data")
         slate_data = integrator.load_todays_slate()
         
         if slate_data and slate_data.get('games'):
-            print(f"   ✅ Data integration successful")
-            print(f"   🎮 Games loaded: {len(slate_data['games'])}")
-            print(f"   👥 Players loaded: {len(slate_data['players'])}")
+            print(f"   SUCCESS: Data integration successful")
+            print(f"    Games loaded: {len(slate_data['games'])}")
+            print(f"   OWNERSHIP: Players loaded: {len(slate_data['players'])}")
             return True
         else:
-            print("   ❌ No slate data loaded")
+            print("   ERROR: No slate data loaded")
             return False
             
     except Exception as e:
-        print(f"   ❌ Data integration failed: {e}")
+        print(f"   ERROR: Data integration failed: {e}")
         return False
 
 def test_lineup_optimizer():
     """Test the lineup optimizer"""
     
-    print("🔧 Testing Lineup Optimizer...")
+    print("STEP: Testing Lineup Optimizer...")
     
     try:
         optimizer = EnhancedLineupOptimizer("../data/dfs_projections_for_optimizer.csv")
         df = optimizer.load_projections()
         
         if df.empty:
-            print("   ❌ No projection data loaded")
+            print("   ERROR: No projection data loaded")
             return False
         
         # Test single lineup optimization
         lineup = optimizer.optimize_lineup(df, contest_type='cash')
         
         if lineup and 'players' in lineup:
-            print(f"   ✅ Lineup optimization successful")
-            print(f"   👥 Players in lineup: {len(lineup['players'])}")
-            print(f"   💰 Total salary: ${lineup['total_salary']:,}")
-            print(f"   📊 Projected points: {lineup['projected_points']:.1f}")
+            print(f"   SUCCESS: Lineup optimization successful")
+            print(f"   OWNERSHIP: Players in lineup: {len(lineup['players'])}")
+            print(f"   MONEY: Total salary: ${lineup['total_salary']:,}")
+            print(f"   DATA: Projected points: {lineup['projected_points']:.1f}")
             return True
         else:
-            print("   ❌ Lineup optimization failed")
+            print("   ERROR: Lineup optimization failed")
             return False
             
     except Exception as e:
-        print(f"   ❌ Lineup optimizer failed: {e}")
+        print(f"   ERROR: Lineup optimizer failed: {e}")
         return False
 
 def run_mini_simulation():
     """Run a mini version of the full simulation"""
     
-    print("🔧 Testing Mini Simulation Pipeline...")
+    print("STEP: Testing Mini Simulation Pipeline...")
     
     try:
         integrator = DFSDataIntegrator("../data")
@@ -156,22 +156,22 @@ def run_mini_simulation():
         projections = integrator.run_enhanced_projections(n_simulations=10)
         
         if not projections.empty:
-            print(f"   ✅ Mini simulation successful")
-            print(f"   📊 Enhanced projections for {len(projections)} players")
-            print(f"   🎯 Average projected FPPG: {projections['mean_fppg'].mean():.2f}")
+            print(f"   SUCCESS: Mini simulation successful")
+            print(f"   DATA: Enhanced projections for {len(projections)} players")
+            print(f"   TARGET: Average projected FPPG: {projections['mean_fppg'].mean():.2f}")
             return True
         else:
-            print("   ❌ Mini simulation failed - no projections")
+            print("   ERROR: Mini simulation failed - no projections")
             return False
             
     except Exception as e:
-        print(f"   ❌ Mini simulation failed: {e}")
+        print(f"   ERROR: Mini simulation failed: {e}")
         return False
 
 def main():
     """Run all tests"""
     
-    print("🚀 ENHANCED DFS SYSTEM TEST")
+    print("START: ENHANCED DFS SYSTEM TEST")
     print("=" * 50)
     print(f"Test Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print()
@@ -189,28 +189,28 @@ def main():
     results = {}
     
     for test_name, test_func in tests:
-        print(f"\n🧪 {test_name}")
+        print(f"\n {test_name}")
         print("-" * 30)
         results[test_name] = test_func()
     
     # Summary
     print("\n" + "=" * 50)
-    print("📋 TEST SUMMARY")
+    print("INFO: TEST SUMMARY")
     print("=" * 50)
     
     passed = sum(results.values())
     total = len(results)
     
     for test_name, result in results.items():
-        status = "✅ PASS" if result else "❌ FAIL"
+        status = "SUCCESS: PASS" if result else "ERROR: FAIL"
         print(f"{test_name:.<30} {status}")
     
     print(f"\nOverall: {passed}/{total} tests passed")
     
     if passed == total:
-        print("\n🎉 All tests passed! Enhanced DFS system is ready to use.")
+        print("\nCOMPLETE: All tests passed! Enhanced DFS system is ready to use.")
     else:
-        print(f"\n⚠️  {total - passed} test(s) failed. Check the errors above.")
+        print(f"\nWARNING:  {total - passed} test(s) failed. Check the errors above.")
     
     print("=" * 50)
 

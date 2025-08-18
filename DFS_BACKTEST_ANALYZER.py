@@ -20,43 +20,43 @@ class DFSBacktester:
         
     def load_actual_results(self):
         """Load yesterday's actual fantasy results"""
-        print("📊 Loading yesterday's ACTUAL results...")
+        print("DATA: Loading yesterday's ACTUAL results...")
         
         actual_file = self.data_dir / "actual_results_latest.csv"
         if not actual_file.exists():
-            print("❌ No actual results found - run collect_actual_results.py first")
+            print("ERROR: No actual results found - run collect_actual_results.py first")
             return None
             
         actual_df = pd.read_csv(actual_file)
-        print(f"✅ Loaded {len(actual_df)} player results from yesterday")
+        print(f"SUCCESS: Loaded {len(actual_df)} player results from yesterday")
         
         # Check date
         if 'date' in actual_df.columns:
             latest_date = actual_df['date'].max()
-            print(f"📅 Results from: {latest_date}")
+            print(f" Results from: {latest_date}")
         
         return actual_df
     
     def load_yesterday_slate(self):
         """Load the slate we would have used yesterday"""
-        print("🎯 Loading yesterday's slate data...")
+        print("TARGET: Loading yesterday's slate data...")
         
         # For now, use current slate as proxy for yesterday's
         # In production, you'd save daily slates with timestamps
         slate_file = self.slate_dir / "fd_slate_today.csv"
         
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
             
         slate_df = pd.read_csv(slate_file)
-        print(f"✅ Loaded slate with {len(slate_df)} players")
+        print(f"SUCCESS: Loaded slate with {len(slate_df)} players")
         
         return slate_df
     
     def calculate_actual_fppg(self, actual_df):
         """Calculate actual FPPG from yesterday's results"""
-        print("🔢 Calculating actual FPPG scores...")
+        print(" Calculating actual FPPG scores...")
         
         actual_df = actual_df.copy()
         
@@ -83,13 +83,13 @@ class DFSBacktester:
         else:
             actual_df['actual_fppg'] = actual_df['calculated_fppg']
         
-        print(f"📈 FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
+        print(f"PROGRESS: FPPG range: {actual_df['actual_fppg'].min():.1f} - {actual_df['actual_fppg'].max():.1f}")
         
         return actual_df
     
     def merge_slate_with_actual(self, slate_df, actual_df):
         """Merge slate projections with actual results"""
-        print("🔗 Merging slate projections with actual results...")
+        print(" Merging slate projections with actual results...")
         
         # Clean names for matching
         slate_df['full_name'] = (slate_df['First Name'].str.strip() + ' ' + 
@@ -107,13 +107,13 @@ class DFSBacktester:
         merged['actual_fppg'] = merged['actual_fppg'].fillna(0)
         
         matched = merged['actual_fppg'].notna().sum()
-        print(f"✅ Matched {matched}/{len(slate_df)} players ({matched/len(slate_df)*100:.1f}%)")
+        print(f"SUCCESS: Matched {matched}/{len(slate_df)} players ({matched/len(slate_df)*100:.1f}%)")
         
         return merged
     
     def build_optimal_lineup_actual(self, enhanced_slate):
         """Build the OPTIMAL lineup using actual results (what we wish we built)"""
-        print("🏆 Building OPTIMAL lineup with actual results...")
+        print("LINEUP: Building OPTIMAL lineup with actual results...")
         
         # Filter players with actual results and salary info
         available = enhanced_slate[
@@ -123,7 +123,7 @@ class DFSBacktester:
         ].copy()
         
         if len(available) < 20:
-            print(f"❌ Only {len(available)} players with actual results")
+            print(f"ERROR: Only {len(available)} players with actual results")
             return None
         
         # Simple greedy optimal selection
@@ -145,7 +145,7 @@ class DFSBacktester:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable {position} players")
+                print(f"ERROR: No affordable {position} players")
                 return None
             
             # Pick highest actual FPPG
@@ -169,7 +169,7 @@ class DFSBacktester:
     
     def build_value_lineup_actual(self, enhanced_slate):
         """Build value-based lineup using actual results"""
-        print("💰 Building VALUE lineup with actual results...")
+        print("MONEY: Building VALUE lineup with actual results...")
         
         available = enhanced_slate[
             (enhanced_slate['actual_fppg'] >= 0) & 
@@ -198,7 +198,7 @@ class DFSBacktester:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable {position} players")
+                print(f"ERROR: No affordable {position} players")
                 return None
             
             # Pick highest actual value
@@ -226,7 +226,7 @@ class DFSBacktester:
     
     def build_projection_lineup(self, enhanced_slate):
         """Build lineup using original projections (what we actually would have built)"""
-        print("🎯 Building PROJECTION lineup (what we would have built)...")
+        print("TARGET: Building PROJECTION lineup (what we would have built)...")
         
         available = enhanced_slate[
             (enhanced_slate['FPPG'] > 2.0) & 
@@ -253,7 +253,7 @@ class DFSBacktester:
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"❌ No affordable {position} players")
+                print(f"ERROR: No affordable {position} players")
                 return None
             
             # Pick highest projected value
@@ -280,11 +280,11 @@ class DFSBacktester:
     def analyze_backtest_results(self, lineups):
         """Analyze backtest performance"""
         if not lineups:
-            print("❌ No lineups to analyze")
+            print("ERROR: No lineups to analyze")
             return
         
         print("\n" + "="*60)
-        print("🔍 DFS BACKTEST ANALYSIS")
+        print(" DFS BACKTEST ANALYSIS")
         print("="*60)
         
         for lineup in lineups:
@@ -295,17 +295,17 @@ class DFSBacktester:
             total_salary = lineup['total_salary']
             actual_fppg = lineup['total_actual_fppg']
             
-            print(f"\n📊 {lineup_type}:")
-            print(f"  💰 Salary: ${total_salary:,}")
-            print(f"  🎯 Actual FPPG: {actual_fppg:.1f}")
+            print(f"\nDATA: {lineup_type}:")
+            print(f"  MONEY: Salary: ${total_salary:,}")
+            print(f"  TARGET: Actual FPPG: {actual_fppg:.1f}")
             
             if 'total_projected_fppg' in lineup:
                 proj_fppg = lineup['total_projected_fppg']
                 accuracy = (actual_fppg / proj_fppg) * 100 if proj_fppg > 0 else 0
-                print(f"  📈 Projected FPPG: {proj_fppg:.1f}")
-                print(f"  🎪 Accuracy: {accuracy:.1f}%")
+                print(f"  PROGRESS: Projected FPPG: {proj_fppg:.1f}")
+                print(f"   Accuracy: {accuracy:.1f}%")
             
-            print(f"  👥 Players:")
+            print(f"  OWNERSHIP: Players:")
             for player in lineup['players']:
                 name = f"{player['First Name']} {player['Last Name']}"
                 pos = player['Roster Position']
@@ -316,27 +316,27 @@ class DFSBacktester:
         
         # Performance comparison
         if len(lineups) >= 2:
-            print(f"\n🏆 PERFORMANCE COMPARISON:")
+            print(f"\nLINEUP: PERFORMANCE COMPARISON:")
             optimal_actual = next((l['total_actual_fppg'] for l in lineups if l and l['lineup_type'] == 'OPTIMAL_ACTUAL'), 0)
             proj_actual = next((l['total_actual_fppg'] for l in lineups if l and l['lineup_type'] == 'PROJECTION_BASED'), 0)
             
             if optimal_actual > 0 and proj_actual > 0:
                 gap = optimal_actual - proj_actual
                 gap_pct = (gap / optimal_actual) * 100
-                print(f"  🎯 Optimal (hindsight): {optimal_actual:.1f} FPPG")
-                print(f"  📊 Our projection: {proj_actual:.1f} FPPG")
-                print(f"  📉 Gap: {gap:.1f} points ({gap_pct:.1f}%)")
+                print(f"  TARGET: Optimal (hindsight): {optimal_actual:.1f} FPPG")
+                print(f"  DATA: Our projection: {proj_actual:.1f} FPPG")
+                print(f"   Gap: {gap:.1f} points ({gap_pct:.1f}%)")
                 
                 if gap_pct < 20:
-                    print(f"  ✅ GOOD: Less than 20% gap!")
+                    print(f"  SUCCESS: GOOD: Less than 20% gap!")
                 elif gap_pct < 35:
-                    print(f"  ⚠️  OKAY: 20-35% gap - room for improvement")
+                    print(f"  WARNING:  OKAY: 20-35% gap - room for improvement")
                 else:
-                    print(f"  ❌ POOR: 35%+ gap - projections need work")
+                    print(f"  ERROR: POOR: 35%+ gap - projections need work")
     
     def run_backtest(self):
         """Run complete DFS backtest"""
-        print("🚀 STARTING DFS BACKTEST ANALYSIS")
+        print("START: STARTING DFS BACKTEST ANALYSIS")
         print("="*50)
         
         # Load data
@@ -375,7 +375,7 @@ class DFSBacktester:
         return lineups
 
 def main():
-    print("📊 DFS LINEUP BACKTESTING SYSTEM")
+    print("DATA: DFS LINEUP BACKTESTING SYSTEM")
     print("Testing our strategies against yesterday's actual results")
     print("="*60)
     
@@ -385,11 +385,11 @@ def main():
         lineups = backtester.run_backtest()
         
         if lineups:
-            print(f"\n🎉 BACKTEST COMPLETE!")
-            print(f"📈 Analyzed {len([l for l in lineups if l])} different lineup strategies")
-            print(f"💡 Use these insights to improve future DFS builds!")
+            print(f"\nCOMPLETE: BACKTEST COMPLETE!")
+            print(f"PROGRESS: Analyzed {len([l for l in lineups if l])} different lineup strategies")
+            print(f"TIP: Use these insights to improve future DFS builds!")
         else:
-            print("❌ Backtest failed - check data availability")
+            print("ERROR: Backtest failed - check data availability")
             
     except Exception as e:
         print(f"Error in backtest: {e}")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🏥 IL FILTER SYSTEM
+ IL FILTER SYSTEM
 Remove all IL players from the FanDuel slate
 """
 
@@ -11,22 +11,22 @@ from datetime import datetime
 def filter_il_players():
     """Remove IL players from slate and create healthy-only version"""
     
-    print("🏥 IL FILTERING SYSTEM")
+    print(" IL FILTERING SYSTEM")
     print("=" * 50)
     
     # Read the current slate
     slate_path = '../fd_current_slate/fd_slate_today.csv'
     if not os.path.exists(slate_path):
-        print(f"❌ Slate file not found: {slate_path}")
+        print(f"ERROR: Slate file not found: {slate_path}")
         return False
     
     try:
         df = pd.read_csv(slate_path)
-        print(f"📊 Original slate: {len(df)} players")
+        print(f"DATA: Original slate: {len(df)} players")
         
         # Check for IL players
         if 'Injury Indicator' not in df.columns:
-            print("⚠️  No 'Injury Indicator' column found")
+            print("WARNING:  No 'Injury Indicator' column found")
             return False
         
         # Count IL players
@@ -34,13 +34,13 @@ def filter_il_players():
         il_count = len(il_players)
         
         if il_count > 0:
-            print(f"🚨 Found {il_count} IL players:")
+            print(f" Found {il_count} IL players:")
             for _, player in il_players.iterrows():
                 name = f"{player.get('First Name', '')} {player.get('Last Name', '')}"
                 injury = player.get('Injury Details', 'Unknown')
                 team = player.get('Team', '')
                 position = player.get('Position', '')
-                print(f"   ❌ {name} ({position}-{team}) - {injury}")
+                print(f"   ERROR: {name} ({position}-{team}) - {injury}")
         
         # Create healthy-only slate
         healthy_df = df[df['Injury Indicator'] != 'IL'].copy()
@@ -50,11 +50,11 @@ def filter_il_players():
         healthy_df.to_csv(output_path, index=False)
         
         print(f"")
-        print(f"✅ HEALTHY SLATE CREATED:")
-        print(f"   📊 Original players: {len(df)}")
-        print(f"   ❌ IL players removed: {il_count}")
-        print(f"   ✅ Healthy players: {len(healthy_df)}")
-        print(f"   💾 Saved to: {output_path}")
+        print(f"SUCCESS: HEALTHY SLATE CREATED:")
+        print(f"   DATA: Original players: {len(df)}")
+        print(f"   ERROR: IL players removed: {il_count}")
+        print(f"   SUCCESS: Healthy players: {len(healthy_df)}")
+        print(f"    Saved to: {output_path}")
         
         # Also create confirmed starters if possible
         if 'Probable Pitcher' in df.columns:
@@ -70,21 +70,21 @@ def filter_il_players():
                 confirmed_df.to_csv(confirmed_path, index=False)
                 
                 print(f"")
-                print(f"🎯 CONFIRMED STARTERS SLATE:")
-                print(f"   ✅ Confirmed pitchers: {len(confirmed_pitchers)}")
-                print(f"   ✅ All hitters: {len(confirmed_hitters)}")
-                print(f"   ✅ Total confirmed: {len(confirmed_df)}")
-                print(f"   💾 Saved to: {confirmed_path}")
+                print(f"TARGET: CONFIRMED STARTERS SLATE:")
+                print(f"   SUCCESS: Confirmed pitchers: {len(confirmed_pitchers)}")
+                print(f"   SUCCESS: All hitters: {len(confirmed_hitters)}")
+                print(f"   SUCCESS: Total confirmed: {len(confirmed_df)}")
+                print(f"    Saved to: {confirmed_path}")
         
         return True
         
     except Exception as e:
-        print(f"❌ Error filtering IL players: {e}")
+        print(f"ERROR: Error filtering IL players: {e}")
         return False
 
 if __name__ == "__main__":
     success = filter_il_players()
     if success:
-        print("\n🚀 IL filtering complete - use healthy slate for lineups!")
+        print("\nSTART: IL filtering complete - use healthy slate for lineups!")
     else:
-        print("\n❌ IL filtering failed - check errors above")
+        print("\nERROR: IL filtering failed - check errors above")

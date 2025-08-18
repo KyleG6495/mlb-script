@@ -11,24 +11,24 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def test_enhanced_optimizer():
-    print("🧪 TESTING ENHANCED FANDUEL OPTIMIZER")
+    print(" TESTING ENHANCED FANDUEL OPTIMIZER")
     print("=" * 45)
     
     # Test data loading
     print("\n1. Testing data loading...")
     try:
         slate_df = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
-        print(f"✅ Loaded slate: {len(slate_df)} players")
+        print(f"SUCCESS: Loaded slate: {len(slate_df)} players")
         print(f"   Positions: {slate_df['Position'].value_counts().to_dict()}")
     except Exception as e:
-        print(f"❌ Error loading slate: {e}")
+        print(f"ERROR: Error loading slate: {e}")
         return
     
     # Test enhanced features
     print("\n2. Testing enhanced features...")
     try:
         features_df = pd.read_csv("../data/prediction_features_enhanced_real_stats.csv")
-        print(f"✅ Loaded features: {len(features_df)} players with {len(features_df.columns)} features")
+        print(f"SUCCESS: Loaded features: {len(features_df)} players with {len(features_df.columns)} features")
         
         # Check for required columns
         required_cols = ['atBats', 'hits', 'homeRuns', 'rbi', 'runs']
@@ -36,7 +36,7 @@ def test_enhanced_optimizer():
         print(f"   Available stats: {available_cols}")
         
     except Exception as e:
-        print(f"⚠️ Enhanced features not available: {e}")
+        print(f"WARNING: Enhanced features not available: {e}")
     
     # Test basic projections
     print("\n3. Testing projection creation...")
@@ -49,12 +49,12 @@ def test_enhanced_optimizer():
         slate_df.loc[pitcher_mask, 'Test_FPPG'] = np.random.uniform(8, 25, pitcher_mask.sum())
         slate_df.loc[hitter_mask, 'Test_FPPG'] = np.random.uniform(6, 18, hitter_mask.sum())
         
-        print(f"✅ Created test projections")
+        print(f"SUCCESS: Created test projections")
         print(f"   Hitter avg: {slate_df[slate_df['Position'] != 'P']['Test_FPPG'].mean():.1f}")
         print(f"   Pitcher avg: {slate_df[slate_df['Position'] == 'P']['Test_FPPG'].mean():.1f}")
         
     except Exception as e:
-        print(f"❌ Error creating projections: {e}")
+        print(f"ERROR: Error creating projections: {e}")
         return
     
     # Test optimization setup
@@ -66,7 +66,7 @@ def test_enhanced_optimizer():
             (slate_df['Test_FPPG'] > 0)
         ].copy()
         
-        print(f"✅ Eligible players: {len(eligible)}")
+        print(f"SUCCESS: Eligible players: {len(eligible)}")
         
         # Check position requirements
         positions = eligible['Position'].str.split('/').explode().value_counts()
@@ -78,7 +78,7 @@ def test_enhanced_optimizer():
         print(f"   Budget constraint: $35,000")
         
     except Exception as e:
-        print(f"❌ Error in optimization setup: {e}")
+        print(f"ERROR: Error in optimization setup: {e}")
         return
     
     # Test basic lineup construction
@@ -116,7 +116,7 @@ def test_enhanced_optimizer():
             total_salary = lineup_df['Salary'].sum()
             total_fppg = lineup_df['Test_FPPG'].sum()
             
-            print(f"✅ Test lineup created:")
+            print(f"SUCCESS: Test lineup created:")
             print(f"   Players: {len(lineup_df)}")
             print(f"   Total salary: ${total_salary:,}")
             print(f"   Projected FPPG: {total_fppg:.1f}")
@@ -127,13 +127,13 @@ def test_enhanced_optimizer():
             print(f"   Saved to: test_enhanced_lineup.csv")
             
         else:
-            print(f"⚠️ Could only create {len(lineup_players)} player lineup")
+            print(f"WARNING: Could only create {len(lineup_players)} player lineup")
             
     except Exception as e:
-        print(f"❌ Error creating test lineup: {e}")
+        print(f"ERROR: Error creating test lineup: {e}")
         return
     
-    print("\n✅ Enhanced optimizer test completed successfully!")
+    print("\nSUCCESS: Enhanced optimizer test completed successfully!")
     print("\nNext steps:")
     print("1. Run: python enhanced_fanduel_optimizer.py")
     print("2. Check generated lineups in data folder")

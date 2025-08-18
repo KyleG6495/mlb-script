@@ -48,7 +48,7 @@ class LiveOddsScraper:
                 return pd.DataFrame(projections)
                 
         except Exception as e:
-            print(f"⚠️ Error scraping PrizePicks: {e}")
+            print(f"WARNING: Error scraping PrizePicks: {e}")
             return pd.DataFrame()
     
     def calculate_true_implied_odds(self, american_odds):
@@ -69,10 +69,10 @@ def enhance_betting_with_live_odds():
     live_data = scraper.scrape_prizepicks_odds()
     
     if len(live_data) > 0:
-        print(f"✅ Retrieved {len(live_data)} live props from PrizePicks")
+        print(f"SUCCESS: Retrieved {len(live_data)} live props from PrizePicks")
         return live_data
     else:
-        print("⚠️ Using default -110 odds")
+        print("WARNING: Using default -110 odds")
         return None
 
 if __name__ == "__main__":

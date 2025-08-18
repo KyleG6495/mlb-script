@@ -22,7 +22,7 @@ class PrizePicksEVAnalyzer:
         
     def load_ml_models(self):
         """Load all trained ML models"""
-        print("🤖 Loading trained ML models...")
+        print(" Loading trained ML models...")
         
         model_dirs = glob.glob("../Scripts/models/*")
         models_loaded = 0
@@ -36,16 +36,16 @@ class PrizePicksEVAnalyzer:
                     try:
                         self.models[stat_name] = joblib.load(model_file)
                         models_loaded += 1
-                        print(f"  ✅ Loaded {stat_name} model")
+                        print(f"  SUCCESS: Loaded {stat_name} model")
                     except Exception as e:
-                        print(f"  ❌ Failed to load {stat_name}: {e}")
+                        print(f"  ERROR: Failed to load {stat_name}: {e}")
         
-        print(f"✅ Loaded {models_loaded} ML models")
+        print(f"SUCCESS: Loaded {models_loaded} ML models")
         return models_loaded > 0
     
     def load_ml_predictions(self):
         """Load ML predictions from the models directory"""
-        print("📊 Loading ML predictions...")
+        print("DATA: Loading ML predictions...")
         
         # Look for prediction files in the models directory
         prediction_files = {
@@ -81,7 +81,7 @@ class PrizePicksEVAnalyzer:
                         
                         self.predictions[stat] = pred_df
                         predictions_loaded += 1
-                        print(f"  ✅ Loaded {stat} predictions: {len(pred_df)} players")
+                        print(f"  SUCCESS: Loaded {stat} predictions: {len(pred_df)} players")
                         
                         # Show some sample predictions for validation
                         if len(pred_df) > 0:
@@ -89,27 +89,27 @@ class PrizePicksEVAnalyzer:
                             print(f"    Sample predictions: {sample['prediction'].min():.2f} - {sample['prediction'].max():.2f}")
                     
                 except Exception as e:
-                    print(f"  ❌ Error reading {full_path}: {e}")
+                    print(f"  ERROR: Error reading {full_path}: {e}")
             else:
-                print(f"  ❌ File not found: {full_path}")
+                print(f"  ERROR: File not found: {full_path}")
         
-        print(f"✅ Loaded predictions for {predictions_loaded} stat types")
+        print(f"SUCCESS: Loaded predictions for {predictions_loaded} stat types")
         return predictions_loaded > 0
     
     def load_prizepicks_data(self):
         """Load PrizePicks data from CSV"""
-        print("🎯 Loading PrizePicks data...")
+        print("TARGET: Loading PrizePicks data...")
         
         csv_path = "../data/prizepicks_mlb.csv"
         
         if not os.path.exists(csv_path):
-            print(f"❌ PrizePicks CSV not found: {csv_path}")
-            print("💡 Run convert_prizepicks_to_csv.py first!")
+            print(f"ERROR: PrizePicks CSV not found: {csv_path}")
+            print("TIP: Run convert_prizepicks_to_csv.py first!")
             return False
         
         try:
             self.prizepicks_data = pd.read_csv(csv_path)
-            print(f"✅ Loaded PrizePicks data: {len(self.prizepicks_data)} players")
+            print(f"SUCCESS: Loaded PrizePicks data: {len(self.prizepicks_data)} players")
             
             # Show available prop types
             prop_columns = [col for col in self.prizepicks_data.columns if col != 'player_name']
@@ -120,14 +120,14 @@ class PrizePicksEVAnalyzer:
                     available_props.append((col, non_null_count))
             
             available_props.sort(key=lambda x: x[1], reverse=True)
-            print(f"📊 Available prop types:")
+            print(f"DATA: Available prop types:")
             for prop, count in available_props[:10]:
-                print(f"  • {prop}: {count} props")
+                print(f"   {prop}: {count} props")
             
             return True
             
         except Exception as e:
-            print(f"❌ Error loading PrizePicks data: {e}")
+            print(f"ERROR: Error loading PrizePicks data: {e}")
             return False
     
     def standardize_stat_names(self):
@@ -200,11 +200,11 @@ class PrizePicksEVAnalyzer:
     
     def analyze_prizepicks_opportunities(self):
         """Find the best EV opportunities in PrizePicks"""
-        print("\n🔥 ANALYZING PRIZEPICKS OPPORTUNITIES")
+        print("\n ANALYZING PRIZEPICKS OPPORTUNITIES")
         print("=" * 50)
         
         if self.prizepicks_data is None:
-            print("❌ No PrizePicks data loaded")
+            print("ERROR: No PrizePicks data loaded")
             return []
         
         stat_mapping = self.standardize_stat_names()
@@ -257,7 +257,7 @@ class PrizePicksEVAnalyzer:
         # Sort by expected value
         opportunities.sort(key=lambda x: x['expected_value'], reverse=True)
         
-        print(f"🎯 Found {len(opportunities)} EV opportunities")
+        print(f"TARGET: Found {len(opportunities)} EV opportunities")
         return opportunities
     
     def get_prediction(self, player_name, stat_type):
@@ -282,32 +282,32 @@ class PrizePicksEVAnalyzer:
     def get_prediction_source(self, player_name, stat_type):
         """Determine the source of the prediction"""
         if self.get_prediction(player_name, stat_type) is not None:
-            return "🤖 ML Model"
-        return "📊 Season Stats"
+            return " ML Model"
+        return "DATA: Season Stats"
     
     def create_ev_report(self, opportunities):
         """Create a detailed EV report"""
-        print(f"\n🔥 TOP PRIZEPICKS EV PLAYS:")
+        print(f"\n TOP PRIZEPICKS EV PLAYS:")
         print("-" * 60)
         
         if not opportunities:
-            print("❌ No significant EV opportunities found")
+            print("ERROR: No significant EV opportunities found")
             return
         
         # Show top 15 opportunities
         for i, opp in enumerate(opportunities[:15], 1):
             print(f"{i:2d}. {opp['player']:<20} {opp['stat']:<20} {opp['bet_type']:>5} {opp['line']}")
-            print(f"    🔥 Pred: {opp['prediction']:.3f} | Edge: {opp['edge_percent']:+.1f}% | {opp['source']}")
+            print(f"     Pred: {opp['prediction']:.3f} | Edge: {opp['edge_percent']:+.1f}% | {opp['source']}")
         
         # Save detailed report
         opportunities_df = pd.DataFrame(opportunities)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M")
         output_file = f"../data/prizepicks_ev_analysis_{timestamp}.csv"
         opportunities_df.to_csv(output_file, index=False)
-        print(f"\n💾 Detailed EV analysis saved: {output_file}")
+        print(f"\n Detailed EV analysis saved: {output_file}")
         
         # Summary stats
-        print(f"\n📊 SUMMARY:")
+        print(f"\nDATA: SUMMARY:")
         print(f"   Total opportunities: {len(opportunities)}")
         print(f"   Average edge: {opportunities_df['edge_percent'].mean():.1f}%")
         print(f"   Best edge: {opportunities_df['edge_percent'].max():.1f}%")
@@ -319,7 +319,7 @@ class PrizePicksEVAnalyzer:
     
     def run_analysis(self):
         """Run complete PrizePicks EV analysis"""
-        print("🎯 PRIZEPICKS EXPECTED VALUE ANALYZER")
+        print("TARGET: PRIZEPICKS EXPECTED VALUE ANALYZER")
         print("=" * 50)
         
         # Load data
@@ -328,7 +328,7 @@ class PrizePicksEVAnalyzer:
         
         # Try to load ML predictions
         if not self.load_ml_predictions():
-            print("⚠️ No ML predictions available, analysis may be limited")
+            print("WARNING: No ML predictions available, analysis may be limited")
         
         # Run EV analysis
         opportunities = self.analyze_prizepicks_opportunities()
@@ -336,7 +336,7 @@ class PrizePicksEVAnalyzer:
         # Generate report
         self.create_ev_report(opportunities)
         
-        print(f"\n🎉 PrizePicks EV analysis complete!")
+        print(f"\nCOMPLETE: PrizePicks EV analysis complete!")
 
 if __name__ == "__main__":
     analyzer = PrizePicksEVAnalyzer()

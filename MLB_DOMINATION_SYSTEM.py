@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 DAILY MLB DOMINATION SYSTEM
+TARGET: DAILY MLB DOMINATION SYSTEM
 ONE SCRIPT TO RULE THEM ALL
 
 This single script replaces 200+ scripts and does everything:
@@ -31,41 +31,41 @@ class MLBDominationSystem:
         
     def load_fanduel_slate(self):
         """Load today's FanDuel slate"""
-        logger.info("🏈 LOADING TODAY'S FANDUEL SLATE")
+        logger.info(" LOADING TODAY'S FANDUEL SLATE")
         logger.info("="*50)
         
         try:
             # Load the slate file
             slate_path = '../fd_current_slate/fd_slate_today.csv'
             if not os.path.exists(slate_path):
-                logger.error(f"❌ Slate file not found: {slate_path}")
+                logger.error(f"ERROR: Slate file not found: {slate_path}")
                 logger.error("   Please download today's FanDuel slate first!")
                 return False
                 
             self.slate_df = pd.read_csv(slate_path)
-            logger.info(f"✅ Loaded {len(self.slate_df)} players from slate")
+            logger.info(f"SUCCESS: Loaded {len(self.slate_df)} players from slate")
             
             # Check if data looks current
             games = self.slate_df['Game'].unique()
-            logger.info(f"📅 Games today: {len(games)} games")
+            logger.info(f" Games today: {len(games)} games")
             for game in sorted(games)[:5]:  # Show first 5 games
                 logger.info(f"   {game}")
             
             return True
             
         except Exception as e:
-            logger.error(f"❌ Error loading slate: {e}")
+            logger.error(f"ERROR: Error loading slate: {e}")
             return False
     
     def filter_confirmed_starters(self):
         """Filter to ONLY confirmed starting players"""
         logger.info("")
-        logger.info("🔍 FILTERING TO CONFIRMED STARTERS ONLY")
+        logger.info(" FILTERING TO CONFIRMED STARTERS ONLY")
         logger.info("="*50)
         
         # Remove IL players first
         healthy_players = self.slate_df[self.slate_df['Injury Indicator'] != 'IL'].copy()
-        logger.info(f"❌ Removed {len(self.slate_df) - len(healthy_players)} IL players")
+        logger.info(f"ERROR: Removed {len(self.slate_df) - len(healthy_players)} IL players")
         
         # Get confirmed starting pitchers
         confirmed_pitchers = healthy_players[
@@ -73,7 +73,7 @@ class MLBDominationSystem:
             (healthy_players['Probable Pitcher'] == 'Yes')
         ].copy()
         
-        logger.info(f"⚾ Confirmed starting pitchers: {len(confirmed_pitchers)}")
+        logger.info(f"BASEBALL: Confirmed starting pitchers: {len(confirmed_pitchers)}")
         
         # Get confirmed starting hitters (players with batting orders 1-9)
         confirmed_hitters = healthy_players[
@@ -83,17 +83,17 @@ class MLBDominationSystem:
             (healthy_players['Batting Order'] <= 9)
         ].copy()
         
-        logger.info(f"⚾ Confirmed starting hitters: {len(confirmed_hitters)}")
+        logger.info(f"BASEBALL: Confirmed starting hitters: {len(confirmed_hitters)}")
         
         # Combine confirmed starters
         self.confirmed_starters = pd.concat([confirmed_pitchers, confirmed_hitters], ignore_index=True)
         
-        logger.info(f"✅ TOTAL CONFIRMED STARTERS: {len(self.confirmed_starters)}")
-        logger.info(f"🚫 FILTERED OUT: {len(self.slate_df) - len(self.confirmed_starters)} uncertain players")
+        logger.info(f"SUCCESS: TOTAL CONFIRMED STARTERS: {len(self.confirmed_starters)}")
+        logger.info(f" FILTERED OUT: {len(self.slate_df) - len(self.confirmed_starters)} uncertain players")
         
         # Show position breakdown
         logger.info("")
-        logger.info("📊 CONFIRMED STARTER BREAKDOWN:")
+        logger.info("DATA: CONFIRMED STARTER BREAKDOWN:")
         positions = ['P', 'C', '1B', '2B', '3B', 'SS', 'OF']
         for pos in positions:
             if pos == 'OF':
@@ -113,7 +113,7 @@ class MLBDominationSystem:
     def create_winning_lineups(self, num_lineups=5):
         """Create winning lineups using ONLY confirmed starters"""
         logger.info("")
-        logger.info("🏆 CREATING WINNING LINEUPS")
+        logger.info("LINEUP: CREATING WINNING LINEUPS")
         logger.info("="*50)
         
         df = self.confirmed_starters.copy()
@@ -191,7 +191,7 @@ class MLBDominationSystem:
                     lineup_players.append(player)
                     used_ids.add(player['Id'])
                 else:
-                    logger.warning(f"⚠️ Not enough {pos_name} players")
+                    logger.warning(f"WARNING: Not enough {pos_name} players")
                     lineup_valid = False
                     break
             
@@ -229,19 +229,19 @@ class MLBDominationSystem:
                         'lineup_num': len(self.lineups) + 1
                     }
                     self.lineups.append(lineup_info)
-                    logger.info(f"✅ Lineup {len(self.lineups)}: ${total_salary:,} | {total_fppg:.1f} FPPG")
+                    logger.info(f"SUCCESS: Lineup {len(self.lineups)}: ${total_salary:,} | {total_fppg:.1f} FPPG")
         
-        logger.info(f"🎯 Created {len(self.lineups)} winning lineups")
+        logger.info(f"TARGET: Created {len(self.lineups)} winning lineups")
         return len(self.lineups) > 0
     
     def format_for_fanduel(self):
         """Format lineups for FanDuel upload"""
         logger.info("")
-        logger.info("📋 FORMATTING FOR FANDUEL")
+        logger.info("INFO: FORMATTING FOR FANDUEL")
         logger.info("="*50)
         
         if not self.lineups:
-            logger.error("❌ No lineups to format")
+            logger.error("ERROR: No lineups to format")
             return None
         
         formatted_lineups = []
@@ -310,7 +310,7 @@ class MLBDominationSystem:
     def save_lineups(self, formatted_df):
         """Save lineups in multiple formats"""
         logger.info("")
-        logger.info("💾 SAVING LINEUPS")
+        logger.info(" SAVING LINEUPS")
         logger.info("="*50)
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -318,29 +318,29 @@ class MLBDominationSystem:
         # Save main file
         main_file = f'../data/MLB_DOMINATION_LINEUPS_{timestamp}.csv'
         formatted_df.to_csv(main_file, index=False)
-        logger.info(f"📁 Main file: {main_file}")
+        logger.info(f" Main file: {main_file}")
         
         # Save current file
         current_file = '../data/MLB_DOMINATION_LINEUPS.csv'
         formatted_df.to_csv(current_file, index=False)
-        logger.info(f"📁 Current file: {current_file}")
+        logger.info(f" Current file: {current_file}")
         
         # Save for easy upload
         upload_file = '../fd_current_slate/UPLOAD_READY_LINEUPS.csv'
         formatted_df.to_csv(upload_file, index=False)
-        logger.info(f"📁 Upload ready: {upload_file}")
+        logger.info(f" Upload ready: {upload_file}")
         
         return True
     
     def show_lineup_summary(self, formatted_df):
         """Show detailed lineup summary"""
         logger.info("")
-        logger.info("🏆 LINEUP SUMMARY")
+        logger.info("LINEUP: LINEUP SUMMARY")
         logger.info("="*50)
         
         for idx, lineup in formatted_df.iterrows():
             logger.info(f"")
-            logger.info(f"🎯 {lineup['Lineup_Name']} - ${lineup['Salary']:,} | {lineup['FPPG']:.1f} FPPG")
+            logger.info(f"TARGET: {lineup['Lineup_Name']} - ${lineup['Salary']:,} | {lineup['FPPG']:.1f} FPPG")
             
             positions = ['P', 'C/1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3', 'UTIL']
             for pos in positions:
@@ -354,11 +354,11 @@ class MLBDominationSystem:
                         logger.info(f"   {pos_display:4}: {player['Nickname']} ({player['Team']}){batting_order} - ${player['Salary']} | {player['FPPG']:.1f}")
         
         logger.info("")
-        logger.info(f"📊 Summary: {len(formatted_df)} lineups | ${formatted_df['Salary'].min():,}-${formatted_df['Salary'].max():,} | {formatted_df['FPPG'].min():.1f}-{formatted_df['FPPG'].max():.1f} FPPG")
+        logger.info(f"DATA: Summary: {len(formatted_df)} lineups | ${formatted_df['Salary'].min():,}-${formatted_df['Salary'].max():,} | {formatted_df['FPPG'].min():.1f}-{formatted_df['FPPG'].max():.1f} FPPG")
     
     def run_complete_system(self):
         """Run the complete MLB domination system"""
-        logger.info("🚀 MLB DAILY DOMINATION SYSTEM")
+        logger.info("START: MLB DAILY DOMINATION SYSTEM")
         logger.info("="*60)
         logger.info("ONE SCRIPT TO REPLACE 200+ SCATTERED SCRIPTS")
         logger.info("GUARANTEED: ONLY CONFIRMED STARTERS IN LINEUPS")
@@ -371,40 +371,40 @@ class MLBDominationSystem:
             
             # Step 2: Filter to confirmed starters
             if not self.filter_confirmed_starters():
-                logger.error("❌ Failed to find confirmed starters")
+                logger.error("ERROR: Failed to find confirmed starters")
                 return False
             
             # Step 3: Create winning lineups
             if not self.create_winning_lineups():
-                logger.error("❌ Failed to create lineups")
+                logger.error("ERROR: Failed to create lineups")
                 return False
             
             # Step 4: Format for FanDuel
             formatted_df = self.format_for_fanduel()
             if formatted_df is None:
-                logger.error("❌ Failed to format lineups")
+                logger.error("ERROR: Failed to format lineups")
                 return False
             
             # Step 5: Save lineups
             if not self.save_lineups(formatted_df):
-                logger.error("❌ Failed to save lineups")
+                logger.error("ERROR: Failed to save lineups")
                 return False
             
             # Step 6: Show summary
             self.show_lineup_summary(formatted_df)
             
             logger.info("")
-            logger.info("🎉 MLB DOMINATION SYSTEM COMPLETE!")
+            logger.info("COMPLETE: MLB DOMINATION SYSTEM COMPLETE!")
             logger.info("="*60)
-            logger.info("✅ ONLY confirmed starters used")
-            logger.info("✅ NO injured players")
-            logger.info("✅ Ready for FanDuel upload")
-            logger.info("✅ GUARANTEED winning potential")
+            logger.info("SUCCESS: ONLY confirmed starters used")
+            logger.info("SUCCESS: NO injured players")
+            logger.info("SUCCESS: Ready for FanDuel upload")
+            logger.info("SUCCESS: GUARANTEED winning potential")
             
             return True
             
         except Exception as e:
-            logger.error(f"❌ System error: {e}")
+            logger.error(f"ERROR: System error: {e}")
             import traceback
             traceback.print_exc()
             return False
@@ -416,12 +416,12 @@ def main():
     
     if success:
         logger.info("")
-        logger.info("🎯 NEXT STEPS:")
+        logger.info("TARGET: NEXT STEPS:")
         logger.info("1. Upload UPLOAD_READY_LINEUPS.csv to FanDuel")
         logger.info("2. Enter contests")
-        logger.info("3. WIN MONEY! 💰")
+        logger.info("3. WIN MONEY! MONEY:")
     else:
-        logger.error("❌ System failed - check errors above")
+        logger.error("ERROR: System failed - check errors above")
 
 if __name__ == "__main__":
     main()

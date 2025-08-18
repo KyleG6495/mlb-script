@@ -20,7 +20,7 @@ class DFSDiagnosticAnalyzer:
         
     def run_full_diagnostic(self):
         """Run complete diagnostic analysis"""
-        print("🔍 DFS LINEUP DIAGNOSTIC ANALYSIS")
+        print(" DFS LINEUP DIAGNOSTIC ANALYSIS")
         print("=" * 50)
         
         # Check data freshness
@@ -43,7 +43,7 @@ class DFSDiagnosticAnalyzer:
         
     def check_data_freshness(self):
         """Check if data is fresh and accurate"""
-        print("\n📅 CHECKING DATA FRESHNESS...")
+        print("\n CHECKING DATA FRESHNESS...")
         
         try:
             # Check slate file age
@@ -53,7 +53,7 @@ class DFSDiagnosticAnalyzer:
                 print(f"   Slate file age: {slate_age:.1f} hours")
                 
                 if slate_age > 24:
-                    self.issues.append("⚠️ Slate file is over 24 hours old")
+                    self.issues.append("WARNING: Slate file is over 24 hours old")
                     self.recommendations.append("Run fresh data pipeline (1_DATA_PIPELINE.bat)")
                 
                 # Check slate content
@@ -62,18 +62,18 @@ class DFSDiagnosticAnalyzer:
                 print(f"   Salary range: ${slate['Salary'].min()} - ${slate['Salary'].max()}")
                 
                 if len(slate) < 300:
-                    self.issues.append("⚠️ Very few players in slate - may be incomplete")
+                    self.issues.append("WARNING: Very few players in slate - may be incomplete")
                     
             else:
-                self.issues.append("❌ No slate file found")
+                self.issues.append("ERROR: No slate file found")
                 self.recommendations.append("Run 1_DATA_PIPELINE.bat to generate slate")
                 
         except Exception as e:
-            self.issues.append(f"❌ Error checking slate: {e}")
+            self.issues.append(f"ERROR: Error checking slate: {e}")
             
     def check_projection_quality(self):
         """Analyze projection quality and methodology"""
-        print("\n🎯 CHECKING PROJECTION QUALITY...")
+        print("\nTARGET: CHECKING PROJECTION QUALITY...")
         
         try:
             # Load recent lineups
@@ -91,10 +91,10 @@ class DFSDiagnosticAnalyzer:
                 print(f"   Average projection: {avg_projection:.1f}")
                 
                 if avg_projection < 60:
-                    self.issues.append("⚠️ Projections seem very low (avg < 60)")
+                    self.issues.append("WARNING: Projections seem very low (avg < 60)")
                     self.recommendations.append("Check ML model training and FPPG conversion")
                 elif avg_projection > 120:
-                    self.issues.append("⚠️ Projections seem unrealistically high (avg > 120)")
+                    self.issues.append("WARNING: Projections seem unrealistically high (avg > 120)")
                     self.recommendations.append("Check for projection inflation in models")
                     
                 # Check for projection variance
@@ -102,18 +102,18 @@ class DFSDiagnosticAnalyzer:
                 print(f"   Projection variance: {projection_std:.2f}")
                 
                 if projection_std < 2:
-                    self.issues.append("⚠️ Very low projection variance - lineups too similar")
+                    self.issues.append("WARNING: Very low projection variance - lineups too similar")
                     self.recommendations.append("Improve lineup diversity and player variance modeling")
                     
             else:
-                self.issues.append("❌ No recent lineup files found")
+                self.issues.append("ERROR: No recent lineup files found")
                 
         except Exception as e:
-            self.issues.append(f"❌ Error checking projections: {e}")
+            self.issues.append(f"ERROR: Error checking projections: {e}")
             
     def check_lineup_diversity(self):
         """Check if lineups have proper diversity"""
-        print("\n🎲 CHECKING LINEUP DIVERSITY...")
+        print("\n CHECKING LINEUP DIVERSITY...")
         
         try:
             # Check latest submission file
@@ -139,10 +139,10 @@ class DFSDiagnosticAnalyzer:
                 print(f"   Player diversity ratio: {diversity_ratio:.2f}")
                 
                 if diversity_ratio < 0.3:
-                    self.issues.append("⚠️ Very low player diversity - too many duplicate players")
+                    self.issues.append("WARNING: Very low player diversity - too many duplicate players")
                     self.recommendations.append("Increase diversity constraints in optimizer")
                 elif diversity_ratio > 0.8:
-                    self.issues.append("⚠️ Too much diversity - may hurt correlation")
+                    self.issues.append("WARNING: Too much diversity - may hurt correlation")
                     self.recommendations.append("Balance diversity with game stacking")
                     
                 # Check salary usage
@@ -150,18 +150,18 @@ class DFSDiagnosticAnalyzer:
                 print(f"   Average salary usage: ${avg_salary}")
                 
                 if avg_salary < 34000:
-                    self.issues.append("⚠️ Not using enough salary - leaving money on table")
+                    self.issues.append("WARNING: Not using enough salary - leaving money on table")
                     self.recommendations.append("Optimize to use closer to $35,000 cap")
                     
             else:
-                self.issues.append("❌ No submission files found")
+                self.issues.append("ERROR: No submission files found")
                 
         except Exception as e:
-            self.issues.append(f"❌ Error checking diversity: {e}")
+            self.issues.append(f"ERROR: Error checking diversity: {e}")
             
     def check_correlation_modeling(self):
         """Check if correlations are properly modeled"""
-        print("\n🔗 CHECKING CORRELATION MODELING...")
+        print("\n CHECKING CORRELATION MODELING...")
         
         try:
             submission_files = list(self.base_dir.glob("fanduel_submission_*.csv"))
@@ -180,16 +180,16 @@ class DFSDiagnosticAnalyzer:
                     self.recommendations.append("Implement proper game stacking and correlation modeling")
                 
         except Exception as e:
-            self.issues.append(f"❌ Error checking correlations: {e}")
+            self.issues.append(f"ERROR: Error checking correlations: {e}")
             
     def check_ownership_modeling(self):
         """Check ownership awareness"""
-        print("\n👥 CHECKING OWNERSHIP MODELING...")
+        print("\nOWNERSHIP: CHECKING OWNERSHIP MODELING...")
         
         # Check if ownership files exist
         ownership_files = list(self.base_dir.glob("*ownership*.csv"))
         if not ownership_files:
-            self.issues.append("⚠️ No ownership projection files found")
+            self.issues.append("WARNING: No ownership projection files found")
             self.recommendations.append("Implement ownership projection system")
         else:
             print(f"   Found {len(ownership_files)} ownership-related files")
@@ -197,22 +197,22 @@ class DFSDiagnosticAnalyzer:
     def generate_diagnostic_report(self):
         """Generate comprehensive diagnostic report"""
         print("\n" + "=" * 50)
-        print("📋 DIAGNOSTIC SUMMARY")
+        print("INFO: DIAGNOSTIC SUMMARY")
         print("=" * 50)
         
         if self.issues:
-            print("\n🚨 ISSUES IDENTIFIED:")
+            print("\n ISSUES IDENTIFIED:")
             for i, issue in enumerate(self.issues, 1):
                 print(f"{i}. {issue}")
         else:
-            print("\n✅ No major issues found!")
+            print("\nSUCCESS: No major issues found!")
             
         if self.recommendations:
-            print("\n💡 RECOMMENDATIONS:")
+            print("\nTIP: RECOMMENDATIONS:")
             for i, rec in enumerate(self.recommendations, 1):
                 print(f"{i}. {rec}")
                 
-        print("\n🎯 PRIORITY FIXES:")
+        print("\nTARGET: PRIORITY FIXES:")
         print("1. Ensure fresh data pipeline run")
         print("2. Validate ML model projections")
         print("3. Implement proper game stacking")
@@ -234,7 +234,7 @@ class DFSDiagnosticAnalyzer:
             for rec in self.recommendations:
                 f.write(f"- {rec}\n")
                 
-        print(f"\n📄 Full report saved: {report_file}")
+        print(f"\n Full report saved: {report_file}")
 
 if __name__ == "__main__":
     analyzer = DFSDiagnosticAnalyzer()

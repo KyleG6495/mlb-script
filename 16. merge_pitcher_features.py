@@ -65,7 +65,7 @@ def normalize_name(name):
     return name.strip()
 
 # Load data files
-logging.info(f"📥 Loading season features from {SEASON_FILE}")
+logging.info(f" Loading season features from {SEASON_FILE}")
 try:
     season_df = pd.read_csv(SEASON_FILE)
     season_df['player_id'] = season_df['player_id'].astype(str)
@@ -77,7 +77,7 @@ try:
     else:
         logging.warning(f"No 'name' or 'target_name' column in season_df.")
 except FileNotFoundError:
-    logging.error(f"❌ Season file {SEASON_FILE} not found")
+    logging.error(f"ERROR: Season file {SEASON_FILE} not found")
     exit(1)
 
 # Check for Shane Bieber in season_df
@@ -87,17 +87,17 @@ if bieber_in_season.empty:
 else:
     logging.info(f"Shane Bieber found in season_df:\n{bieber_in_season[['player_id', name_col] if name_col else ['player_id']].to_string()}")
 
-logging.info(f"📥 Loading rolling 5-game features from {ROLLING_FILE}")
+logging.info(f" Loading rolling 5-game features from {ROLLING_FILE}")
 try:
     rolling_df = pd.read_csv(ROLLING_FILE)
     rolling_df['player_id'] = rolling_df['player_id'].astype(str)
     logging.info(f"rolling_df player_id dtype: {rolling_df['player_id'].dtype}")
     logging.info(f"Sample rolling_df player_id: {rolling_df['player_id'].head().tolist()}")
 except FileNotFoundError:
-    logging.error(f"❌ Rolling file {ROLLING_FILE} not found")
+    logging.error(f"ERROR: Rolling file {ROLLING_FILE} not found")
     exit(1)
 
-logging.info(f"📥 Loading team data from {TEAM_FILE}")
+logging.info(f" Loading team data from {TEAM_FILE}")
 try:
     team_df = pd.read_csv(TEAM_FILE)
     logging.info(f"Columns in team_df: {team_df.columns.tolist()}")
@@ -108,7 +108,7 @@ try:
         logging.error(f"team_df is empty. Please check the file: {TEAM_FILE}")
         raise ValueError("team_df is empty")
 except FileNotFoundError:
-    logging.error(f"❌ Team file {TEAM_FILE} not found")
+    logging.error(f"ERROR: Team file {TEAM_FILE} not found")
     exit(1)
 
 # Ensure name_key is string and handle NaN
@@ -136,18 +136,18 @@ if team_df['player_id'].isna().any():
     logging.warning(f"Sample rows with NaN player_id:\n{team_df[team_df['player_id'].isna()][['player_id', 'name', 'team_standardized']].head().to_string()}")
 
 # Load ID mapping file
-logging.info(f"📥 Loading ID mapping file from {ID_MAP_FILE}")
+logging.info(f" Loading ID mapping file from {ID_MAP_FILE}")
 try:
     id_map_df = pd.read_csv(ID_MAP_FILE)
     id_map_df['player_id'] = id_map_df['player_id'].astype(str)
     if 'game_pk' not in id_map_df.columns:
-        logging.error(f"❌ game_pk column missing in {ID_MAP_FILE}. Please run the pitcher game_pk enrichment script.")
+        logging.error(f"ERROR: game_pk column missing in {ID_MAP_FILE}. Please run the pitcher game_pk enrichment script.")
         exit(1)
     id_map_df['target_name'] = id_map_df['target_name'].apply(normalize_name)
     team_df['name_key'] = team_df['name_key'].apply(normalize_name)
     logging.info(f"Sample id_map_df:\n{id_map_df[['game_pk', 'target_name', 'player_id']].head().to_string()}")
 except FileNotFoundError:
-    logging.error(f"❌ ID mapping file {ID_MAP_FILE} not found")
+    logging.error(f"ERROR: ID mapping file {ID_MAP_FILE} not found")
     exit(1)
 
 # Log duplicate FanDuel IDs
@@ -212,7 +212,7 @@ logging.info(f"Rows in team_df after mapping: {len(team_df)}")
 
 # Load team name map if available
 if os.path.exists(TEAM_MAP_FILE):
-    logging.info(f"📥 Loading team name map from {TEAM_MAP_FILE}")
+    logging.info(f" Loading team name map from {TEAM_MAP_FILE}")
     team_map_df = pd.read_csv(TEAM_MAP_FILE)
     team_map_df['from'] = team_map_df['from'].str.strip().str.lower()
     team_map_df['to'] = team_map_df['to'].str.strip().str.lower()
@@ -234,7 +234,7 @@ rolling_df = rolling_df.drop_duplicates(subset=['player_id', 'date'])
 logging.info(f"Rows in rolling_df after deduplication: {len(rolling_df)}")
 
 # Merge season and rolling features
-logging.info("🔄 Merging season and rolling features")
+logging.info("SWAP: Merging season and rolling features")
 merged_df = pd.merge(
     season_df,
     rolling_df.drop(columns=['name'], errors='ignore'),  # Avoid name column conflicts
@@ -298,7 +298,7 @@ merged_df = merged_df.drop_duplicates(subset=duplicate_subset)
 logging.info(f"Rows after removing duplicates: {len(merged_df)}")
 
 # Merge with team data to add team_standardized and game_pk
-logging.info("🔄 Merging with team data to add team_standardized and game_pk")
+logging.info("SWAP: Merging with team data to add team_standardized and game_pk")
 merged_df = pd.merge(
     merged_df,
     team_df[['player_id', 'team_standardized', 'game_pk']],
@@ -359,7 +359,7 @@ else:
 # Save merged output
 try:
     merged_df.to_csv(OUTPUT_FILE, index=False)
-    logging.info(f"✅ Saved merged pitcher features → {OUTPUT_FILE} with {len(merged_df)} rows")
+    logging.info(f"SUCCESS: Saved merged pitcher features  {OUTPUT_FILE} with {len(merged_df)} rows")
 except Exception as e:
-    logging.error(f"❌ Failed to save to {OUTPUT_FILE}: {e}")
+    logging.error(f"ERROR: Failed to save to {OUTPUT_FILE}: {e}")
     exit(1)

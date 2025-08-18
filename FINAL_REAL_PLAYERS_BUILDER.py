@@ -57,7 +57,7 @@ def get_confirmed_players_july_30_2025():
 
 def find_real_players_in_fd_slate(fd_df, confirmed_names):
     """Find confirmed real players in FanDuel slate with smart matching"""
-    logger.info("🔍 FINDING CONFIRMED REAL PLAYERS IN FANDUEL SLATE...")
+    logger.info(" FINDING CONFIRMED REAL PLAYERS IN FANDUEL SLATE...")
     
     real_players = []
     
@@ -93,22 +93,22 @@ def find_real_players_in_fd_slate(fd_df, confirmed_names):
                         'game': fd_player['Game'],
                         'value': fd_player['FPPG'] / (fd_player['Salary'] / 1000) if fd_player['Salary'] > 0 else 0
                     })
-                    logger.info(f"✅ FOUND: {confirmed_name} → {fd_nick} ({fd_player['Position']}) ${fd_player['Salary']}")
+                    logger.info(f"SUCCESS: FOUND: {confirmed_name}  {fd_nick} ({fd_player['Position']}) ${fd_player['Salary']}")
                     break
         
         if not matched:
-            logger.warning(f"❌ NOT FOUND: {confirmed_name}")
+            logger.warning(f"ERROR: NOT FOUND: {confirmed_name}")
     
     real_df = pd.DataFrame(real_players)
-    logger.info(f"📊 TOTAL CONFIRMED REAL PLAYERS FOUND: {len(real_df)}")
+    logger.info(f"DATA: TOTAL CONFIRMED REAL PLAYERS FOUND: {len(real_df)}")
     return real_df
 
 def build_final_real_lineup(real_df, salary_cap=35000):
     """Build the final optimized lineup using only confirmed real players"""
-    logger.info("🏆 BUILDING FINAL LINEUP WITH CONFIRMED REAL PLAYERS...")
+    logger.info("LINEUP: BUILDING FINAL LINEUP WITH CONFIRMED REAL PLAYERS...")
     
     if len(real_df) == 0:
-        logger.error("❌ No real players found!")
+        logger.error("ERROR: No real players found!")
         return None
     
     # Separate by position
@@ -120,7 +120,7 @@ def build_final_real_lineup(real_df, salary_cap=35000):
     shortstop = real_df[real_df['position'].str.contains('SS')].copy()
     outfield = real_df[real_df['position'].str.contains('OF')].copy()
     
-    logger.info(f"📋 POSITION BREAKDOWN:")
+    logger.info(f"INFO: POSITION BREAKDOWN:")
     logger.info(f"   Pitchers: {len(pitchers)}")
     logger.info(f"   Catchers: {len(catchers)}")
     logger.info(f"   1B: {len(first_base)}")
@@ -155,13 +155,13 @@ def build_final_real_lineup(real_df, salary_cap=35000):
         success = True
         for pos_name, pos_df, sort_by in positions:
             if len(pos_df) == 0:
-                logger.warning(f"⚠️ No {pos_name} players available")
+                logger.warning(f"WARNING: No {pos_name} players available")
                 success = False
                 break
                 
             affordable = pos_df[pos_df['salary'] <= remaining_budget]
             if len(affordable) == 0:
-                logger.warning(f"⚠️ No affordable {pos_name} players (budget: ${remaining_budget:,})")
+                logger.warning(f"WARNING: No affordable {pos_name} players (budget: ${remaining_budget:,})")
                 success = False
                 break
             
@@ -208,14 +208,14 @@ def build_final_real_lineup(real_df, salary_cap=35000):
 def display_and_save_lineup(lineup, total_fppg):
     """Display and save the final real players lineup"""
     if not lineup:
-        logger.error("❌ No lineup to display")
+        logger.error("ERROR: No lineup to display")
         return
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     total_salary = sum(player['salary'] for _, player in lineup)
     
     logger.info("\n" + "=" * 60)
-    logger.info("🏆 FINAL LINEUP - CONFIRMED REAL PLAYERS ONLY")
+    logger.info("LINEUP: FINAL LINEUP - CONFIRMED REAL PLAYERS ONLY")
     logger.info("=" * 60)
     
     lineup_data = []
@@ -244,39 +244,39 @@ def display_and_save_lineup(lineup, total_fppg):
         })
     
     logger.info("=" * 60)
-    logger.info(f"💰 TOTAL SALARY: ${total_salary:,} / $35,000")
-    logger.info(f"📊 PROJECTED FPPG: {total_fppg:.1f}")
-    logger.info(f"💵 REMAINING: ${35000 - total_salary:,}")
-    logger.info("✅ ALL PLAYERS CONFIRMED TO BE PLAYING!")
+    logger.info(f"MONEY: TOTAL SALARY: ${total_salary:,} / $35,000")
+    logger.info(f"DATA: PROJECTED FPPG: {total_fppg:.1f}")
+    logger.info(f" REMAINING: ${35000 - total_salary:,}")
+    logger.info("SUCCESS: ALL PLAYERS CONFIRMED TO BE PLAYING!")
     
     # Save lineup
     lineup_df = pd.DataFrame(lineup_data)
     filename = f"../data/FINAL_REAL_LINEUP_{timestamp}.csv"
     lineup_df.to_csv(filename, index=False)
-    logger.info(f"💾 SAVED: {filename}")
+    logger.info(f" SAVED: {filename}")
     
     return filename
 
 def main():
     """Main function to build final real players lineup"""
-    logger.info("🚀 FINAL REAL PLAYERS LINEUP BUILDER")
-    logger.info("🎯 July 30, 2025 - CONFIRMED PLAYERS ONLY")
+    logger.info("START: FINAL REAL PLAYERS LINEUP BUILDER")
+    logger.info("TARGET: July 30, 2025 - CONFIRMED PLAYERS ONLY")
     logger.info("=" * 60)
     
     try:
         # Get confirmed players list
         confirmed_names = get_confirmed_players_july_30_2025()
-        logger.info(f"📋 Confirmed players list: {len(confirmed_names)} names")
+        logger.info(f"INFO: Confirmed players list: {len(confirmed_names)} names")
         
         # Load FanDuel slate
         fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📊 FanDuel slate loaded: {len(fd_df)} players")
+        logger.info(f"DATA: FanDuel slate loaded: {len(fd_df)} players")
         
         # Find real players in slate
         real_df = find_real_players_in_fd_slate(fd_df, confirmed_names)
         
         if len(real_df) < 9:
-            logger.error(f"❌ Only found {len(real_df)} confirmed players - need 9 minimum")
+            logger.error(f"ERROR: Only found {len(real_df)} confirmed players - need 9 minimum")
             return
         
         # Build final lineup
@@ -285,14 +285,14 @@ def main():
         if lineup:
             filename = display_and_save_lineup(lineup, total_fppg)
             
-            logger.info("\n🎉 SUCCESS! LINEUP BUILT WITH REAL PLAYERS ONLY!")
-            logger.info("✅ NO FAKE PLAYERS - ALL CONFIRMED TO BE PLAYING!")
-            logger.info(f"📁 File: {filename}")
+            logger.info("\nCOMPLETE: SUCCESS! LINEUP BUILT WITH REAL PLAYERS ONLY!")
+            logger.info("SUCCESS: NO FAKE PLAYERS - ALL CONFIRMED TO BE PLAYING!")
+            logger.info(f" File: {filename}")
         else:
-            logger.error("❌ Failed to build lineup under salary cap")
+            logger.error("ERROR: Failed to build lineup under salary cap")
             
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

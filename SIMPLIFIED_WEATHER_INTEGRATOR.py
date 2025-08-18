@@ -1,5 +1,5 @@
 """
-🌤️ SIMPLIFIED WEATHER INTEGRATOR
+ SIMPLIFIED WEATHER INTEGRATOR
 Uses your existing weather data with direct game_pk mapping
 """
 
@@ -46,11 +46,11 @@ class SimplifiedWeatherIntegrator:
     
     def apply_weather_to_projections(self, projections_file: str):
         """Apply weather data directly to projections using team mapping"""
-        print(f"🌤️ Applying weather data to projections...")
+        print(f" Applying weather data to projections...")
         
         # Load projections
         if not os.path.exists(projections_file):
-            print(f"❌ Projections file not found: {projections_file}")
+            print(f"ERROR: Projections file not found: {projections_file}")
             return None
             
         df_proj = pd.read_csv(projections_file)
@@ -58,7 +58,7 @@ class SimplifiedWeatherIntegrator:
         
         # Load weather data
         if not os.path.exists(self.weather_data_file):
-            print(f"❌ Weather data not found: {self.weather_data_file}")
+            print(f"ERROR: Weather data not found: {self.weather_data_file}")
             return None
             
         df_weather = pd.read_csv(self.weather_data_file)
@@ -151,7 +151,7 @@ class SimplifiedWeatherIntegrator:
         improved_count = len(enhanced_df[enhanced_df['weather_improvement_pct'] > 0])
         hurt_count = len(enhanced_df[enhanced_df['weather_improvement_pct'] < 0])
         
-        print(f"\n✅ Weather enhanced projections saved: {os.path.basename(output_file)}")
+        print(f"\nSUCCESS: Weather enhanced projections saved: {os.path.basename(output_file)}")
         print(f"   Players with weather data: {weather_count}/{len(enhanced_df)}")
         print(f"   Players helped by weather: {improved_count}")
         print(f"   Players hurt by weather: {hurt_count}")
@@ -204,29 +204,29 @@ class SimplifiedWeatherIntegrator:
     
     def generate_weather_report(self, enhanced_df: pd.DataFrame):
         """Generate weather impact report"""
-        print(f"\n🌤️ WEATHER IMPACT REPORT")
+        print(f"\n WEATHER IMPACT REPORT")
         print("="*50)
         
         # Players with weather data
         with_weather = enhanced_df[enhanced_df['has_weather_data']]
         
         if len(with_weather) == 0:
-            print("❌ No players have weather data")
+            print("ERROR: No players have weather data")
             return
         
         # Top weather beneficiaries
         top_helped = with_weather.nlargest(10, 'weather_improvement_pct')
-        print(f"\n🔥 TOP WEATHER BENEFICIARIES:")
+        print(f"\n TOP WEATHER BENEFICIARIES:")
         for _, player in top_helped.iterrows():
             print(f"   {player['name']} ({player['team']}): +{player['weather_improvement_pct']:.1f}%")
-            print(f"      ${player['salary']:,} | {player['condition']}, {player['temperature']}°F")
+            print(f"      ${player['salary']:,} | {player['condition']}, {player['temperature']}F")
         
         # Most hurt by weather
         most_hurt = with_weather.nsmallest(5, 'weather_improvement_pct')
-        print(f"\n❄️ MOST HURT BY WEATHER:")
+        print(f"\n MOST HURT BY WEATHER:")
         for _, player in most_hurt.iterrows():
             print(f"   {player['name']} ({player['team']}): {player['weather_improvement_pct']:.1f}%")
-            print(f"      {player['condition']}, {player['temperature']}°F, {player['wind_speed']}mph wind")
+            print(f"      {player['condition']}, {player['temperature']}F, {player['wind_speed']}mph wind")
         
         # Team weather summary
         team_weather = with_weather.groupby('team').agg({
@@ -236,18 +236,18 @@ class SimplifiedWeatherIntegrator:
             'wind_speed': 'first'
         }).sort_values('weather_improvement_pct', ascending=False)
         
-        print(f"\n🏟️ TEAM WEATHER CONDITIONS:")
+        print(f"\n TEAM WEATHER CONDITIONS:")
         for team, data in team_weather.iterrows():
             avg_boost = data['weather_improvement_pct']
             temp = data['temperature']
             condition = data['condition']
             wind = data['wind_speed']
             
-            impact_emoji = "🔥" if avg_boost > 3 else "❄️" if avg_boost < -3 else "⚖️"
-            print(f"   {impact_emoji} {team}: {avg_boost:+.1f}% avg | {condition}, {temp}°F, {wind}mph")
+            impact_emoji = "" if avg_boost > 3 else "" if avg_boost < -3 else ""
+            print(f"   {impact_emoji} {team}: {avg_boost:+.1f}% avg | {condition}, {temp}F, {wind}mph")
         
         # Weather condition breakdown
-        print(f"\n🌤️ CONDITIONS BREAKDOWN:")
+        print(f"\n CONDITIONS BREAKDOWN:")
         condition_summary = with_weather.groupby('condition').agg({
             'weather_improvement_pct': 'mean',
             'name': 'count'
@@ -260,7 +260,7 @@ class SimplifiedWeatherIntegrator:
 
 def main():
     """Main execution function"""
-    print("🌤️ SIMPLIFIED WEATHER INTEGRATOR")
+    print(" SIMPLIFIED WEATHER INTEGRATOR")
     print("="*50)
     
     integrator = SimplifiedWeatherIntegrator()
@@ -278,10 +278,10 @@ def main():
             break
     
     if not input_file:
-        print("❌ No projections file found")
+        print("ERROR: No projections file found")
         return
     
-    print(f"📊 Using projections: {os.path.basename(input_file)}")
+    print(f"DATA: Using projections: {os.path.basename(input_file)}")
     
     # Apply weather data
     enhanced_df = integrator.apply_weather_to_projections(input_file)
@@ -290,7 +290,7 @@ def main():
         # Generate report
         integrator.generate_weather_report(enhanced_df)
         
-        print(f"\n✅ WEATHER INTEGRATION COMPLETE!")
+        print(f"\nSUCCESS: WEATHER INTEGRATION COMPLETE!")
         print(f"   Applied real weather conditions to {len(enhanced_df)} players")
         print(f"   Used your existing weather data collection system")
         print(f"   Ready for lineup optimization")

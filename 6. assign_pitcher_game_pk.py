@@ -30,7 +30,7 @@ logging.basicConfig(
 
 def fetch_game_pk(player_id: str, season: int) -> int | None:
     """
-    Query MLB Stats API via /stats?stats=gameLog for a player’s pitching logs in the given season,
+    Query MLB Stats API via /stats?stats=gameLog for a players pitching logs in the given season,
     return the gamePk for their most recent game (if any).
     """
     try:
@@ -67,21 +67,21 @@ def fetch_game_pk(player_id: str, season: int) -> int | None:
 def main():
     # 1) Load pitchers list
     pitchers = pd.read_csv(PITCHERS_FILE, dtype={"player_id": str})
-    logging.info(f"📂 Loaded {len(pitchers)} rows from {PITCHERS_FILE}")
-    logging.info(f"📂 Columns: {pitchers.columns.tolist()}")
+    logging.info(f" Loaded {len(pitchers)} rows from {PITCHERS_FILE}")
+    logging.info(f" Columns: {pitchers.columns.tolist()}")
 
     # Drop any rows lacking a player_id
     pitchers = pitchers.dropna(subset=["player_id"])
-    logging.info(f"✂️ Dropped rows with missing player_id; {len(pitchers)} remaining")
+    logging.info(f" Dropped rows with missing player_id; {len(pitchers)} remaining")
 
     # 2) Determine season
     # always use current year to get this season's games
     season = 2024  # Use 2024 season data instead
-    logging.info(f"ℹ️ Using season {season}")
+    logging.info(f" Using season {season}")
 
     # 3) Fetch game_pks
     rows, failed = [], []
-    logging.info(f"🔄 Fetching most recent game_pk for {len(pitchers)} pitchers…")
+    logging.info(f"SWAP: Fetching most recent game_pk for {len(pitchers)} pitchers")
     for _, row in tqdm(pitchers.iterrows(), total=len(pitchers)):
         gp = fetch_game_pk(row["player_id"], season)
         if gp:
@@ -94,15 +94,15 @@ def main():
             failed.append(row["player_id"])
 
     # 4) Save failures
-    logging.info(f"⚠️ {len(failed)} pitchers have no game_pk")
+    logging.info(f"WARNING: {len(failed)} pitchers have no game_pk")
     if failed:
-        logging.info(f"📝 Saving failed IDs to {FAILED_IDS_FILE}")
+        logging.info(f" Saving failed IDs to {FAILED_IDS_FILE}")
         with open(FAILED_IDS_FILE, "w") as f:
             json.dump(failed, f, indent=2)
 
     # 5) Write mapping CSV
     pd.DataFrame(rows).to_csv(OUTPUT_MAP, index=False)
-    logging.info(f"✅ Saved {len(rows)} rows to {OUTPUT_MAP}")
+    logging.info(f"SUCCESS: Saved {len(rows)} rows to {OUTPUT_MAP}")
 
 
 if __name__ == "__main__":

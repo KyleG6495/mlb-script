@@ -16,7 +16,7 @@ class SafeEnhancedTournamentGenerator:
         
     def load_data(self):
         """Load confirmed starters and enhanced features"""
-        logger.info("🔍 LOADING SAFE ENHANCED DATA")
+        logger.info(" LOADING SAFE ENHANCED DATA")
         logger.info("=" * 60)
         
         # Load confirmed starters (our safety filter)
@@ -31,7 +31,7 @@ class SafeEnhancedTournamentGenerator:
             for file_path in possible_files:
                 try:
                     self.confirmed_starters = pd.read_csv(file_path)
-                    logger.info(f"✅ Loaded {len(self.confirmed_starters)} confirmed starters from {file_path.split('/')[-1]}")
+                    logger.info(f"SUCCESS: Loaded {len(self.confirmed_starters)} confirmed starters from {file_path.split('/')[-1]}")
                     break
                 except FileNotFoundError:
                     continue
@@ -40,28 +40,28 @@ class SafeEnhancedTournamentGenerator:
                 raise FileNotFoundError("No confirmed starters file found")
                 
         except Exception as e:
-            logger.error(f"❌ Failed to load confirmed starters: {e}")
+            logger.error(f"ERROR: Failed to load confirmed starters: {e}")
             return False
             
         # Load enhanced features 
         try:
             self.enhanced_features = pd.read_csv('../data/fd_hitter_features_enhanced.csv')
-            logger.info(f"✅ Loaded {len(self.enhanced_features)} enhanced features")
+            logger.info(f"SUCCESS: Loaded {len(self.enhanced_features)} enhanced features")
         except Exception as e:
-            logger.warning(f"⚠️ No enhanced features found, using base features: {e}")
+            logger.warning(f"WARNING: No enhanced features found, using base features: {e}")
             
         # Load ceiling weights
         try:
             ceiling_weights = pd.read_csv('../data/ceiling_lineup_weights.csv')
-            logger.info(f"✅ Loaded ceiling weights for {len(ceiling_weights)} players")
+            logger.info(f"SUCCESS: Loaded ceiling weights for {len(ceiling_weights)} players")
         except Exception as e:
-            logger.warning(f"⚠️ No ceiling weights found: {e}")
+            logger.warning(f"WARNING: No ceiling weights found: {e}")
             
         return True
         
     def merge_enhanced_with_confirmed(self):
         """Merge enhanced projections with confirmed starters only"""
-        logger.info("🔄 MERGING ENHANCED DATA WITH CONFIRMED STARTERS")
+        logger.info("SWAP: MERGING ENHANCED DATA WITH CONFIRMED STARTERS")
         logger.info("=" * 60)
         
         # Create name matching key
@@ -88,7 +88,7 @@ class SafeEnhancedTournamentGenerator:
                 enhanced_confirmed['FPPG']
             )
             
-            logger.info(f"✅ Enhanced projections applied to {enhanced_confirmed['tournament_proj'].notna().sum()} players")
+            logger.info(f"SUCCESS: Enhanced projections applied to {enhanced_confirmed['tournament_proj'].notna().sum()} players")
         else:
             enhanced_confirmed = self.confirmed_starters.copy()
             enhanced_confirmed['final_proj'] = enhanced_confirmed['FPPG']
@@ -98,12 +98,12 @@ class SafeEnhancedTournamentGenerator:
         enhanced_confirmed['value_score'] = enhanced_confirmed['ceiling_proj'] / enhanced_confirmed['Salary'] * 1000
         
         self.enhanced_confirmed = enhanced_confirmed
-        logger.info(f"📊 Final dataset: {len(enhanced_confirmed)} confirmed starters with enhanced projections")
-        logger.info(f"📊 Projection range: {enhanced_confirmed['ceiling_proj'].min():.1f} - {enhanced_confirmed['ceiling_proj'].max():.1f} FPPG")
+        logger.info(f"DATA: Final dataset: {len(enhanced_confirmed)} confirmed starters with enhanced projections")
+        logger.info(f"DATA: Projection range: {enhanced_confirmed['ceiling_proj'].min():.1f} - {enhanced_confirmed['ceiling_proj'].max():.1f} FPPG")
         
     def generate_safe_lineups(self, num_lineups=10):
         """Generate tournament lineups using only confirmed starters"""
-        logger.info("🏆 GENERATING SAFE ENHANCED TOURNAMENT LINEUPS")
+        logger.info("LINEUP: GENERATING SAFE ENHANCED TOURNAMENT LINEUPS")
         logger.info("=" * 60)
         
         lineups = []
@@ -111,7 +111,7 @@ class SafeEnhancedTournamentGenerator:
         
         for i in range(num_lineups):
             strategy = strategies[i]
-            logger.info(f"🔄 Generating lineup {i+1}/{num_lineups} - {strategy}")
+            logger.info(f"SWAP: Generating lineup {i+1}/{num_lineups} - {strategy}")
             
             lineup = self._optimize_lineup(strategy)
             if lineup is not None:
@@ -121,9 +121,9 @@ class SafeEnhancedTournamentGenerator:
                 
                 total_proj = lineup['Projected_FPPG'].sum()
                 total_salary = lineup['Salary'].sum()
-                logger.info(f"✅ Lineup {i+1}: {total_proj:.1f} FPPG, ${total_salary:,}")
+                logger.info(f"SUCCESS: Lineup {i+1}: {total_proj:.1f} FPPG, ${total_salary:,}")
             else:
-                logger.warning(f"⚠️ Failed to generate lineup {i+1}")
+                logger.warning(f"WARNING: Failed to generate lineup {i+1}")
                 
         return lineups
         
@@ -202,7 +202,7 @@ class SafeEnhancedTournamentGenerator:
     def save_lineups(self, lineups):
         """Save lineups to file"""
         if not lineups:
-            logger.error("❌ No lineups to save!")
+            logger.error("ERROR: No lineups to save!")
             return
             
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -217,23 +217,23 @@ class SafeEnhancedTournamentGenerator:
         combined_df = pd.concat(all_lineups, ignore_index=True)
         combined_df.to_csv(filename, index=False)
         
-        logger.info(f"💾 Saved {len(lineups)} safe enhanced lineups to: {filename}")
+        logger.info(f" Saved {len(lineups)} safe enhanced lineups to: {filename}")
         
         # Summary stats
         total_projections = [lineup['Projected_FPPG'].sum() for lineup in lineups]
-        logger.info(f"📊 Projection range: {min(total_projections):.1f} - {max(total_projections):.1f} FPPG")
-        logger.info(f"📊 Average projection: {np.mean(total_projections):.1f} FPPG")
+        logger.info(f"DATA: Projection range: {min(total_projections):.1f} - {max(total_projections):.1f} FPPG")
+        logger.info(f"DATA: Average projection: {np.mean(total_projections):.1f} FPPG")
 
 def main():
-    logger.info("🚀 SAFE ENHANCED TOURNAMENT GENERATOR")
-    logger.info("💎 Combining enhanced projections with confirmed starters")
+    logger.info("START: SAFE ENHANCED TOURNAMENT GENERATOR")
+    logger.info(" Combining enhanced projections with confirmed starters")
     logger.info("=" * 70)
     
     generator = SafeEnhancedTournamentGenerator()
     
     # Load data
     if not generator.load_data():
-        logger.error("❌ Failed to load data!")
+        logger.error("ERROR: Failed to load data!")
         return
         
     # Merge enhanced features with confirmed starters
@@ -246,10 +246,10 @@ def main():
     generator.save_lineups(lineups)
     
     logger.info("=" * 70)
-    logger.info("🎉 SAFE ENHANCED TOURNAMENT GENERATION COMPLETE!")
-    logger.info("✅ Only confirmed starting players used")
-    logger.info("✅ Enhanced projections applied where available") 
-    logger.info("✅ Tournament lineups ready for submission")
+    logger.info("COMPLETE: SAFE ENHANCED TOURNAMENT GENERATION COMPLETE!")
+    logger.info("SUCCESS: Only confirmed starting players used")
+    logger.info("SUCCESS: Enhanced projections applied where available") 
+    logger.info("SUCCESS: Tournament lineups ready for submission")
 
 if __name__ == "__main__":
     main()

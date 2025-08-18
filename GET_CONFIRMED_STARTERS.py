@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 def fetch_rotowire_lineups():
     """Fetch confirmed starting lineups from RotoWire"""
-    logger.info("🔍 FETCHING CONFIRMED LINEUPS FROM ROTOWIRE...")
+    logger.info(" FETCHING CONFIRMED LINEUPS FROM ROTOWIRE...")
     
     url = "https://www.rotowire.com/baseball/daily-lineups.php"
     
@@ -32,11 +32,11 @@ def fetch_rotowire_lineups():
         # Parse HTML (simplified - in production you'd parse the actual structure)
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        logger.info("✅ Successfully fetched RotoWire page")
+        logger.info("SUCCESS: Successfully fetched RotoWire page")
         return soup
         
     except Exception as e:
-        logger.error(f"❌ Error fetching RotoWire: {e}")
+        logger.error(f"ERROR: Error fetching RotoWire: {e}")
         return None
 
 def parse_confirmed_starters_from_html(soup):
@@ -74,7 +74,7 @@ def parse_confirmed_starters_from_html(soup):
 
 def create_confirmed_starters_list():
     """Create a comprehensive list of confirmed starters for today"""
-    logger.info("📋 CREATING CONFIRMED STARTERS LIST...")
+    logger.info("INFO: CREATING CONFIRMED STARTERS LIST...")
     
     # In production, this would fetch from RotoWire
     soup = fetch_rotowire_lineups()
@@ -83,17 +83,17 @@ def create_confirmed_starters_list():
         confirmed_starters = parse_confirmed_starters_from_html(soup)
     else:
         # Fallback to manual list (update this daily)
-        logger.warning("⚠️ Using fallback confirmed starters list")
+        logger.warning("WARNING: Using fallback confirmed starters list")
         confirmed_starters = get_fallback_confirmed_starters()
     
-    logger.info(f"✅ Found {len(confirmed_starters)} confirmed starters")
+    logger.info(f"SUCCESS: Found {len(confirmed_starters)} confirmed starters")
     
     # Show breakdown
     pitchers = [p for p in confirmed_starters if p['position'] == 'P']
     hitters = [p for p in confirmed_starters if p['position'] != 'P']
     
-    logger.info(f"   📋 Confirmed starting pitchers: {len(pitchers)}")
-    logger.info(f"   🏏 Confirmed lineup players: {len(hitters)}")
+    logger.info(f"   INFO: Confirmed starting pitchers: {len(pitchers)}")
+    logger.info(f"    Confirmed lineup players: {len(hitters)}")
     
     return confirmed_starters
 
@@ -115,10 +115,10 @@ def get_fallback_confirmed_starters():
 
 def filter_fd_slate_to_confirmed_only(fd_df, confirmed_starters):
     """Filter FD slate to only include confirmed starters"""
-    logger.info("🔍 FILTERING FD SLATE TO CONFIRMED STARTERS ONLY...")
+    logger.info(" FILTERING FD SLATE TO CONFIRMED STARTERS ONLY...")
     
     confirmed_names = [player['name'] for player in confirmed_starters]
-    logger.info(f"📋 Looking for {len(confirmed_names)} confirmed players in FD slate")
+    logger.info(f"INFO: Looking for {len(confirmed_names)} confirmed players in FD slate")
     
     filtered_players = []
     
@@ -137,14 +137,14 @@ def filter_fd_slate_to_confirmed_only(fd_df, confirmed_starters):
         
         if is_confirmed:
             filtered_players.append(fd_player)
-            logger.info(f"✅ CONFIRMED: {fd_nick}")
+            logger.info(f"SUCCESS: CONFIRMED: {fd_nick}")
     
     filtered_df = pd.DataFrame(filtered_players)
     
-    logger.info(f"📊 FILTERING RESULTS:")
+    logger.info(f"DATA: FILTERING RESULTS:")
     logger.info(f"   Original FD slate: {len(fd_df)} players")
     logger.info(f"   Confirmed starters: {len(filtered_df)} players")
-    logger.info(f"   ❌ Filtered out: {len(fd_df) - len(filtered_df)} non-starting players")
+    logger.info(f"   ERROR: Filtered out: {len(fd_df) - len(filtered_df)} non-starting players")
     
     return filtered_df
 
@@ -160,10 +160,10 @@ def save_confirmed_starters_slate(confirmed_df):
     main_slate_file = "../data/fd_slate_confirmed_starters_only.csv"
     confirmed_df.to_csv(main_slate_file, index=False)
     
-    logger.info(f"💾 SAVED CONFIRMED STARTERS SLATE:")
-    logger.info(f"   📁 Timestamped: {confirmed_slate_file}")
-    logger.info(f"   📁 Main file: {main_slate_file}")
-    logger.info(f"   🎯 MULTIPLE_CHAMPIONSHIP_BUILDER will use confirmed starters only!")
+    logger.info(f" SAVED CONFIRMED STARTERS SLATE:")
+    logger.info(f"    Timestamped: {confirmed_slate_file}")
+    logger.info(f"    Main file: {main_slate_file}")
+    logger.info(f"   TARGET: MULTIPLE_CHAMPIONSHIP_BUILDER will use confirmed starters only!")
     
     return confirmed_slate_file, main_slate_file
 
@@ -172,7 +172,7 @@ def create_confirmed_starters_workflow():
     
     workflow_content = '''@echo off
 echo ========================================
-echo   🎯 CONFIRMED STARTERS ONLY WORKFLOW  
+echo   TARGET: CONFIRMED STARTERS ONLY WORKFLOW  
 echo   NO MORE LINEUP DISASTERS!
 echo ========================================
 echo.
@@ -197,12 +197,12 @@ python optimize_confirmed_starters_lineups.py
 
 echo.
 echo ========================================
-echo 🎉 CONFIRMED STARTERS WORKFLOW COMPLETE!
+echo COMPLETE: CONFIRMED STARTERS WORKFLOW COMPLETE!
 echo ========================================
 echo.
-echo ✅ All systems used ONLY confirmed starting players
-echo ❌ NO non-starting players included
-echo 🎯 ZERO chance of lineup disasters!
+echo SUCCESS: All systems used ONLY confirmed starting players
+echo ERROR: NO non-starting players included
+echo TARGET: ZERO chance of lineup disasters!
 echo.
 pause
 '''
@@ -210,12 +210,12 @@ pause
     with open('../DAILY_RUNNERS/CONFIRMED_STARTERS_WORKFLOW.bat', 'w') as f:
         f.write(workflow_content)
     
-    logger.info("📝 Created CONFIRMED_STARTERS_WORKFLOW.bat")
+    logger.info(" Created CONFIRMED_STARTERS_WORKFLOW.bat")
 
 def main():
     """Main function to create confirmed starters system"""
-    logger.info("🚀 CONFIRMED STARTERS FIRST SYSTEM")
-    logger.info("🎯 Get confirmed starters FIRST, filter everything else OUT")
+    logger.info("START: CONFIRMED STARTERS FIRST SYSTEM")
+    logger.info("TARGET: Get confirmed starters FIRST, filter everything else OUT")
     logger.info("=" * 70)
     
     try:
@@ -223,19 +223,19 @@ def main():
         confirmed_starters = create_confirmed_starters_list()
         
         if not confirmed_starters:
-            logger.error("❌ No confirmed starters found")
+            logger.error("ERROR: No confirmed starters found")
             return
         
         # Step 2: Load FD slate
-        logger.info("📥 Loading FanDuel slate...")
+        logger.info(" Loading FanDuel slate...")
         fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📊 Original FD slate: {len(fd_df)} players")
+        logger.info(f"DATA: Original FD slate: {len(fd_df)} players")
         
         # Step 3: Filter to confirmed starters only
         confirmed_df = filter_fd_slate_to_confirmed_only(fd_df, confirmed_starters)
         
         if len(confirmed_df) < 20:
-            logger.warning(f"⚠️ Only {len(confirmed_df)} confirmed starters found - may need more games")
+            logger.warning(f"WARNING: Only {len(confirmed_df)} confirmed starters found - may need more games")
         
         # Step 4: Save confirmed starters slate
         timestamped_file, main_file = save_confirmed_starters_slate(confirmed_df)
@@ -244,27 +244,27 @@ def main():
         create_confirmed_starters_workflow()
         
         logger.info("=" * 70)
-        logger.info("🎉 CONFIRMED STARTERS SYSTEM READY!")
-        logger.info("💡 KEY INSIGHT: Now ALL your systems will use ONLY confirmed starters")
+        logger.info("COMPLETE: CONFIRMED STARTERS SYSTEM READY!")
+        logger.info("TIP: KEY INSIGHT: Now ALL your systems will use ONLY confirmed starters")
         logger.info("")
-        logger.info("📁 FILES CREATED:")
-        logger.info(f"   🎯 Confirmed starters slate: {main_file}")
-        logger.info(f"   📝 Workflow: CONFIRMED_STARTERS_WORKFLOW.bat")
+        logger.info(" FILES CREATED:")
+        logger.info(f"   TARGET: Confirmed starters slate: {main_file}")
+        logger.info(f"    Workflow: CONFIRMED_STARTERS_WORKFLOW.bat")
         logger.info("")
-        logger.info("🚀 NEXT STEPS:")
+        logger.info("START: NEXT STEPS:")
         logger.info("1. Update all your scripts to use fd_slate_confirmed_starters_only.csv")
         logger.info("2. Run CONFIRMED_STARTERS_WORKFLOW.bat instead of other workflows")
         logger.info("3. Result: NO MORE PLAYERS WHO DIDN'T PLAY!")
         
         # Show summary
         logger.info("")
-        logger.info("📊 SUMMARY:")
-        logger.info(f"   ✅ Confirmed starters: {len(confirmed_df)}")
-        logger.info(f"   ❌ Non-starters filtered out: {len(fd_df) - len(confirmed_df)}")
-        logger.info(f"   🎯 Disaster prevention: 100%")
+        logger.info("DATA: SUMMARY:")
+        logger.info(f"   SUCCESS: Confirmed starters: {len(confirmed_df)}")
+        logger.info(f"   ERROR: Non-starters filtered out: {len(fd_df) - len(confirmed_df)}")
+        logger.info(f"   TARGET: Disaster prevention: 100%")
         
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

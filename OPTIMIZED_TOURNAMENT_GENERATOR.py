@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 OPTIMIZED TOURNAMENT LINEUP GENERATOR
+START: OPTIMIZED TOURNAMENT LINEUP GENERATOR
 ======================================
 Multiple lineup combinations to get over 153 FPPG threshold
 Testing different pitcher/hitter combinations from today's slate
@@ -94,7 +94,7 @@ def build_lineup_combination(pitcher, star_count, total_budget=35000):
 
 def find_optimal_lineups():
     """Find multiple optimal lineup combinations"""
-    logger.info("🚀 FINDING OPTIMAL TOURNAMENT LINEUPS")
+    logger.info("START: FINDING OPTIMAL TOURNAMENT LINEUPS")
     logger.info("="*60)
     
     pitchers, stars, mid_tier, value = load_slate_data()
@@ -122,15 +122,15 @@ def find_optimal_lineups():
                 lineup['description'] = description
                 best_lineups.append(lineup)
                 
-                logger.info(f"\n🎯 {description}:")
+                logger.info(f"\nTARGET: {description}:")
                 logger.info(f"   P: {pitcher['Nickname']} - ${pitcher['Salary']:,} | {pitcher['FPPG']:.1f} FPPG")
                 logger.info(f"   Stars: {lineup['star_count']}, Total: ${lineup['total_salary']:,}")
                 logger.info(f"   Projection: {lineup['total_fppg']:.1f} FPPG")
                 
                 if lineup['total_fppg'] >= 153:
-                    logger.info(f"   🏆 TOURNAMENT COMPETITIVE! (+{lineup['total_fppg'] - 153:.1f})")
+                    logger.info(f"   LINEUP: TOURNAMENT COMPETITIVE! (+{lineup['total_fppg'] - 153:.1f})")
                 else:
-                    logger.info(f"   ⚠️  Need +{153 - lineup['total_fppg']:.1f} FPPG")
+                    logger.info(f"   WARNING:  Need +{153 - lineup['total_fppg']:.1f} FPPG")
     
     # Sort by projection
     best_lineups.sort(key=lambda x: x['total_fppg'], reverse=True)
@@ -139,12 +139,12 @@ def find_optimal_lineups():
 
 def display_top_lineups(best_lineups, top_n=3):
     """Display the top N lineups in detail"""
-    logger.info(f"\n🏆 TOP {top_n} OPTIMIZED LINEUPS")
+    logger.info(f"\nLINEUP: TOP {top_n} OPTIMIZED LINEUPS")
     logger.info("="*80)
     
     for i, lineup in enumerate(best_lineups[:top_n], 1):
-        logger.info(f"\n🥇 LINEUP #{i}: {lineup['description']}")
-        logger.info(f"📊 Projection: {lineup['total_fppg']:.1f} FPPG | Salary: ${lineup['total_salary']:,}")
+        logger.info(f"\n LINEUP #{i}: {lineup['description']}")
+        logger.info(f"DATA: Projection: {lineup['total_fppg']:.1f} FPPG | Salary: ${lineup['total_salary']:,}")
         logger.info("-" * 60)
         
         # Display pitcher
@@ -155,27 +155,27 @@ def display_top_lineups(best_lineups, top_n=3):
         positions = ['C', '1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3']
         for j, hitter in enumerate(lineup['hitters'][:8]):
             pos = positions[j] if j < len(positions) else f'H{j+1}'
-            star_indicator = "⭐" if hitter['Salary'] >= 3500 else "💎" if hitter['Salary'] <= 2500 else "📊"
+            star_indicator = "" if hitter['Salary'] >= 3500 else "" if hitter['Salary'] <= 2500 else "DATA:"
             logger.info(f"{pos:3} | {hitter['Nickname']:20} | {hitter['Team']:3} | {hitter['Game']:8} | ${hitter['Salary']:5,} | {hitter['FPPG']:5.1f} {star_indicator}")
         
         # Tournament rating
         if lineup['total_fppg'] >= 180:
-            rating = "🔥 ELITE"
+            rating = " ELITE"
         elif lineup['total_fppg'] >= 153:
-            rating = "🏆 COMPETITIVE"
+            rating = "LINEUP: COMPETITIVE"
         elif lineup['total_fppg'] >= 145:
-            rating = "✅ VIABLE"
+            rating = "SUCCESS: VIABLE"
         else:
-            rating = "⚠️ NEEDS WORK"
+            rating = "WARNING: NEEDS WORK"
         
-        logger.info(f"🎯 Rating: {rating}")
-        logger.info(f"📈 vs Disaster: +{((lineup['total_fppg'] - 31.7) / 31.7 * 100):.0f}%")
+        logger.info(f"TARGET: Rating: {rating}")
+        logger.info(f"PROGRESS: vs Disaster: +{((lineup['total_fppg'] - 31.7) / 31.7 * 100):.0f}%")
     
     return best_lineups[:top_n]
 
 def create_fanduel_submission(lineup):
     """Create FanDuel submission format for best lineup"""
-    logger.info("\n📄 CREATING FANDUEL SUBMISSION")
+    logger.info("\n CREATING FANDUEL SUBMISSION")
     logger.info("="*50)
     
     # Create submission data
@@ -207,14 +207,14 @@ def create_fanduel_submission(lineup):
     filename = f"../data/OPTIMIZED_TOURNAMENT_LINEUP_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv"
     df.to_csv(filename, index=False)
     
-    logger.info(f"✅ Submission file saved: {filename}")
-    logger.info("📋 Ready for FanDuel upload!")
+    logger.info(f"SUCCESS: Submission file saved: {filename}")
+    logger.info("INFO: Ready for FanDuel upload!")
     
     return filename
 
 def main():
     """Main execution"""
-    logger.info("🚀 OPTIMIZED TOURNAMENT LINEUP GENERATOR")
+    logger.info("START: OPTIMIZED TOURNAMENT LINEUP GENERATOR")
     logger.info("Testing multiple combinations to beat 153 FPPG threshold")
     logger.info("="*80)
     
@@ -223,7 +223,7 @@ def main():
         best_lineups = find_optimal_lineups()
         
         if not best_lineups:
-            logger.error("❌ No valid lineups generated!")
+            logger.error("ERROR: No valid lineups generated!")
             return
         
         # Display top lineups
@@ -235,13 +235,13 @@ def main():
             submission_file = create_fanduel_submission(best_lineup)
             
             logger.info("\n" + "="*80)
-            logger.info("🎉 OPTIMIZATION COMPLETE!")
-            logger.info(f"🏆 Best Projection: {best_lineup['total_fppg']:.1f} FPPG")
-            logger.info(f"🎯 Tournament Ready: {best_lineup['total_fppg'] >= 153}")
-            logger.info(f"📁 Submission File: {submission_file.split('/')[-1]}")
+            logger.info("COMPLETE: OPTIMIZATION COMPLETE!")
+            logger.info(f"LINEUP: Best Projection: {best_lineup['total_fppg']:.1f} FPPG")
+            logger.info(f"TARGET: Tournament Ready: {best_lineup['total_fppg'] >= 153}")
+            logger.info(f" Submission File: {submission_file.split('/')[-1]}")
         
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

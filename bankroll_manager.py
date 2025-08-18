@@ -73,13 +73,13 @@ class BankrollManager:
         # Reduce bet sizes if losing
         if performance_ratio < (1 - self.stop_loss_trigger):
             adjustment = 0.5  # Cut bet sizes in half
-            print(f"🚨 LOSS PROTECTION: Reducing bet sizes by 50%")
+            print(f" LOSS PROTECTION: Reducing bet sizes by 50%")
         elif performance_ratio < 0.95:
             adjustment = 0.75  # Slight reduction
-            print(f"⚠️ CAUTION MODE: Reducing bet sizes by 25%")
+            print(f"WARNING: CAUTION MODE: Reducing bet sizes by 25%")
         elif performance_ratio > 1.20:
             adjustment = 1 + self.winning_streak_bonus  # Slight increase
-            print(f"🚀 WINNING STREAK: Increasing bet sizes by 5%")
+            print(f"START: WINNING STREAK: Increasing bet sizes by 5%")
         else:
             adjustment = 1.0
         
@@ -141,20 +141,20 @@ class BankrollManager:
         bet_type = "COMBO" if is_fixed_multiplier else "SINGLE"
         
         if final_amount == 0:
-            return f"❌ NO {bet_type} BET - Insufficient edge or bankroll protection"
+            return f"ERROR: NO {bet_type} BET - Insufficient edge or bankroll protection"
         elif kelly_fraction < 0.01:
-            return f"🤏 TINY {bet_type} BET - Very small edge detected"
+            return f" TINY {bet_type} BET - Very small edge detected"
         elif kelly_fraction < 0.05:
-            return f"💰 SMALL {bet_type} BET - Modest edge with good value"
+            return f"MONEY: SMALL {bet_type} BET - Modest edge with good value"
         elif kelly_fraction < 0.10:
-            return f"💪 SOLID {bet_type} BET - Strong edge and confidence"
+            return f" SOLID {bet_type} BET - Strong edge and confidence"
         else:
-            return f"🚀 LARGE {bet_type} BET - Exceptional edge (bet with caution)"
+            return f"START: LARGE {bet_type} BET - Exceptional edge (bet with caution)"
     
     def optimize_bet_portfolio(self, bet_opportunities):
         """Optimize allocation across multiple betting opportunities"""
         
-        print("🎯 OPTIMIZING BET PORTFOLIO")
+        print("TARGET: OPTIMIZING BET PORTFOLIO")
         print("=" * 50)
         
         total_recommended = 0
@@ -188,7 +188,7 @@ class BankrollManager:
                         **bet,
                         'recommended_amount': remaining_budget,
                         'kelly_fraction': remaining_budget / self.current_bankroll,
-                        'reasoning': "💼 PARTIAL - Limited by daily risk budget"
+                        'reasoning': " PARTIAL - Limited by daily risk budget"
                     })
                     total_recommended += remaining_budget
                 break
@@ -200,11 +200,11 @@ class BankrollManager:
             for bet in optimized_bets
         ])
         
-        print(f"📊 Portfolio Summary:")
-        print(f"   💰 Total Allocation: ${total_recommended:.2f}")
-        print(f"   📈 Portfolio Risk: {portfolio_risk:.1%}")
-        print(f"   🎯 Expected Value: ${expected_portfolio_value:.2f}")
-        print(f"   🔢 Number of Bets: {len(optimized_bets)}")
+        print(f"DATA: Portfolio Summary:")
+        print(f"   MONEY: Total Allocation: ${total_recommended:.2f}")
+        print(f"   PROGRESS: Portfolio Risk: {portfolio_risk:.1%}")
+        print(f"   TARGET: Expected Value: ${expected_portfolio_value:.2f}")
+        print(f"    Number of Bets: {len(optimized_bets)}")
         
         return optimized_bets
     
@@ -240,8 +240,8 @@ class BankrollManager:
         # Update daily exposure
         self.current_exposure = max(0, self.current_exposure - bet_amount)
         
-        print(f"📈 Bet Result: {result} | Amount: ${bet_amount} | Payout: ${payout:.2f}")
-        print(f"💰 Current Bankroll: ${self.current_bankroll:.2f}")
+        print(f"PROGRESS: Bet Result: {result} | Amount: ${bet_amount} | Payout: ${payout:.2f}")
+        print(f"MONEY: Current Bankroll: ${self.current_bankroll:.2f}")
     
     def get_performance_metrics(self):
         """Calculate performance metrics"""
@@ -308,30 +308,30 @@ class BankrollManager:
     def generate_bankroll_report(self):
         """Generate comprehensive bankroll report"""
         
-        print("💰 BANKROLL MANAGEMENT REPORT")
+        print("MONEY: BANKROLL MANAGEMENT REPORT")
         print("=" * 50)
         
         metrics = self.get_performance_metrics()
         
-        print(f"📊 Performance Metrics:")
-        print(f"   💰 Current Bankroll: ${metrics.get('current_bankroll', 0):.2f}")
-        print(f"   📈 Bankroll Change: {metrics.get('bankroll_change', 0):+.1f}%")
-        print(f"   🎯 Win Rate: {metrics.get('win_rate', 0):.1%}")
-        print(f"   💹 ROI: {metrics.get('roi', 0):+.1f}%")
-        print(f"   📊 Total Bets: {metrics.get('total_bets', 0)}")
-        print(f"   💵 Total Wagered: ${metrics.get('total_wagered', 0):.2f}")
-        print(f"   🏆 Total Profit: ${metrics.get('total_profit', 0):+.2f}")
+        print(f"DATA: Performance Metrics:")
+        print(f"   MONEY: Current Bankroll: ${metrics.get('current_bankroll', 0):.2f}")
+        print(f"   PROGRESS: Bankroll Change: {metrics.get('bankroll_change', 0):+.1f}%")
+        print(f"   TARGET: Win Rate: {metrics.get('win_rate', 0):.1%}")
+        print(f"    ROI: {metrics.get('roi', 0):+.1f}%")
+        print(f"   DATA: Total Bets: {metrics.get('total_bets', 0)}")
+        print(f"    Total Wagered: ${metrics.get('total_wagered', 0):.2f}")
+        print(f"   LINEUP: Total Profit: ${metrics.get('total_profit', 0):+.2f}")
         
         streak = metrics.get('current_streak', {'type': 'none', 'length': 0})
         if streak['length'] > 0:
-            emoji = "🔥" if streak['type'] == 'win' else "❄️"
+            emoji = "" if streak['type'] == 'win' else ""
             print(f"   {emoji} Current Streak: {streak['length']} {streak['type']}s")
         
-        print(f"\n🛡️ Risk Management:")
-        print(f"   📊 Current Exposure: ${self.current_exposure:.2f}")
-        print(f"   🎯 Daily Risk Limit: {self.max_daily_risk:.1%}")
-        print(f"   ⚡ Kelly Multiplier: {self.kelly_multiplier:.1%}")
-        print(f"   🔒 Max Bet Size: {self.max_bet_percentage:.1%}")
+        print(f"\n Risk Management:")
+        print(f"   DATA: Current Exposure: ${self.current_exposure:.2f}")
+        print(f"   TARGET: Daily Risk Limit: {self.max_daily_risk:.1%}")
+        print(f"    Kelly Multiplier: {self.kelly_multiplier:.1%}")
+        print(f"    Max Bet Size: {self.max_bet_percentage:.1%}")
 
 def main():
     # Example usage

@@ -96,8 +96,8 @@ def get_confirmed_starters_july_31_2025():
 
 def filter_fd_slate_with_real_confirmed(fd_df, confirmed_starters):
     """Filter FD slate with real confirmed starters from RotoWire"""
-    logger.info("🎯 FILTERING FD SLATE WITH REAL CONFIRMED STARTERS")
-    logger.info(f"📋 {len(confirmed_starters)} confirmed starters from RotoWire")
+    logger.info("TARGET: FILTERING FD SLATE WITH REAL CONFIRMED STARTERS")
+    logger.info(f"INFO: {len(confirmed_starters)} confirmed starters from RotoWire")
     
     confirmed_names = [player['name'] for player in confirmed_starters]
     filtered_players = []
@@ -113,7 +113,7 @@ def filter_fd_slate_with_real_confirmed(fd_df, confirmed_starters):
                 confirmed_name == fd_nick or
                 confirmed_name.split()[-1] == fd_player['Last Name']):
                 is_confirmed = True
-                logger.info(f"✅ CONFIRMED: {fd_nick} (matches {confirmed_name})")
+                logger.info(f"SUCCESS: CONFIRMED: {fd_nick} (matches {confirmed_name})")
                 break
         
         if is_confirmed:
@@ -121,10 +121,10 @@ def filter_fd_slate_with_real_confirmed(fd_df, confirmed_starters):
     
     filtered_df = pd.DataFrame(filtered_players)
     
-    logger.info(f"📊 REAL CONFIRMED STARTERS FILTERING:")
+    logger.info(f"DATA: REAL CONFIRMED STARTERS FILTERING:")
     logger.info(f"   Original FD slate: {len(fd_df)} players")
     logger.info(f"   Real confirmed starters: {len(filtered_df)} players")
-    logger.info(f"   ❌ Non-starters filtered: {len(fd_df) - len(filtered_df)} players")
+    logger.info(f"   ERROR: Non-starters filtered: {len(fd_df) - len(filtered_df)} players")
     
     return filtered_df
 
@@ -138,13 +138,13 @@ def save_real_confirmed_starters():
     filename = f"../data/real_confirmed_starters_july_31_2025_{timestamp}.csv"
     df.to_csv(filename, index=False)
     
-    logger.info(f"💾 Saved {len(confirmed_starters)} real confirmed starters to {filename}")
+    logger.info(f" Saved {len(confirmed_starters)} real confirmed starters to {filename}")
     
     # Show breakdown
     pitchers = df[df['position'] == 'P']
     hitters = df[df['position'] != 'P']
     
-    logger.info(f"📊 BREAKDOWN:")
+    logger.info(f"DATA: BREAKDOWN:")
     logger.info(f"   Pitchers: {len(pitchers)}")
     logger.info(f"   Hitters: {len(hitters)}")
     logger.info(f"   Total confirmed: {len(df)}")
@@ -153,8 +153,8 @@ def save_real_confirmed_starters():
 
 def main():
     """Update system with real confirmed starters"""
-    logger.info("🎯 REAL CONFIRMED STARTERS - JULY 31, 2025")
-    logger.info("📋 Updated with actual RotoWire starting lineups")
+    logger.info("TARGET: REAL CONFIRMED STARTERS - JULY 31, 2025")
+    logger.info("INFO: Updated with actual RotoWire starting lineups")
     logger.info("=" * 60)
     
     # Save confirmed starters
@@ -163,7 +163,7 @@ def main():
     # Filter FD slate
     try:
         fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📥 Loaded FD slate: {len(fd_df)} players")
+        logger.info(f" Loaded FD slate: {len(fd_df)} players")
         
         # Filter with real confirmed starters
         confirmed_df = filter_fd_slate_with_real_confirmed(fd_df, confirmed_starters)
@@ -172,15 +172,15 @@ def main():
         main_file = "../fd_current_slate/fd_slate_real_confirmed_july_31_2025.csv"
         confirmed_df.to_csv(main_file, index=False)
         
-        logger.info(f"💾 SAVED REAL CONFIRMED SLATE: {main_file}")
+        logger.info(f" SAVED REAL CONFIRMED SLATE: {main_file}")
         logger.info("")
-        logger.info("🎉 REAL CONFIRMED STARTERS SYSTEM READY!")
-        logger.info(f"✅ {len(confirmed_df)} confirmed starting players")
-        logger.info(f"🚫 {len(fd_df) - len(confirmed_df)} non-starters eliminated")
-        logger.info("💯 100% DISASTER-PROOF LINEUPS GUARANTEED!")
+        logger.info("COMPLETE: REAL CONFIRMED STARTERS SYSTEM READY!")
+        logger.info(f"SUCCESS: {len(confirmed_df)} confirmed starting players")
+        logger.info(f" {len(fd_df) - len(confirmed_df)} non-starters eliminated")
+        logger.info(" 100% DISASTER-PROOF LINEUPS GUARANTEED!")
         
     except FileNotFoundError:
-        logger.error("❌ FD slate file not found")
+        logger.error("ERROR: FD slate file not found")
 
 if __name__ == "__main__":
     main()

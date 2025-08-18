@@ -22,31 +22,31 @@ def load_actual_results(date_str):
             df = pd.read_csv(results_file)
             return df
         except Exception as e:
-            print(f"❌ Error loading actual results: {e}")
+            print(f"ERROR: Error loading actual results: {e}")
     return None
 
 def main():
-    print("🔍 BACKTEST: Yesterday's Prop Analysis Performance")
+    print(" BACKTEST: Yesterday's Prop Analysis Performance")
     print("=" * 60)
     
     # Test with yesterday (August 8th, 2025)
     yesterday = datetime(2025, 8, 8)
     yesterday_str = yesterday.strftime('%Y-%m-%d')
     
-    print(f"📅 Backtesting optimized system for {yesterday_str}")
+    print(f" Backtesting optimized system for {yesterday_str}")
     
     # Check if we have actual results for validation
     actual_results = load_actual_results(yesterday_str)
     if actual_results is not None:
-        print(f"✅ Found actual results for validation: {len(actual_results)} player results")
+        print(f"SUCCESS: Found actual results for validation: {len(actual_results)} player results")
     else:
-        print("⚠️ No actual results found - will show predictions only")
+        print("WARNING: No actual results found - will show predictions only")
     
     try:
-        print("\n🎯 Running OPTIMIZED backtest analysis...")
+        print("\nTARGET: Running OPTIMIZED backtest analysis...")
         system = AutomatedBettingSystem()
         
-        print(f"📊 Analyzing {yesterday_str} with confirmed starters filtering...")
+        print(f"DATA: Analyzing {yesterday_str} with confirmed starters filtering...")
         start_time = datetime.now()
         
         # Run the optimized analysis for yesterday
@@ -55,8 +55,8 @@ def main():
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds() / 60
         
-        print("✅ Backtest analysis completed!")
-        print(f"⏱️ Total time: {duration:.1f} minutes (vs 45+ minutes with old system)")
+        print("SUCCESS: Backtest analysis completed!")
+        print(f" Total time: {duration:.1f} minutes (vs 45+ minutes with old system)")
         
         # Check for generated files
         backtest_dir = "../data/backtest_analysis"
@@ -66,32 +66,32 @@ def main():
             opportunity_files = [f for f in files if f.startswith('betting_opportunities_')]
             combo_files = [f for f in files if f.startswith('optimal_combinations_')]
             
-            print(f"\n📄 Generated Files:")
+            print(f"\n Generated Files:")
             if report_files:
                 latest_report = max(report_files)
-                print(f"  📋 Betting Report: {latest_report}")
+                print(f"  INFO: Betting Report: {latest_report}")
             if opportunity_files:
                 latest_opps = max(opportunity_files)
-                print(f"  💰 Opportunities: {latest_opps}")
+                print(f"  MONEY: Opportunities: {latest_opps}")
             if combo_files:
                 latest_combos = max(combo_files)
-                print(f"  🎯 Combinations: {latest_combos}")
+                print(f"  TARGET: Combinations: {latest_combos}")
         
-        print("\n🏆 BACKTEST SUMMARY:")
-        print("  ✅ Optimized system processed only confirmed starters")
-        print("  ✅ Analysis completed in reasonable time")
-        print("  ✅ Generated prop betting opportunities for yesterday")
-        print("  📊 Ready for comparison with actual results")
+        print("\nLINEUP: BACKTEST SUMMARY:")
+        print("  SUCCESS: Optimized system processed only confirmed starters")
+        print("  SUCCESS: Analysis completed in reasonable time")
+        print("  SUCCESS: Generated prop betting opportunities for yesterday")
+        print("  DATA: Ready for comparison with actual results")
         
         if actual_results is not None:
-            print(f"\n📈 VALIDATION READY:")
-            print(f"  • Predictions generated for {yesterday_str}")
-            print(f"  • Actual results available: {len(actual_results)} players")
-            print(f"  • Files saved in: {backtest_dir}/")
-            print(f"  • Compare predictions vs actual performance manually")
+            print(f"\nPROGRESS: VALIDATION READY:")
+            print(f"   Predictions generated for {yesterday_str}")
+            print(f"   Actual results available: {len(actual_results)} players")
+            print(f"   Files saved in: {backtest_dir}/")
+            print(f"   Compare predictions vs actual performance manually")
         
     except Exception as e:
-        print(f"❌ Error in backtest analysis: {e}")
+        print(f"ERROR: Error in backtest analysis: {e}")
         import traceback
         traceback.print_exc()
         raise

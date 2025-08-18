@@ -29,7 +29,7 @@ def normalize_name(name):
     name_map = {
         'Freddie Freeman': 'Frederick Freeman',
         'Mookie Betts': 'Markus Betts',
-        'Ronald Acuña Jr.': 'Ronald Acuna Jr',
+        'Ronald Acua Jr.': 'Ronald Acuna Jr',
         'Vladimir Guerrero Jr.': 'Vladimir Guerrero Jr',
         'Fernando Tatis Jr.': 'Fernando Tatis Jr',
         'Bo Bichette': 'Bo Bichette',
@@ -82,7 +82,7 @@ def find_most_recent_lineup_file(data_dir):
     if lineup_files:
         # Return the most recent file from yesterday
         latest_file = max(lineup_files, key=os.path.getmtime)
-        logger.info(f"📁 Found yesterday's lineup file: {os.path.basename(latest_file)}")
+        logger.info(f" Found yesterday's lineup file: {os.path.basename(latest_file)}")
         return latest_file
     
     # If no yesterday files, look for most recent file
@@ -91,7 +91,7 @@ def find_most_recent_lineup_file(data_dir):
     
     if all_lineup_files:
         latest_file = max(all_lineup_files, key=os.path.getmtime)
-        logger.info(f"📁 Using most recent lineup file: {os.path.basename(latest_file)}")
+        logger.info(f" Using most recent lineup file: {os.path.basename(latest_file)}")
         return latest_file
     
     return None
@@ -108,13 +108,13 @@ def find_most_recent_actual_results(data_dir):
     # Look for actual results from yesterday
     yesterday_file = os.path.join(data_dir, f"actual_results_{yesterday_str}.csv")
     if os.path.exists(yesterday_file):
-        logger.info(f"📁 Found yesterday's actual results: actual_results_{yesterday_str}.csv")
+        logger.info(f" Found yesterday's actual results: actual_results_{yesterday_str}.csv")
         return yesterday_file
     
     # If no yesterday results, use latest available
     latest_file = os.path.join(data_dir, "actual_results_latest.csv")
     if os.path.exists(latest_file):
-        logger.info(f"📁 Using latest actual results: actual_results_latest.csv")
+        logger.info(f" Using latest actual results: actual_results_latest.csv")
         return latest_file
     
     # Look for most recent actual results file
@@ -124,7 +124,7 @@ def find_most_recent_actual_results(data_dir):
     
     if results_files:
         latest_file = max(results_files, key=os.path.getmtime)
-        logger.info(f"📁 Using most recent actual results: {os.path.basename(latest_file)}")
+        logger.info(f" Using most recent actual results: {os.path.basename(latest_file)}")
         return latest_file
     
     return None
@@ -132,25 +132,25 @@ def find_most_recent_actual_results(data_dir):
 def analyze_lineup_performance(lineup_file, actual_results_file, output_dir):
     """Analyze lineup performance with robust player matching"""
     
-    logger.info(f"🔍 ANALYZING LINEUP PERFORMANCE")
-    logger.info(f"📂 Lineup file: {lineup_file}")
-    logger.info(f"📂 Actual results: {actual_results_file}")
+    logger.info(f" ANALYZING LINEUP PERFORMANCE")
+    logger.info(f" Lineup file: {lineup_file}")
+    logger.info(f" Actual results: {actual_results_file}")
     
     # Load data
     try:
         lineup_df = pd.read_csv(lineup_file)
         actual_df = pd.read_csv(actual_results_file)
         
-        logger.info(f"📊 Loaded {len(lineup_df)} lineup entries")
-        logger.info(f"📊 Loaded {len(actual_df)} actual results")
+        logger.info(f"DATA: Loaded {len(lineup_df)} lineup entries")
+        logger.info(f"DATA: Loaded {len(actual_df)} actual results")
         
     except Exception as e:
-        logger.error(f"❌ Error loading data: {e}")
+        logger.error(f"ERROR: Error loading data: {e}")
         return None
     
     # Get unique lineups
     unique_lineups = lineup_df['lineup_id'].unique()
-    logger.info(f"📊 Found {len(unique_lineups)} unique lineups")
+    logger.info(f"DATA: Found {len(unique_lineups)} unique lineups")
     
     results = []
     detailed_results = []
@@ -181,11 +181,11 @@ def analyze_lineup_performance(lineup_file, actual_results_file, output_dir):
             if matched_player is not None:
                 actual_fppg = matched_player['fanduel_points']
                 players_found += 1
-                match_status = "✅ FOUND"
+                match_status = "SUCCESS: FOUND"
                 actual_name = matched_player['name']
             else:
                 actual_fppg = 0
-                match_status = "❌ NOT FOUND"
+                match_status = "ERROR: NOT FOUND"
                 actual_name = "N/A"
             
             total_actual += actual_fppg
@@ -226,8 +226,8 @@ def analyze_lineup_performance(lineup_file, actual_results_file, output_dir):
         
         results.append(lineup_result)
         
-        logger.info(f"📊 Lineup {lineup_id}: {players_found}/{total_players} players found ({accuracy_rate:.1f}%)")
-        logger.info(f"💰 Projected: {total_projected:.1f} | Actual: {total_actual:.1f} | Diff: {total_actual - total_projected:+.1f}")
+        logger.info(f"DATA: Lineup {lineup_id}: {players_found}/{total_players} players found ({accuracy_rate:.1f}%)")
+        logger.info(f"MONEY: Projected: {total_projected:.1f} | Actual: {total_actual:.1f} | Diff: {total_actual - total_projected:+.1f}")
     
     # Create summary DataFrames
     summary_df = pd.DataFrame(results)
@@ -259,35 +259,35 @@ def analyze_lineup_performance(lineup_file, actual_results_file, output_dir):
     
     # Print summary
     logger.info(f"\n" + "="*60)
-    logger.info(f"📊 ROBUST BACKTEST SUMMARY")
+    logger.info(f"DATA: ROBUST BACKTEST SUMMARY")
     logger.info(f"="*60)
-    logger.info(f"📋 Total Lineups Analyzed: {overall_stats['total_lineups']}")
-    logger.info(f"🎯 Average Players Found: {overall_stats['avg_players_found']:.1f}/9 ({overall_stats['avg_accuracy_rate']:.1f}%)")
-    logger.info(f"💰 Average Projected FPPG: {overall_stats['avg_projected_fppg']:.1f}")
-    logger.info(f"💰 Average Actual FPPG: {overall_stats['avg_actual_fppg']:.1f}")
-    logger.info(f"📈 Average Difference: {overall_stats['avg_difference']:+.1f}")
-    logger.info(f"🎯 Projection Accuracy: {overall_stats['avg_projection_accuracy']:.1f}%")
-    logger.info(f"🏆 Best Lineup: #{overall_stats['best_lineup_id']} ({overall_stats['best_lineup_score']:.1f} FPPG)")
-    logger.info(f"💥 Worst Lineup: #{overall_stats['worst_lineup_id']} ({overall_stats['worst_lineup_score']:.1f} FPPG)")
+    logger.info(f"INFO: Total Lineups Analyzed: {overall_stats['total_lineups']}")
+    logger.info(f"TARGET: Average Players Found: {overall_stats['avg_players_found']:.1f}/9 ({overall_stats['avg_accuracy_rate']:.1f}%)")
+    logger.info(f"MONEY: Average Projected FPPG: {overall_stats['avg_projected_fppg']:.1f}")
+    logger.info(f"MONEY: Average Actual FPPG: {overall_stats['avg_actual_fppg']:.1f}")
+    logger.info(f"PROGRESS: Average Difference: {overall_stats['avg_difference']:+.1f}")
+    logger.info(f"TARGET: Projection Accuracy: {overall_stats['avg_projection_accuracy']:.1f}%")
+    logger.info(f"LINEUP: Best Lineup: #{overall_stats['best_lineup_id']} ({overall_stats['best_lineup_score']:.1f} FPPG)")
+    logger.info(f" Worst Lineup: #{overall_stats['worst_lineup_id']} ({overall_stats['worst_lineup_score']:.1f} FPPG)")
     logger.info(f"="*60)
     
     # Show top/bottom performers
     if not details_df.empty:
-        found_players = details_df[details_df['match_status'] == '✅ FOUND']
+        found_players = details_df[details_df['match_status'] == 'SUCCESS: FOUND']
         if not found_players.empty:
-            logger.info(f"\n🎯 TOP PERFORMERS:")
+            logger.info(f"\nTARGET: TOP PERFORMERS:")
             top_performers = found_players.nlargest(5, 'actual_fppg')
             for _, player in top_performers.iterrows():
-                logger.info(f"   • {player['player_name']}: {player['actual_fppg']:.1f} FPPG ({player['difference']:+.1f} vs proj)")
+                logger.info(f"    {player['player_name']}: {player['actual_fppg']:.1f} FPPG ({player['difference']:+.1f} vs proj)")
             
-            logger.info(f"\n💥 BIGGEST DISAPPOINTMENTS:")
+            logger.info(f"\n BIGGEST DISAPPOINTMENTS:")
             disappointments = found_players.nsmallest(5, 'difference')
             for _, player in disappointments.iterrows():
-                logger.info(f"   • {player['player_name']}: {player['actual_fppg']:.1f} FPPG ({player['difference']:+.1f} vs proj)")
+                logger.info(f"    {player['player_name']}: {player['actual_fppg']:.1f} FPPG ({player['difference']:+.1f} vs proj)")
     
-    logger.info(f"\n💾 Results saved:")
-    logger.info(f"   • Summary: {summary_file}")
-    logger.info(f"   • Details: {details_file}")
+    logger.info(f"\n Results saved:")
+    logger.info(f"    Summary: {summary_file}")
+    logger.info(f"    Details: {details_file}")
     
     return summary_df, details_df
 
@@ -297,8 +297,8 @@ def main():
     # File paths
     data_dir = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\data"
     
-    logger.info(f"🔍 STARTING ROBUST BACKTEST ANALYSIS")
-    logger.info(f"📅 Automatically finding yesterday's lineups and actual results")
+    logger.info(f" STARTING ROBUST BACKTEST ANALYSIS")
+    logger.info(f" Automatically finding yesterday's lineups and actual results")
     
     # Automatically find the most recent lineup and actual results files
     lineup_file = find_most_recent_lineup_file(data_dir)
@@ -306,23 +306,23 @@ def main():
     
     # Check if files exist
     if not lineup_file or not os.path.exists(lineup_file):
-        logger.error(f"❌ No lineup file found. Expected enhanced_ml_dfs_lineups from yesterday.")
-        logger.error(f"📋 Make sure you generated lineups yesterday using the enhanced ML system.")
+        logger.error(f"ERROR: No lineup file found. Expected enhanced_ml_dfs_lineups from yesterday.")
+        logger.error(f"INFO: Make sure you generated lineups yesterday using the enhanced ML system.")
         return
     
     if not actual_results_file or not os.path.exists(actual_results_file):
-        logger.error(f"❌ No actual results file found.")
-        logger.error(f"📋 Run collect_actual_results_enhanced.py to get yesterday's game results.")
+        logger.error(f"ERROR: No actual results file found.")
+        logger.error(f"INFO: Run collect_actual_results_enhanced.py to get yesterday's game results.")
         return
     
-    logger.info(f"📂 Using lineup file: {os.path.basename(lineup_file)}")
-    logger.info(f"📂 Using actual results: {os.path.basename(actual_results_file)}")
+    logger.info(f" Using lineup file: {os.path.basename(lineup_file)}")
+    logger.info(f" Using actual results: {os.path.basename(actual_results_file)}")
     
     # Run analysis
     summary_df, details_df = analyze_lineup_performance(lineup_file, actual_results_file, data_dir)
     
-    logger.info(f"✅ ROBUST BACKTEST ANALYSIS COMPLETE!")
-    logger.info(f"📊 Files saved in: {data_dir}")
+    logger.info(f"SUCCESS: ROBUST BACKTEST ANALYSIS COMPLETE!")
+    logger.info(f"DATA: Files saved in: {data_dir}")
     
     return summary_df, details_df
 

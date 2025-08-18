@@ -541,9 +541,9 @@ def main():
         print(f"Average projected FPPG: {summary_df['Total_Enhanced_FPPG'].mean():.1f}")
         print(f"Salary range: ${summary_df['Total_Salary'].min():,} - ${summary_df['Total_Salary'].max():,}")
         print(f"Files created:")
-        print(f"  📊 Detailed lineups: {OUTPUT_LINEUPS.name}")
-        print(f"  📋 Summary: {OUTPUT_SUMMARY.name}")
-        print(f"  🎯 FanDuel submission: {OUTPUT_FANDUEL.name}")
+        print(f"  DATA: Detailed lineups: {OUTPUT_LINEUPS.name}")
+        print(f"  INFO: Summary: {OUTPUT_SUMMARY.name}")
+        print(f"  TARGET: FanDuel submission: {OUTPUT_FANDUEL.name}")
         
         # Strategy breakdown
         print(f"\nStrategy breakdown:")
@@ -553,14 +553,14 @@ def main():
                 avg_fppg = strategy_lineups['Total_Enhanced_FPPG'].mean()
                 print(f"  {strategy.upper()}: {len(strategy_lineups)} lineups, avg {avg_fppg:.1f} FPPG")
         
-        print("\n🚀 Ready for FanDuel submission!")
+        print("\nSTART: Ready for FanDuel submission!")
         print("="*60)
         
         logger.info("UNIFIED DFS OPTIMIZATION COMPLETED SUCCESSFULLY")
         
     except Exception as e:
         logger.error(f"Optimization failed: {str(e)}")
-        print(f"\n❌ ERROR: {str(e)}")
+        print(f"\nERROR: ERROR: {str(e)}")
         print("Check the log file for details.")
         raise
 

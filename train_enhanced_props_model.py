@@ -251,12 +251,12 @@ class EnhancedPropsModel:
             model.fit(X_train, y_train)
             y_pred = model.predict(X_val)
             
-            # Calculate R² score
+            # Calculate R score
             score = r2_score(y_val, y_pred)
             cv_scores.append(score)
         
         avg_score = np.mean(cv_scores)
-        print(f"{stat_type} CV R² Score: {avg_score:.4f}")
+        print(f"{stat_type} CV R Score: {avg_score:.4f}")
         
         # Final fit on all data
         model.fit(X, y)
@@ -415,10 +415,10 @@ def main():
         joblib.dump(model_info, model_path)
         print(f"Saved {stat_type} model to {model_path}")
     
-    print("\n🚀 Enhanced Props Models Training Complete!")
+    print("\nSTART: Enhanced Props Models Training Complete!")
     print("Expected improvements:")
-    print("- Home Runs: 13.9% → 45%+ win rate")
-    print("- Overall: 36.1% → 55%+ win rate")
+    print("- Home Runs: 13.9%  45%+ win rate")
+    print("- Overall: 36.1%  55%+ win rate")
     print("- Better feature engineering and stat-specific modeling")
 
 if __name__ == "__main__":

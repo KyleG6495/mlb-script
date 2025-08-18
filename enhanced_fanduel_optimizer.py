@@ -34,7 +34,7 @@ class EnhancedFanDuelOptimizer:
         
     def load_enhanced_data(self):
         """Load all required data sources"""
-        print("📊 Loading enhanced data sources...")
+        print("DATA: Loading enhanced data sources...")
         
         # Core slate data
         slate_df = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
@@ -44,16 +44,16 @@ class EnhancedFanDuelOptimizer:
             features_df = pd.read_csv("../data/prediction_features_enhanced_real_stats.csv")
             slate_df = self.merge_enhanced_features(slate_df, features_df)
         except:
-            print("⚠️ Enhanced features not found, using basic features")
+            print("WARNING: Enhanced features not found, using basic features")
         
         # Weather data (use your proven working weather file)
         try:
             weather_df = pd.read_csv("../data/merged_weather_park.csv")
-            print(f"✅ Weather-park data loaded: {len(weather_df)} games")
+            print(f"SUCCESS: Weather-park data loaded: {len(weather_df)} games")
             slate_df = self.merge_weather_data(slate_df, weather_df)
-            print(f"✅ Weather-park data merged successfully")
+            print(f"SUCCESS: Weather-park data merged successfully")
         except Exception as e:
-            print(f"⚠️ Weather-park data error: {e}")
+            print(f"WARNING: Weather-park data error: {e}")
             print("Using defaults for weather adjustments")
         
         # Park factors
@@ -61,7 +61,7 @@ class EnhancedFanDuelOptimizer:
             park_df = pd.read_csv("../data/weather_park_factors_merged.csv")
             slate_df = self.merge_park_factors(slate_df, park_df)
         except:
-            print("⚠️ Park factors not found")
+            print("WARNING: Park factors not found")
         
         return slate_df
     
@@ -83,7 +83,7 @@ class EnhancedFanDuelOptimizer:
     
     def merge_weather_data(self, slate_df, weather_df):
         """Merge weather data using proven team mapping approach"""
-        print(f"🌤️ Merging weather-park data...")
+        print(f" Merging weather-park data...")
         
         # Create team mapping from your working system
         team_mapping = {
@@ -125,10 +125,10 @@ class EnhancedFanDuelOptimizer:
     
     def create_ml_projections(self, df):
         """Create sophisticated ML projections"""
-        print("🧠 Creating ML-driven projections...")
+        print(" Creating ML-driven projections...")
         
         # For now, use enhanced FPPG as base since ML models aren't available
-        print("⚠️ Using enhanced FPPG projections (ML models not available)")
+        print("WARNING: Using enhanced FPPG projections (ML models not available)")
         
         # Apply basic enhancements to existing FPPG
         df['Base_Projection'] = df['FPPG'].copy()
@@ -144,12 +144,12 @@ class EnhancedFanDuelOptimizer:
         else:
             df['Projected_FPPG'] = df['FPPG']  # Fallback to original FPPG
         
-        print(f"✅ Projections created: avg={df['Projected_FPPG'].mean():.1f} FPPG")
+        print(f"SUCCESS: Projections created: avg={df['Projected_FPPG'].mean():.1f} FPPG")
         return df
     
     def apply_advanced_features(self, df):
         """Apply essential advanced features without redundant columns"""
-        print("⚡ Applying advanced features...")
+        print(" Applying advanced features...")
         
         # Pitcher matchup adjustments
         if len(df[df['Position'] == 'P']) > 0:
@@ -185,7 +185,7 @@ class EnhancedFanDuelOptimizer:
     
     def identify_stacking_opportunities(self, df):
         """Identify optimal stacking opportunities"""
-        print("🔥 Identifying stacking opportunities...")
+        print(" Identifying stacking opportunities...")
         
         # Mock weather and vegas data for stacking engine
         weather_data = pd.DataFrame({
@@ -208,7 +208,7 @@ class EnhancedFanDuelOptimizer:
     
     def optimize_multiple_strategies(self, df):
         """Generate lineups for multiple strategies"""
-        print("🎯 Optimizing for multiple strategies...")
+        print("TARGET: Optimizing for multiple strategies...")
         
         strategies = {
             'cash': {
@@ -237,7 +237,7 @@ class EnhancedFanDuelOptimizer:
         all_lineups = {}
         
         for strategy_name, strategy_config in strategies.items():
-            print(f"\n📈 Optimizing {strategy_name} strategy: {strategy_config['description']}")
+            print(f"\nPROGRESS: Optimizing {strategy_name} strategy: {strategy_config['description']}")
             
             lineups = []
             for i in range(3):  # Generate 3 lineups per strategy
@@ -262,7 +262,7 @@ class EnhancedFanDuelOptimizer:
         eligible = self.filter_eligible_players(df_random)
         
         if len(eligible) < 9:
-            print(f"⚠️ Not enough eligible players: {len(eligible)}")
+            print(f"WARNING: Not enough eligible players: {len(eligible)}")
             return None
         
         # Create optimization problem
@@ -282,7 +282,7 @@ class EnhancedFanDuelOptimizer:
         prob.solve(PULP_CBC_CMD(msg=0))
         
         if prob.status != 1:
-            print(f"⚠️ Optimization failed for lineup {lineup_num}")
+            print(f"WARNING: Optimization failed for lineup {lineup_num}")
             return None
         
         # Extract lineup
@@ -296,7 +296,7 @@ class EnhancedFanDuelOptimizer:
     
     def filter_eligible_players(self, df):
         """Filter eligible players for optimization"""
-        print(f"🔍 Filtering from {len(df)} players...")
+        print(f" Filtering from {len(df)} players...")
         
         # Check available projections
         proj_col = 'Projected_FPPG' if 'Projected_FPPG' in df.columns else 'FPPG'
@@ -345,7 +345,7 @@ class EnhancedFanDuelOptimizer:
         for pos, min_needed in position_requirements.items():
             available = len(df[df['Primary_Position'] == pos])
             if available < min_needed:
-                print(f"⚠️ Only {available} {pos} available (need {min_needed})")
+                print(f"WARNING: Only {available} {pos} available (need {min_needed})")
         
         return df
     
@@ -439,7 +439,7 @@ class EnhancedFanDuelOptimizer:
     
     def save_lineups(self, all_lineups):
         """Save all generated lineups with clean, essential columns only"""
-        print("💾 Saving enhanced lineups...")
+        print(" Saving enhanced lineups...")
         
         # Define essential columns for lineup submission
         essential_columns = [
@@ -459,7 +459,7 @@ class EnhancedFanDuelOptimizer:
                 
                 try:
                     clean_lineup.to_csv(filename, index=False)
-                    print(f"✅ {strategy.upper()} Lineup {i+1}: ${lineup['Salary'].sum():.0f} | "
+                    print(f"SUCCESS: {strategy.upper()} Lineup {i+1}: ${lineup['Salary'].sum():.0f} | "
                           f"{lineup['Projected_FPPG'].sum():.1f} FPPG | "
                           f"{lineup['Value'].mean():.1f} avg value")
                 except PermissionError:
@@ -469,16 +469,16 @@ class EnhancedFanDuelOptimizer:
                     alt_filename = f"../data/enhanced_lineup_{strategy}_{i+1}_{timestamp}.csv"
                     try:
                         clean_lineup.to_csv(alt_filename, index=False)
-                        print(f"✅ {strategy.upper()} Lineup {i+1}: ${lineup['Salary'].sum():.0f} | "
+                        print(f"SUCCESS: {strategy.upper()} Lineup {i+1}: ${lineup['Salary'].sum():.0f} | "
                               f"{lineup['Projected_FPPG'].sum():.1f} FPPG | "
                               f"{lineup['Value'].mean():.1f} avg value (saved as {alt_filename})")
                     except Exception as e:
-                        print(f"⚠️ Could not save {strategy} lineup {i+1}: {e}")
+                        print(f"WARNING: Could not save {strategy} lineup {i+1}: {e}")
                         print(f"   File may be open in Excel. Close it and try again.")
     
     def run_enhanced_optimization(self):
         """Run complete enhanced optimization"""
-        print("🚀 ENHANCED FANDUEL LINEUP OPTIMIZATION")
+        print("START: ENHANCED FANDUEL LINEUP OPTIMIZATION")
         print("=" * 50)
         
         # Load data
@@ -492,7 +492,7 @@ class EnhancedFanDuelOptimizer:
         
         # Identify stacking opportunities
         stacks = self.identify_stacking_opportunities(df)
-        print(f"🔥 Found {len(stacks)} stacking opportunities")
+        print(f" Found {len(stacks)} stacking opportunities")
         
         # Generate optimized lineups
         all_lineups = self.optimize_multiple_strategies(df)
@@ -503,13 +503,13 @@ class EnhancedFanDuelOptimizer:
         # Generate summary report
         self.generate_summary_report(all_lineups, stacks)
         
-        print("\n🎉 Enhanced optimization complete!")
+        print("\nCOMPLETE: Enhanced optimization complete!")
         
         return all_lineups
     
     def generate_summary_report(self, all_lineups, stacks):
         """Generate comprehensive summary report"""
-        print("\n📊 ENHANCED OPTIMIZATION SUMMARY")
+        print("\nDATA: ENHANCED OPTIMIZATION SUMMARY")
         print("=" * 40)
         
         total_lineups = sum(len(lineups) for lineups in all_lineups.values())

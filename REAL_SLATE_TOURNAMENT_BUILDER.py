@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚨 REAL SLATE TOURNAMENT LINEUP BUILDER
+ REAL SLATE TOURNAMENT LINEUP BUILDER
 ====================================
 Building tournament lineups with ACTUAL players available today
 (NOT fake Shane Bieber who isn't even playing!)
@@ -22,17 +22,17 @@ logger = logging.getLogger(__name__)
 
 def load_real_slate_data():
     """Load the actual FanDuel slate data"""
-    logger.info("🔍 LOADING REAL SLATE DATA")
+    logger.info(" LOADING REAL SLATE DATA")
     logger.info("="*50)
     
     slate_file = "../fd_current_slate/fd_slate_today.csv"
     slate = pd.read_csv(slate_file)
     
-    logger.info(f"📊 Total players in slate: {len(slate)}")
+    logger.info(f"DATA: Total players in slate: {len(slate)}")
     
     # Filter out injured players
     healthy_slate = slate[slate['Injury Indicator'].isna()].copy()
-    logger.info(f"✅ Healthy players: {len(healthy_slate)}")
+    logger.info(f"SUCCESS: Healthy players: {len(healthy_slate)}")
     
     # Get probable pitchers only
     probable_pitchers = healthy_slate[
@@ -43,32 +43,32 @@ def load_real_slate_data():
     if len(probable_pitchers) == 0:
         # Fallback: use all healthy pitchers if no probable pitcher data
         probable_pitchers = healthy_slate[healthy_slate['Position'] == 'P'].copy()
-        logger.warning("⚠️ No probable pitcher data found, using all healthy pitchers")
+        logger.warning("WARNING: No probable pitcher data found, using all healthy pitchers")
     
-    logger.info(f"⚾ Probable pitchers available: {len(probable_pitchers)}")
+    logger.info(f"BASEBALL: Probable pitchers available: {len(probable_pitchers)}")
     
     # Get healthy hitters
     healthy_hitters = healthy_slate[healthy_slate['Position'] != 'P'].copy()
-    logger.info(f"🏏 Healthy hitters available: {len(healthy_hitters)}")
+    logger.info(f" Healthy hitters available: {len(healthy_hitters)}")
     
     return slate, healthy_slate, probable_pitchers, healthy_hitters
 
 def create_real_tournament_lineup():
     """Create a tournament lineup with REAL available players"""
-    logger.info("🏆 CREATING REAL TOURNAMENT LINEUP")
+    logger.info("LINEUP: CREATING REAL TOURNAMENT LINEUP")
     logger.info("="*50)
     
     slate, healthy_slate, probable_pitchers, healthy_hitters = load_real_slate_data()
     
     # Sort pitchers by FPPG
     top_pitchers = probable_pitchers.sort_values('FPPG', ascending=False).head(5)
-    logger.info("🎯 TOP 5 AVAILABLE PITCHERS:")
+    logger.info("TARGET: TOP 5 AVAILABLE PITCHERS:")
     for i, (_, pitcher) in enumerate(top_pitchers.iterrows(), 1):
         logger.info(f"   {i}. {pitcher['Nickname']} - ${pitcher['Salary']:,} | {pitcher['FPPG']:.1f} FPPG")
     
     # Sort hitters by FPPG for ceiling plays
     top_hitters = healthy_hitters.sort_values('FPPG', ascending=False).head(10)
-    logger.info("\n🚀 TOP 10 AVAILABLE HITTERS:")
+    logger.info("\nSTART: TOP 10 AVAILABLE HITTERS:")
     for i, (_, hitter) in enumerate(top_hitters.iterrows(), 1):
         logger.info(f"   {i}. {hitter['Nickname']} - ${hitter['Salary']:,} | {hitter['FPPG']:.1f} FPPG")
     
@@ -89,18 +89,18 @@ def create_real_tournament_lineup():
     total_salary += top_pitcher['Salary']
     total_fppg += top_pitcher['FPPG']
     
-    logger.info(f"\n🎯 SELECTED PITCHER: {top_pitcher['Nickname']} - ${top_pitcher['Salary']:,} | {top_pitcher['FPPG']:.1f} FPPG")
+    logger.info(f"\nTARGET: SELECTED PITCHER: {top_pitcher['Nickname']} - ${top_pitcher['Salary']:,} | {top_pitcher['FPPG']:.1f} FPPG")
     
     # Remaining salary for hitters
     remaining_salary = 35000 - total_salary
-    logger.info(f"💰 Remaining salary for 8 hitters: ${remaining_salary:,}")
+    logger.info(f"MONEY: Remaining salary for 8 hitters: ${remaining_salary:,}")
     
     # Find best value hitters for remaining positions
     # Sort by value (FPPG per $1K)
     healthy_hitters['value'] = healthy_hitters['FPPG'] / (healthy_hitters['Salary'] / 1000)
     value_hitters = healthy_hitters.sort_values('value', ascending=False).head(15)
     
-    logger.info("\n💎 TOP VALUE HITTERS:")
+    logger.info("\n TOP VALUE HITTERS:")
     for i, (_, hitter) in enumerate(value_hitters.iterrows(), 1):
         if i <= 8:  # Show top 8
             logger.info(f"   {i}. {hitter['Nickname']} - ${hitter['Salary']:,} | {hitter['FPPG']:.1f} FPPG | {hitter['value']:.1f} val")
@@ -137,7 +137,7 @@ def create_real_tournament_lineup():
 
 def display_real_lineup(lineup):
     """Display the real tournament lineup"""
-    logger.info("🏆 REAL TOURNAMENT LINEUP (ACTUAL PLAYERS)")
+    logger.info("LINEUP: REAL TOURNAMENT LINEUP (ACTUAL PLAYERS)")
     logger.info("="*60)
     
     positions = ['P', 'C', '1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3']
@@ -148,21 +148,21 @@ def display_real_lineup(lineup):
             logger.info(f"{pos:3} | {player['name']:20} | {player['team']:3} | ${player['salary']:4,} | {player['fppg']:5.1f} FPPG")
     
     logger.info("-" * 60)
-    logger.info(f"💰 Total Salary: ${lineup['TOTAL_SALARY']:,} / $35,000")
-    logger.info(f"📊 Total Projection: {lineup['TOTAL_FPPG']:.1f} FPPG")
-    logger.info(f"💵 Salary Remaining: ${lineup['SALARY_REMAINING']:,}")
+    logger.info(f"MONEY: Total Salary: ${lineup['TOTAL_SALARY']:,} / $35,000")
+    logger.info(f"DATA: Total Projection: {lineup['TOTAL_FPPG']:.1f} FPPG")
+    logger.info(f" Salary Remaining: ${lineup['SALARY_REMAINING']:,}")
     
     # Tournament viability assessment
     if lineup['TOTAL_FPPG'] >= 153:
-        rating = "🏆 TOURNAMENT COMPETITIVE"
+        rating = "LINEUP: TOURNAMENT COMPETITIVE"
     elif lineup['TOTAL_FPPG'] >= 140:
-        rating = "✅ TOURNAMENT VIABLE"
+        rating = "SUCCESS: TOURNAMENT VIABLE"
     elif lineup['TOTAL_FPPG'] >= 120:
-        rating = "⚠️ NEEDS IMPROVEMENT"
+        rating = "WARNING: NEEDS IMPROVEMENT"
     else:
-        rating = "❌ NOT COMPETITIVE"
+        rating = "ERROR: NOT COMPETITIVE"
     
-    logger.info(f"🎯 Tournament Rating: {rating}")
+    logger.info(f"TARGET: Tournament Rating: {rating}")
     
     return lineup
 
@@ -177,7 +177,7 @@ def save_real_lineup(lineup):
     with open(filename, 'w') as f:
         json.dump(lineup, f, indent=2)
     
-    logger.info(f"💾 Real lineup saved: {filename}")
+    logger.info(f" Real lineup saved: {filename}")
     
     # Also create CSV format for FanDuel submission
     csv_filename = f"../data/REAL_TOURNAMENT_LINEUP_{timestamp}.csv"
@@ -197,13 +197,13 @@ def save_real_lineup(lineup):
     
     df = pd.DataFrame(csv_data)
     df.to_csv(csv_filename, index=False)
-    logger.info(f"📄 CSV format saved: {csv_filename}")
+    logger.info(f" CSV format saved: {csv_filename}")
     
     return filename, csv_filename
 
 def main():
     """Main execution"""
-    logger.info("🚨 REAL SLATE TOURNAMENT LINEUP BUILDER")
+    logger.info(" REAL SLATE TOURNAMENT LINEUP BUILDER")
     logger.info("Building with ACTUAL players available today")
     logger.info("="*70)
     
@@ -218,14 +218,14 @@ def main():
         json_file, csv_file = save_real_lineup(lineup)
         
         logger.info("="*70)
-        logger.info("🎉 REAL TOURNAMENT LINEUP COMPLETE!")
-        logger.info(f"📊 Projection: {lineup['TOTAL_FPPG']:.1f} FPPG (vs 31.7 disaster)")
-        logger.info(f"💪 Improvement: {((lineup['TOTAL_FPPG'] - 31.7) / 31.7 * 100):.0f}% vs disaster")
-        logger.info(f"🎯 Tournament Ready: {lineup['TOTAL_FPPG'] >= 153}")
-        logger.info("📁 Files saved for FanDuel submission!")
+        logger.info("COMPLETE: REAL TOURNAMENT LINEUP COMPLETE!")
+        logger.info(f"DATA: Projection: {lineup['TOTAL_FPPG']:.1f} FPPG (vs 31.7 disaster)")
+        logger.info(f" Improvement: {((lineup['TOTAL_FPPG'] - 31.7) / 31.7 * 100):.0f}% vs disaster")
+        logger.info(f"TARGET: Tournament Ready: {lineup['TOTAL_FPPG'] >= 153}")
+        logger.info(" Files saved for FanDuel submission!")
         
     except Exception as e:
-        logger.error(f"❌ Error creating real lineup: {e}")
+        logger.error(f"ERROR: Error creating real lineup: {e}")
         import traceback
         traceback.print_exc()
 

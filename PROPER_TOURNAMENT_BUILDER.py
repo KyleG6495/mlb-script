@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🏆 PROPER TOURNAMENT LINEUP BUILDER
+LINEUP: PROPER TOURNAMENT LINEUP BUILDER
 ==================================
 Building competitive lineups with the ACTUAL star players available today
 Using all 12 games and top healthy players
@@ -15,31 +15,31 @@ logger = logging.getLogger(__name__)
 
 def analyze_todays_slate():
     """Analyze what's actually available today"""
-    logger.info("🔍 ANALYZING TODAY'S SLATE")
+    logger.info(" ANALYZING TODAY'S SLATE")
     logger.info("="*50)
     
     slate = pd.read_csv("../fd_current_slate/fd_slate_today.csv")
     
     # Get games
     games = slate['Game'].unique()
-    logger.info(f"🏟️ Games today: {len(games)}")
+    logger.info(f" Games today: {len(games)}")
     for game in games:
         logger.info(f"   {game}")
     
     # Filter healthy players
     healthy = slate[slate['Injury Indicator'].isna()].copy()
-    logger.info(f"\n✅ Healthy players: {len(healthy)}/{len(slate)}")
+    logger.info(f"\nSUCCESS: Healthy players: {len(healthy)}/{len(slate)}")
     
     # Top pitchers (all healthy, not just probable)
     healthy_pitchers = healthy[healthy['Position'] == 'P'].sort_values('FPPG', ascending=False)
-    logger.info(f"\n🔥 TOP 10 HEALTHY PITCHERS:")
+    logger.info(f"\n TOP 10 HEALTHY PITCHERS:")
     for i, (_, p) in enumerate(healthy_pitchers.head(10).iterrows(), 1):
         logger.info(f"   {i:2d}. {p['Nickname']:20} ${p['Salary']:5,} | {p['FPPG']:5.1f} FPPG | {p['Game']}")
     
     # Top hitters by salary (stars)
     healthy_hitters = healthy[healthy['Position'] != 'P']
     top_hitters = healthy_hitters[healthy_hitters['Salary'] >= 3500].sort_values('FPPG', ascending=False)
-    logger.info(f"\n⭐ TOP 10 STAR HITTERS ($3500+):")
+    logger.info(f"\n TOP 10 STAR HITTERS ($3500+):")
     for i, (_, h) in enumerate(top_hitters.head(10).iterrows(), 1):
         logger.info(f"   {i:2d}. {h['Nickname']:20} ${h['Salary']:5,} | {h['FPPG']:5.1f} FPPG | {h['Game']}")
     
@@ -47,7 +47,7 @@ def analyze_todays_slate():
     value_hitters = healthy_hitters.copy()
     value_hitters['value'] = value_hitters['FPPG'] / (value_hitters['Salary'] / 1000)
     top_value = value_hitters[value_hitters['Salary'] <= 3000].sort_values('value', ascending=False)
-    logger.info(f"\n💎 TOP 10 VALUE PLAYS ($3000 or less):")
+    logger.info(f"\n TOP 10 VALUE PLAYS ($3000 or less):")
     for i, (_, v) in enumerate(top_value.head(10).iterrows(), 1):
         logger.info(f"   {i:2d}. {v['Nickname']:20} ${v['Salary']:5,} | {v['FPPG']:5.1f} FPPG | {v['value']:4.1f} val | {v['Game']}")
     
@@ -55,7 +55,7 @@ def analyze_todays_slate():
 
 def build_competitive_lineup(healthy, healthy_pitchers, top_hitters, top_value):
     """Build a truly competitive tournament lineup"""
-    logger.info("\n🏆 BUILDING COMPETITIVE TOURNAMENT LINEUP")
+    logger.info("\nLINEUP: BUILDING COMPETITIVE TOURNAMENT LINEUP")
     logger.info("="*60)
     
     lineup = {}
@@ -75,11 +75,11 @@ def build_competitive_lineup(healthy, healthy_pitchers, top_hitters, top_value):
     total_salary += top_pitcher['Salary']
     total_fppg += top_pitcher['FPPG']
     
-    logger.info(f"🎯 Selected Ace: {top_pitcher['Nickname']} - ${top_pitcher['Salary']:,} | {top_pitcher['FPPG']:.1f} FPPG")
+    logger.info(f"TARGET: Selected Ace: {top_pitcher['Nickname']} - ${top_pitcher['Salary']:,} | {top_pitcher['FPPG']:.1f} FPPG")
     
     # Remaining salary for 8 hitters
     remaining = 35000 - total_salary
-    logger.info(f"💰 Remaining for hitters: ${remaining:,}")
+    logger.info(f"MONEY: Remaining for hitters: ${remaining:,}")
     
     # Strategy: Mix stars and value
     # Take 3-4 stars, 4-5 value plays
@@ -96,14 +96,14 @@ def build_competitive_lineup(healthy, healthy_pitchers, top_hitters, top_value):
             total_salary += hitter['Salary']
             total_fppg += hitter['FPPG']
             used_teams.add(hitter['Team'])
-            logger.info(f"⭐ Selected Star {len(selected_hitters)}: {hitter['Nickname']} - ${hitter['Salary']:,} | {hitter['FPPG']:.1f} FPPG")
+            logger.info(f" Selected Star {len(selected_hitters)}: {hitter['Nickname']} - ${hitter['Salary']:,} | {hitter['FPPG']:.1f} FPPG")
     
     # Fill remaining spots with value plays
     remaining_spots = 8 - len(selected_hitters)
     remaining_salary = 35000 - total_salary
     avg_remaining = remaining_salary / remaining_spots
     
-    logger.info(f"💎 Need {remaining_spots} value plays, avg ${avg_remaining:,.0f} each")
+    logger.info(f" Need {remaining_spots} value plays, avg ${avg_remaining:,.0f} each")
     
     for _, value_hitter in top_value.iterrows():
         if len(selected_hitters) >= 8:
@@ -113,7 +113,7 @@ def build_competitive_lineup(healthy, healthy_pitchers, top_hitters, top_value):
                 selected_hitters.append(value_hitter)
                 total_salary += value_hitter['Salary']
                 total_fppg += value_hitter['FPPG']
-                logger.info(f"💎 Selected Value {len(selected_hitters)}: {value_hitter['Nickname']} - ${value_hitter['Salary']:,} | {value_hitter['FPPG']:.1f} FPPG")
+                logger.info(f" Selected Value {len(selected_hitters)}: {value_hitter['Nickname']} - ${value_hitter['Salary']:,} | {value_hitter['FPPG']:.1f} FPPG")
     
     # Add hitters to lineup
     positions = ['C', '1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3']
@@ -136,7 +136,7 @@ def build_competitive_lineup(healthy, healthy_pitchers, top_hitters, top_value):
 
 def display_competitive_lineup(lineup):
     """Display the competitive lineup"""
-    logger.info("\n🏆 COMPETITIVE TOURNAMENT LINEUP")
+    logger.info("\nLINEUP: COMPETITIVE TOURNAMENT LINEUP")
     logger.info("="*70)
     
     positions = ['P', 'C', '1B', '2B', '3B', 'SS', 'OF1', 'OF2', 'OF3']
@@ -147,29 +147,29 @@ def display_competitive_lineup(lineup):
             logger.info(f"{pos:3} | {player['name']:20} | {player['team']:3} | {player['game']:8} | ${player['salary']:5,} | {player['fppg']:5.1f} FPPG")
     
     logger.info("-" * 70)
-    logger.info(f"💰 Total Salary: ${lineup['TOTAL_SALARY']:,} / $35,000")
-    logger.info(f"📊 Total Projection: {lineup['TOTAL_FPPG']:.1f} FPPG")
-    logger.info(f"💵 Salary Remaining: ${lineup['SALARY_REMAINING']:,}")
+    logger.info(f"MONEY: Total Salary: ${lineup['TOTAL_SALARY']:,} / $35,000")
+    logger.info(f"DATA: Total Projection: {lineup['TOTAL_FPPG']:.1f} FPPG")
+    logger.info(f" Salary Remaining: ${lineup['SALARY_REMAINING']:,}")
     
     # Tournament viability
     if lineup['TOTAL_FPPG'] >= 180:
-        rating = "🔥 ELITE TOURNAMENT LINEUP"
+        rating = " ELITE TOURNAMENT LINEUP"
     elif lineup['TOTAL_FPPG'] >= 153:
-        rating = "🏆 TOURNAMENT COMPETITIVE"
+        rating = "LINEUP: TOURNAMENT COMPETITIVE"
     elif lineup['TOTAL_FPPG'] >= 140:
-        rating = "✅ TOURNAMENT VIABLE"
+        rating = "SUCCESS: TOURNAMENT VIABLE"
     else:
-        rating = "⚠️ NEEDS IMPROVEMENT"
+        rating = "WARNING: NEEDS IMPROVEMENT"
     
-    logger.info(f"\n🎯 Tournament Rating: {rating}")
-    logger.info(f"🚀 vs Disaster (31.7): +{((lineup['TOTAL_FPPG'] - 31.7) / 31.7 * 100):.0f}%")
-    logger.info(f"🎯 vs Winner Threshold (153): {'+' if lineup['TOTAL_FPPG'] >= 153 else ''}{lineup['TOTAL_FPPG'] - 153:.1f} FPPG")
+    logger.info(f"\nTARGET: Tournament Rating: {rating}")
+    logger.info(f"START: vs Disaster (31.7): +{((lineup['TOTAL_FPPG'] - 31.7) / 31.7 * 100):.0f}%")
+    logger.info(f"TARGET: vs Winner Threshold (153): {'+' if lineup['TOTAL_FPPG'] >= 153 else ''}{lineup['TOTAL_FPPG'] - 153:.1f} FPPG")
     
     return lineup
 
 def main():
     """Main execution"""
-    logger.info("🏆 PROPER TOURNAMENT LINEUP BUILDER")
+    logger.info("LINEUP: PROPER TOURNAMENT LINEUP BUILDER")
     logger.info("Using ALL available star players from 12 games today")
     logger.info("="*70)
     
@@ -184,12 +184,12 @@ def main():
         display_competitive_lineup(lineup)
         
         logger.info("\n" + "="*70)
-        logger.info("🎉 COMPETITIVE LINEUP COMPLETE!")
-        logger.info(f"📊 Using stars from {len(set([p['game'] for p in lineup.values() if isinstance(p, dict) and 'game' in p]))} different games")
-        logger.info("🚀 This should be MUCH more competitive than 31.7 FPPG!")
+        logger.info("COMPLETE: COMPETITIVE LINEUP COMPLETE!")
+        logger.info(f"DATA: Using stars from {len(set([p['game'] for p in lineup.values() if isinstance(p, dict) and 'game' in p]))} different games")
+        logger.info("START: This should be MUCH more competitive than 31.7 FPPG!")
         
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

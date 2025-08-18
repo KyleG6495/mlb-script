@@ -22,14 +22,14 @@ def clean_and_prepare_slate():
     slate_file = slate_dir / "fd_slate_today.csv"
     slate = pd.read_csv(slate_file)
     
-    print(f"📥 Loaded {len(slate)} players from slate")
+    print(f" Loaded {len(slate)} players from slate")
     
     # Clean bad data
     original_count = len(slate)
     
     # Remove players with negative or very low FPPG
     slate = slate[slate['FPPG'] > 2.0]  # Minimum reasonable FPPG
-    print(f"🧹 Removed {original_count - len(slate)} players with bad FPPG")
+    print(f" Removed {original_count - len(slate)} players with bad FPPG")
     
     # Remove players with missing essential data
     slate = slate.dropna(subset=['Salary', 'FPPG', 'Roster Position'])
@@ -43,13 +43,13 @@ def clean_and_prepare_slate():
     slate['ceiling'] = slate['projection'] * 1.5
     slate['floor'] = slate['projection'] * 0.7
     
-    print(f"✅ Final slate: {len(slate)} players")
+    print(f"SUCCESS: Final slate: {len(slate)} players")
     print(f"   FPPG range: {slate['FPPG'].min():.1f} - {slate['FPPG'].max():.1f}")
     print(f"   Salary range: ${slate['Salary'].min()} - ${slate['Salary'].max()}")
     print(f"   Value range: {slate['value'].min():.2f} - {slate['value'].max():.2f}")
     
     # Check position distribution
-    print("\n📊 Position breakdown:")
+    print("\nDATA: Position breakdown:")
     position_counts = {}
     for pos in ['P', 'C/1B', '2B', '3B', 'SS', 'OF']:
         count = len(slate[slate['Roster Position'].str.contains(pos, na=False)])
@@ -58,7 +58,7 @@ def clean_and_prepare_slate():
     
     # Verify we have enough players for each position
     if any(count < 5 for count in position_counts.values()):
-        print("⚠️  Warning: Some positions have very few players")
+        print("WARNING:  Warning: Some positions have very few players")
     
     return slate
 
@@ -123,7 +123,7 @@ def create_lineup(slate, strategy='balanced', used_players=None):
         if len(eligible_players) >= required:
             prob += lpSum([player_vars[pid] for pid in eligible_players]) == required
         else:
-            print(f"⚠️  Not enough {position} players: {len(eligible_players)}")
+            print(f"WARNING:  Not enough {position} players: {len(eligible_players)}")
             return None
     
     # Total players
@@ -193,17 +193,17 @@ def format_fanduel_lineup(lineup):
 def generate_quality_lineups(num_lineups=20):
     """Generate high-quality diverse lineups"""
     
-    print("🚀 ROBUST DFS LINEUP OPTIMIZER")
+    print("START: ROBUST DFS LINEUP OPTIMIZER")
     print("=" * 50)
     
     # Load and clean data
     slate = clean_and_prepare_slate()
     
     if len(slate) < 200:
-        print("❌ Not enough quality players in slate")
+        print("ERROR: Not enough quality players in slate")
         return None, None
     
-    print(f"\n🎯 Generating {num_lineups} optimized lineups...")
+    print(f"\nTARGET: Generating {num_lineups} optimized lineups...")
     
     lineups = []
     used_players = set()
@@ -229,11 +229,11 @@ def generate_quality_lineups(num_lineups=20):
             if len(lineups) % 3 == 0:  # Every 3rd lineup, add players to used set
                 used_players.update(player_ids[:3])
             
-            print(f"     ✅ ${lineup['total_salary']}, {lineup['total_projection']:.1f} FPPG")
+            print(f"     SUCCESS: ${lineup['total_salary']}, {lineup['total_projection']:.1f} FPPG")
         else:
-            print(f"     ❌ Failed")
+            print(f"     ERROR: Failed")
     
-    print(f"\n📊 Successfully generated {len(lineups)} lineups")
+    print(f"\nDATA: Successfully generated {len(lineups)} lineups")
     
     if lineups:
         projections = [l['total_projection'] for l in lineups]
@@ -249,7 +249,7 @@ def generate_quality_lineups(num_lineups=20):
 def save_lineups_to_files(lineups):
     """Save lineups to FanDuel format"""
     if not lineups:
-        print("❌ No lineups to save")
+        print("ERROR: No lineups to save")
         return None
     
     base_dir = Path(__file__).parent.parent / "data"
@@ -286,9 +286,9 @@ def save_lineups_to_files(lineups):
     df.to_csv(main_file, index=False)
     df.to_csv(backup_file, index=False)
     
-    print(f"\n💾 Saved lineups to:")
-    print(f"   📁 Main: {main_file}")
-    print(f"   📁 Backup: {backup_file}")
+    print(f"\n Saved lineups to:")
+    print(f"    Main: {main_file}")
+    print(f"    Backup: {backup_file}")
     
     return main_file
 
@@ -299,19 +299,19 @@ if __name__ == "__main__":
         if lineups and len(lineups) > 0:
             main_file = save_lineups_to_files(lineups)
             
-            print(f"\n🎉 SUCCESS!")
+            print(f"\nCOMPLETE: SUCCESS!")
             print(f"   Generated {len(lineups)} quality lineups")
             print(f"   Ready for FanDuel submission: {main_file}")
-            print(f"\n💡 These lineups should perform MUCH better!")
+            print(f"\nTIP: These lineups should perform MUCH better!")
             print(f"   - Removed players with bad projections")
             print(f"   - Used proper value-based optimization")
             print(f"   - Applied strategic diversity")
             print(f"   - Ensured good salary utilization")
             
         else:
-            print("❌ Failed to generate quality lineups")
+            print("ERROR: Failed to generate quality lineups")
             
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()

@@ -19,7 +19,7 @@ class MonteCarloSimulationSystem:
         
     def load_tournament_lineups(self):
         """Load all tournament lineup files for simulation"""
-        print("🎲 MONTE CARLO SIMULATION SYSTEM")
+        print(" MONTE CARLO SIMULATION SYSTEM")
         print("Running performance simulations on tournament lineups")
         print("="*80)
         
@@ -28,7 +28,7 @@ class MonteCarloSimulationSystem:
                       list(self.slate_dir.glob("*TOURNAMENT_PORTFOLIO*.csv")) + \
                       list(self.slate_dir.glob("*ML_ENHANCED*.csv"))
         
-        print(f"📊 Found {len(lineup_files)} tournament files for simulation:")
+        print(f"DATA: Found {len(lineup_files)} tournament files for simulation:")
         
         all_lineups = []
         for file in lineup_files:
@@ -36,22 +36,22 @@ class MonteCarloSimulationSystem:
                 df = pd.read_csv(file)
                 df['Source_File'] = file.name
                 all_lineups.append(df)
-                print(f"  ✅ {file.name}: {len(df)} lineups")
+                print(f"  SUCCESS: {file.name}: {len(df)} lineups")
             except Exception as e:
-                print(f"  ❌ Error loading {file.name}: {e}")
+                print(f"  ERROR: Error loading {file.name}: {e}")
         
         if not all_lineups:
-            print("❌ No tournament lineups found for simulation!")
+            print("ERROR: No tournament lineups found for simulation!")
             return None
         
         combined_df = pd.concat(all_lineups, ignore_index=True)
-        print(f"\n📊 Total lineups for simulation: {len(combined_df)}")
+        print(f"\nDATA: Total lineups for simulation: {len(combined_df)}")
         
         return combined_df
     
     def create_player_simulation_profiles(self):
         """Create simulation profiles for each player"""
-        print(f"\n🎯 CREATING PLAYER SIMULATION PROFILES")
+        print(f"\nTARGET: CREATING PLAYER SIMULATION PROFILES")
         
         # Load FanDuel slate for player data
         slate_file = self.slate_dir / "fd_slate_today.csv"
@@ -82,8 +82,8 @@ class MonteCarloSimulationSystem:
         player_profiles['sim_ceiling'] = player_profiles['FPPG'] * player_profiles['ceiling_multiplier']
         player_profiles['sim_std'] = (player_profiles['sim_ceiling'] - player_profiles['sim_floor']) / 4
         
-        print(f"  ✅ Created simulation profiles for {len(player_profiles)} players")
-        print(f"  📊 Variance range: {player_profiles['variance_factor'].min():.2f} - {player_profiles['variance_factor'].max():.2f}")
+        print(f"  SUCCESS: Created simulation profiles for {len(player_profiles)} players")
+        print(f"  DATA: Variance range: {player_profiles['variance_factor'].min():.2f} - {player_profiles['variance_factor'].max():.2f}")
         
         return player_profiles
     
@@ -175,13 +175,13 @@ class MonteCarloSimulationSystem:
     
     def run_portfolio_simulation(self, lineups_df, player_profiles):
         """Run simulations on entire lineup portfolio"""
-        print(f"\n🎲 RUNNING MONTE CARLO SIMULATIONS")
+        print(f"\n RUNNING MONTE CARLO SIMULATIONS")
         print(f"Simulating {len(lineups_df)} lineups with 1000 iterations each...")
         
         simulation_results = []
         
         for idx, lineup in lineups_df.iterrows():
-            print(f"  🎯 Simulating lineup {idx+1}/{len(lineups_df)}: {lineup.get('Lineup_ID', f'Lineup_{idx+1}')}")
+            print(f"  TARGET: Simulating lineup {idx+1}/{len(lineups_df)}: {lineup.get('Lineup_ID', f'Lineup_{idx+1}')}")
             
             sim_result = self.simulate_lineup_performance(lineup, player_profiles, num_simulations=1000)
             
@@ -194,15 +194,15 @@ class MonteCarloSimulationSystem:
                 
                 simulation_results.append(sim_result)
             else:
-                print(f"    ❌ Failed to simulate lineup {idx+1}")
+                print(f"    ERROR: Failed to simulate lineup {idx+1}")
         
-        print(f"  ✅ Simulation complete: {len(simulation_results)} successful simulations")
+        print(f"  SUCCESS: Simulation complete: {len(simulation_results)} successful simulations")
         
         return simulation_results
     
     def analyze_simulation_results(self, simulation_results):
         """Analyze and rank simulation results"""
-        print(f"\n📊 ANALYZING SIMULATION RESULTS")
+        print(f"\nDATA: ANALYZING SIMULATION RESULTS")
         
         # Convert to DataFrame for analysis
         sim_df = pd.DataFrame(simulation_results)
@@ -218,18 +218,18 @@ class MonteCarloSimulationSystem:
         # Sort by tournament score
         sim_df = sim_df.sort_values('tournament_score', ascending=False)
         
-        print(f"  🏆 SIMULATION ANALYSIS SUMMARY:")
-        print(f"    📊 Lineups simulated: {len(sim_df)}")
-        print(f"    🎯 Average mean score: {sim_df['mean_score'].mean():.1f} FPPG")
-        print(f"    🚀 Average 90th percentile: {sim_df['percentile_90'].mean():.1f} FPPG")
-        print(f"    ⭐ Average 200+ probability: {sim_df['prob_200_plus'].mean():.1%}")
-        print(f"    👑 Average 250+ probability: {sim_df['prob_250_plus'].mean():.1%}")
+        print(f"  LINEUP: SIMULATION ANALYSIS SUMMARY:")
+        print(f"    DATA: Lineups simulated: {len(sim_df)}")
+        print(f"    TARGET: Average mean score: {sim_df['mean_score'].mean():.1f} FPPG")
+        print(f"    START: Average 90th percentile: {sim_df['percentile_90'].mean():.1f} FPPG")
+        print(f"     Average 200+ probability: {sim_df['prob_200_plus'].mean():.1%}")
+        print(f"     Average 250+ probability: {sim_df['prob_250_plus'].mean():.1%}")
         
         return sim_df
     
     def export_simulation_results(self, sim_df):
         """Export simulation results"""
-        print(f"\n📄 EXPORTING SIMULATION RESULTS")
+        print(f"\n EXPORTING SIMULATION RESULTS")
         
         # Create summary export
         export_columns = [
@@ -249,46 +249,46 @@ class MonteCarloSimulationSystem:
         filepath = self.slate_dir / filename
         
         summary_df.to_csv(filepath, index=False)
-        print(f"✅ Simulation results exported: {filename}")
+        print(f"SUCCESS: Simulation results exported: {filename}")
         
         return summary_df, filepath
     
     def create_simulation_report(self, sim_df):
         """Create detailed simulation report"""
-        print(f"\n📈 SIMULATION TOURNAMENT REPORT")
+        print(f"\nPROGRESS: SIMULATION TOURNAMENT REPORT")
         print("="*60)
         
         # Overall portfolio performance
-        print(f"🏆 PORTFOLIO SIMULATION SUMMARY:")
-        print(f"  📊 Total lineups analyzed: {len(sim_df)}")
-        print(f"  🎯 Mean score range: {sim_df['mean_score'].min():.1f} - {sim_df['mean_score'].max():.1f} FPPG")
-        print(f"  🚀 90th percentile range: {sim_df['percentile_90'].min():.1f} - {sim_df['percentile_90'].max():.1f} FPPG")
+        print(f"LINEUP: PORTFOLIO SIMULATION SUMMARY:")
+        print(f"  DATA: Total lineups analyzed: {len(sim_df)}")
+        print(f"  TARGET: Mean score range: {sim_df['mean_score'].min():.1f} - {sim_df['mean_score'].max():.1f} FPPG")
+        print(f"  START: 90th percentile range: {sim_df['percentile_90'].min():.1f} - {sim_df['percentile_90'].max():.1f} FPPG")
         
         # Tournament probability analysis
-        print(f"\n🎯 TOURNAMENT PROBABILITY ANALYSIS:")
+        print(f"\nTARGET: TOURNAMENT PROBABILITY ANALYSIS:")
         elite_lineups = len(sim_df[sim_df['prob_250_plus'] >= 0.05])  # 5%+ chance at 250+
         competitive_lineups = len(sim_df[sim_df['prob_200_plus'] >= 0.20])  # 20%+ chance at 200+
         
-        print(f"  👑 Elite lineups (5%+ chance at 250+): {elite_lineups}/{len(sim_df)} ({elite_lineups/len(sim_df)*100:.1f}%)")
-        print(f"  ⭐ Competitive lineups (20%+ chance at 200+): {competitive_lineups}/{len(sim_df)} ({competitive_lineups/len(sim_df)*100:.1f}%)")
+        print(f"   Elite lineups (5%+ chance at 250+): {elite_lineups}/{len(sim_df)} ({elite_lineups/len(sim_df)*100:.1f}%)")
+        print(f"   Competitive lineups (20%+ chance at 200+): {competitive_lineups}/{len(sim_df)} ({competitive_lineups/len(sim_df)*100:.1f}%)")
         
         # Top performing lineups
-        print(f"\n🌟 TOP 10 SIMULATED LINEUPS:")
+        print(f"\n TOP 10 SIMULATED LINEUPS:")
         top_lineups = sim_df.head(10)
         
         for i, (_, lineup) in enumerate(top_lineups.iterrows(), 1):
             print(f"  {i:2d}. {lineup['lineup_id']} | Mean: {lineup['mean_score']:.1f} | 90th: {lineup['percentile_90']:.1f} | 200+: {lineup['prob_200_plus']:.1%} | 250+: {lineup['prob_250_plus']:.1%}")
         
         # Risk analysis
-        print(f"\n⚡ RISK/REWARD ANALYSIS:")
+        print(f"\n RISK/REWARD ANALYSIS:")
         high_ceiling_lineups = sim_df[sim_df['percentile_90'] >= 250]
         consistent_lineups = sim_df[sim_df['std_score'] <= sim_df['std_score'].median()]
         
-        print(f"  🚀 High ceiling lineups (90th ≥ 250): {len(high_ceiling_lineups)}")
-        print(f"  📊 Consistent lineups (low variance): {len(consistent_lineups)}")
+        print(f"  START: High ceiling lineups (90th  250): {len(high_ceiling_lineups)}")
+        print(f"  DATA: Consistent lineups (low variance): {len(consistent_lineups)}")
         
         # Source file performance
-        print(f"\n📁 PERFORMANCE BY SOURCE:")
+        print(f"\n PERFORMANCE BY SOURCE:")
         source_performance = sim_df.groupby('source_file').agg({
             'tournament_score': 'mean',
             'prob_200_plus': 'mean',
@@ -297,24 +297,24 @@ class MonteCarloSimulationSystem:
         }).round(3)
         
         for source, stats in source_performance.iterrows():
-            print(f"  📊 {source[:30]:30} | Score: {stats['tournament_score']:.3f} | 200+: {stats['prob_200_plus']:.1%} | 250+: {stats['prob_250_plus']:.1%}")
+            print(f"  DATA: {source[:30]:30} | Score: {stats['tournament_score']:.3f} | 200+: {stats['prob_200_plus']:.1%} | 250+: {stats['prob_250_plus']:.1%}")
         
         # Tournament readiness rating
         avg_200_prob = sim_df['prob_200_plus'].mean()
         avg_250_prob = sim_df['prob_250_plus'].mean()
         
         if avg_250_prob >= 0.05:
-            rating = "LEGENDARY 👑"
+            rating = "LEGENDARY "
         elif avg_200_prob >= 0.25:
-            rating = "ELITE ⭐"
+            rating = "ELITE "
         elif avg_200_prob >= 0.15:
-            rating = "STRONG 💪"
+            rating = "STRONG "
         else:
-            rating = "GOOD ✅"
+            rating = "GOOD SUCCESS:"
         
-        print(f"\n🏆 SIMULATION-BASED TOURNAMENT RATING: {rating}")
-        print(f"  📊 Average 200+ probability: {avg_200_prob:.1%}")
-        print(f"  🚀 Average 250+ probability: {avg_250_prob:.1%}")
+        print(f"\nLINEUP: SIMULATION-BASED TOURNAMENT RATING: {rating}")
+        print(f"  DATA: Average 200+ probability: {avg_200_prob:.1%}")
+        print(f"  START: Average 250+ probability: {avg_250_prob:.1%}")
         
         return {
             'rating': rating,
@@ -326,7 +326,7 @@ class MonteCarloSimulationSystem:
     
     def run_complete_simulation(self):
         """Run complete Monte Carlo simulation system"""
-        print("🎲 MONTE CARLO SIMULATION SYSTEM")
+        print(" MONTE CARLO SIMULATION SYSTEM")
         print("Analyzing tournament lineup performance probabilities")
         print("="*80)
         
@@ -343,7 +343,7 @@ class MonteCarloSimulationSystem:
             simulation_results = self.run_portfolio_simulation(lineups_df, player_profiles)
             
             if not simulation_results:
-                print("❌ No simulation results generated")
+                print("ERROR: No simulation results generated")
                 return
             
             # Analyze results
@@ -355,10 +355,10 @@ class MonteCarloSimulationSystem:
             # Create report
             report_stats = self.create_simulation_report(sim_df)
             
-            print(f"\n🎉 MONTE CARLO SIMULATION COMPLETE!")
-            print(f"🎲 Analyzed {len(sim_df)} lineups with 1000 simulations each")
-            print(f"🏆 Tournament Rating: {report_stats['rating']}")
-            print(f"📊 Portfolio ready for simulation-guided decisions!")
+            print(f"\nCOMPLETE: MONTE CARLO SIMULATION COMPLETE!")
+            print(f" Analyzed {len(sim_df)} lineups with 1000 simulations each")
+            print(f"LINEUP: Tournament Rating: {report_stats['rating']}")
+            print(f"DATA: Portfolio ready for simulation-guided decisions!")
             
             return filepath
             
@@ -368,7 +368,7 @@ class MonteCarloSimulationSystem:
             traceback.print_exc()
 
 def main():
-    print("🎲 MONTE CARLO SIMULATION SYSTEM")
+    print(" MONTE CARLO SIMULATION SYSTEM")
     print("Analyzing tournament lineup performance probabilities")
     print("="*80)
     

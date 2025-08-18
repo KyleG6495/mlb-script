@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 HYBRID STARTER FILTER
+TARGET: HYBRID STARTER FILTER
 Uses confirmed starters PLUS likely starters (removes only obvious bench/IL players)
 Balances avoiding NS/PO players while keeping enough players for FanDuel validation
 """
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def create_hybrid_starter_slate():
     """Create slate with confirmed starters + likely starters"""
     
-    logger.info("🎯 CREATING HYBRID STARTER SLATE")
+    logger.info("TARGET: CREATING HYBRID STARTER SLATE")
     logger.info("="*50)
     logger.info("Keeps confirmed starters + likely starters, removes obvious non-starters")
     logger.info("")
@@ -23,7 +23,7 @@ def create_hybrid_starter_slate():
     try:
         # Load original slate
         df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📥 Loaded original slate: {len(df)} players")
+        logger.info(f" Loaded original slate: {len(df)} players")
         
         # CONFIRMED STARTERS (batting order 1-9 or probable pitcher)
         confirmed_starters = df[
@@ -36,7 +36,7 @@ def create_hybrid_starter_slate():
              (df['Probable Pitcher'] == 'Yes'))
         ].copy()
         
-        logger.info(f"✅ Confirmed starters: {len(confirmed_starters)}")
+        logger.info(f"SUCCESS: Confirmed starters: {len(confirmed_starters)}")
         
         # LIKELY STARTERS (high salary players without confirmed batting orders)
         remaining_players = df[~df['Id'].isin(confirmed_starters['Id'])].copy()
@@ -101,7 +101,7 @@ def create_hybrid_starter_slate():
         hybrid_starters = hybrid_starters[hybrid_starters['Injury Indicator'] != 'IL'].copy()
         
         logger.info("")
-        logger.info("📊 HYBRID STARTER ANALYSIS:")
+        logger.info("DATA: HYBRID STARTER ANALYSIS:")
         logger.info(f"   Original slate: {len(df)} players")
         logger.info(f"   Confirmed starters: {len(confirmed_starters)}")
         logger.info(f"   Likely starters added: {len(hybrid_starters) - len(confirmed_starters)}")
@@ -110,7 +110,7 @@ def create_hybrid_starter_slate():
         
         # Position breakdown
         logger.info("")
-        logger.info("🏟️ POSITION BREAKDOWN:")
+        logger.info(" POSITION BREAKDOWN:")
         for pos in ['P', 'C', '1B', '2B', '3B', 'SS', 'OF']:
             if pos == 'OF':
                 pos_count = len(hybrid_starters[
@@ -142,22 +142,22 @@ def create_hybrid_starter_slate():
         hybrid_starters.to_csv(easy_file, index=False)
         
         logger.info("")
-        logger.info("💾 HYBRID STARTER SLATE SAVED:")
-        logger.info(f"   📁 Timestamped: {hybrid_file}")
-        logger.info(f"   📁 Main file: {main_file}")
-        logger.info(f"   📁 Easy access: {easy_file}")
+        logger.info(" HYBRID STARTER SLATE SAVED:")
+        logger.info(f"    Timestamped: {hybrid_file}")
+        logger.info(f"    Main file: {main_file}")
+        logger.info(f"    Easy access: {easy_file}")
         
         logger.info("")
-        logger.info("🎉 HYBRID STARTER FILTER COMPLETE!")
+        logger.info("COMPLETE: HYBRID STARTER FILTER COMPLETE!")
         logger.info("="*50)
-        logger.info(f"✅ Expanded from {len(confirmed_starters)} to {len(hybrid_starters)} players")
-        logger.info("🎯 Prioritizes confirmed starters but includes likely starters")
-        logger.info("📊 Should work with FanDuel while reducing NS/PO risk")
+        logger.info(f"SUCCESS: Expanded from {len(confirmed_starters)} to {len(hybrid_starters)} players")
+        logger.info("TARGET: Prioritizes confirmed starters but includes likely starters")
+        logger.info("DATA: Should work with FanDuel while reducing NS/PO risk")
         
         return hybrid_starters
         
     except Exception as e:
-        logger.error(f"❌ Hybrid starter filter error: {e}")
+        logger.error(f"ERROR: Hybrid starter filter error: {e}")
         import traceback
         traceback.print_exc()
         return None

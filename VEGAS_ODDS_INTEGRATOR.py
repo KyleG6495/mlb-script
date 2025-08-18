@@ -1,5 +1,5 @@
 """
-🎰 VEGAS ODDS INTEGRATION SYSTEM
+ VEGAS ODDS INTEGRATION SYSTEM
 Pulls real betting data to enhance projection accuracy
 """
 import pandas as pd
@@ -15,7 +15,7 @@ class VegasOddsIntegrator:
         
     def fetch_mlb_odds(self):
         """Fetch current MLB odds from multiple sources"""
-        self.logger.info("🎰 FETCHING REAL-TIME VEGAS ODDS...")
+        self.logger.info(" FETCHING REAL-TIME VEGAS ODDS...")
         
         # Mock odds data (in production, would use real API like OddsAPI, DraftKings, etc.)
         # This simulates what we'd get from a real odds feed
@@ -35,12 +35,12 @@ class VegasOddsIntegrator:
         }
         
         self.odds_data = mock_odds
-        self.logger.info(f"✅ Loaded odds for {len(mock_odds)} games")
+        self.logger.info(f"SUCCESS: Loaded odds for {len(mock_odds)} games")
         return mock_odds
         
     def calculate_implied_run_scoring(self, odds_data):
         """Convert Vegas odds to run scoring expectations"""
-        self.logger.info("📊 CALCULATING IMPLIED RUN SCORING...")
+        self.logger.info("DATA: CALCULATING IMPLIED RUN SCORING...")
         
         team_expectations = {}
         
@@ -72,12 +72,12 @@ class VegasOddsIntegrator:
             }
             
         self.team_expectations = team_expectations
-        self.logger.info(f"📊 Generated scoring expectations for {len(team_expectations)} teams")
+        self.logger.info(f"DATA: Generated scoring expectations for {len(team_expectations)} teams")
         return team_expectations
         
     def identify_vegas_value(self, slate_df):
         """Find players in games with high run totals"""
-        self.logger.info("💎 IDENTIFYING VEGAS VALUE SPOTS...")
+        self.logger.info(" IDENTIFYING VEGAS VALUE SPOTS...")
         
         value_spots = []
         
@@ -105,12 +105,12 @@ class VegasOddsIntegrator:
         if len(value_df) > 0:
             value_df = value_df.sort_values('team_total', ascending=False)
             
-        self.logger.info(f"💎 Found {len(value_spots)} high-value Vegas spots")
+        self.logger.info(f" Found {len(value_spots)} high-value Vegas spots")
         return value_df
         
     def apply_vegas_adjustments(self, slate_df):
         """Apply Vegas-based adjustments to projections"""
-        self.logger.info("🎰 APPLYING VEGAS ADJUSTMENTS...")
+        self.logger.info(" APPLYING VEGAS ADJUSTMENTS...")
         
         adjusted_slate = slate_df.copy()
         adjustments_made = 0
@@ -141,20 +141,20 @@ class VegasOddsIntegrator:
                 adjusted_slate.at[idx, 'vegas_multiplier'] = 1.0
                 adjusted_slate.at[idx, 'team_total'] = 4.5  # League average
                 
-        self.logger.info(f"✅ Applied Vegas adjustments to {adjustments_made} players")
+        self.logger.info(f"SUCCESS: Applied Vegas adjustments to {adjustments_made} players")
         return adjusted_slate
 
 def integrate_vegas_data():
     """Main function to integrate Vegas odds into projections"""
     logger = logging.getLogger(__name__)
-    logger.info("🎰 STARTING VEGAS ODDS INTEGRATION")
+    logger.info(" STARTING VEGAS ODDS INTEGRATION")
     
     # Load current slate
     try:
         slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📊 Loaded slate: {len(slate)} players")
+        logger.info(f"DATA: Loaded slate: {len(slate)} players")
     except Exception as e:
-        logger.error(f"❌ Error loading slate: {e}")
+        logger.error(f"ERROR: Error loading slate: {e}")
         return None
         
     # Initialize Vegas integrator
@@ -179,10 +179,10 @@ def integrate_vegas_data():
     if len(value_spots) > 0:
         value_file = f"../data/vegas_value_spots_{timestamp}.csv"
         value_spots.to_csv(value_file, index=False)
-        logger.info(f"💎 Saved value spots: {value_file}")
+        logger.info(f" Saved value spots: {value_file}")
     
-    logger.info(f"💾 Saved Vegas-adjusted slate: {output_file}")
-    logger.info("🎰 VEGAS INTEGRATION COMPLETE!")
+    logger.info(f" Saved Vegas-adjusted slate: {output_file}")
+    logger.info(" VEGAS INTEGRATION COMPLETE!")
     
     return adjusted_slate, value_spots
 

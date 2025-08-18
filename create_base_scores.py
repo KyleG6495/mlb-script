@@ -12,7 +12,7 @@ import os
 def create_base_hitter_scores():
     """Create base_hitter_scores.csv from FD slate and features"""
     
-    print("📊 Creating base_hitter_scores.csv...")
+    print("DATA: Creating base_hitter_scores.csv...")
     
     # Load FanDuel slate
     fd_slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
@@ -32,19 +32,19 @@ def create_base_hitter_scores():
     # Select required columns
     base_hitters = hitters[['player_id', 'date', 'base_score']].copy()
     
-    print(f"✅ Created {len(base_hitters)} hitter base scores")
+    print(f"SUCCESS: Created {len(base_hitters)} hitter base scores")
     
     # Save to data directory
     output_path = '../data/base_hitter_scores.csv'
     base_hitters.to_csv(output_path, index=False)
-    print(f"💾 Saved to {output_path}")
+    print(f" Saved to {output_path}")
     
     return base_hitters
 
 def create_base_pitcher_scores():
     """Create base_pitcher_scores.csv from FD slate"""
     
-    print("⚾ Creating base_pitcher_scores.csv...")
+    print("BASEBALL: Creating base_pitcher_scores.csv...")
     
     # Load FanDuel slate
     fd_slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
@@ -64,26 +64,26 @@ def create_base_pitcher_scores():
     # Select required columns
     base_pitchers = pitchers[['player_id', 'date', 'base_score']].copy()
     
-    print(f"✅ Created {len(base_pitchers)} pitcher base scores")
+    print(f"SUCCESS: Created {len(base_pitchers)} pitcher base scores")
     
     # Save to data directory
     output_path = '../data/base_pitcher_scores.csv'
     base_pitchers.to_csv(output_path, index=False)
-    print(f"💾 Saved to {output_path}")
+    print(f" Saved to {output_path}")
     
     return base_pitchers
 
 if __name__ == "__main__":
-    print("🚀 Creating base score files from FanDuel slate...")
+    print("START: Creating base score files from FanDuel slate...")
     
     try:
         hitters = create_base_hitter_scores()
         pitchers = create_base_pitcher_scores()
         
-        print("\n✅ SUCCESS!")
-        print(f"📊 Created base scores for {len(hitters)} hitters and {len(pitchers)} pitchers")
-        print("🎯 These files are now available for prop betting analysis")
+        print("\nSUCCESS: SUCCESS!")
+        print(f"DATA: Created base scores for {len(hitters)} hitters and {len(pitchers)} pitchers")
+        print("TARGET: These files are now available for prop betting analysis")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"ERROR: Error: {e}")
         raise

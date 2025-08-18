@@ -15,11 +15,11 @@ def fix_pitcher_data():
     if os.path.exists(file_path):
         df = pd.read_csv(file_path)
         df.to_csv(backup_path, index=False)
-        print(f"✅ Created backup: {backup_path}")
+        print(f"SUCCESS: Created backup: {backup_path}")
         
         # Check Shane Bieber entries
         bieber_rows = df[df['Nickname'].str.lower().str.contains('bieber', na=False)]
-        print(f"🚨 Found {len(bieber_rows)} Shane Bieber rows")
+        print(f" Found {len(bieber_rows)} Shane Bieber rows")
         
         if len(bieber_rows) > 0:
             print("Shane Bieber entries:")
@@ -29,18 +29,18 @@ def fix_pitcher_data():
         # Remove Shane Bieber
         df_clean = df[~df['Nickname'].str.lower().str.contains('bieber', na=False)]
         
-        print(f"📊 Before: {len(df)} pitchers")
-        print(f"📊 After:  {len(df_clean)} pitchers")
-        print(f"🗑️  Removed: {len(df) - len(df_clean)} Shane Bieber entries")
+        print(f"DATA: Before: {len(df)} pitchers")
+        print(f"DATA: After:  {len(df_clean)} pitchers")
+        print(f"  Removed: {len(df) - len(df_clean)} Shane Bieber entries")
         
         # Save cleaned data
         df_clean.to_csv(file_path, index=False)
-        print(f"✅ Saved cleaned data back to: {file_path}")
-        print("🚨 Shane Bieber completely removed from pitcher data!")
+        print(f"SUCCESS: Saved cleaned data back to: {file_path}")
+        print(" Shane Bieber completely removed from pitcher data!")
         
         return True
     else:
-        print(f"❌ File not found: {file_path}")
+        print(f"ERROR: File not found: {file_path}")
         return False
 
 if __name__ == "__main__":

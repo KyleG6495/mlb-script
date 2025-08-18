@@ -1,5 +1,5 @@
 """
-🌤️ FREE WEATHER DATA INTEGRATOR
+ FREE WEATHER DATA INTEGRATOR
 Gets real weather data without requiring paid API keys
 Uses multiple free sources for authentic conditions
 """
@@ -361,11 +361,11 @@ class FreeWeatherIntegrator:
     
     def process_real_weather_projections(self, projections_file: str) -> pd.DataFrame:
         """Apply real weather data to projections"""
-        print(f"🌤️ Processing real weather enhanced projections...")
+        print(f" Processing real weather enhanced projections...")
         
         # Load projections
         if not os.path.exists(projections_file):
-            print(f"❌ Projections file not found: {projections_file}")
+            print(f"ERROR: Projections file not found: {projections_file}")
             return pd.DataFrame()
             
         df = pd.read_csv(projections_file)
@@ -378,7 +378,7 @@ class FreeWeatherIntegrator:
         print(f"   Fetching real weather for {len(teams)} teams...")
         
         for team in teams:
-            print(f"   • {team}...", end=" ")
+            print(f"    {team}...", end=" ")
             weather_data[team] = self.get_free_weather_data(team)
             print(f"{weather_data[team]['conditions']} ({weather_data[team]['source']})")
             time.sleep(0.5)  # Be respectful to free APIs
@@ -428,7 +428,7 @@ class FreeWeatherIntegrator:
         output_file = f"C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\real_weather_enhanced_projections_{self.timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        print(f"\n✅ Real weather enhanced projections saved: {output_file}")
+        print(f"\nSUCCESS: Real weather enhanced projections saved: {output_file}")
         print(f"   Average weather impact: {enhanced_df['weather_improvement_pct'].mean():.1f}%")
         print(f"   Players helped by weather: {len(enhanced_df[enhanced_df['weather_improvement_pct'] > 0])}")
         print(f"   Players hurt by weather: {len(enhanced_df[enhanced_df['weather_improvement_pct'] < 0])}")
@@ -437,7 +437,7 @@ class FreeWeatherIntegrator:
     
     def generate_weather_summary_report(self, enhanced_df: pd.DataFrame) -> None:
         """Generate comprehensive weather impact report"""
-        print(f"\n🌤️ REAL WEATHER IMPACT REPORT")
+        print(f"\n REAL WEATHER IMPACT REPORT")
         print("="*50)
         
         # Weather conditions summary
@@ -449,20 +449,20 @@ class FreeWeatherIntegrator:
             'weather_source': 'first'
         }).reset_index()
         
-        print(f"\n🌡️ CURRENT WEATHER CONDITIONS:")
+        print(f"\n CURRENT WEATHER CONDITIONS:")
         for _, data in weather_summary.iterrows():
-            impact_emoji = "🔥" if data['weather_improvement_pct'] > 3 else "❄️" if data['weather_improvement_pct'] < -3 else "⚖️"
-            print(f"   {impact_emoji} {data['team']}: {data['temperature']:.0f}°F, {data['conditions']}, {data['wind_speed']:.0f}mph wind ({data['weather_improvement_pct']:+.1f}%)")
+            impact_emoji = "" if data['weather_improvement_pct'] > 3 else "" if data['weather_improvement_pct'] < -3 else ""
+            print(f"   {impact_emoji} {data['team']}: {data['temperature']:.0f}F, {data['conditions']}, {data['wind_speed']:.0f}mph wind ({data['weather_improvement_pct']:+.1f}%)")
         
         # Top weather beneficiaries
         top_helped = enhanced_df.nlargest(10, 'weather_improvement_pct')
-        print(f"\n🔥 TOP WEATHER BENEFICIARIES:")
+        print(f"\n TOP WEATHER BENEFICIARIES:")
         for _, player in top_helped.iterrows():
             print(f"   {player['name']} ({player['team']}): +{player['weather_improvement_pct']:.1f}% (from {player['conditions']})")
         
         # Most hurt by weather
         most_hurt = enhanced_df.nsmallest(8, 'weather_improvement_pct')
-        print(f"\n❄️ MOST HURT BY WEATHER:")
+        print(f"\n MOST HURT BY WEATHER:")
         for _, player in most_hurt.iterrows():
             print(f"   {player['name']} ({player['team']}): {player['weather_improvement_pct']:.1f}% (from {player['conditions']})")
         
@@ -474,14 +474,14 @@ class FreeWeatherIntegrator:
             'weather_source': 'first'
         }).sort_values('weather_improvement_pct', ascending=False)
         
-        print(f"\n🏟️ BEST WEATHER SPOTS FOR STACKING:")
+        print(f"\n BEST WEATHER SPOTS FOR STACKING:")
         for team, data in team_weather_impact.head(8).iterrows():
-            source_emoji = "🌐" if data['weather_source'] != 'regional_default' else "📍"
-            print(f"   {source_emoji} {team}: {data['weather_improvement_pct']:+.1f}% avg boost ({data['conditions']}, {data['temperature']:.0f}°F)")
+            source_emoji = "" if data['weather_source'] != 'regional_default' else ""
+            print(f"   {source_emoji} {team}: {data['weather_improvement_pct']:+.1f}% avg boost ({data['conditions']}, {data['temperature']:.0f}F)")
 
 def main():
     """Main execution function"""
-    print("🌤️ FREE WEATHER DATA INTEGRATOR")
+    print(" FREE WEATHER DATA INTEGRATOR")
     print("="*50)
     
     integrator = FreeWeatherIntegrator()
@@ -500,7 +500,7 @@ def main():
             break
     
     if not input_file:
-        print("❌ No projections file found. Creating sample data for testing...")
+        print("ERROR: No projections file found. Creating sample data for testing...")
         # Create sample data to test weather integration
         sample_data = {
             'name': ['Shohei Ohtani', 'Ronald Acuna Jr.', 'Mookie Betts', 'Aaron Judge', 'Freddie Freeman'],
@@ -514,7 +514,7 @@ def main():
         sample_df.to_csv(input_file, index=False)
         print(f"   Created sample file: {os.path.basename(input_file)}")
     
-    print(f"\n📊 Using projections: {os.path.basename(input_file)}")
+    print(f"\nDATA: Using projections: {os.path.basename(input_file)}")
     
     # Process real weather enhancements
     enhanced_df = integrator.process_real_weather_projections(input_file)
@@ -523,11 +523,11 @@ def main():
         # Generate comprehensive report
         integrator.generate_weather_summary_report(enhanced_df)
         
-        print(f"\n✅ Real weather integration complete!")
-        print(f"   • Used authentic weather data from multiple free sources")
-        print(f"   • Applied detailed weather impacts (temperature, wind, humidity)")
-        print(f"   • Enhanced {len(enhanced_df)} player projections")
-        print(f"   • Ready for lineup optimization with real conditions")
+        print(f"\nSUCCESS: Real weather integration complete!")
+        print(f"    Used authentic weather data from multiple free sources")
+        print(f"    Applied detailed weather impacts (temperature, wind, humidity)")
+        print(f"    Enhanced {len(enhanced_df)} player projections")
+        print(f"    Ready for lineup optimization with real conditions")
 
 if __name__ == "__main__":
     main()

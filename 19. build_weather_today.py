@@ -122,9 +122,9 @@ def get_weather(lat: float, lon: float) -> dict:
 
 def main():
     # 1) Load data
-    logging.info("📄 Loading hitter data from %s", HITTER_FILE)
+    logging.info(" Loading hitter data from %s", HITTER_FILE)
     df = pd.read_csv(HITTER_FILE)
-    logging.info("✅ Hitters loaded: %d rows", len(df))
+    logging.info("SUCCESS: Hitters loaded: %d rows", len(df))
 
     # 2) Ensure name_key exists
     if 'name_key' not in df.columns and {'First Name', 'Last Name'}.issubset(df.columns):
@@ -236,7 +236,7 @@ def main():
     # 7) Save
     if weather_records:
         pd.DataFrame(weather_records).to_csv(OUTPUT_FILE, index=False)
-        logging.info("💾 Weather data saved to %s", OUTPUT_FILE)
+        logging.info(" Weather data saved to %s", OUTPUT_FILE)
     else:
         logging.warning("No weather data to save.")
 

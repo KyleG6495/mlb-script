@@ -10,7 +10,7 @@ from datetime import datetime
 def demo_payout_differences():
     """Demonstrate payout differences between platforms"""
     
-    print("🎯 PLATFORM PAYOUT STRUCTURE COMPARISON")
+    print("TARGET: PLATFORM PAYOUT STRUCTURE COMPARISON")
     print("=" * 60)
     
     # Sample betting scenarios
@@ -40,10 +40,10 @@ def demo_payout_differences():
     
     bet_amount = 25  # $25 bet
     
-    print(f"📊 Analysis for ${bet_amount} bet on each scenario:\n")
+    print(f"DATA: Analysis for ${bet_amount} bet on each scenario:\n")
     
     for scenario in scenarios:
-        print(f"🎯 {scenario['description']} ({scenario['win_probability']:.0%} Win Probability)")
+        print(f"TARGET: {scenario['description']} ({scenario['win_probability']:.0%} Win Probability)")
         print("-" * 40)
         
         # Traditional sportsbook calculation
@@ -65,17 +65,17 @@ def demo_payout_differences():
         uf_profit = uf_payout - bet_amount
         uf_ev = (scenario['win_probability'] * uf_profit) - ((1 - scenario['win_probability']) * bet_amount)
         
-        print(f"📈 Traditional Sportsbook:")
+        print(f"PROGRESS: Traditional Sportsbook:")
         print(f"   Odds: {odds:+d}")
         print(f"   Win Payout: ${traditional_payout + bet_amount:.2f} (${traditional_payout:.2f} profit)")
         print(f"   Expected Value: ${traditional_ev:+.2f}")
         
-        print(f"🎲 PrizePicks:")
+        print(f" PrizePicks:")
         print(f"   Multiplier: {scenario['pp_multiplier']:.1f}x")
         print(f"   Win Payout: ${pp_payout:.2f} (${pp_profit:.2f} profit)")
         print(f"   Expected Value: ${pp_ev:+.2f}")
         
-        print(f"🎯 Underdog Fantasy:")
+        print(f"TARGET: Underdog Fantasy:")
         print(f"   Multiplier: {scenario['uf_multiplier']:.1f}x")
         print(f"   Win Payout: ${uf_payout:.2f} (${uf_profit:.2f} profit)")
         print(f"   Expected Value: ${uf_ev:+.2f}")
@@ -89,11 +89,11 @@ def demo_payout_differences():
         else:
             best_platform = "Underdog Fantasy"
         
-        print(f"🏆 Best Option: {best_platform} (${best_ev:+.2f} EV)")
+        print(f"LINEUP: Best Option: {best_platform} (${best_ev:+.2f} EV)")
         print()
     
     # Break-even analysis
-    print("🎯 BREAK-EVEN PROBABILITY ANALYSIS")
+    print("TARGET: BREAK-EVEN PROBABILITY ANALYSIS")
     print("=" * 40)
     
     combo_sizes = [2, 3, 4, 5, 6]
@@ -123,7 +123,7 @@ def get_underdog_multiplier(combo_size):
 def demo_kelly_sizing():
     """Show how Kelly sizing differs between platforms"""
     
-    print("\n💰 KELLY CRITERION SIZING COMPARISON")
+    print("\nMONEY: KELLY CRITERION SIZING COMPARISON")
     print("=" * 50)
     
     bankroll = 1000
@@ -134,7 +134,7 @@ def demo_kelly_sizing():
     ]
     
     for scenario in scenarios:
-        print(f"📊 {scenario['description']} ({scenario['win_prob']:.0%} Win Probability)")
+        print(f"DATA: {scenario['description']} ({scenario['win_prob']:.0%} Win Probability)")
         
         # Kelly for fixed multiplier: (p * multiplier - 1) / (multiplier - 1)
         kelly_fraction = (scenario['win_prob'] * scenario['multiplier'] - 1) / (scenario['multiplier'] - 1)
@@ -153,8 +153,8 @@ if __name__ == "__main__":
     demo_payout_differences()
     demo_kelly_sizing()
     
-    print("🎯 KEY TAKEAWAYS:")
-    print("✅ Fixed multipliers make EV calculations simpler")
-    print("✅ Higher combo sizes need lower win probabilities to be profitable")
-    print("✅ Kelly sizing prevents overbetting on high-variance combos")
-    print("✅ PrizePicks vs Underdog differences matter for 6-picks")
+    print("TARGET: KEY TAKEAWAYS:")
+    print("SUCCESS: Fixed multipliers make EV calculations simpler")
+    print("SUCCESS: Higher combo sizes need lower win probabilities to be profitable")
+    print("SUCCESS: Kelly sizing prevents overbetting on high-variance combos")
+    print("SUCCESS: PrizePicks vs Underdog differences matter for 6-picks")

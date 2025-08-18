@@ -20,14 +20,14 @@ class AdvancedTournamentOptimizer:
         
     def load_elite_slate(self):
         """Load slate with advanced filtering for elite tournament play"""
-        print("🏆 ADVANCED TOURNAMENT OPTIMIZER")
+        print("LINEUP: ADVANCED TOURNAMENT OPTIMIZER")
         print("Building elite lineups with stacking & correlation")
         print("="*70)
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         df = pd.read_csv(slate_file)
         
-        print(f"📊 Raw slate: {len(df)} players")
+        print(f"DATA: Raw slate: {len(df)} players")
         
         # Elite filtering - only top performers
         viable = df[
@@ -49,13 +49,13 @@ class AdvancedTournamentOptimizer:
         
         elite_slate = pd.concat([pitchers, hitters], ignore_index=True)
         
-        print(f"✅ Elite slate: {len(elite_slate)} players ({len(pitchers)} elite pitchers, {len(hitters)} viable hitters)")
+        print(f"SUCCESS: Elite slate: {len(elite_slate)} players ({len(pitchers)} elite pitchers, {len(hitters)} viable hitters)")
         
         return elite_slate
     
     def analyze_game_environments(self, slate):
         """Identify the highest-upside game environments for stacking"""
-        print(f"\n🎯 GAME ENVIRONMENT ANALYSIS:")
+        print(f"\nTARGET: GAME ENVIRONMENT ANALYSIS:")
         
         # Calculate game metrics
         games = slate.groupby('Game').agg({
@@ -72,9 +72,9 @@ class AdvancedTournamentOptimizer:
             games['avg_projected'] * 0.4
         )
         
-        print(f"  🔥 TOP 8 STACKING TARGETS:")
+        print(f"   TOP 8 STACKING TARGETS:")
         for game, data in games.head(8).iterrows():
-            print(f"    ⭐ {game:15} | {data['total_projected']:5.1f} total | {data['avg_projected']:4.1f} avg | {data['player_count']:2.0f} players")
+            print(f"     {game:15} | {data['total_projected']:5.1f} total | {data['avg_projected']:4.1f} avg | {data['player_count']:2.0f} players")
         
         return games
     
@@ -115,7 +115,7 @@ class AdvancedTournamentOptimizer:
         mini_stack = strategy_config.get('mini_stack', True)
         leverage_focus = strategy_config.get('leverage_focus', False)
         
-        print(f"\n🏗️ Building {strategy_name} with {primary_stack}-man stack...")
+        print(f"\n Building {strategy_name} with {primary_stack}-man stack...")
         
         # Predict ownership
         slate_with_ownership = self.predict_ownership(slate)
@@ -148,7 +148,7 @@ class AdvancedTournamentOptimizer:
         # Avoid pitcher's team for hitting stack (reduce negative correlation)
         pitcher_team = chosen_pitcher['Team']
         
-        print(f"  ⚾ Pitcher: {chosen_pitcher['First Name']} {chosen_pitcher['Last Name']} (${chosen_pitcher['Salary']:,}, {chosen_pitcher['FPPG']:.1f} FPPG, {chosen_pitcher['predicted_ownership']:.1f}% own)")
+        print(f"  BASEBALL: Pitcher: {chosen_pitcher['First Name']} {chosen_pitcher['Last Name']} (${chosen_pitcher['Salary']:,}, {chosen_pitcher['FPPG']:.1f} FPPG, {chosen_pitcher['predicted_ownership']:.1f}% own)")
         
         # STEP 2: Build primary hitting stack (4+ players from same team)
         hitters = slate_with_ownership[
@@ -169,7 +169,7 @@ class AdvancedTournamentOptimizer:
         viable_teams = team_scores[team_scores['player_count'] >= primary_stack]
         
         if viable_teams.empty:
-            print(f"  ❌ No teams with {primary_stack}+ players available")
+            print(f"  ERROR: No teams with {primary_stack}+ players available")
             return None
         
         # Select stacking team based on strategy
@@ -188,7 +188,7 @@ class AdvancedTournamentOptimizer:
         stack_team = affordable_teams['stack_score'].idxmax()
         stack_candidates = hitters[hitters['Team'] == stack_team].copy()
         
-        print(f"  🎯 Primary stack: {stack_team} ({len(stack_candidates)} available)")
+        print(f"  TARGET: Primary stack: {stack_team} ({len(stack_candidates)} available)")
         
         # Select best stack players by position diversity and value
         stack_candidates['stack_priority'] = (
@@ -214,7 +214,7 @@ class AdvancedTournamentOptimizer:
                 stack_players.append(chosen)
                 stack_budget -= chosen['Salary']
                 used_ids.add(chosen['Id'])
-                print(f"    👤 {chosen['First Name']} {chosen['Last Name']} ({pos_priority}, ${chosen['Salary']:,}, {chosen['FPPG']:.1f} FPPG)")
+                print(f"     {chosen['First Name']} {chosen['Last Name']} ({pos_priority}, ${chosen['Salary']:,}, {chosen['FPPG']:.1f} FPPG)")
         
         # Fill remaining stack spots with best available
         while len(stack_players) < primary_stack:
@@ -230,7 +230,7 @@ class AdvancedTournamentOptimizer:
             stack_players.append(chosen)
             stack_budget -= chosen['Salary']
             used_ids.add(chosen['Id'])
-            print(f"    👤 {chosen['First Name']} {chosen['Last Name']} (${chosen['Salary']:,}, {chosen['FPPG']:.1f} FPPG)")
+            print(f"     {chosen['First Name']} {chosen['Last Name']} (${chosen['Salary']:,}, {chosen['FPPG']:.1f} FPPG)")
         
         selected_players.extend(stack_players)
         remaining_budget -= sum(p['Salary'] for p in stack_players)
@@ -240,7 +240,7 @@ class AdvancedTournamentOptimizer:
         positions_filled = len(selected_players)
         positions_needed = 9 - positions_filled
         
-        print(f"  📊 Stack complete: {len(stack_players)} players, ${remaining_budget:,} remaining for {positions_needed} spots")
+        print(f"  DATA: Stack complete: {len(stack_players)} players, ${remaining_budget:,} remaining for {positions_needed} spots")
         
         for i in range(positions_needed):
             remaining_candidates = slate_with_ownership[
@@ -260,7 +260,7 @@ class AdvancedTournamentOptimizer:
             ]
             
             if affordable.empty:
-                print(f"  ❌ No affordable players for spot {i+1}")
+                print(f"  ERROR: No affordable players for spot {i+1}")
                 return None
             
             # Mini-stack bonus (same team as existing non-pitcher players)
@@ -285,7 +285,7 @@ class AdvancedTournamentOptimizer:
             remaining_budget -= chosen['Salary']
             used_ids.add(chosen['Id'])
             
-            print(f"    🎯 Spot {i+1}: {chosen['First Name']} {chosen['Last Name']} (${chosen['Salary']:,}, {chosen['FPPG']:.1f} FPPG)")
+            print(f"    TARGET: Spot {i+1}: {chosen['First Name']} {chosen['Last Name']} (${chosen['Salary']:,}, {chosen['FPPG']:.1f} FPPG)")
         
         if len(selected_players) == 9:
             total_salary = sum(p['Salary'] for p in selected_players)
@@ -308,7 +308,7 @@ class AdvancedTournamentOptimizer:
     
     def generate_elite_lineups(self, slate, count=20):
         """Generate elite tournament lineups with diverse stacking strategies"""
-        print(f"\n🏆 GENERATING {count} ELITE TOURNAMENT LINEUPS")
+        print(f"\nLINEUP: GENERATING {count} ELITE TOURNAMENT LINEUPS")
         print("Target: 250+ FPPG ceiling to dominate tournaments")
         print("="*70)
         
@@ -344,19 +344,19 @@ class AdvancedTournamentOptimizer:
                 ownership_str = f"{lineup['avg_ownership']:.1f}% avg own"
                 stack_str = f"{lineup['stack_size']}-man {lineup['stack_team']}"
                 
-                print(f"✅ {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} proj | {lineup['total_ceiling']:.1f} ceil | {stack_str} | {ownership_str}")
+                print(f"SUCCESS: {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} proj | {lineup['total_ceiling']:.1f} ceil | {stack_str} | {ownership_str}")
             else:
-                print(f"❌ Failed {i+1} ({base_strategy['name']})")
+                print(f"ERROR: Failed {i+1} ({base_strategy['name']})")
         
         return lineups
     
     def export_elite_lineups(self, lineups):
         """Export elite tournament lineups with advanced analytics"""
         if not lineups:
-            print("❌ No elite lineups to export")
+            print("ERROR: No elite lineups to export")
             return
         
-        print(f"\n📄 EXPORTING {len(lineups)} ELITE TOURNAMENT LINEUPS...")
+        print(f"\n EXPORTING {len(lineups)} ELITE TOURNAMENT LINEUPS...")
         
         # Prepare advanced export data
         export_data = []
@@ -426,32 +426,32 @@ class AdvancedTournamentOptimizer:
         df = pd.DataFrame(export_data)
         df.to_csv(filepath, index=False)
         
-        print(f"✅ Elite lineups exported: {filename}")
+        print(f"SUCCESS: Elite lineups exported: {filename}")
         
         # Advanced portfolio analysis
         projections = [l['total_projected'] for l in lineups]
         ceilings = [l['total_ceiling'] for l in lineups]
         ownerships = [l['avg_ownership'] for l in lineups]
         
-        print(f"\n🏆 ELITE PORTFOLIO ANALYSIS:")
-        print(f"  📊 Projected Range: {min(projections):.1f} - {max(projections):.1f} FPPG (avg: {np.mean(projections):.1f})")
-        print(f"  🚀 Ceiling Range: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG (avg: {np.mean(ceilings):.1f})")
-        print(f"  👥 Ownership Range: {min(ownerships):.1f}% - {max(ownerships):.1f}% (avg: {np.mean(ownerships):.1f}%)")
+        print(f"\nLINEUP: ELITE PORTFOLIO ANALYSIS:")
+        print(f"  DATA: Projected Range: {min(projections):.1f} - {max(projections):.1f} FPPG (avg: {np.mean(projections):.1f})")
+        print(f"  START: Ceiling Range: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG (avg: {np.mean(ceilings):.1f})")
+        print(f"  OWNERSHIP: Ownership Range: {min(ownerships):.1f}% - {max(ownerships):.1f}% (avg: {np.mean(ownerships):.1f}%)")
         
         # Tournament dominance metrics
         elite_lineups = sum(1 for c in ceilings if c >= 250)
         dominant_lineups = sum(1 for c in ceilings if c >= 280)
         
-        print(f"\n👑 TOURNAMENT DOMINANCE:")
-        print(f"  🎯 250+ ceiling lineups: {elite_lineups}/{len(lineups)} ({elite_lineups/len(lineups)*100:.0f}%)")
-        print(f"  👑 280+ ceiling lineups: {dominant_lineups}/{len(lineups)} ({dominant_lineups/len(lineups)*100:.0f}%)")
+        print(f"\n TOURNAMENT DOMINANCE:")
+        print(f"  TARGET: 250+ ceiling lineups: {elite_lineups}/{len(lineups)} ({elite_lineups/len(lineups)*100:.0f}%)")
+        print(f"   280+ ceiling lineups: {dominant_lineups}/{len(lineups)} ({dominant_lineups/len(lineups)*100:.0f}%)")
         
         if dominant_lineups >= len(lineups) * 0.2:
-            print(f"  🏆 LEGENDARY: Potential tournament domination!")
+            print(f"  LINEUP: LEGENDARY: Potential tournament domination!")
         elif elite_lineups >= len(lineups) * 0.6:
-            print(f"  ⭐ ELITE: Excellent tournament potential!")
+            print(f"   ELITE: Excellent tournament potential!")
         else:
-            print(f"  💪 STRONG: Good tournament chances!")
+            print(f"   STRONG: Good tournament chances!")
         
         # Stack analysis
         stack_teams = {}
@@ -459,13 +459,13 @@ class AdvancedTournamentOptimizer:
             team = lineup['stack_team']
             stack_teams[team] = stack_teams.get(team, 0) + 1
         
-        print(f"\n🎯 STACKING ANALYSIS:")
-        print(f"  📊 Teams stacked: {len(stack_teams)} different teams")
+        print(f"\nTARGET: STACKING ANALYSIS:")
+        print(f"  DATA: Teams stacked: {len(stack_teams)} different teams")
         for team, count in sorted(stack_teams.items(), key=lambda x: x[1], reverse=True)[:5]:
-            print(f"    ⭐ {team}: {count} lineups")
+            print(f"     {team}: {count} lineups")
         
         # Best lineups showcase
-        print(f"\n🌟 TOP 5 ELITE LINEUPS:")
+        print(f"\n TOP 5 ELITE LINEUPS:")
         sorted_lineups = sorted(lineups, key=lambda x: x['total_ceiling'], reverse=True)
         
         for i, lineup in enumerate(sorted_lineups[:5], 1):
@@ -474,13 +474,13 @@ class AdvancedTournamentOptimizer:
             upside = lineup['total_ceiling'] / lineup['total_projected']
             
             print(f"  {i}. {lineup['lineup_id']} ({lineup['strategy']})")
-            print(f"     {lineup['total_projected']:.1f} proj → {lineup['total_ceiling']:.1f} ceil ({upside:.1f}x) | {stack_str} | {ownership_str}")
+            print(f"     {lineup['total_projected']:.1f} proj  {lineup['total_ceiling']:.1f} ceil ({upside:.1f}x) | {stack_str} | {ownership_str}")
         
         return filepath
     
     def run_elite_optimization(self):
         """Run complete elite tournament optimization"""
-        print("🏆 ELITE TOURNAMENT OPTIMIZER")
+        print("LINEUP: ELITE TOURNAMENT OPTIMIZER")
         print("Building stacked lineups to dominate tournaments")
         print("="*80)
         
@@ -489,7 +489,7 @@ class AdvancedTournamentOptimizer:
             elite_slate = self.load_elite_slate()
             
             if len(elite_slate) < 100:
-                print("❌ Not enough elite players for optimization")
+                print("ERROR: Not enough elite players for optimization")
                 return
             
             # Analyze game environments
@@ -502,14 +502,14 @@ class AdvancedTournamentOptimizer:
                 # Export lineups
                 filepath = self.export_elite_lineups(lineups)
                 
-                print(f"\n🎉 ELITE OPTIMIZATION COMPLETE!")
-                print(f"👑 Generated {len(lineups)} elite tournament lineups")
-                print(f"🎯 Strategy: Advanced stacking, ownership prediction, correlation analysis")
-                print(f"🏆 Target: 250+ FPPG ceiling to dominate tournaments")
-                print(f"⚡ Ready to crush the competition!")
+                print(f"\nCOMPLETE: ELITE OPTIMIZATION COMPLETE!")
+                print(f" Generated {len(lineups)} elite tournament lineups")
+                print(f"TARGET: Strategy: Advanced stacking, ownership prediction, correlation analysis")
+                print(f"LINEUP: Target: 250+ FPPG ceiling to dominate tournaments")
+                print(f" Ready to crush the competition!")
                 
             else:
-                print("❌ Failed to generate elite lineups")
+                print("ERROR: Failed to generate elite lineups")
                 
         except Exception as e:
             print(f"Error in elite optimization: {e}")
@@ -517,7 +517,7 @@ class AdvancedTournamentOptimizer:
             traceback.print_exc()
 
 def main():
-    print("🏆 ELITE TOURNAMENT OPTIMIZER")
+    print("LINEUP: ELITE TOURNAMENT OPTIMIZER")
     print("Advanced stacking and correlation for tournament domination")
     print("="*80)
     

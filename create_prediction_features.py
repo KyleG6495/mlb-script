@@ -11,7 +11,7 @@ import numpy as np
 import os
 from datetime import datetime, timedelta
 
-print("🔧 Creating Proper Prediction Features")
+print("STEP: Creating Proper Prediction Features")
 print("="*60)
 
 # Paths
@@ -158,7 +158,7 @@ print(f"   Feature columns: {len([col for col in final_prediction_features.colum
 # 11. Save the prediction-ready features
 output_path = os.path.join(data_dir, "prediction_ready_features.csv")
 final_prediction_features.to_csv(output_path, index=False)
-print(f"\n✅ Saved prediction-ready features to: {output_path}")
+print(f"\nSUCCESS: Saved prediction-ready features to: {output_path}")
 
 # 12. Test with a sample prediction
 print("\n12. Testing sample prediction...")
@@ -184,7 +184,7 @@ try:
         print(f"   Mean prediction: {predictions.mean():.3f}")
         
         if predictions.std() > 0.01:  # Check if predictions vary
-            print("   ✅ SUCCESS: Predictions are varying!")
+            print("   SUCCESS: SUCCESS: Predictions are varying!")
             
             # Show some example predictions
             print(f"\n   Sample player predictions:")
@@ -193,15 +193,15 @@ try:
                 print(f"     {player_name}: {predictions[i]:.2f} total bases")
                 
         else:
-            print("   ❌ WARNING: Predictions are still identical")
+            print("   ERROR: WARNING: Predictions are still identical")
             
     else:
         print(f"   Model not found at: {model_path}")
         
 except Exception as e:
-    print(f"   ❌ Test prediction failed: {e}")
+    print(f"   ERROR: Test prediction failed: {e}")
 
 print("\n" + "="*60)
-print("✅ PREDICTION FEATURES CREATED SUCCESSFULLY")
+print("SUCCESS: PREDICTION FEATURES CREATED SUCCESSFULLY")
 print(f"Use 'prediction_ready_features.csv' for model predictions")
 print("="*60)

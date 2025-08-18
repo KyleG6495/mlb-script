@@ -13,7 +13,7 @@ from pathlib import Path
 def improved_lineup_builder():
     """Build diverse lineups with better strategies"""
     
-    print("🚀 IMPROVED MANUAL DFS LINEUP BUILDER")
+    print("START: IMPROVED MANUAL DFS LINEUP BUILDER")
     print("=" * 50)
     
     # Load and clean data once
@@ -61,7 +61,7 @@ def improved_lineup_builder():
             affordable = candidates[candidates['Salary'] <= remaining_budget]
             
             if affordable.empty:
-                print(f"  ❌ No affordable {position} players")
+                print(f"  ERROR: No affordable {position} players")
                 break
             
             # Apply strategy
@@ -89,9 +89,9 @@ def improved_lineup_builder():
                 'strategy': strategy
             })
             
-            print(f"  ✅ Salary: ${total_salary}, FPPG: {total_fppg:.1f} ({strategy})")
+            print(f"  SUCCESS: Salary: ${total_salary}, FPPG: {total_fppg:.1f} ({strategy})")
         else:
-            print(f"  ❌ Only got {len(lineup_players)} players")
+            print(f"  ERROR: Only got {len(lineup_players)} players")
     
     return lineups
 
@@ -224,14 +224,14 @@ def save_improved_lineups(lineups):
     output_file = slate_dir / "Improved_Lineups_FD_Format.csv"
     df.to_csv(output_file, index=False)
     
-    print(f"\n💾 Saved {len(lineups)} diverse lineups to: {output_file}")
+    print(f"\n Saved {len(lineups)} diverse lineups to: {output_file}")
     
     # Enhanced summary
     fppgs = [l['total_fppg'] for l in lineups]
     salaries = [l['total_salary'] for l in lineups]
     strategies = [l['strategy'] for l in lineups]
     
-    print(f"📊 Enhanced Summary:")
+    print(f"DATA: Enhanced Summary:")
     print(f"  FPPG range: {min(fppgs):.1f} - {max(fppgs):.1f}")
     print(f"  Average FPPG: {sum(fppgs)/len(fppgs):.1f}")
     print(f"  Salary range: ${min(salaries)} - ${max(salaries)}")
@@ -247,14 +247,14 @@ if __name__ == "__main__":
         if lineups:
             output_file = save_improved_lineups(lineups)
             
-            print(f"\n🎯 IMPROVED SUCCESS!")
+            print(f"\nTARGET: IMPROVED SUCCESS!")
             print(f"   Created {len(lineups)} diverse lineups with multiple strategies")
             print(f"   File ready for FanDuel: {output_file}")
-            print(f"\n💪 These lineups should CRUSH your previous terrible ones!")
+            print(f"\n These lineups should CRUSH your previous terrible ones!")
             print(f"   Multiple strategies ensure you're not missing value opportunities.")
             
         else:
-            print("❌ Failed to create lineups")
+            print("ERROR: Failed to create lineups")
             
     except Exception as e:
         print(f"Error: {e}")

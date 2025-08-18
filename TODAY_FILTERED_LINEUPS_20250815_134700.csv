@@ -1,0 +1,46 @@
+Strategy,Position,Name,Salary,FPPG
+Filtered Base,C,Ivan Herrera,3000,14.718407907904108
+Filtered Base,1B,Matt Olson,3400,15.690643192184972
+Filtered Base,2B,Luke Keaschall,3300,19.733949523863476
+Filtered Base,3B,Alex Bregman,3500,17.99670992191198
+Filtered Base,SS,Zach Neto,3400,17.375859255518492
+Filtered Base,OF1,Jarren Duran,3400,17.230479062697714
+Filtered Base,OF2,Byron Buxton,3900,19.50420759738868
+Filtered Base,OF3,Jurickson Profar,3200,16.557369337502315
+Filtered Base,P,Hurston Waldrep,7600,37.5
+Filtered Value Focus,C,Will Smith,3500,15.872423138430158
+Filtered Value Focus,1B,Matt Olson,3400,15.690643192184972
+Filtered Value Focus,2B,Luke Keaschall,3300,19.733949523863476
+Filtered Value Focus,3B,Alex Bregman,3500,17.99670992191198
+Filtered Value Focus,SS,Jeremy Pena,3200,16.724980712476025
+Filtered Value Focus,OF1,Jarren Duran,3400,17.230479062697714
+Filtered Value Focus,OF2,Jurickson Profar,3200,16.557369337502315
+Filtered Value Focus,OF3,Byron Buxton,3900,19.50420759738868
+Filtered Value Focus,P,Hurston Waldrep,7600,37.5
+Filtered Anti-Chalk,C,Will Smith,3500,15.872423138430158
+Filtered Anti-Chalk,1B,Romy Gonzalez,2900,15.171550844453243
+Filtered Anti-Chalk,2B,Luke Keaschall,3300,19.733949523863476
+Filtered Anti-Chalk,3B,Alex Bregman,3500,17.99670992191198
+Filtered Anti-Chalk,SS,Zach Neto,3400,17.375859255518492
+Filtered Anti-Chalk,OF1,Jarren Duran,3400,17.230479062697714
+Filtered Anti-Chalk,OF2,Jurickson Profar,3200,16.557369337502315
+Filtered Anti-Chalk,OF3,Jakob Marsee,3500,17.339184447984
+Filtered Anti-Chalk,P,Hurston Waldrep,7600,37.5
+Filtered Upside,C,Will Smith,3500,15.872423138430158
+Filtered Upside,1B,Matt Olson,3400,15.690643192184972
+Filtered Upside,2B,Luke Keaschall,3300,19.733949523863476
+Filtered Upside,3B,Alex Bregman,3500,17.99670992191198
+Filtered Upside,SS,Zach Neto,3400,17.375859255518492
+Filtered Upside,OF1,Roman Anthony,3000,15.852949283608886
+Filtered Upside,OF2,Jarren Duran,3400,17.230479062697714
+Filtered Upside,OF3,Byron Buxton,3900,19.50420759738868
+Filtered Upside,P,Hurston Waldrep,7600,37.5
+Filtered Balanced,C,Will Smith,3500,15.872423138430158
+Filtered Balanced,1B,Freddie Freeman,3400,15.444362479537896
+Filtered Balanced,2B,Luke Keaschall,3300,19.733949523863476
+Filtered Balanced,3B,Alex Bregman,3500,17.99670992191198
+Filtered Balanced,SS,Jeremy Pena,3200,16.724980712476025
+Filtered Balanced,OF1,Byron Buxton,3900,19.50420759738868
+Filtered Balanced,OF2,Jurickson Profar,3200,16.557369337502315
+Filtered Balanced,OF3,Jarren Duran,3400,17.230479062697714
+Filtered Balanced,P,Hurston Waldrep,7600,37.5

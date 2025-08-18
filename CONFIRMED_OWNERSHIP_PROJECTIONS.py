@@ -29,7 +29,7 @@ def load_confirmed_projections():
                 df = pd.read_csv(file_path)
                 if 'Salary' in df.columns:
                     confirmed_df = df
-                    logger.info(f"✅ Loaded projections from {file_path}")
+                    logger.info(f"SUCCESS: Loaded projections from {file_path}")
                     break
             except FileNotFoundError:
                 continue
@@ -37,18 +37,18 @@ def load_confirmed_projections():
         if confirmed_df is None:
             # Fallback to confirmed slate
             confirmed_df = pd.read_csv('../fd_current_slate/fd_slate_confirmed_starters_only.csv')
-            logger.info("✅ Using confirmed slate as base for ownership projections")
+            logger.info("SUCCESS: Using confirmed slate as base for ownership projections")
         
         return confirmed_df
     
     except Exception as e:
-        logger.error(f"❌ Error loading confirmed projections: {e}")
+        logger.error(f"ERROR: Error loading confirmed projections: {e}")
         return None
 
 def calculate_advanced_ownership(df):
     """Calculate advanced ownership projections for confirmed starters"""
     
-    logger.info("🧠 ADVANCED OWNERSHIP PROJECTION SYSTEM")
+    logger.info(" ADVANCED OWNERSHIP PROJECTION SYSTEM")
     logger.info("=" * 60)
     
     # Initialize ownership calculation
@@ -60,7 +60,7 @@ def calculate_advanced_ownership(df):
         salary_normalized = (df['Salary'] - df['Salary'].min()) / (df['Salary'].max() - df['Salary'].min())
         salary_impact = 0.3 * (1 - salary_normalized)  # Inverse relationship
         df['salary_impact'] = salary_impact
-        logger.info(f"📊 Salary impact calculated (range: {salary_impact.min():.3f} to {salary_impact.max():.3f})")
+        logger.info(f"DATA: Salary impact calculated (range: {salary_impact.min():.3f} to {salary_impact.max():.3f})")
     else:
         df['salary_impact'] = 0.15  # Default moderate impact
     
@@ -74,13 +74,13 @@ def calculate_advanced_ownership(df):
         # Create rough projections based on salary
         df['estimated_fppg'] = df['Salary'] / 300  # Rough estimate
         proj_col = 'estimated_fppg'
-        logger.info("⚠️ No projections found, using salary-based estimates")
+        logger.info("WARNING: No projections found, using salary-based estimates")
     
     if proj_col in df.columns:
         proj_normalized = (df[proj_col] - df[proj_col].min()) / (df[proj_col].max() - df[proj_col].min())
         proj_impact = 0.4 * proj_normalized
         df['projection_impact'] = proj_impact
-        logger.info(f"📈 Projection impact calculated (range: {proj_impact.min():.3f} to {proj_impact.max():.3f})")
+        logger.info(f"PROGRESS: Projection impact calculated (range: {proj_impact.min():.3f} to {proj_impact.max():.3f})")
     else:
         df['projection_impact'] = 0.2  # Default moderate impact
     
@@ -96,19 +96,19 @@ def calculate_advanced_ownership(df):
     }
     
     df['position_impact'] = df['Position'].map(position_ownership).fillna(0.12)
-    logger.info("🎯 Position impact applied")
+    logger.info("TARGET: Position impact applied")
     
     # Factor 4: Team/Game Impact (15% weight)
     # Players in fewer games = higher ownership (concentrated)
     game_counts = df['Game'].value_counts()
     df['game_impact'] = df['Game'].map(lambda x: 0.15 * (1 / game_counts[x]) if x in game_counts else 0.075)
-    logger.info(f"🏟️ Game impact calculated for {len(game_counts)} games")
+    logger.info(f" Game impact calculated for {len(game_counts)} games")
     
     # Factor 5: Star Player Bonus (5% weight)
     # High salary players get ownership bump (name recognition)
     star_threshold = df['Salary'].quantile(0.8)  # Top 20% by salary
     df['star_bonus'] = np.where(df['Salary'] >= star_threshold, 0.05, 0)
-    logger.info(f"⭐ Star bonus applied (threshold: ${star_threshold:,.0f})")
+    logger.info(f" Star bonus applied (threshold: ${star_threshold:,.0f})")
     
     # Combine all factors
     df['ownership_projection'] = (
@@ -137,7 +137,7 @@ def categorize_ownership_tiers(df):
     
     # Create ownership buckets for analysis
     tier_counts = df['ownership_tier'].value_counts()
-    logger.info("🎭 OWNERSHIP TIERS:")
+    logger.info(" OWNERSHIP TIERS:")
     for tier, count in tier_counts.items():
         avg_own = df[df['ownership_tier'] == tier]['ownership_projection'].mean()
         logger.info(f"   {tier}: {count} players (avg {avg_own:.1%} ownership)")
@@ -187,9 +187,9 @@ def save_ownership_projections(df):
     timestamped_file = f'../data/confirmed_ownership_projections_{timestamp}.csv'
     df.to_csv(timestamped_file, index=False)
     
-    logger.info(f"💾 Saved ownership projections:")
-    logger.info(f"   📁 Main: {main_file}")
-    logger.info(f"   📁 Timestamped: {timestamped_file}")
+    logger.info(f" Saved ownership projections:")
+    logger.info(f"    Main: {main_file}")
+    logger.info(f"    Timestamped: {timestamped_file}")
     
     return main_file
 
@@ -197,35 +197,35 @@ def print_ownership_summary(df, strategy):
     """Print detailed ownership analysis"""
     
     logger.info("=" * 60)
-    logger.info("🎯 CONFIRMED STARTERS OWNERSHIP ANALYSIS")
+    logger.info("TARGET: CONFIRMED STARTERS OWNERSHIP ANALYSIS")
     logger.info("=" * 60)
     
     # Overall stats
     avg_ownership = df['ownership_projection'].mean()
-    logger.info(f"📊 Average ownership: {avg_ownership:.1%}")
-    logger.info(f"📊 Ownership range: {df['ownership_projection'].min():.1%} - {df['ownership_projection'].max():.1%}")
+    logger.info(f"DATA: Average ownership: {avg_ownership:.1%}")
+    logger.info(f"DATA: Ownership range: {df['ownership_projection'].min():.1%} - {df['ownership_projection'].max():.1%}")
     
     # Top chalk
-    logger.info(f"\n🔥 TOP CHALK PLAYS ({strategy['chalk_plays']} total):")
+    logger.info(f"\n TOP CHALK PLAYS ({strategy['chalk_plays']} total):")
     for player in strategy['top_chalk']:
         logger.info(f"   {player['Nickname']} ({player['Position']}) - ${player['Salary']:,} - {player['ownership_projection']:.1%}")
     
     # Contrarian opportunities  
-    logger.info(f"\n🎭 CONTRARIAN OPPORTUNITIES ({strategy['contrarian_plays']} total):")
+    logger.info(f"\n CONTRARIAN OPPORTUNITIES ({strategy['contrarian_plays']} total):")
     for player in strategy['top_contrarian']:
         logger.info(f"   {player['Nickname']} ({player['Position']}) - ${player['Salary']:,} - {player['ownership_projection']:.1%}")
     
     # Pivot plays
     if strategy['pivot_opportunities']:
-        logger.info(f"\n🔄 PIVOT OPPORTUNITIES:")
+        logger.info(f"\nSWAP: PIVOT OPPORTUNITIES:")
         for pivot in strategy['pivot_opportunities']:
             logger.info(f"   {pivot['name']} ({pivot['position']}) - ${pivot['salary']:,} - {pivot['ownership']:.1%}")
-            logger.info(f"     💡 {pivot['reason']}")
+            logger.info(f"     TIP: {pivot['reason']}")
 
 def main():
     """Main ownership projection function"""
-    logger.info("👥 CONFIRMED STARTERS OWNERSHIP PROJECTION")
-    logger.info("🎯 Advanced modeling for 43 confirmed players only")
+    logger.info("OWNERSHIP: CONFIRMED STARTERS OWNERSHIP PROJECTION")
+    logger.info("TARGET: Advanced modeling for 43 confirmed players only")
     logger.info("=" * 60)
     
     # Load confirmed projections
@@ -249,11 +249,11 @@ def main():
     print_ownership_summary(df, strategy)
     
     logger.info("=" * 60)
-    logger.info("🎉 OWNERSHIP PROJECTION COMPLETE!")
-    logger.info(f"✅ {len(df)} confirmed players analyzed")
-    logger.info(f"📈 Advanced 5-factor ownership model applied")
-    logger.info(f"🎭 Strategic recommendations generated")
-    logger.info(f"💾 Ready for tournament lineup construction")
+    logger.info("COMPLETE: OWNERSHIP PROJECTION COMPLETE!")
+    logger.info(f"SUCCESS: {len(df)} confirmed players analyzed")
+    logger.info(f"PROGRESS: Advanced 5-factor ownership model applied")
+    logger.info(f" Strategic recommendations generated")
+    logger.info(f" Ready for tournament lineup construction")
 
 if __name__ == "__main__":
     main()

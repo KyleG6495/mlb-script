@@ -1,5 +1,5 @@
 """
-🌤️ WEATHER INTEGRATION USING EXISTING SYSTEM
+ WEATHER INTEGRATION USING EXISTING SYSTEM
 Uses your existing weather.py infrastructure with real data
 """
 
@@ -26,7 +26,7 @@ class ExistingWeatherIntegrator:
     
     def run_existing_weather_system(self):
         """Run your existing weather data collection"""
-        print("🌤️ Running your existing weather data system...")
+        print(" Running your existing weather data system...")
         
         try:
             # Run the weather data collection script
@@ -36,11 +36,11 @@ class ExistingWeatherIntegrator:
             ], capture_output=True, text=True, cwd=r"C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts")
             
             if result.returncode == 0:
-                print(f"   ✅ Weather data collected successfully")
+                print(f"   SUCCESS: Weather data collected successfully")
                 if result.stdout:
                     print(f"      {result.stdout.strip()}")
             else:
-                print(f"   ❌ Weather collection failed: {result.stderr}")
+                print(f"   ERROR: Weather collection failed: {result.stderr}")
                 return False
             
             # Run the weather and park factor merger
@@ -50,26 +50,26 @@ class ExistingWeatherIntegrator:
             ], capture_output=True, text=True, cwd=r"C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts")
             
             if result.returncode == 0:
-                print(f"   ✅ Weather and park factors merged successfully")
+                print(f"   SUCCESS: Weather and park factors merged successfully")
                 if result.stdout:
                     print(f"      {result.stdout.strip()}")
             else:
-                print(f"   ❌ Weather merge failed: {result.stderr}")
+                print(f"   ERROR: Weather merge failed: {result.stderr}")
                 return False
                 
             return True
             
         except Exception as e:
-            print(f"   ❌ Error running weather system: {e}")
+            print(f"   ERROR: Error running weather system: {e}")
             return False
     
     def integrate_weather_with_projections(self, projections_file: str):
         """Integrate weather data with your projections"""
-        print(f"\n🏟️ Integrating weather data with projections...")
+        print(f"\n Integrating weather data with projections...")
         
         # Load projections
         if not os.path.exists(projections_file):
-            print(f"❌ Projections file not found: {projections_file}")
+            print(f"ERROR: Projections file not found: {projections_file}")
             return None
             
         df_proj = pd.read_csv(projections_file)
@@ -82,7 +82,7 @@ class ExistingWeatherIntegrator:
             df_weather = pd.read_csv(self.weather_data_file)
             print(f"   Using weather data only: {len(df_weather)} records")
         else:
-            print(f"❌ No weather data found. Please run weather collection first.")
+            print(f"ERROR: No weather data found. Please run weather collection first.")
             return None
         
         # Check the structure of your weather data
@@ -104,7 +104,7 @@ class ExistingWeatherIntegrator:
             weather_merge_col = 'team'
         else:
             print(f"   Weather data columns: {list(df_weather.columns)}")
-            print("❌ Could not find team column in weather data")
+            print("ERROR: Could not find team column in weather data")
             return None
         
         # Convert both columns to string to avoid type mismatch
@@ -132,7 +132,7 @@ class ExistingWeatherIntegrator:
         output_file = f"C:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\weather_enhanced_projections_{self.timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        print(f"✅ Weather enhanced projections saved: {os.path.basename(output_file)}")
+        print(f"SUCCESS: Weather enhanced projections saved: {os.path.basename(output_file)}")
         
         return enhanced_df
     
@@ -183,7 +183,7 @@ class ExistingWeatherIntegrator:
                 break
         
         if not base_fppg_col:
-            print("   ❌ Could not find projection column")
+            print("   ERROR: Could not find projection column")
             return df
         
         # Create weather-adjusted projection
@@ -194,11 +194,11 @@ class ExistingWeatherIntegrator:
         if 'temperature' in df.columns:
             temp_mask = df['temperature'].notna()
             
-            # Hot weather boost (>85°F)
+            # Hot weather boost (>85F)
             hot_mask = temp_mask & (df['temperature'] > 85)
             df.loc[hot_mask, 'weather_adjustment'] *= 1.06
             
-            # Cold weather penalty (<55°F)
+            # Cold weather penalty (<55F)
             cold_mask = temp_mask & (df['temperature'] < 55)
             df.loc[cold_mask, 'weather_adjustment'] *= 0.94
             
@@ -251,23 +251,23 @@ class ExistingWeatherIntegrator:
     
     def generate_weather_summary(self, enhanced_df):
         """Generate summary of weather impacts"""
-        print(f"\n🌤️ WEATHER IMPACT SUMMARY")
+        print(f"\n WEATHER IMPACT SUMMARY")
         print("="*50)
         
         # Top weather beneficiaries
         top_helped = enhanced_df.nlargest(10, 'weather_improvement_pct')
-        print(f"\n🔥 TOP WEATHER BENEFICIARIES:")
+        print(f"\n TOP WEATHER BENEFICIARIES:")
         for _, player in top_helped.iterrows():
             name = player.get('name', f"{player.get('First Name', '')} {player.get('Last Name', '')}").strip()
             team = player.get('team_standard', player.get('Team', ''))
             improvement = player.get('weather_improvement_pct', 0)
             conditions = player.get('conditions', 'Unknown')
             temp = player.get('temperature', 'N/A')
-            print(f"   {name} ({team}): +{improvement:.1f}% ({conditions}, {temp}°F)")
+            print(f"   {name} ({team}): +{improvement:.1f}% ({conditions}, {temp}F)")
         
         # Most hurt by weather
         most_hurt = enhanced_df.nsmallest(8, 'weather_improvement_pct')
-        print(f"\n❄️ MOST HURT BY WEATHER:")
+        print(f"\n MOST HURT BY WEATHER:")
         for _, player in most_hurt.iterrows():
             name = player.get('name', f"{player.get('First Name', '')} {player.get('Last Name', '')}").strip()
             team = player.get('team_standard', player.get('Team', ''))
@@ -283,16 +283,16 @@ class ExistingWeatherIntegrator:
                 'conditions': 'first'
             }).sort_values('weather_improvement_pct', ascending=False)
             
-            print(f"\n🏟️ TEAM WEATHER CONDITIONS:")
+            print(f"\n TEAM WEATHER CONDITIONS:")
             for team, data in team_weather.head(10).iterrows():
                 avg_boost = data['weather_improvement_pct']
                 temp = data['temperature'] if pd.notna(data['temperature']) else 'N/A'
                 conditions = data['conditions'] if pd.notna(data['conditions']) else 'Unknown'
-                print(f"   {team}: {avg_boost:+.1f}% avg boost ({conditions}, {temp}°F)")
+                print(f"   {team}: {avg_boost:+.1f}% avg boost ({conditions}, {temp}F)")
 
 def main():
     """Main execution function"""
-    print("🌤️ WEATHER INTEGRATION USING YOUR EXISTING SYSTEM")
+    print(" WEATHER INTEGRATION USING YOUR EXISTING SYSTEM")
     print("="*60)
     
     integrator = ExistingWeatherIntegrator()
@@ -301,7 +301,7 @@ def main():
     weather_success = integrator.run_existing_weather_system()
     
     if not weather_success:
-        print("❌ Weather data collection failed. Check your weather scripts.")
+        print("ERROR: Weather data collection failed. Check your weather scripts.")
         return
     
     # Step 2: Find projections to enhance
@@ -318,22 +318,22 @@ def main():
             break
     
     if not input_file:
-        print("❌ No projections file found. Please run your projections first.")
+        print("ERROR: No projections file found. Please run your projections first.")
         return
     
-    print(f"\n📊 Using projections: {os.path.basename(input_file)}")
+    print(f"\nDATA: Using projections: {os.path.basename(input_file)}")
     
     # Step 3: Integrate weather with projections
     enhanced_df = integrator.integrate_weather_with_projections(input_file)
     
     if enhanced_df is None:
-        print("❌ Weather integration failed.")
+        print("ERROR: Weather integration failed.")
         return
     
     # Step 4: Generate summary
     integrator.generate_weather_summary(enhanced_df)
     
-    print(f"\n✅ WEATHER INTEGRATION COMPLETE!")
+    print(f"\nSUCCESS: WEATHER INTEGRATION COMPLETE!")
     print(f"   Used your existing weather collection system")
     print(f"   Enhanced {len(enhanced_df)} player projections")
     print(f"   Applied real weather conditions and park factors")

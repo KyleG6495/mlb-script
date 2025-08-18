@@ -8,7 +8,7 @@ FDSLATE_PATH = "C:/Users/kgone/OneDrive/Personal_Information/MLB/fd_current_slat
 OUTPUT_PATH = "../data/today_pitcher_features.csv"
 
 # Load boxscores and FanDuel slate
-logging.info("🔍 Filtering only today's pitchers based on player_id match")
+logging.info(" Filtering only today's pitchers based on player_id match")
 df_box = pd.read_csv(BOXSCORES_PATH)
 df_slate = pd.read_csv(FDSLATE_PATH)
 
@@ -22,4 +22,4 @@ df_merged = df_merged.dropna(subset=["player_id"])
 
 # Save result
 df_merged.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"✅ Saved → {OUTPUT_PATH} with {len(df_merged)} rows")
+logging.info(f"SUCCESS: Saved  {OUTPUT_PATH} with {len(df_merged)} rows")

@@ -31,7 +31,7 @@ class GameStateEnhancedDFS:
     def enhance_real_projections(self, fd_hitter_path: str = None, fd_pitcher_path: str = None, n_simulations: int = 2000):
         """Enhance real FanDuel projections using Game State simulation with weather & park factors"""
         
-        logger.info(f"🚀 Enhancing real FanDuel projections with {n_simulations} simulations")
+        logger.info(f"START: Enhancing real FanDuel projections with {n_simulations} simulations")
         
         # Default file paths
         if fd_hitter_path is None:
@@ -44,7 +44,7 @@ class GameStateEnhancedDFS:
         weather_data = {}
         try:
             weather_df = pd.read_csv(weather_park_path)
-            logger.info(f"🌤️ Loaded weather & park factors for {len(weather_df)} games")
+            logger.info(f" Loaded weather & park factors for {len(weather_df)} games")
             # Create team-based lookup for quick access
             for _, row in weather_df.iterrows():
                 team = row.get('home_team', '')
@@ -57,7 +57,7 @@ class GameStateEnhancedDFS:
                     'so_factor': row.get('SO', 100)
                 }
         except FileNotFoundError:
-            logger.warning("⚠️ Weather/park data not found - using neutral conditions")
+            logger.warning("WARNING: Weather/park data not found - using neutral conditions")
             weather_data = {}
         
         # Load hitters
@@ -91,10 +91,10 @@ class GameStateEnhancedDFS:
         output_file = self.data_dir / f"game_state_enhanced_projections_{timestamp}.csv"
         enhanced_df.to_csv(output_file, index=False)
         
-        logger.info(f"💾 Saved enhanced projections to {output_file}")
-        logger.info(f"📊 Enhanced {len(enhanced_hitters)} hitters + {len(enhanced_pitchers)} pitchers = {len(enhanced_df)} total players")
-        logger.info(f"🎯 Avg hitter FPPG: {enhanced_df[enhanced_df['Position'] != 'P']['FPPG'].mean():.2f}")
-        logger.info(f"⚾ Avg pitcher FPPG: {enhanced_df[enhanced_df['Position'] == 'P']['FPPG'].mean():.2f}")
+        logger.info(f" Saved enhanced projections to {output_file}")
+        logger.info(f"DATA: Enhanced {len(enhanced_hitters)} hitters + {len(enhanced_pitchers)} pitchers = {len(enhanced_df)} total players")
+        logger.info(f"TARGET: Avg hitter FPPG: {enhanced_df[enhanced_df['Position'] != 'P']['FPPG'].mean():.2f}")
+        logger.info(f"BASEBALL: Avg pitcher FPPG: {enhanced_df[enhanced_df['Position'] == 'P']['FPPG'].mean():.2f}")
         
         return enhanced_df
     
@@ -298,7 +298,7 @@ class GameStateEnhancedDFS:
         if np.random.random() < 0.3:
             points += 12.0
         
-        # Quality start bonus: 4 pts (if 6+ IP, ≤3 ER)
+        # Quality start bonus: 4 pts (if 6+ IP, 3 ER)
         if innings >= 6.0 and estimated_er <= 3.0:
             points += 4.0
         
@@ -307,7 +307,7 @@ class GameStateEnhancedDFS:
     def run_complete_pipeline(self, fd_hitter_path: str = None, fd_pitcher_path: str = None, n_lineups: int = 15):
         """Run complete enhanced DFS pipeline"""
         
-        logger.info("🚀 GAME STATE ENHANCED DFS PIPELINE")
+        logger.info("START: GAME STATE ENHANCED DFS PIPELINE")
         logger.info("=" * 50)
         
         # Use default FanDuel files if not specified
@@ -325,11 +325,11 @@ class GameStateEnhancedDFS:
             return False
         
         # Step 2: Generate optimized lineups
-        logger.info(f"🎯 Generating {n_lineups} optimized lineups...")
+        logger.info(f"TARGET: Generating {n_lineups} optimized lineups...")
         lineups = self.optimizer.generate_multiple_lineups(enhanced_df, n_lineups=n_lineups)
         
         if lineups:
-            logger.info(f"✅ Generated {len(lineups)} lineups successfully!")
+            logger.info(f"SUCCESS: Generated {len(lineups)} lineups successfully!")
             
             # Analyze results
             self.optimizer.analyze_lineup_distribution(lineups)
@@ -375,10 +375,10 @@ class GameStateEnhancedDFS:
         df_lineups = pd.DataFrame(all_lineups)
         df_lineups.to_csv(output_file, index=False)
         
-        logger.info(f"💾 Saved enhanced lineups to {output_file}")
+        logger.info(f" Saved enhanced lineups to {output_file}")
         
         # Print top lineups
-        print(f"\n🏆 TOP 5 ENHANCED LINEUPS:")
+        print(f"\nLINEUP: TOP 5 ENHANCED LINEUPS:")
         print("=" * 60)
         
         top_lineups = sorted(lineups, key=lambda x: x['total_fppg'], reverse=True)[:5]
@@ -408,9 +408,9 @@ def main():
     success = enhanced_dfs.run_complete_pipeline(n_lineups=20)
     
     if success:
-        logger.info("✅ Game State Enhanced DFS pipeline completed successfully!")
+        logger.info("SUCCESS: Game State Enhanced DFS pipeline completed successfully!")
     else:
-        logger.error("❌ Pipeline failed")
+        logger.error("ERROR: Pipeline failed")
 
 if __name__ == "__main__":
     main()

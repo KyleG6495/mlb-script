@@ -16,7 +16,7 @@ def investigate_shane_baz():
     # Find Shane Baz
     baz = slate_df[slate_df['Last Name'].str.contains('Baz', na=False)]
     if len(baz) > 0:
-        print("📊 SHANE BAZ SLATE DATA:")
+        print("DATA: SHANE BAZ SLATE DATA:")
         for col in ['First Name', 'Last Name', 'Position', 'Salary', 'FPPG', 'Game', 'Team', 'Opponent', 'Injury Indicator', 'Tier']:
             if col in baz.columns:
                 print(f"{col}: {baz.iloc[0][col]}")
@@ -29,7 +29,7 @@ def investigate_shane_baz():
         # Find Shane Baz in actuals
         baz_actual = actual_df[actual_df['name'].str.contains('Baz', na=False, case=False)]
         
-        print("🎯 SHANE BAZ ACTUAL RESULTS:")
+        print("TARGET: SHANE BAZ ACTUAL RESULTS:")
         if len(baz_actual) > 0:
             print(f"Name: {baz_actual.iloc[0]['name']}")
             print(f"FanDuel Points: {baz_actual.iloc[0]['fanduel_points']}")
@@ -41,11 +41,11 @@ def investigate_shane_baz():
             
             # Check if he actually played
             if baz_actual.iloc[0]['fanduel_points'] == 0:
-                print("❌ Shane Baz scored 0 points - likely didn't pitch")
-                print("🔍 This suggests he was probable but scratched last minute")
+                print("ERROR: Shane Baz scored 0 points - likely didn't pitch")
+                print(" This suggests he was probable but scratched last minute")
         else:
-            print("❌ Shane Baz not found in actual results")
-            print("🔍 This suggests he didn't play at all")
+            print("ERROR: Shane Baz not found in actual results")
+            print(" This suggests he didn't play at all")
         
     except Exception as e:
         print(f"Error loading actuals: {e}")
@@ -66,7 +66,7 @@ def investigate_shane_baz():
         print()
         
         # Cross-reference with our slate
-        print("🎯 Which top pitchers were in our FILTERED slate?")
+        print("TARGET: Which top pitchers were in our FILTERED slate?")
         top_pitchers = pitcher_actuals.head(10)
         
         for _, pitcher in top_pitchers.iterrows():
@@ -79,9 +79,9 @@ def investigate_shane_baz():
             if len(slate_match) > 0:
                 salary = slate_match.iloc[0]['Salary']
                 fppg = slate_match.iloc[0]['FPPG']
-                print(f"✅ {pitcher_name:20} | {pitcher['fanduel_points']:6.1f} pts | ${salary:,} | {fppg:5.1f} proj")
+                print(f"SUCCESS: {pitcher_name:20} | {pitcher['fanduel_points']:6.1f} pts | ${salary:,} | {fppg:5.1f} proj")
             else:
-                print(f"❌ {pitcher_name:20} | {pitcher['fanduel_points']:6.1f} pts | NOT IN SLATE")
+                print(f"ERROR: {pitcher_name:20} | {pitcher['fanduel_points']:6.1f} pts | NOT IN SLATE")
                 
     except Exception as e:
         print(f"Error analyzing pitchers: {e}")

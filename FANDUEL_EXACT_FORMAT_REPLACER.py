@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def create_exact_fanduel_format():
     """Create the EXACT format FanDuel expects"""
     
-    logger.info("🎯 CREATING EXACT FANDUEL FORMAT")
+    logger.info("TARGET: CREATING EXACT FANDUEL FORMAT")
     logger.info("=" * 50)
     
     # Load current FanDuel template
@@ -23,13 +23,13 @@ def create_exact_fanduel_format():
     # Load our ULTIMATE lineups
     df_ultimate = pd.read_csv("../data/ULTIMATE_FANDUEL_LINEUPS_20250812_181717.csv")
     
-    logger.info(f"✅ Loaded FanDuel template: {len(df_fanduel)} rows")
-    logger.info(f"✅ Loaded ULTIMATE lineups: {len(df_ultimate)} lineups")
+    logger.info(f"SUCCESS: Loaded FanDuel template: {len(df_fanduel)} rows")
+    logger.info(f"SUCCESS: Loaded ULTIMATE lineups: {len(df_ultimate)} lineups")
     
     # Find rows with entry_id (actual lineup entries)
     lineup_rows = df_fanduel[df_fanduel['entry_id'].notna()]
     
-    logger.info(f"📋 Found {len(lineup_rows)} existing lineup entries")
+    logger.info(f"INFO: Found {len(lineup_rows)} existing lineup entries")
     
     # Replace the first 5 lineup entries with our ULTIMATE lineups
     for i in range(min(5, len(lineup_rows), len(df_ultimate))):
@@ -50,19 +50,19 @@ def create_exact_fanduel_format():
         
         df_fanduel.loc[row_idx, 'UTIL'] = ultimate_lineup['UTIL']
         
-        logger.info(f"🔄 Replaced lineup entry {i+1}")
+        logger.info(f"SWAP: Replaced lineup entry {i+1}")
     
     # Save the corrected file
     output_file = "../fd_current_slate/FANDUEL_EXACT_FORMAT_CORRECTED.csv"
     df_fanduel.to_csv(output_file, index=False)
     
-    logger.info(f"\n💾 EXACT FanDuel format saved: {output_file}")
-    logger.info(f"📋 This file has:")
-    logger.info(f"   ✅ All original FanDuel headers and contest info")
-    logger.info(f"   ✅ Your 5 ULTIMATE optimized lineups")
-    logger.info(f"   ✅ All player reference data intact")
+    logger.info(f"\n EXACT FanDuel format saved: {output_file}")
+    logger.info(f"INFO: This file has:")
+    logger.info(f"   SUCCESS: All original FanDuel headers and contest info")
+    logger.info(f"   SUCCESS: Your 5 ULTIMATE optimized lineups")
+    logger.info(f"   SUCCESS: All player reference data intact")
     
-    logger.info(f"\n🎯 UPLOAD INSTRUCTIONS:")
+    logger.info(f"\nTARGET: UPLOAD INSTRUCTIONS:")
     logger.info(f"1. Use this file: {output_file}")
     logger.info(f"2. Upload to FanDuel CSV import")
     logger.info(f"3. Your lineups are now ULTIMATE optimized!")

@@ -23,31 +23,31 @@ class PrizePicksEVAnalyzer:
         
     def load_prizepicks_data(self):
         """Load PrizePicks data from CSV"""
-        print("🎯 Loading PrizePicks data...")
+        print("TARGET: Loading PrizePicks data...")
         
         data_file = '../data/prizepicks_mlb.csv'
         if not os.path.exists(data_file):
-            print("❌ PrizePicks data file not found. Run convert_prizepicks_to_csv.py first.")
+            print("ERROR: PrizePicks data file not found. Run convert_prizepicks_to_csv.py first.")
             return False
             
         self.prizepicks_data = pd.read_csv(data_file)
-        print(f"✅ Loaded PrizePicks data: {len(self.prizepicks_data)} players")
+        print(f"SUCCESS: Loaded PrizePicks data: {len(self.prizepicks_data)} players")
         
         # Transform data from wide format to long format for analysis
         stat_columns = [col for col in self.prizepicks_data.columns if col != 'player_name']
         
         # Show available prop types and their counts
-        print("📊 Available prop types:")
+        print("DATA: Available prop types:")
         for stat in stat_columns:
             non_null_count = self.prizepicks_data[stat].notna().sum()
             if non_null_count > 0:
-                print(f"  • {stat}: {non_null_count} props")
+                print(f"   {stat}: {non_null_count} props")
         
         return True
         
     def load_ml_predictions(self):
         """Load ML predictions from the models directory"""
-        print("📊 Loading ML predictions...")
+        print("DATA: Loading ML predictions...")
         
         # Look for prediction files in the models directory
         prediction_files = {
@@ -93,7 +93,7 @@ class PrizePicksEVAnalyzer:
                         
                         self.predictions[stat] = pred_df
                         predictions_loaded += 1
-                        print(f"  ✅ Loaded {stat} predictions: {len(pred_df)} players")
+                        print(f"  SUCCESS: Loaded {stat} predictions: {len(pred_df)} players")
                         
                         # Show some sample predictions for validation
                         if len(pred_df) > 0:
@@ -101,11 +101,11 @@ class PrizePicksEVAnalyzer:
                             print(f"    Range: {sample.min():.3f} - {sample.max():.3f}, Avg: {sample.mean():.3f}")
                     
                 except Exception as e:
-                    print(f"  ❌ Error reading {full_path}: {e}")
+                    print(f"  ERROR: Error reading {full_path}: {e}")
             else:
-                print(f"  ❌ File not found: {full_path}")
+                print(f"  ERROR: File not found: {full_path}")
         
-        print(f"✅ Loaded predictions for {predictions_loaded} stat types")
+        print(f"SUCCESS: Loaded predictions for {predictions_loaded} stat types")
         return predictions_loaded > 0
         
     def apply_prediction_bounds(self, predictions, stat_type):
@@ -184,11 +184,11 @@ class PrizePicksEVAnalyzer:
     
     def analyze_opportunities(self):
         """Analyze all PrizePicks opportunities for positive EV"""
-        print("🔥 ANALYZING PRIZEPICKS OPPORTUNITIES")
+        print(" ANALYZING PRIZEPICKS OPPORTUNITIES")
         print("=" * 50)
         
         if self.prizepicks_data is None or not self.predictions:
-            print("❌ Missing data or predictions")
+            print("ERROR: Missing data or predictions")
             return
         
         # Map PrizePicks stat columns to our prediction keys
@@ -259,23 +259,23 @@ class PrizePicksEVAnalyzer:
                             'ev': ev_calc['ev'],
                             'edge': ev_calc['edge'],
                             'prob_win': ev_calc['prob_win'],
-                            'model_source': '🤖 ML Model'
+                            'model_source': ' ML Model'
                         })
         
         # Sort by edge (highest first)
         opportunities.sort(key=lambda x: x['edge'], reverse=True)
         self.ev_results = opportunities
         
-        print(f"🎯 Found {len(opportunities)} EV opportunities from {total_props} total props")
+        print(f"TARGET: Found {len(opportunities)} EV opportunities from {total_props} total props")
         
         # Display top opportunities
         if opportunities:
-            print("🔥 TOP PRIZEPICKS EV PLAYS:")
+            print(" TOP PRIZEPICKS EV PLAYS:")
             print("-" * 60)
             
             for i, opp in enumerate(opportunities[:20], 1):
                 print(f"{i:2d}. {opp['player']:<20} {opp['stat']:<20} {opp['bet_type']:<5} {opp['line']}")
-                print(f"    🔥 Pred: {opp['prediction']:.3f} | Edge: {opp['edge']:+.1%} | {opp['model_source']}")
+                print(f"     Pred: {opp['prediction']:.3f} | Edge: {opp['edge']:+.1%} | {opp['model_source']}")
         
         return opportunities
     
@@ -289,7 +289,7 @@ class PrizePicksEVAnalyzer:
         
         df = pd.DataFrame(self.ev_results)
         df.to_csv(output_file, index=False)
-        print(f"💾 Enhanced EV analysis saved: {output_file}")
+        print(f" Enhanced EV analysis saved: {output_file}")
         
         # Summary statistics
         total_opps = len(self.ev_results)
@@ -298,7 +298,7 @@ class PrizePicksEVAnalyzer:
         over_bets = len(df[df['bet_type'] == 'OVER'])
         under_bets = len(df[df['bet_type'] == 'UNDER'])
         
-        print("📊 SUMMARY:")
+        print("DATA: SUMMARY:")
         print(f"   Total opportunities: {total_opps}")
         print(f"   Average edge: {avg_edge:.1%}")
         print(f"   Best edge: {best_edge:.1%}")
@@ -306,7 +306,7 @@ class PrizePicksEVAnalyzer:
         print(f"   UNDER bets: {under_bets} ({under_bets/total_opps:.1%})")
 
 def main():
-    print("🎯 ENHANCED PRIZEPICKS EXPECTED VALUE ANALYZER")
+    print("TARGET: ENHANCED PRIZEPICKS EXPECTED VALUE ANALYZER")
     print("=" * 50)
     
     analyzer = PrizePicksEVAnalyzer()
@@ -316,7 +316,7 @@ def main():
         return
     
     if not analyzer.load_ml_predictions():
-        print("❌ Failed to load ML predictions")
+        print("ERROR: Failed to load ML predictions")
         return
     
     # Analyze opportunities
@@ -325,9 +325,9 @@ def main():
     if opportunities:
         analyzer.save_results()
     else:
-        print("❌ No EV opportunities found")
+        print("ERROR: No EV opportunities found")
     
-    print("🎉 Enhanced PrizePicks EV analysis complete!")
+    print("COMPLETE: Enhanced PrizePicks EV analysis complete!")
 
 if __name__ == "__main__":
     main()

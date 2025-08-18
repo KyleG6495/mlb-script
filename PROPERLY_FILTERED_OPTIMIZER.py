@@ -15,12 +15,12 @@ def build_properly_filtered_optimizer():
     import glob
     filtered_files = glob.glob(r"c:\Users\kgone\OneDrive\Personal_Information\MLB\data\FILTERED_CORRECTED_slate_*.csv")
     if not filtered_files:
-        print("❌ No filtered slate found! Run EMERGENCY_SLATE_FILTERING.py first")
+        print("ERROR: No filtered slate found! Run EMERGENCY_SLATE_FILTERING.py first")
         return
     
     latest_filtered = sorted(filtered_files)[-1]
     filename = latest_filtered.split('\\')[-1]
-    print(f"📊 Loading: {filename}")
+    print(f"DATA: Loading: {filename}")
     
     slate_df = pd.read_csv(latest_filtered)
     print(f"Playable players: {len(slate_df)}")
@@ -41,7 +41,7 @@ def build_properly_filtered_optimizer():
             display_lineup_with_actuals(strategy_name, lineup, slate_df)
             lineups.append((strategy_name, lineup))
         else:
-            print(f"❌ {strategy_name} optimization failed")
+            print(f"ERROR: {strategy_name} optimization failed")
     
     # Save lineups
     if lineups:
@@ -214,15 +214,15 @@ def display_lineup_with_actuals(strategy_name, lineup, data):
     if total_actual > 0:
         print(f"Tournament Winner: 306.0 | Our Original: 139.9 | This Strategy: {total_actual:.1f}")
         if total_actual >= 280:
-            print("🏆 CHAMPION! Would have won the tournament!")
+            print("LINEUP: CHAMPION! Would have won the tournament!")
         elif total_actual >= 250:
-            print("🥇 ELITE! Top 5 finish!")
+            print(" ELITE! Top 5 finish!")
         elif total_actual >= 200:
-            print("🎯 EXCELLENT! Top 20 finish!")
+            print("TARGET: EXCELLENT! Top 20 finish!")
         elif total_actual >= 160:
-            print("✅ GOOD! Big improvement over 139.9!")
+            print("SUCCESS: GOOD! Big improvement over 139.9!")
         else:
-            print("📈 Better than original but needs work")
+            print("PROGRESS: Better than original but needs work")
 
 def save_filtered_lineups(lineups, slate_df):
     """Save filtered lineups"""
@@ -244,12 +244,12 @@ def save_filtered_lineups(lineups, slate_df):
         output_filename = f"PROPERLY_FILTERED_LINEUPS_{timestamp}.csv"
         output_file = f"c:\\Users\\kgone\\OneDrive\\Personal_Information\\MLB\\data\\{output_filename}"
         lineup_df.to_csv(output_file, index=False)
-        print(f"\n✅ Saved properly filtered lineups: {output_filename}")
+        print(f"\nSUCCESS: Saved properly filtered lineups: {output_filename}")
     
-    print(f"\n🎯 READY FOR TOURNAMENT with {len(lineups)} PROPERLY FILTERED lineups!")
-    print("✅ No IL players")
-    print("✅ Only probable pitchers") 
-    print("✅ Actually playable lineup!")
+    print(f"\nTARGET: READY FOR TOURNAMENT with {len(lineups)} PROPERLY FILTERED lineups!")
+    print("SUCCESS: No IL players")
+    print("SUCCESS: Only probable pitchers") 
+    print("SUCCESS: Actually playable lineup!")
 
 if __name__ == "__main__":
     lineups = build_properly_filtered_optimizer()

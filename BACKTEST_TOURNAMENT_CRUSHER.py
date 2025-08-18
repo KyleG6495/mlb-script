@@ -117,13 +117,13 @@ def backtest_tournament_lineups():
     print(f"Performance vs Winner: {best_score/306.0:.1%}")
     
     if best_score > 200:
-        print("🎯 EXCELLENT! Would have been competitive!")
+        print("TARGET: EXCELLENT! Would have been competitive!")
     elif best_score > 180:
-        print("✅ GOOD! Significant improvement over original")
+        print("SUCCESS: GOOD! Significant improvement over original")
     elif best_score > 160:
-        print("📈 BETTER! Moving in right direction")
+        print("PROGRESS: BETTER! Moving in right direction")
     else:
-        print("⚠️  Still needs work, but better than original")
+        print("WARNING:  Still needs work, but better than original")
     
     return lineup_scores
 

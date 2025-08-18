@@ -12,20 +12,20 @@ import random
 def generate_working_lineups():
     """Generate lineups that stay under salary cap"""
     
-    print("🏆 WORKING LINEUP GENERATOR")
+    print("LINEUP: WORKING LINEUP GENERATOR")
     print("=" * 50)
     
     # Load slate with conservative projections
     slate_file = "../data/fd_slate_conservative_projections.csv"
     df = pd.read_csv(slate_file)
     
-    print(f"📊 Loaded {len(df)} players from today's slate")
+    print(f"DATA: Loaded {len(df)} players from today's slate")
     
     # Simplify positions for easier lineup building
     df = simplify_positions(df)
     
     # Show simplified position breakdown
-    print(f"\n📋 SIMPLIFIED POSITION BREAKDOWN:")
+    print(f"\nINFO: SIMPLIFIED POSITION BREAKDOWN:")
     position_counts = df['Simple_Position'].value_counts()
     for pos, count in position_counts.items():
         print(f"   {pos}: {count} players")
@@ -40,19 +40,19 @@ def generate_working_lineups():
     
     if lineups:
         save_working_lineups(lineups)
-        print(f"\n✅ Successfully generated {len(lineups)} working lineups!")
+        print(f"\nSUCCESS: Successfully generated {len(lineups)} working lineups!")
         
         # Show summary
-        print(f"\n🏆 LINEUP SUMMARY:")
+        print(f"\nLINEUP: LINEUP SUMMARY:")
         for lineup in lineups:
             print(f"   {lineup['lineup_id']}: ${lineup['total_salary']:,} salary, {lineup['projected_fppg']:.1f} FPPG")
         
         avg_salary = sum(l['total_salary'] for l in lineups) / len(lineups)
         avg_fppg = sum(l['projected_fppg'] for l in lineups) / len(lineups)
-        print(f"\n📊 AVERAGES: ${avg_salary:,.0f} salary, {avg_fppg:.1f} FPPG")
+        print(f"\nDATA: AVERAGES: ${avg_salary:,.0f} salary, {avg_fppg:.1f} FPPG")
         
     else:
-        print("❌ Failed to generate any lineups")
+        print("ERROR: Failed to generate any lineups")
 
 def simplify_positions(df):
     """Simplify multi-position players to primary positions"""
@@ -203,7 +203,7 @@ def build_smart_lineup(df, lineup_num):
         
         # Validate lineup
         if len(selected_players) == 9 and total_salary <= salary_cap:
-            print(f"✅ Lineup {lineup_num}: 9 players, ${total_salary:,} salary, {total_fppg:.1f} FPPG")
+            print(f"SUCCESS: Lineup {lineup_num}: 9 players, ${total_salary:,} salary, {total_fppg:.1f} FPPG")
             return {
                 'lineup_id': f'lineup_{lineup_num}',
                 'players': selected_players,
@@ -211,11 +211,11 @@ def build_smart_lineup(df, lineup_num):
                 'projected_fppg': total_fppg
             }
         else:
-            print(f"⚠️ Lineup {lineup_num}: {len(selected_players)} players, ${total_salary:,} salary")
+            print(f"WARNING: Lineup {lineup_num}: {len(selected_players)} players, ${total_salary:,} salary")
             return None
             
     except Exception as e:
-        print(f"❌ Error building lineup {lineup_num}: {e}")
+        print(f"ERROR: Error building lineup {lineup_num}: {e}")
         return None
 
 def save_working_lineups(lineups):
@@ -258,8 +258,8 @@ def save_working_lineups(lineups):
     summary_file = f"../data/working_lineup_summary_{timestamp}.csv"
     summary_df.to_csv(summary_file, index=False)
     
-    print(f"✅ Saved working lineup details: {details_file}")
-    print(f"✅ Saved working lineup summary: {summary_file}")
+    print(f"SUCCESS: Saved working lineup details: {details_file}")
+    print(f"SUCCESS: Saved working lineup summary: {summary_file}")
     
     return details_file, summary_file
 

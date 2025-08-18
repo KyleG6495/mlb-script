@@ -28,15 +28,15 @@ class EnhancedMLVolumeSystem:
         
     def load_enhanced_slate(self):
         """Load slate with Enhanced ML proven filtering"""
-        print("🚀 ENHANCED ML VOLUME SYSTEM - Loading slate...")
+        print("START: ENHANCED ML VOLUME SYSTEM - Loading slate...")
         
         slate_file = self.slate_dir / "fd_slate_today.csv"
         if not slate_file.exists():
-            print("❌ No slate file found")
+            print("ERROR: No slate file found")
             return None
             
         slate_df = pd.read_csv(slate_file)
-        print(f"✅ Loaded slate with {len(slate_df)} players")
+        print(f"SUCCESS: Loaded slate with {len(slate_df)} players")
         
         # Apply PROVEN injury filtering (prevents disasters)
         original_count = len(slate_df)
@@ -45,7 +45,7 @@ class EnhancedMLVolumeSystem:
         if 'Injury Indicator' in slate_df.columns:
             injured_players = slate_df['Injury Indicator'].notna()
             injured_count = injured_players.sum()
-            print(f"🔧 Removing {injured_count} injured players (disaster prevention)")
+            print(f"STEP: Removing {injured_count} injured players (disaster prevention)")
             slate_df = slate_df[~injured_players]
         
         # Remove non-probable pitchers
@@ -55,16 +55,16 @@ class EnhancedMLVolumeSystem:
             non_probable_ids = set(pitchers[non_probable]['Id'])
             slate_df = slate_df[~slate_df['Id'].isin(non_probable_ids)]
             probable_count = (pitchers['Probable Pitcher'] == 'Yes').sum()
-            print(f"⚾ Keeping only {probable_count} probable pitchers")
+            print(f"BASEBALL: Keeping only {probable_count} probable pitchers")
         
         filtered_count = len(slate_df)
-        print(f"📊 Filtered: {original_count} → {filtered_count} players ({filtered_count/original_count*100:.1f}% remaining)")
+        print(f"DATA: Filtered: {original_count}  {filtered_count} players ({filtered_count/original_count*100:.1f}% remaining)")
         
         return slate_df
     
     def enhance_player_analysis(self, slate_df):
         """Add enhanced analytics for volume lineup generation"""
-        print("🔍 Enhancing player analysis for volume generation...")
+        print(" Enhancing player analysis for volume generation...")
         
         slate_df = slate_df.copy()
         
@@ -105,7 +105,7 @@ class EnhancedMLVolumeSystem:
             slate_df['team_total_proxy'] = slate_df['FPPG']
             slate_df['game_total_proxy'] = slate_df['FPPG']
         
-        print(f"📈 Enhanced analytics complete:")
+        print(f"PROGRESS: Enhanced analytics complete:")
         print(f"  Value scores: {slate_df['value_score'].min():.1f} - {slate_df['value_score'].max():.1f}")
         print(f"  Ceiling range: {slate_df['estimated_ceiling'].min():.1f} - {slate_df['estimated_ceiling'].max():.1f}")
         
@@ -121,7 +121,7 @@ class EnhancedMLVolumeSystem:
         ceiling_weight = strategy_config['ceiling_weight']
         stack_emphasis = strategy_config.get('stack_emphasis', 0.0)
         
-        print(f"🏗️ Building {strategy_name} lineup...")
+        print(f" Building {strategy_name} lineup...")
         
         selected_players = []
         remaining_budget = 35000
@@ -265,7 +265,7 @@ class EnhancedMLVolumeSystem:
     
     def generate_volume_lineups(self, enhanced_slate, target_count=25):
         """Generate diverse volume lineups targeting 150+ FPPG"""
-        print(f"🎯 Generating {target_count} volume lineups targeting 150+ FPPG...")
+        print(f"TARGET: Generating {target_count} volume lineups targeting 150+ FPPG...")
         
         # Define strategy configurations for diversity
         strategies = [
@@ -351,22 +351,22 @@ class EnhancedMLVolumeSystem:
             if lineup:
                 lineup['lineup_id'] = f"VOLUME_ML_{i+1}"
                 lineups.append(lineup)
-                print(f"  ✅ {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | Proj: {lineup['total_projected']:.1f} | Ceil: {lineup['total_ceiling']:.1f}")
+                print(f"  SUCCESS: {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | Proj: {lineup['total_projected']:.1f} | Ceil: {lineup['total_ceiling']:.1f}")
             else:
-                print(f"  ❌ Failed lineup {i+1} ({strategy['name']})")
+                print(f"  ERROR: Failed lineup {i+1} ({strategy['name']})")
             
             strategy_index += 1
         
-        print(f"\n📊 Generated {len(lineups)} diverse lineups")
+        print(f"\nDATA: Generated {len(lineups)} diverse lineups")
         return lineups
     
     def export_volume_lineups(self, lineups):
         """Export volume lineups for submission"""
         if not lineups:
-            print("❌ No lineups to export")
+            print("ERROR: No lineups to export")
             return
         
-        print("📄 Exporting volume lineup portfolio...")
+        print(" Exporting volume lineup portfolio...")
         
         # Create detailed lineup data
         lineup_data = []
@@ -393,37 +393,37 @@ class EnhancedMLVolumeSystem:
         filepath = self.slate_dir / filename
         
         lineup_df.to_csv(filepath, index=False)
-        print(f"✅ Volume lineups exported: {filename}")
+        print(f"SUCCESS: Volume lineups exported: {filename}")
         
         # Portfolio analysis
-        print(f"\n🏆 VOLUME PORTFOLIO ANALYSIS:")
+        print(f"\nLINEUP: VOLUME PORTFOLIO ANALYSIS:")
         
         projections = [l['total_projected'] for l in lineups]
         ceilings = [l['total_ceiling'] for l in lineups]
         
-        print(f"  📊 Projected Range: {min(projections):.1f} - {max(projections):.1f} FPPG")
-        print(f"  🚀 Ceiling Range: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG")
-        print(f"  📈 Average Projected: {np.mean(projections):.1f} FPPG")
-        print(f"  🎯 Average Ceiling: {np.mean(ceilings):.1f} FPPG")
+        print(f"  DATA: Projected Range: {min(projections):.1f} - {max(projections):.1f} FPPG")
+        print(f"  START: Ceiling Range: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG")
+        print(f"  PROGRESS: Average Projected: {np.mean(projections):.1f} FPPG")
+        print(f"  TARGET: Average Ceiling: {np.mean(ceilings):.1f} FPPG")
         
         # Tournament readiness analysis
         target_score = 153.45
         ceiling_hits = sum(1 for c in ceilings if c >= target_score)
         projection_hits = sum(1 for p in projections if p >= target_score * 0.85)  # 85% of target
         
-        print(f"\n🏆 TOURNAMENT READINESS (vs 153.45 FPPG target):")
-        print(f"  🎯 Lineups with 153+ ceiling: {ceiling_hits}/{len(lineups)} ({ceiling_hits/len(lineups)*100:.1f}%)")
-        print(f"  📊 Lineups with 130+ projection: {projection_hits}/{len(lineups)} ({projection_hits/len(lineups)*100:.1f}%)")
+        print(f"\nLINEUP: TOURNAMENT READINESS (vs 153.45 FPPG target):")
+        print(f"  TARGET: Lineups with 153+ ceiling: {ceiling_hits}/{len(lineups)} ({ceiling_hits/len(lineups)*100:.1f}%)")
+        print(f"  DATA: Lineups with 130+ projection: {projection_hits}/{len(lineups)} ({projection_hits/len(lineups)*100:.1f}%)")
         
         if ceiling_hits >= len(lineups) * 0.5:
-            print(f"  ✅ EXCELLENT: Portfolio has strong tournament upside!")
+            print(f"  SUCCESS: EXCELLENT: Portfolio has strong tournament upside!")
         elif ceiling_hits >= len(lineups) * 0.3:
-            print(f"  ⚠️  GOOD: Decent tournament potential")
+            print(f"  WARNING:  GOOD: Decent tournament potential")
         else:
-            print(f"  🔧 FAIR: May need more upside optimization")
+            print(f"  STEP: FAIR: May need more upside optimization")
         
         # Best lineups summary
-        print(f"\n🌟 TOP 5 VOLUME LINEUPS:")
+        print(f"\n TOP 5 VOLUME LINEUPS:")
         sorted_lineups = sorted(lineups, key=lambda x: x['total_ceiling'], reverse=True)
         
         for i, lineup in enumerate(sorted_lineups[:5], 1):
@@ -433,7 +433,7 @@ class EnhancedMLVolumeSystem:
     
     def run_volume_optimization(self):
         """Run complete Enhanced ML volume system"""
-        print("🚀 ENHANCED ML VOLUME SYSTEM")
+        print("START: ENHANCED ML VOLUME SYSTEM")
         print("Generate 25 diverse lineups targeting 150+ FPPG tournament scores")
         print("="*80)
         
@@ -452,17 +452,17 @@ class EnhancedMLVolumeSystem:
             # Export lineups
             filepath = self.export_volume_lineups(lineups)
             
-            print(f"\n🎉 VOLUME OPTIMIZATION COMPLETE!")
-            print(f"🎯 Generated {len(lineups)} diverse Enhanced ML lineups")
-            print(f"📈 Target: Beat 153.45 FPPG winning threshold")
-            print(f"💡 Strategy: Volume + diversity using proven Enhanced ML core")
-            print(f"🏆 Ready for tournament submission!")
+            print(f"\nCOMPLETE: VOLUME OPTIMIZATION COMPLETE!")
+            print(f"TARGET: Generated {len(lineups)} diverse Enhanced ML lineups")
+            print(f"PROGRESS: Target: Beat 153.45 FPPG winning threshold")
+            print(f"TIP: Strategy: Volume + diversity using proven Enhanced ML core")
+            print(f"LINEUP: Ready for tournament submission!")
             
         else:
-            print("❌ Failed to generate volume lineups")
+            print("ERROR: Failed to generate volume lineups")
 
 def main():
-    print("🎯 ENHANCED ML VOLUME SYSTEM")
+    print("TARGET: ENHANCED ML VOLUME SYSTEM")
     print("Generate winning tournament lineups targeting 153+ FPPG")
     print("="*80)
     

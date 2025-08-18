@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 FANDUEL EXACT FORMAT BUILDER
+TARGET: FANDUEL EXACT FORMAT BUILDER
 Creates the exact CSV format that FanDuel expects for lineup uploads
 """
 
@@ -14,13 +14,13 @@ logger = logging.getLogger(__name__)
 def create_fanduel_exact_format():
     """Create the exact format FanDuel expects"""
     
-    logger.info("🎯 CREATING FANDUEL EXACT FORMAT")
+    logger.info("TARGET: CREATING FANDUEL EXACT FORMAT")
     logger.info("="*50)
     
     try:
         # Load the smart lineups
         df = pd.read_csv('../fd_current_slate/SMART_CHAMPIONSHIP_LINEUPS.csv')
-        logger.info(f"📥 Loaded {len(df)} smart lineups")
+        logger.info(f" Loaded {len(df)} smart lineups")
         
         # FanDuel expects EXACTLY this format based on common upload patterns:
         # P,C,1B,2B,3B,SS,OF,OF,OF,UTIL (with three OF columns all named "OF")
@@ -79,42 +79,42 @@ def create_fanduel_exact_format():
         fd_final_v2.to_csv(main_file, index=False)
         
         logger.info("")
-        logger.info("💾 FANDUEL EXACT FORMAT FILES:")
-        logger.info(f"   📁 Version 1 (OF,OF,OF): {file1}")
-        logger.info(f"   📁 Version 2 (OF,OF_2,OF_3): {file2}")
-        logger.info(f"   📁 Version 3 (OF1,OF2,OF3): {file3}")
-        logger.info(f"   📁 MAIN FILE: {main_file}")
+        logger.info(" FANDUEL EXACT FORMAT FILES:")
+        logger.info(f"    Version 1 (OF,OF,OF): {file1}")
+        logger.info(f"    Version 2 (OF,OF_2,OF_3): {file2}")
+        logger.info(f"    Version 3 (OF1,OF2,OF3): {file3}")
+        logger.info(f"    MAIN FILE: {main_file}")
         
         # Show what each version looks like
         logger.info("")
-        logger.info("📋 FORMAT COMPARISON:")
+        logger.info("INFO: FORMAT COMPARISON:")
         logger.info(f"   V1 columns: {list(fd_final.columns)}")
         logger.info(f"   V2 columns: {list(fd_final_v2.columns)}")
         logger.info(f"   V3 columns: {list(fd_final_v3.columns)}")
         
         # Show first lineup as example
         logger.info("")
-        logger.info("📋 SAMPLE LINEUP (Version 2):")
+        logger.info("INFO: SAMPLE LINEUP (Version 2):")
         first_lineup = fd_final_v2.iloc[0]
         for col in fd_final_v2.columns:
             logger.info(f"   {col}: {first_lineup[col]}")
         
         # Additional validation
         logger.info("")
-        logger.info("✅ VALIDATION:")
+        logger.info("SUCCESS: VALIDATION:")
         logger.info(f"   Lineups: {len(fd_final_v2)}")
         logger.info(f"   Columns: {len(fd_final_v2.columns)}")
-        logger.info(f"   All Player IDs present: ✅")
-        logger.info(f"   No empty values: {'✅' if not fd_final_v2.isnull().any().any() else '❌'}")
+        logger.info(f"   All Player IDs present: SUCCESS:")
+        logger.info(f"   No empty values: {'SUCCESS:' if not fd_final_v2.isnull().any().any() else 'ERROR:'}")
         
         logger.info("")
-        logger.info("🎯 UPLOAD INSTRUCTIONS:")
+        logger.info("TARGET: UPLOAD INSTRUCTIONS:")
         logger.info("1. Try FANDUEL_UPLOAD_EXACT.csv FIRST")
         logger.info("2. If that fails, try Version 1 (duplicate OF columns)")
         logger.info("3. If that fails, try Version 3 (OF1,OF2,OF3)")
         
     except Exception as e:
-        logger.error(f"❌ Exact format error: {e}")
+        logger.error(f"ERROR: Exact format error: {e}")
         import traceback
         traceback.print_exc()
 

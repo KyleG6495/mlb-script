@@ -34,10 +34,10 @@ def find_latest_prizepicks_file():
         if files:
             # Get most recent file
             latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-            logger.info(f"📁 Found PrizePicks data in: {Path(latest_file).name}")
+            logger.info(f" Found PrizePicks data in: {Path(latest_file).name}")
             return latest_file
     
-    logger.warning("⚠️ No PrizePicks files found")
+    logger.warning("WARNING: No PrizePicks files found")
     return None
 
 def load_prizepicks_data(file_path):
@@ -51,7 +51,7 @@ def load_prizepicks_data(file_path):
     prizepicks_df = df[df['source'] == 'prizepicks'].copy()
     
     if len(prizepicks_df) == 0:
-        logger.warning("⚠️ No PrizePicks entries found in file")
+        logger.warning("WARNING: No PrizePicks entries found in file")
         return None
     
     # Convert to expected format for analysis
@@ -60,7 +60,7 @@ def load_prizepicks_data(file_path):
     prizepicks_df['Line'] = prizepicks_df['line']
     prizepicks_df['Bet Type'] = prizepicks_df['recommended_bet']
     
-    logger.info(f"📊 Loaded {len(prizepicks_df)} PrizePicks entries")
+    logger.info(f"DATA: Loaded {len(prizepicks_df)} PrizePicks entries")
     return prizepicks_df
 
 def load_actual_results():
@@ -68,11 +68,11 @@ def load_actual_results():
     actual_file = BASE_DIR / "actual_results_latest.csv"
     
     if not actual_file.exists():
-        logger.warning("⚠️ No actual results file found")
+        logger.warning("WARNING: No actual results file found")
         return None
     
     df = pd.read_csv(actual_file)
-    logger.info(f"📊 Loaded actual results for {len(df)} players")
+    logger.info(f"DATA: Loaded actual results for {len(df)} players")
     return df
 
 def map_prop_to_actual_stat(prop_type, actual_player):
@@ -96,10 +96,10 @@ def map_prop_to_actual_stat(prop_type, actual_player):
 
 def analyze_prizepicks_performance(prizepicks_df, actual_df):
     """Analyze PrizePicks predictions vs actual results"""
-    logger.info("💰 Analyzing PrizePicks performance...")
+    logger.info("MONEY: Analyzing PrizePicks performance...")
     
     if prizepicks_df is None or actual_df is None:
-        logger.warning("⚠️ Missing data for PrizePicks analysis")
+        logger.warning("WARNING: Missing data for PrizePicks analysis")
         return pd.DataFrame(), {}
     
     results = []
@@ -258,23 +258,23 @@ def save_prizepicks_results(results_df, summary, prop_analysis):
     # Save detailed results
     results_file = BASE_DIR / f"prizepicks_backtest_{timestamp}.csv"
     results_df.to_csv(results_file, index=False)
-    logger.info(f"💾 Saved PrizePicks results: {results_file}")
+    logger.info(f" Saved PrizePicks results: {results_file}")
     
     # Save prop type analysis
     if len(prop_analysis) > 0:
         prop_file = BASE_DIR / f"prizepicks_prop_analysis_{timestamp}.csv"
         prop_analysis.to_csv(prop_file, index=False)
-        logger.info(f"💾 Saved prop analysis: {prop_file}")
+        logger.info(f" Saved prop analysis: {prop_file}")
     
     # Save summary
     summary_file = BASE_DIR / f"prizepicks_summary_{timestamp}.json"
     with open(summary_file, 'w') as f:
         json.dump(summary, f, indent=2)
-    logger.info(f"💾 Saved summary: {summary_file}")
+    logger.info(f" Saved summary: {summary_file}")
 
 def main():
     """Main execution function"""
-    logger.info("💰 BACKTESTING PRIZEPICKS PREDICTIONS")
+    logger.info("MONEY: BACKTESTING PRIZEPICKS PREDICTIONS")
     logger.info("=" * 50)
     
     try:
@@ -283,11 +283,11 @@ def main():
         if prizepicks_file:
             prizepicks_df = load_prizepicks_data(prizepicks_file)
             if prizepicks_df is not None:
-                logger.info(f"📊 Loaded {len(prizepicks_df)} PrizePicks predictions")
+                logger.info(f"DATA: Loaded {len(prizepicks_df)} PrizePicks predictions")
             else:
-                logger.warning("⚠️ No PrizePicks entries found in file")
+                logger.warning("WARNING: No PrizePicks entries found in file")
         else:
-            logger.warning("⚠️ No PrizePicks file found")
+            logger.warning("WARNING: No PrizePicks file found")
             prizepicks_df = None
         
         # Load actual results
@@ -304,18 +304,18 @@ def main():
             save_prizepicks_results(results_df, summary, prop_analysis)
             
             # Print key insights
-            logger.info("🎯 PRIZEPICKS PERFORMANCE INSIGHTS:")
-            logger.info(f"📊 Total picks analyzed: {summary.get('total_picks', 0)}")
-            logger.info(f"✅ Hit rate: {summary.get('hit_rate_pct', 0):.1f}%")
-            logger.info(f"📈 Average edge: {summary.get('avg_edge', 0):.3f}")
-            logger.info(f"💰 Average EV: {summary.get('avg_ev', 0):.3f}")
+            logger.info("TARGET: PRIZEPICKS PERFORMANCE INSIGHTS:")
+            logger.info(f"DATA: Total picks analyzed: {summary.get('total_picks', 0)}")
+            logger.info(f"SUCCESS: Hit rate: {summary.get('hit_rate_pct', 0):.1f}%")
+            logger.info(f"PROGRESS: Average edge: {summary.get('avg_edge', 0):.3f}")
+            logger.info(f"MONEY: Average EV: {summary.get('avg_ev', 0):.3f}")
             
-            logger.info("✅ PRIZEPICKS BACKTEST COMPLETE")
+            logger.info("SUCCESS: PRIZEPICKS BACKTEST COMPLETE")
         else:
-            logger.warning("⚠️ No PrizePicks data to analyze")
+            logger.warning("WARNING: No PrizePicks data to analyze")
     
     except Exception as e:
-        logger.error(f"❌ Error in PrizePicks backtest: {e}")
+        logger.error(f"ERROR: Error in PrizePicks backtest: {e}")
         raise
 
 if __name__ == "__main__":

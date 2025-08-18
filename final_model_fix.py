@@ -157,14 +157,14 @@ if best_features is not None:
                 print(f"Prediction range: {predictions.min():.3f} to {predictions.max():.3f}")
                 
                 if len(set(predictions)) > 1:
-                    print("✅ SUCCESS: Predictions are varying!")
+                    print("SUCCESS: SUCCESS: Predictions are varying!")
                     
                     # Save this working model
                     model_path = os.path.join(data_dir, "hits_model_fixed.pkl")
                     joblib.dump(model, model_path)
                     print(f"Saved working model to: {model_path}")
                 else:
-                    print("❌ ISSUE: Predictions are still identical")
+                    print("ERROR: ISSUE: Predictions are still identical")
         
         print("\n" + "="*60)
         print("FINAL MODEL FIX COMPLETE")

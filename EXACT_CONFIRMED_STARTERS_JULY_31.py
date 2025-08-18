@@ -77,23 +77,23 @@ def get_todays_exact_confirmed_starters():
         player['date'] = '2025-07-31'
         player['timestamp'] = datetime.now().isoformat()
     
-    logger.info(f"📋 EXACT CONFIRMED STARTERS FOR TODAY:")
-    logger.info(f"   🎮 Games: 2 (ATL@CIN, TEX@SEA)")
-    logger.info(f"   ⚾ Pitchers: 4 (Chris Sale, Andrew Abbott, Nathan Eovaldi, George Kirby)")
-    logger.info(f"   🏏 Hitters: {len([p for p in confirmed_starters if p['position'] != 'P'])}")
-    logger.info(f"   📊 Total confirmed: {len(confirmed_starters)}")
+    logger.info(f"INFO: EXACT CONFIRMED STARTERS FOR TODAY:")
+    logger.info(f"    Games: 2 (ATL@CIN, TEX@SEA)")
+    logger.info(f"   BASEBALL: Pitchers: 4 (Chris Sale, Andrew Abbott, Nathan Eovaldi, George Kirby)")
+    logger.info(f"    Hitters: {len([p for p in confirmed_starters if p['position'] != 'P'])}")
+    logger.info(f"   DATA: Total confirmed: {len(confirmed_starters)}")
     
     return confirmed_starters
 
 def filter_fd_slate_exact_match(fd_df, confirmed_starters):
     """Filter FD slate with EXACT confirmed starters only"""
-    logger.info("🎯 FILTERING FD SLATE - EXACT MATCH ONLY")
-    logger.info(f"📋 Confirmed starters: {len(confirmed_starters)}")
+    logger.info("TARGET: FILTERING FD SLATE - EXACT MATCH ONLY")
+    logger.info(f"INFO: Confirmed starters: {len(confirmed_starters)}")
     
     confirmed_names = [player['name'] for player in confirmed_starters]
     filtered_players = []
     
-    logger.info("🔍 EXACT MATCHING:")
+    logger.info(" EXACT MATCHING:")
     for idx, fd_player in fd_df.iterrows():
         fd_full = f"{fd_player['First Name']} {fd_player['Last Name']}"
         fd_nick = fd_player['Nickname']
@@ -116,20 +116,20 @@ def filter_fd_slate_exact_match(fd_df, confirmed_starters):
         
         if is_confirmed:
             filtered_players.append(fd_player)
-            logger.info(f"✅ EXACT MATCH: {fd_nick} → {matched_name}")
+            logger.info(f"SUCCESS: EXACT MATCH: {fd_nick}  {matched_name}")
     
     filtered_df = pd.DataFrame(filtered_players)
     
-    logger.info(f"📊 EXACT FILTERING RESULTS:")
+    logger.info(f"DATA: EXACT FILTERING RESULTS:")
     logger.info(f"   Original FD slate: {len(fd_df)} players")
     logger.info(f"   Exact confirmed starters: {len(filtered_df)} players")
-    logger.info(f"   ❌ Non-starters filtered: {len(fd_df) - len(filtered_df)} players")
+    logger.info(f"   ERROR: Non-starters filtered: {len(fd_df) - len(filtered_df)} players")
     
     # Validate we have exactly what we expect
     pitchers = filtered_df[filtered_df['Position'] == 'P']
     hitters = filtered_df[filtered_df['Position'] != 'P']
     
-    logger.info(f"🎯 VALIDATION:")
+    logger.info(f"TARGET: VALIDATION:")
     logger.info(f"   Expected pitchers: 4, Found: {len(pitchers)}")
     logger.info(f"   Expected total games: 2")
     logger.info(f"   Confirmed hitters: {len(hitters)}")
@@ -141,16 +141,16 @@ def validate_exact_games(filtered_df):
     games = filtered_df['Game'].unique()
     expected_games = ['ATL@CIN', 'TEX@SEA']
     
-    logger.info("🎮 GAME VALIDATION:")
+    logger.info(" GAME VALIDATION:")
     for game in games:
         if game in expected_games:
-            logger.info(f"   ✅ {game} - CONFIRMED")
+            logger.info(f"   SUCCESS: {game} - CONFIRMED")
         else:
-            logger.warning(f"   ⚠️ {game} - UNEXPECTED GAME")
+            logger.warning(f"   WARNING: {game} - UNEXPECTED GAME")
     
     for expected in expected_games:
         if expected not in games:
-            logger.warning(f"   ❌ {expected} - MISSING GAME")
+            logger.warning(f"   ERROR: {expected} - MISSING GAME")
     
     return len(games) == 2 and all(game in expected_games for game in games)
 
@@ -166,29 +166,29 @@ def save_exact_confirmed_slate(confirmed_df):
     main_file = "../fd_current_slate/fd_slate_exact_confirmed_starters.csv"
     confirmed_df.to_csv(main_file, index=False)
     
-    logger.info(f"💾 SAVED EXACT CONFIRMED SLATE:")
-    logger.info(f"   📁 Timestamped: {exact_file}")
-    logger.info(f"   📁 Main file: {main_file}")
+    logger.info(f" SAVED EXACT CONFIRMED SLATE:")
+    logger.info(f"    Timestamped: {exact_file}")
+    logger.info(f"    Main file: {main_file}")
     
     return exact_file, main_file
 
 def main():
     """Create exact confirmed starters system"""
-    logger.info("🎯 EXACT CONFIRMED STARTERS - JULY 31, 2025")
-    logger.info("📋 Matching RotoWire lineups for today's 2 games only")
+    logger.info("TARGET: EXACT CONFIRMED STARTERS - JULY 31, 2025")
+    logger.info("INFO: Matching RotoWire lineups for today's 2 games only")
     logger.info("=" * 60)
     
     # Get exact confirmed starters
     confirmed_starters = get_todays_exact_confirmed_starters()
     
     # Load FD slate
-    logger.info("📥 Loading FanDuel slate...")
+    logger.info(" Loading FanDuel slate...")
     fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-    logger.info(f"📊 Original FD slate: {len(fd_df)} players")
+    logger.info(f"DATA: Original FD slate: {len(fd_df)} players")
     
     # Show games in FD slate
     fd_games = fd_df['Game'].unique()
-    logger.info(f"🎮 Games in FD slate: {list(fd_games)}")
+    logger.info(f" Games in FD slate: {list(fd_games)}")
     
     # Filter to exact confirmed starters
     confirmed_df = filter_fd_slate_exact_match(fd_df, confirmed_starters)
@@ -197,27 +197,27 @@ def main():
     games_valid = validate_exact_games(confirmed_df)
     
     if not games_valid:
-        logger.warning("⚠️ Game validation failed - check game mappings")
+        logger.warning("WARNING: Game validation failed - check game mappings")
     
     # Save exact confirmed slate
     exact_file, main_file = save_exact_confirmed_slate(confirmed_df)
     
     # Final summary
     logger.info("=" * 60)
-    logger.info("🎉 EXACT CONFIRMED STARTERS SYSTEM READY!")
-    logger.info(f"✅ {len(confirmed_df)} exact confirmed starters")
-    logger.info(f"🎮 Games: {len(confirmed_df['Game'].unique())} (should be 2)")
-    logger.info(f"⚾ Pitchers: {len(confirmed_df[confirmed_df['Position'] == 'P'])} (should be 4)")
-    logger.info(f"🚫 Non-starters eliminated: {len(fd_df) - len(confirmed_df)}")
-    logger.info("💯 100% EXACT MATCH WITH ROTOWIRE!")
+    logger.info("COMPLETE: EXACT CONFIRMED STARTERS SYSTEM READY!")
+    logger.info(f"SUCCESS: {len(confirmed_df)} exact confirmed starters")
+    logger.info(f" Games: {len(confirmed_df['Game'].unique())} (should be 2)")
+    logger.info(f"BASEBALL: Pitchers: {len(confirmed_df[confirmed_df['Position'] == 'P'])} (should be 4)")
+    logger.info(f" Non-starters eliminated: {len(fd_df) - len(confirmed_df)}")
+    logger.info(" 100% EXACT MATCH WITH ROTOWIRE!")
     
     # Show confirmed pitchers
     pitchers = confirmed_df[confirmed_df['Position'] == 'P']
     if len(pitchers) > 0:
         logger.info("")
-        logger.info("⚾ CONFIRMED STARTING PITCHERS:")
+        logger.info("BASEBALL: CONFIRMED STARTING PITCHERS:")
         for _, pitcher in pitchers.iterrows():
-            logger.info(f"   ✅ {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,}")
+            logger.info(f"   SUCCESS: {pitcher['Nickname']} ({pitcher['Team']}) - ${pitcher['Salary']:,}")
 
 if __name__ == "__main__":
     main()

@@ -29,7 +29,7 @@ def get_yesterday_date():
 
 def create_fallback_data(date_str):
     """Create fallback data when API fails"""
-    logger.info("📦 Creating fallback data with known results...")
+    logger.info(" Creating fallback data with known results...")
     
     fallback_players = [
         {
@@ -80,32 +80,32 @@ def collect_mlb_stats(date_str):
     """
     Collect comprehensive MLB statistics using MLB Stats API
     """
-    logger.info(f"🔍 Collecting MLB stats for {date_str}...")
+    logger.info(f" Collecting MLB stats for {date_str}...")
     
     try:
         # Get games for the date
         games_url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date_str}&hydrate=boxscore"
         
-        logger.info(f"📡 Fetching games from MLB API...")
+        logger.info(f" Fetching games from MLB API...")
         response = requests.get(games_url, timeout=30)
         
         if response.status_code != 200:
-            logger.warning(f"❌ Failed to fetch games: {response.status_code}")
+            logger.warning(f"ERROR: Failed to fetch games: {response.status_code}")
             return create_fallback_data(date_str)
         
         games_data = response.json()
         actual_stats = []
         
         if not games_data.get('dates') or not games_data['dates'][0].get('games'):
-            logger.warning(f"❌ No games found for {date_str}")
+            logger.warning(f"ERROR: No games found for {date_str}")
             return create_fallback_data(date_str)
         
         games = games_data['dates'][0]['games']
-        logger.info(f"📊 Found {len(games)} games on {date_str}")
+        logger.info(f"DATA: Found {len(games)} games on {date_str}")
         
         for i, game in enumerate(games):
             try:
-                logger.info(f"📊 Processing game {i+1}/{len(games)}")
+                logger.info(f"DATA: Processing game {i+1}/{len(games)}")
                 
                 # Get detailed boxscore
                 game_pk = game['gamePk']
@@ -113,7 +113,7 @@ def collect_mlb_stats(date_str):
                 
                 box_response = requests.get(boxscore_url, timeout=30)
                 if box_response.status_code != 200:
-                    logger.warning(f"⚠️ Failed to get boxscore for game {game_pk}")
+                    logger.warning(f"WARNING: Failed to get boxscore for game {game_pk}")
                     continue
                     
                 boxscore = box_response.json()
@@ -189,11 +189,11 @@ def collect_mlb_stats(date_str):
                 time.sleep(0.5)
                 
             except Exception as e:
-                logger.warning(f"⚠️ Error processing game {game_pk}: {e}")
+                logger.warning(f"WARNING: Error processing game {game_pk}: {e}")
                 continue
         
         if len(actual_stats) == 0:
-            logger.warning("❌ No player stats collected, using fallback data")
+            logger.warning("ERROR: No player stats collected, using fallback data")
             return create_fallback_data(date_str)
         
         df = pd.DataFrame(actual_stats)
@@ -201,12 +201,12 @@ def collect_mlb_stats(date_str):
         # Calculate FanDuel points for each player
         df['fanduel_points'] = df.apply(calculate_fanduel_points, axis=1)
         
-        logger.info(f"✅ Collected stats for {len(actual_stats)} players")
+        logger.info(f"SUCCESS: Collected stats for {len(actual_stats)} players")
         return df
         
     except Exception as e:
-        logger.error(f"❌ Error collecting stats: {e}")
-        logger.info("📦 Using fallback data due to API error")
+        logger.error(f"ERROR: Error collecting stats: {e}")
+        logger.info(" Using fallback data due to API error")
         return create_fallback_data(date_str)
 
 def calculate_fanduel_points(row):
@@ -237,7 +237,7 @@ def calculate_fanduel_points(row):
         return round(max(0, points), 1)  # Minimum 0 points, rounded to 1 decimal
         
     except Exception as e:
-        logger.warning(f"⚠️ Error calculating points for {row.get('name', 'Unknown')}: {e}")
+        logger.warning(f"WARNING: Error calculating points for {row.get('name', 'Unknown')}: {e}")
         return 0.0
 
 def save_actual_results(df, date_str):
@@ -246,27 +246,27 @@ def save_actual_results(df, date_str):
         # Save with date timestamp
         output_file = BASE_DIR / f"actual_results_{date_str.replace('-', '')}.csv"
         df.to_csv(output_file, index=False)
-        logger.info(f"💾 Saved actual results: {output_file}")
+        logger.info(f" Saved actual results: {output_file}")
         
         # Also save as latest for easy access
         latest_file = BASE_DIR / "actual_results_latest.csv"
         df.to_csv(latest_file, index=False)
-        logger.info(f"💾 Saved as latest: {latest_file}")
+        logger.info(f" Saved as latest: {latest_file}")
         
         return output_file
     else:
-        logger.warning("❌ No data to save")
+        logger.warning("ERROR: No data to save")
         return None
 
 def main():
     """Main execution function"""
-    logger.info("🔍 COLLECTING ACTUAL GAME RESULTS")
+    logger.info(" COLLECTING ACTUAL GAME RESULTS")
     logger.info("=" * 50)
     
     try:
         # Get yesterday's date
         date_str = get_yesterday_date()
-        logger.info(f"📅 Analyzing games from: {date_str}")
+        logger.info(f" Analyzing games from: {date_str}")
         
         # Collect actual stats
         df = collect_mlb_stats(date_str)
@@ -275,28 +275,28 @@ def main():
             # Save results
             output_file = save_actual_results(df, date_str)
             
-            logger.info("✅ ACTUAL RESULTS COLLECTION COMPLETE")
-            logger.info(f"📊 Collected data for {len(df)} players")
-            logger.info(f"📁 File saved: {output_file}")
+            logger.info("SUCCESS: ACTUAL RESULTS COLLECTION COMPLETE")
+            logger.info(f"DATA: Collected data for {len(df)} players")
+            logger.info(f" File saved: {output_file}")
             
             # Show summary of collected data
             pitchers = df[df['position'] == 'P']
             hitters = df[df['position'] != 'P']
             
-            logger.info(f"⚾ Pitchers: {len(pitchers)} players")
-            logger.info(f"🏏 Hitters: {len(hitters)} players")
+            logger.info(f"BASEBALL: Pitchers: {len(pitchers)} players")
+            logger.info(f" Hitters: {len(hitters)} players")
             
             if len(pitchers) > 0:
-                logger.info(f"🎯 Top pitcher: {pitchers.loc[pitchers['fanduel_points'].idxmax(), 'name']} ({pitchers['fanduel_points'].max():.1f} pts)")
+                logger.info(f"TARGET: Top pitcher: {pitchers.loc[pitchers['fanduel_points'].idxmax(), 'name']} ({pitchers['fanduel_points'].max():.1f} pts)")
             
             if len(hitters) > 0:
-                logger.info(f"🎯 Top hitter: {hitters.loc[hitters['fanduel_points'].idxmax(), 'name']} ({hitters['fanduel_points'].max():.1f} pts)")
+                logger.info(f"TARGET: Top hitter: {hitters.loc[hitters['fanduel_points'].idxmax(), 'name']} ({hitters['fanduel_points'].max():.1f} pts)")
         
         else:
-            logger.error("❌ No data collected")
+            logger.error("ERROR: No data collected")
     
     except Exception as e:
-        logger.error(f"❌ Error in main execution: {e}")
+        logger.error(f"ERROR: Error in main execution: {e}")
         raise
 
 if __name__ == "__main__":

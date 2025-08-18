@@ -71,7 +71,7 @@ def load_confirmed_lineups():
 
 def validate_real_players(df, confirmed_lineups):
     """Validate which players from FD slate are actually playing TODAY"""
-    logger.info("🔍 VALIDATING REAL PLAYERS FOR JULY 30, 2025...")
+    logger.info(" VALIDATING REAL PLAYERS FOR JULY 30, 2025...")
     
     real_players = []
     all_confirmed_names = []
@@ -84,7 +84,7 @@ def validate_real_players(df, confirmed_lineups):
         # Add lineup players
         all_confirmed_names.extend(data['lineup_players'])
     
-    logger.info(f"📋 Total confirmed names/variants: {len(all_confirmed_names)}")
+    logger.info(f"INFO: Total confirmed names/variants: {len(all_confirmed_names)}")
     
     # Match FD players with confirmed names using multiple matching strategies
     for idx, player in df.iterrows():
@@ -131,11 +131,11 @@ def validate_real_players(df, confirmed_lineups):
             })
     
     real_df = pd.DataFrame(real_players)
-    logger.info(f"✅ MATCHED {len(real_df)} CONFIRMED REAL PLAYERS from FD slate")
+    logger.info(f"SUCCESS: MATCHED {len(real_df)} CONFIRMED REAL PLAYERS from FD slate")
     
     # Show some matches for verification
     if len(real_df) > 0:
-        logger.info("🎯 Sample confirmed players:")
+        logger.info("TARGET: Sample confirmed players:")
         for _, player in real_df.head(10).iterrows():
             logger.info(f"   {player['name']} ({player['position']}) - ${player['salary']} - {player['fppg']:.1f} FPPG")
     
@@ -143,10 +143,10 @@ def validate_real_players(df, confirmed_lineups):
 
 def optimize_lineup_with_salary_cap(real_players_df, salary_cap=35000):
     """Build salary-cap compliant lineup using optimization"""
-    logger.info(f"🏆 OPTIMIZING LINEUP WITH ${salary_cap:,} SALARY CAP...")
+    logger.info(f"LINEUP: OPTIMIZING LINEUP WITH ${salary_cap:,} SALARY CAP...")
     
     if len(real_players_df) == 0:
-        logger.error("❌ No real players found - cannot build lineup")
+        logger.error("ERROR: No real players found - cannot build lineup")
         return None, 0, 0
     
     # Separate by position
@@ -158,7 +158,7 @@ def optimize_lineup_with_salary_cap(real_players_df, salary_cap=35000):
     shortstop = real_players_df[real_players_df['position'].str.contains('SS')].copy()
     outfield = real_players_df[real_players_df['position'].str.contains('OF')].copy()
     
-    logger.info(f"🎯 Position breakdown:")
+    logger.info(f"TARGET: Position breakdown:")
     logger.info(f"   P: {len(pitchers)} players")
     logger.info(f"   C: {len(catchers)} players")
     logger.info(f"   1B: {len(first_base)} players")
@@ -229,24 +229,24 @@ def optimize_lineup_with_salary_cap(real_players_df, salary_cap=35000):
     
     if best_lineup:
         logger.info("=" * 60)
-        logger.info("🏆 OPTIMIZED LINEUP:")
+        logger.info("LINEUP: OPTIMIZED LINEUP:")
         for pos, player in best_lineup:
-            logger.info(f"🎯 {pos}: {player['name']} (${player['salary']}) - {player['fppg']:.1f} FPPG")
+            logger.info(f"TARGET: {pos}: {player['name']} (${player['salary']}) - {player['fppg']:.1f} FPPG")
         
         logger.info("=" * 60)
-        logger.info(f"💰 TOTAL SALARY: ${best_salary:,} / ${salary_cap:,}")
-        logger.info(f"📊 TOTAL PROJECTED FPPG: {best_fppg:.1f}")
-        logger.info(f"👥 LINEUP SIZE: {len(best_lineup)}")
-        logger.info(f"💵 SALARY REMAINING: ${salary_cap - best_salary:,}")
+        logger.info(f"MONEY: TOTAL SALARY: ${best_salary:,} / ${salary_cap:,}")
+        logger.info(f"DATA: TOTAL PROJECTED FPPG: {best_fppg:.1f}")
+        logger.info(f"OWNERSHIP: LINEUP SIZE: {len(best_lineup)}")
+        logger.info(f" SALARY REMAINING: ${salary_cap - best_salary:,}")
     else:
-        logger.error("❌ Could not build salary-cap compliant lineup")
+        logger.error("ERROR: Could not build salary-cap compliant lineup")
     
     return best_lineup, best_salary, best_fppg
 
 def save_real_lineup(lineup, total_salary, total_fppg):
     """Save the real players lineup to CSV in FanDuel format"""
     if not lineup:
-        logger.error("❌ No lineup to save")
+        logger.error("ERROR: No lineup to save")
         return
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -280,7 +280,7 @@ def save_real_lineup(lineup, total_salary, total_fppg):
     # Save in FanDuel format
     filename = f"../data/FANDUEL_REAL_PLAYERS_LINEUP_{timestamp}.csv"
     lineup_df.to_csv(filename, index=False)
-    logger.info(f"💾 Saved FanDuel format lineup: {filename}")
+    logger.info(f" Saved FanDuel format lineup: {filename}")
     
     # Create summary
     summary = {
@@ -294,31 +294,31 @@ def save_real_lineup(lineup, total_salary, total_fppg):
     
     summary_filename = f"../data/REAL_PLAYERS_SUMMARY_{timestamp}.csv"
     pd.DataFrame([summary]).to_csv(summary_filename, index=False)
-    logger.info(f"📋 Saved summary: {summary_filename}")
+    logger.info(f"INFO: Saved summary: {summary_filename}")
     
     return filename
 
 def main():
     """Main function to build salary-cap compliant real players lineup"""
-    logger.info("🚀 SALARY CAP COMPLIANT REAL PLAYERS LINEUP BUILDER")
-    logger.info("🗓️ Building lineup for July 30, 2025 ONLY")
+    logger.info("START: SALARY CAP COMPLIANT REAL PLAYERS LINEUP BUILDER")
+    logger.info(" Building lineup for July 30, 2025 ONLY")
     logger.info("=" * 60)
     
     try:
         # Load confirmed lineups from RotoWire for July 30, 2025
         confirmed_lineups = load_confirmed_lineups()
-        logger.info(f"📋 Loaded {len(confirmed_lineups)} confirmed games for July 30, 2025")
+        logger.info(f"INFO: Loaded {len(confirmed_lineups)} confirmed games for July 30, 2025")
         
         # Load FanDuel slate
-        logger.info("📥 Loading FanDuel slate...")
+        logger.info(" Loading FanDuel slate...")
         fd_df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📊 Loaded {len(fd_df)} total players from FD slate")
+        logger.info(f"DATA: Loaded {len(fd_df)} total players from FD slate")
         
         # Validate real players
         real_players_df = validate_real_players(fd_df, confirmed_lineups)
         
         if len(real_players_df) == 0:
-            logger.error("❌ No real players found - check RotoWire lineup data")
+            logger.error("ERROR: No real players found - check RotoWire lineup data")
             return
         
         # Build salary-cap compliant lineup
@@ -329,19 +329,19 @@ def main():
             filename = save_real_lineup(lineup, total_salary, total_fppg)
             
             logger.info("=" * 60)
-            logger.info("🎉 REAL PLAYERS LINEUP COMPLETE!")
-            logger.info(f"📁 Saved to: {filename}")
-            logger.info("🎯 This lineup contains ONLY players confirmed to be playing July 30, 2025!")
-            logger.info(f"💰 Under salary cap: ${35000 - total_salary:,} remaining")
-            logger.info(f"📊 Projected FPPG: {total_fppg:.1f}")
+            logger.info("COMPLETE: REAL PLAYERS LINEUP COMPLETE!")
+            logger.info(f" Saved to: {filename}")
+            logger.info("TARGET: This lineup contains ONLY players confirmed to be playing July 30, 2025!")
+            logger.info(f"MONEY: Under salary cap: ${35000 - total_salary:,} remaining")
+            logger.info(f"DATA: Projected FPPG: {total_fppg:.1f}")
         else:
-            logger.error("❌ Failed to build complete 9-player lineup under salary cap")
-            logger.error("💡 Possible issues:")
+            logger.error("ERROR: Failed to build complete 9-player lineup under salary cap")
+            logger.error("TIP: Possible issues:")
             logger.error("   - Not enough confirmed players in each position")
             logger.error("   - Salary constraints too tight with available players")
             
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"ERROR: Error: {e}")
         import traceback
         traceback.print_exc()
 

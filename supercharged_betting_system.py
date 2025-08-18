@@ -100,11 +100,11 @@ class SuperchargedBettingSystem(AutomatedBettingSystem):
                         # Standard missing feature - use baseline
                         aligned_df[feature] = 0.5
             
-            logging.info(f"✅ Feature alignment: {len(expected_features)} expected, {len(aligned_df.columns)} provided")
+            logging.info(f"SUCCESS: Feature alignment: {len(expected_features)} expected, {len(aligned_df.columns)} provided")
             return aligned_df
             
         except Exception as e:
-            logging.warning(f"⚠️ Feature alignment failed for {category}: {e}")
+            logging.warning(f"WARNING: Feature alignment failed for {category}: {e}")
             return df
     
     def smart_prediction_with_fallback(self, df, category):
@@ -133,17 +133,17 @@ class SuperchargedBettingSystem(AutomatedBettingSystem):
             identical = len(np.unique(predictions)) <= 3
             
             if too_low > len(predictions) * 0.5 or too_high > len(predictions) * 0.1 or identical:
-                logging.warning(f"🚨 Poor {category} predictions: {too_low} too low, {too_high} too high, identical: {identical}")
+                logging.warning(f" Poor {category} predictions: {too_low} too low, {too_high} too high, identical: {identical}")
                 raise ValueError("Model predictions are unrealistic")
             
             # Clamp extreme values
             predictions = np.clip(predictions, realistic_min, realistic_max)
             
-            logging.info(f"✅ {category} model predictions: min={predictions.min():.2f}, max={predictions.max():.2f}, mean={predictions.mean():.2f}")
+            logging.info(f"SUCCESS: {category} model predictions: min={predictions.min():.2f}, max={predictions.max():.2f}, mean={predictions.mean():.2f}")
             return predictions
             
         except Exception as e:
-            logging.warning(f"⚠️ Model prediction failed for {category}: {e}")
+            logging.warning(f"WARNING: Model prediction failed for {category}: {e}")
             return self.baseline_prediction_with_variance(df, category)
     
     def baseline_prediction_with_variance(self, df, category):
@@ -174,21 +174,21 @@ class SuperchargedBettingSystem(AutomatedBettingSystem):
         baseline_bounds = self.baseline_predictions.get(category, {'min': 0, 'max': 10})
         predictions = np.clip(predictions, baseline_bounds['min'], baseline_bounds['max'])
         
-        logging.info(f"📊 {category} baseline predictions: min={predictions.min():.2f}, max={predictions.max():.2f}, mean={predictions.mean():.2f}")
+        logging.info(f"DATA: {category} baseline predictions: min={predictions.min():.2f}, max={predictions.max():.2f}, mean={predictions.mean():.2f}")
         return predictions
     
     def enhanced_generate_all_predictions(self, date_str):
         """Generate predictions with enhanced quality control"""
-        logging.info(f"🚀 Enhanced prediction generation for {date_str}...")
+        logging.info(f"START: Enhanced prediction generation for {date_str}...")
         
         # First load models using parent class method
         if not self.load_all_models():
-            logging.error("❌ Failed to load models")
+            logging.error("ERROR: Failed to load models")
             return {}
         
         features = self.load_today_features(date_str)
         if not features:
-            logging.error("❌ No feature data loaded")
+            logging.error("ERROR: No feature data loaded")
             return {}
         
         predictions = {}
@@ -200,13 +200,13 @@ class SuperchargedBettingSystem(AutomatedBettingSystem):
                     if 'pitcher' in features:
                         df = features['pitcher'].copy()
                     else:
-                        logging.warning(f"⚠️ No pitcher data for {category}")
+                        logging.warning(f"WARNING: No pitcher data for {category}")
                         continue
                 else:
                     if 'hitter' in features:
                         df = features['hitter'].copy()
                     else:
-                        logging.warning(f"⚠️ No hitter data for {category}")
+                        logging.warning(f"WARNING: No hitter data for {category}")
                         continue
                 
                 # Apply computed columns
@@ -236,10 +236,10 @@ class SuperchargedBettingSystem(AutomatedBettingSystem):
                 pred_df[f'confidence_{category}'] = np.clip(pred_df[f'confidence_{category}'], 0.1, 1.0)
                 
                 predictions[category] = pred_df
-                logging.info(f"✅ Enhanced {category} predictions for {len(pred_df)} players")
+                logging.info(f"SUCCESS: Enhanced {category} predictions for {len(pred_df)} players")
                 
             except Exception as e:
-                logging.error(f"❌ Failed to predict {category}: {e}")
+                logging.error(f"ERROR: Failed to predict {category}: {e}")
                 continue
         
         self.predictions = predictions
@@ -299,13 +299,13 @@ class SuperchargedBettingSystem(AutomatedBettingSystem):
         # Sort by confidence-adjusted edge
         enhanced_opportunities.sort(key=lambda x: x['confidence_adjusted_edge'], reverse=True)
         
-        logging.info(f"📈 Enhanced {len(enhanced_opportunities)} opportunities with advanced analytics")
+        logging.info(f"PROGRESS: Enhanced {len(enhanced_opportunities)} opportunities with advanced analytics")
         return enhanced_opportunities
 
 def run_supercharged_system():
     """Run the enhanced betting system"""
     
-    print("🚀 SUPERCHARGED BETTING SYSTEM")
+    print("START: SUPERCHARGED BETTING SYSTEM")
     print("="*80)
     
     # Initialize enhanced system
@@ -316,7 +316,7 @@ def run_supercharged_system():
     predictions = system.enhanced_generate_all_predictions(today)
     
     if not predictions:
-        print("❌ No predictions generated")
+        print("ERROR: No predictions generated")
         return
     
     # Load sportsbook lines
@@ -327,10 +327,10 @@ def run_supercharged_system():
     
     # Generate enhanced report
     if opportunities:
-        print(f"🎯 Found {len(opportunities)} ENHANCED opportunities!")
+        print(f"TARGET: Found {len(opportunities)} ENHANCED opportunities!")
         
         # Show top 10
-        print("\\n🏆 TOP 10 ENHANCED OPPORTUNITIES:")
+        print("\\nLINEUP: TOP 10 ENHANCED OPPORTUNITIES:")
         print("-"*80)
         
         for i, opp in enumerate(opportunities[:10], 1):
@@ -345,10 +345,10 @@ def run_supercharged_system():
         df = pd.DataFrame(opportunities)
         enhanced_file = f"./betting_analysis/enhanced_opportunities_{timestamp}.csv"
         df.to_csv(enhanced_file, index=False)
-        print(f"💾 Enhanced opportunities saved: {enhanced_file}")
+        print(f" Enhanced opportunities saved: {enhanced_file}")
         
     else:
-        print("❌ No opportunities found")
+        print("ERROR: No opportunities found")
 
 if __name__ == "__main__":
     run_supercharged_system()

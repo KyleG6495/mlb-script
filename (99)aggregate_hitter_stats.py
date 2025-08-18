@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 (5) aggregate_hitter_stats.py
-Enrich today’s FanDuel hitter slate with the correct game_pk (via name_key & fallback player_id),
+Enrich todays FanDuel hitter slate with the correct game_pk (via name_key & fallback player_id),
 weather, and park factors.
 """
 
@@ -30,21 +30,21 @@ def normalize_name(s: pd.Series) -> pd.Series:
 
 def main():
     # 1) Load FD hitters
-    logging.info(f"📄 Loading FD hitters → {INPUT_FD_SLATE}")
+    logging.info(f" Loading FD hitters  {INPUT_FD_SLATE}")
     df = pd.read_csv(INPUT_FD_SLATE, dtype={"player_id": str})
-    logging.info(f"✅ Loaded {len(df)} rows")
+    logging.info(f"SUCCESS: Loaded {len(df)} rows")
 
     # 2) Drop any pitchers
     if "Position" in df.columns:
         before = len(df)
         df = df[~df["Position"].str.upper().str.startswith("P")].reset_index(drop=True)
-        logging.info(f"✅ Filtered to hitters only: {len(df)} rows (dropped {before - len(df)})")
+        logging.info(f"SUCCESS: Filtered to hitters only: {len(df)} rows (dropped {before - len(df)})")
 
     # 3) Build name_key for merge
     df["name_key"] = normalize_name(df["First Name"] + " " + df["Last Name"])
 
     # 4) Load ID map and prepare
-    logging.info(f"🔄 Loading ID map → {INPUT_ID_MAP}")
+    logging.info(f"SWAP: Loading ID map  {INPUT_ID_MAP}")
     id_map = pd.read_csv(INPUT_ID_MAP, dtype={"player_id": str})
     id_map["name_key"] = normalize_name(id_map["target_name"])
     id_map = id_map[["player_id", "name_key", "game_pk"]].drop_duplicates()
@@ -59,7 +59,7 @@ def main():
     # 6) Fallback merge on player_id for any still-missing
     missing = df["game_pk"].isna()
     if missing.any():
-        logging.info(f"ℹ️ {missing.sum()} rows missing after name_key merge; doing fallback on player_id")
+        logging.info(f" {missing.sum()} rows missing after name_key merge; doing fallback on player_id")
         fallback = id_map.drop(columns="name_key").drop_duplicates(subset=["player_id"])
         df = df.merge(
             fallback,
@@ -75,17 +75,17 @@ def main():
     # 7) Final missing check
     still_missing = df["game_pk"].isna().sum()
     if still_missing:
-        logging.warning(f"⚠️ {still_missing}/{len(df)} rows STILL missing game_pk")
+        logging.warning(f"WARNING: {still_missing}/{len(df)} rows STILL missing game_pk")
     else:
-        logging.info("✅ All rows have a game_pk")
+        logging.info("SUCCESS: All rows have a game_pk")
 
     # 8) Merge weather
-    logging.info(f"🔄 Merging weather → {INPUT_WEATHER}")
+    logging.info(f"SWAP: Merging weather  {INPUT_WEATHER}")
     weather = pd.read_csv(INPUT_WEATHER)[["game_pk", "temperature", "wind_speed", "condition"]]
     df = df.merge(weather, on="game_pk", how="left", validate="many_to_one")
 
     # 9) Merge park factors
-    logging.info(f"🔄 Merging park factors → {INPUT_PARK}")
+    logging.info(f"SWAP: Merging park factors  {INPUT_PARK}")
     park_cols = ["game_pk","park_factor","1B","2B","3B","HR","SO","BB","GB","FB","LD","IFFB","FIP"]
     park = pd.read_csv(INPUT_PARK)[park_cols]
     df = df.merge(park, on="game_pk", how="left", validate="many_to_one")
@@ -96,9 +96,9 @@ def main():
         df["Team_weather"] = df["team_standardized"]
 
     # 11) Save
-    logging.info(f"✅ Saving enriched hitters → {OUTPUT_FILE}")
+    logging.info(f"SUCCESS: Saving enriched hitters  {OUTPUT_FILE}")
     df.to_csv(OUTPUT_FILE, index=False)
-    logging.info("🎉 Enrichment complete.")
+    logging.info("COMPLETE: Enrichment complete.")
 
 if __name__ == "__main__":
     main()

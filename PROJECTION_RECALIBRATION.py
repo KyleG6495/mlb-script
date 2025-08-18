@@ -13,7 +13,7 @@ import logging
 def recalibrate_projections():
     """Fix your projections based on actual results"""
     
-    print("🔧 PROJECTION RECALIBRATION STARTING...")
+    print("STEP: PROJECTION RECALIBRATION STARTING...")
     print("=" * 50)
     
     # Load actual results
@@ -59,12 +59,12 @@ def recalibrate_projections():
         'platoon_advantage': 1.10  # L vs R, R vs L
     }
     
-    print("📊 CORRECTION FACTORS CALCULATED:")
+    print("DATA: CORRECTION FACTORS CALCULATED:")
     print("-" * 40)
     for pos, data in corrections.items():
         print(f"{pos}: {data['base_multiplier']:.2f}x - {data['description']}")
     
-    print(f"\n🔥 HOT STREAK BONUSES:")
+    print(f"\n HOT STREAK BONUSES:")
     print("-" * 40)
     for bonus, mult in hot_streak_bonuses.items():
         print(f"{bonus}: +{(mult-1)*100:.0f}%")
@@ -148,7 +148,7 @@ def enhance_projections(df, actual_results=None):
 def identify_missed_player_patterns():
     """Analyze the patterns of players you're missing"""
     
-    print(f"\n🔍 MISSED PLAYER PATTERNS:")
+    print(f"\n MISSED PLAYER PATTERNS:")
     print("=" * 50)
     
     # Load actual results to analyze missed patterns
@@ -159,7 +159,7 @@ def identify_missed_player_patterns():
     team_performance = top_15.groupby('team')['fanduel_points'].agg(['count', 'sum', 'mean']).round(1)
     team_performance = team_performance.sort_values('sum', ascending=False)
     
-    print(f"🏆 TOP PERFORMING TEAMS:")
+    print(f"LINEUP: TOP PERFORMING TEAMS:")
     print(f"{'Team':<4} {'Players':<7} {'Total Pts':<10} {'Avg Pts':<8}")
     print("-" * 35)
     for team, row in team_performance.head(10).iterrows():
@@ -169,7 +169,7 @@ def identify_missed_player_patterns():
     pos_performance = top_15.groupby('position')['fanduel_points'].agg(['count', 'mean']).round(1)
     pos_performance = pos_performance.sort_values('mean', ascending=False)
     
-    print(f"\n🎯 TOP PERFORMING POSITIONS:")
+    print(f"\nTARGET: TOP PERFORMING POSITIONS:")
     print(f"{'Pos':<3} {'Count':<5} {'Avg Pts':<8}")
     print("-" * 20)
     for pos, row in pos_performance.iterrows():
@@ -180,7 +180,7 @@ def identify_missed_player_patterns():
         top_15['salary_tier'] = pd.cut(top_15['salary'], bins=4, labels=['Low', 'Med-Low', 'Med-High', 'High'])
         salary_analysis = top_15.groupby('salary_tier')['fanduel_points'].agg(['count', 'mean']).round(1)
         
-        print(f"\n💰 PERFORMANCE BY SALARY TIER:")
+        print(f"\nMONEY: PERFORMANCE BY SALARY TIER:")
         print(f"{'Tier':<8} {'Count':<5} {'Avg Pts':<8}")
         print("-" * 25)
         for tier, row in salary_analysis.iterrows():
@@ -191,7 +191,7 @@ def identify_missed_player_patterns():
 def main():
     """Run complete projection fix"""
     
-    print("🚀 FIXING YOUR PROJECTIONS TO ACTUALLY WORK")
+    print("START: FIXING YOUR PROJECTIONS TO ACTUALLY WORK")
     print("=" * 60)
     
     # Recalibrate projections
@@ -204,14 +204,14 @@ def main():
     team_perf, pos_perf = identify_missed_player_patterns()
     
     print(f"\n" + "=" * 60)
-    print(f"✅ PROJECTION FIXES READY!")
+    print(f"SUCCESS: PROJECTION FIXES READY!")
     print(f"=" * 60)
-    print(f"📁 Enhanced projection code generated")
-    print(f"🎯 Position multipliers calculated")
-    print(f"🔥 Hot streak bonuses identified")
-    print(f"📊 Team/position patterns analyzed")
+    print(f" Enhanced projection code generated")
+    print(f"TARGET: Position multipliers calculated")
+    print(f" Hot streak bonuses identified")
+    print(f"DATA: Team/position patterns analyzed")
     
-    print(f"\n⚡ NEXT STEPS:")
+    print(f"\n NEXT STEPS:")
     print(f"1. Add enhanced_projections() to your main script")
     print(f"2. Apply position multipliers immediately")
     print(f"3. Add hot streak detection")

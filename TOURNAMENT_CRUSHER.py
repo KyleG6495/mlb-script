@@ -18,7 +18,7 @@ class UltimateWinningDFS:
         
     def load_winning_slate(self):
         """Load and enhance slate for WINNING"""
-        print("🔥 Loading slate with ULTIMATE WINNING enhancements...")
+        print(" Loading slate with ULTIMATE WINNING enhancements...")
         
         slate = pd.read_csv(self.slate_dir / "fd_slate_today.csv")
         
@@ -87,7 +87,7 @@ class UltimateWinningDFS:
                     ].copy()
                 
                 if candidates.empty:
-                    print(f"  ❌ No {pos_name} candidates available")
+                    print(f"  ERROR: No {pos_name} candidates available")
                     return None
                 
                 # Smart budget management
@@ -108,7 +108,7 @@ class UltimateWinningDFS:
                     # Emergency: take cheapest available
                     affordable = candidates.nsmallest(10, 'Salary')
                     if affordable.empty:
-                        print(f"  ❌ No affordable {pos_name} players")
+                        print(f"  ERROR: No affordable {pos_name} players")
                         return None
                 
                 # Selection by strategy
@@ -153,7 +153,7 @@ class UltimateWinningDFS:
     
     def build_winning_portfolio(self):
         """Build a portfolio designed to WIN tournaments"""
-        print("🏆 BUILDING TOURNAMENT-WINNING PORTFOLIO")
+        print("LINEUP: BUILDING TOURNAMENT-WINNING PORTFOLIO")
         print("=" * 60)
         
         slate = self.load_winning_slate()
@@ -203,7 +203,7 @@ class UltimateWinningDFS:
                 
                 if lineup:
                     lineups.append(lineup)
-                    print(f"  ✅ ${lineup['total_salary']:,}, {lineup['total_fppg']:.1f} FPPG ({strategy})")
+                    print(f"  SUCCESS: ${lineup['total_salary']:,}, {lineup['total_fppg']:.1f} FPPG ({strategy})")
                     break
                 else:
                     if attempt < 2:
@@ -211,14 +211,14 @@ class UltimateWinningDFS:
                         slate = self.load_winning_slate()
             
             if not lineup:
-                print(f"  ❌ Failed after 3 attempts")
+                print(f"  ERROR: Failed after 3 attempts")
         
         return lineups
     
     def save_tournament_lineups(self, lineups):
         """Save lineups for tournament domination"""
         if not lineups:
-            print("❌ No tournament lineups created!")
+            print("ERROR: No tournament lineups created!")
             return None
         
         fanduel_data = []
@@ -279,46 +279,46 @@ class UltimateWinningDFS:
     def analyze_portfolio(self, lineups, output_file):
         """Analyze the winning portfolio"""
         
-        print(f"\n💾 TOURNAMENT CRUSHERS SAVED: {output_file}")
+        print(f"\n TOURNAMENT CRUSHERS SAVED: {output_file}")
         
         fppgs = [l['total_fppg'] for l in lineups]
         salaries = [l['total_salary'] for l in lineups]
         strategies = [l['strategy'] for l in lineups]
         
-        print(f"\n🏆 TOURNAMENT PORTFOLIO ANALYSIS:")
-        print(f"  📊 Total Lineups: {len(lineups)}")
-        print(f"  🎯 FPPG Range: {min(fppgs):.1f} - {max(fppgs):.1f}")
-        print(f"  💰 Average FPPG: {np.mean(fppgs):.1f}")
-        print(f"  💵 Salary Range: ${min(salaries):,} - ${max(salaries):,}")
-        print(f"  📈 Average Salary: ${np.mean(salaries):,.0f}")
+        print(f"\nLINEUP: TOURNAMENT PORTFOLIO ANALYSIS:")
+        print(f"  DATA: Total Lineups: {len(lineups)}")
+        print(f"  TARGET: FPPG Range: {min(fppgs):.1f} - {max(fppgs):.1f}")
+        print(f"  MONEY: Average FPPG: {np.mean(fppgs):.1f}")
+        print(f"   Salary Range: ${min(salaries):,} - ${max(salaries):,}")
+        print(f"  PROGRESS: Average Salary: ${np.mean(salaries):,.0f}")
         
-        print(f"\n🎲 STRATEGY BREAKDOWN:")
+        print(f"\n STRATEGY BREAKDOWN:")
         for strategy in set(strategies):
             count = strategies.count(strategy)
             strategy_lineups = [l for l in lineups if l['strategy'] == strategy]
             avg_fppg = np.mean([l['total_fppg'] for l in strategy_lineups])
             avg_salary = np.mean([l['total_salary'] for l in strategy_lineups])
             
-            print(f"  • {strategy}: {count} lineups, {avg_fppg:.1f} FPPG, ${avg_salary:,.0f}")
+            print(f"   {strategy}: {count} lineups, {avg_fppg:.1f} FPPG, ${avg_salary:,.0f}")
         
-        print(f"\n🚀 SABERSIM DESTROYER ADVANTAGES:")
-        print(f"  ✅ 5 Different winning strategies (not 1 generic)")
-        print(f"  ✅ Value plays that beat chalk lineups")  
-        print(f"  ✅ Ceiling builds for tournament wins")
-        print(f"  ✅ Contrarian plays for differentiation")
-        print(f"  ✅ Smart budget allocation per strategy")
-        print(f"  ✅ Portfolio approach vs single strategy")
+        print(f"\nSTART: SABERSIM DESTROYER ADVANTAGES:")
+        print(f"  SUCCESS: 5 Different winning strategies (not 1 generic)")
+        print(f"  SUCCESS: Value plays that beat chalk lineups")  
+        print(f"  SUCCESS: Ceiling builds for tournament wins")
+        print(f"  SUCCESS: Contrarian plays for differentiation")
+        print(f"  SUCCESS: Smart budget allocation per strategy")
+        print(f"  SUCCESS: Portfolio approach vs single strategy")
         
-        print(f"\n💡 WHY THESE CRUSH SUBSCRIPTIONS:")
-        print(f"  🎯 SaberSim: Generic lineups everyone gets")
-        print(f"  🔥 CRUSHERS: Custom strategy portfolio")
-        print(f"  📊 SaberSim: One-size-fits-all approach")  
-        print(f"  🎲 CRUSHERS: Multiple winning angles")
-        print(f"  💪 SaberSim: Promotes the same plays")
-        print(f"  🏆 CRUSHERS: Contrarian + value mix")
+        print(f"\nTIP: WHY THESE CRUSH SUBSCRIPTIONS:")
+        print(f"  TARGET: SaberSim: Generic lineups everyone gets")
+        print(f"   CRUSHERS: Custom strategy portfolio")
+        print(f"  DATA: SaberSim: One-size-fits-all approach")  
+        print(f"   CRUSHERS: Multiple winning angles")
+        print(f"   SaberSim: Promotes the same plays")
+        print(f"  LINEUP: CRUSHERS: Contrarian + value mix")
 
 def main():
-    print("🔥 ULTIMATE WINNING DFS SYSTEM v2")
+    print(" ULTIMATE WINNING DFS SYSTEM v2")
     print("BUILT TO DESTROY SABERSIM & SUBSCRIPTION SERVICES")
     print("=" * 70)
     
@@ -330,13 +330,13 @@ def main():
         if lineups:
             output_file = builder.save_tournament_lineups(lineups)
             
-            print(f"\n🏆 MISSION ACCOMPLISHED!")
-            print(f"📁 TOURNAMENT CRUSHERS: {output_file}")
-            print(f"🎯 Ready to DOMINATE tournaments with {len(lineups)} winning lineups!")
-            print(f"\n🚀 GO CRUSH THE COMPETITION! 🚀")
+            print(f"\nLINEUP: MISSION ACCOMPLISHED!")
+            print(f" TOURNAMENT CRUSHERS: {output_file}")
+            print(f"TARGET: Ready to DOMINATE tournaments with {len(lineups)} winning lineups!")
+            print(f"\nSTART: GO CRUSH THE COMPETITION! START:")
             
         else:
-            print("❌ Failed to build tournament portfolio")
+            print("ERROR: Failed to build tournament portfolio")
             
     except Exception as e:
         print(f"Error: {e}")

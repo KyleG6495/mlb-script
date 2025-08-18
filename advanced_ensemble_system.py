@@ -1,5 +1,5 @@
 """
-🔥 ADVANCED MODEL ENSEMBLE SYSTEM
+ ADVANCED MODEL ENSEMBLE SYSTEM
 Meta-learning ensemble that combines multiple prediction sources with dynamic weighting
 """
 
@@ -53,13 +53,13 @@ class EnsemblePredictor:
         try:
             if Path(model_path).exists():
                 self.base_models['primary'] = joblib.load(model_path)
-                logging.info(f"✅ Loaded primary model for {self.category}")
+                logging.info(f"SUCCESS: Loaded primary model for {self.category}")
                 return True
             else:
-                logging.warning(f"⚠️ Primary model not found: {model_path}")
+                logging.warning(f"WARNING: Primary model not found: {model_path}")
                 return False
         except Exception as e:
-            logging.error(f"❌ Failed to load primary model: {e}")
+            logging.error(f"ERROR: Failed to load primary model: {e}")
             return False
     
     def train_ensemble_models(self, X_train: pd.DataFrame, y_train: pd.Series):
@@ -78,9 +78,9 @@ class EnsemblePredictor:
                     continue
                 else:
                     model.fit(X_numeric, y_train)
-                    logging.info(f"✅ Trained {name} model for {self.category}")
+                    logging.info(f"SUCCESS: Trained {name} model for {self.category}")
             except Exception as e:
-                logging.warning(f"⚠️ Failed to train {name}: {e}")
+                logging.warning(f"WARNING: Failed to train {name}: {e}")
                 self.base_models[name] = None
     
     def _prepare_numeric_features(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -133,7 +133,7 @@ class EnsemblePredictor:
                 confidences[name] = confidence
                 
             except Exception as e:
-                logging.warning(f"⚠️ {name} prediction failed: {e}")
+                logging.warning(f"WARNING: {name} prediction failed: {e}")
                 continue
         
         if not predictions:
@@ -291,13 +291,13 @@ class MetaLearningEnsemble:
                 ensemble.train_ensemble_models(X, y)
         
         self.ensemble_predictors[category] = ensemble
-        logging.info(f"🔥 Initialized ensemble for {category}")
+        logging.info(f" Initialized ensemble for {category}")
     
     def predict_category(self, category: str, features: pd.DataFrame) -> Tuple[np.ndarray, Dict]:
         """Generate ensemble predictions for a category"""
         
         if category not in self.ensemble_predictors:
-            logging.warning(f"⚠️ No ensemble for {category}, using baseline")
+            logging.warning(f"WARNING: No ensemble for {category}, using baseline")
             baseline = self.ensemble_predictors[list(self.ensemble_predictors.keys())[0]]._get_baseline_stats()
             pred = np.random.normal(baseline['mean'], baseline['std'] * 0.7, len(features))
             return np.maximum(pred, 0), {'baseline': 0.5}
@@ -377,7 +377,7 @@ class MetaLearningEnsemble:
         with open(filepath, 'w') as f:
             json.dump(state, f, indent=2)
         
-        logging.info(f"💾 Ensemble state saved: {filepath}")
+        logging.info(f" Ensemble state saved: {filepath}")
     
     def load_ensemble_state(self, filepath: str):
         """Load ensemble state for persistence"""
@@ -395,10 +395,10 @@ class MetaLearningEnsemble:
                 if category in state.get('historical_performance', {}):
                     ensemble.historical_performance = state['historical_performance'][category]
             
-            logging.info(f"📂 Ensemble state loaded: {filepath}")
+            logging.info(f" Ensemble state loaded: {filepath}")
             
         except Exception as e:
-            logging.warning(f"⚠️ Failed to load ensemble state: {e}")
+            logging.warning(f"WARNING: Failed to load ensemble state: {e}")
 
 
 class AdvancedEnsembleBettingSystem:
@@ -444,7 +444,7 @@ class AdvancedEnsembleBettingSystem:
                 
                 predictions[category] = pred_df
                 
-                logging.info(f"🔥 Ensemble {category}: {len(preds)} predictions, confidence: {np.mean(list(confidences.values())):.2f}")
+                logging.info(f" Ensemble {category}: {len(preds)} predictions, confidence: {np.mean(list(confidences.values())):.2f}")
         
         # Pitcher predictions
         pitcher_categories = ['pitcher_strikeouts']
@@ -464,18 +464,18 @@ class AdvancedEnsembleBettingSystem:
                 
                 predictions[category] = pred_df
                 
-                logging.info(f"🔥 Ensemble {category}: {len(preds)} predictions, confidence: {np.mean(list(confidences.values())):.2f}")
+                logging.info(f" Ensemble {category}: {len(preds)} predictions, confidence: {np.mean(list(confidences.values())):.2f}")
         
         return predictions
     
     def run_advanced_ensemble_system(self):
         """Run the complete advanced ensemble betting system"""
         
-        print("🔥🔥 ADVANCED MODEL ENSEMBLE SYSTEM 🔥🔥")
+        print(" ADVANCED MODEL ENSEMBLE SYSTEM ")
         print("="*80)
-        print("🧠 Meta-learning ensemble with dynamic model weighting")
-        print("🎯 Multiple base models with confidence scoring")
-        print("📈 Adaptive model selection based on data conditions")
+        print(" Meta-learning ensemble with dynamic model weighting")
+        print("TARGET: Multiple base models with confidence scoring")
+        print("PROGRESS: Adaptive model selection based on data conditions")
         print("="*80)
         
         # Load feature data
@@ -495,17 +495,17 @@ class AdvancedEnsembleBettingSystem:
         for file_path in hitter_files:
             if Path(file_path).exists():
                 features_hitter = pd.read_csv(file_path)
-                print(f"📊 Loaded hitter features: {file_path} ({len(features_hitter)} players)")
+                print(f"DATA: Loaded hitter features: {file_path} ({len(features_hitter)} players)")
                 break
         
         for file_path in pitcher_files:
             if Path(file_path).exists():
                 features_pitcher = pd.read_csv(file_path)
-                print(f"📊 Loaded pitcher features: {file_path} ({len(features_pitcher)} players)")
+                print(f"DATA: Loaded pitcher features: {file_path} ({len(features_pitcher)} players)")
                 break
         
         if features_hitter is None or features_pitcher is None:
-            print("❌ Failed to load feature data")
+            print("ERROR: Failed to load feature data")
             return
         
         # Generate ensemble predictions
@@ -518,13 +518,13 @@ class AdvancedEnsembleBettingSystem:
             output_file = f"./ensemble_predictions/{category}_ensemble_{timestamp}.csv"
             Path("./ensemble_predictions").mkdir(exist_ok=True)
             pred_df.to_csv(output_file, index=False)
-            print(f"💾 {category} ensemble predictions saved: {output_file}")
+            print(f" {category} ensemble predictions saved: {output_file}")
         
         # Save ensemble state
         self.meta_ensemble.save_ensemble_state(self.ensemble_state_file)
         
         # Summary statistics
-        print("\\n📊 ENSEMBLE PERFORMANCE SUMMARY:")
+        print("\\nDATA: ENSEMBLE PERFORMANCE SUMMARY:")
         print("-"*60)
         
         total_predictions = sum(len(pred_df) for pred_df in predictions.values())
@@ -542,14 +542,14 @@ class AdvancedEnsembleBettingSystem:
         print(f"Average model agreement: {avg_agreement:.2%}")
         print(f"Categories with ensemble: {len(predictions)}")
         
-        print("\\n🚀 ADVANCED ENSEMBLE FEATURES:")
+        print("\\nSTART: ADVANCED ENSEMBLE FEATURES:")
         print("-"*60)
-        print("✅ Multi-model ensemble (Primary + RF + GB + Ridge + ElasticNet)")
-        print("✅ Dynamic model weighting based on performance")
-        print("✅ Confidence scoring and model agreement metrics")
-        print("✅ Meta-learning for optimal model combination")
-        print("✅ Adaptive model selection based on data quality")
-        print("✅ Persistent ensemble state with learning retention")
+        print("SUCCESS: Multi-model ensemble (Primary + RF + GB + Ridge + ElasticNet)")
+        print("SUCCESS: Dynamic model weighting based on performance")
+        print("SUCCESS: Confidence scoring and model agreement metrics")
+        print("SUCCESS: Meta-learning for optimal model combination")
+        print("SUCCESS: Adaptive model selection based on data quality")
+        print("SUCCESS: Persistent ensemble state with learning retention")
         
         return predictions
 
@@ -561,13 +561,13 @@ def main():
     predictions = system.run_advanced_ensemble_system()
     
     if predictions:
-        print("\\n🎯 NEXT STEPS:")
+        print("\\nTARGET: NEXT STEPS:")
         print("-"*40)
         print("1. Integrate ensemble predictions with betting system")
         print("2. Compare ensemble vs single model performance") 
         print("3. Monitor model agreement for prediction confidence")
         print("4. Use confidence scores for position sizing")
-        print("\\n🔥 Advanced ensemble system ready for production!")
+        print("\\n Advanced ensemble system ready for production!")
 
 if __name__ == "__main__":
     main()

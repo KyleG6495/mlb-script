@@ -1,5 +1,5 @@
 """
-🔥🔥 ULTIMATE ENSEMBLE-POWERED BETTING SYSTEM 🔥🔥
+ ULTIMATE ENSEMBLE-POWERED BETTING SYSTEM 
 Integration of advanced ensemble learning with sophisticated betting analytics
 """
 
@@ -29,14 +29,14 @@ class UltimateEnsembleBettingSystem:
         ensemble_dir = Path("./ensemble_predictions")
         
         if not ensemble_dir.exists():
-            logging.error("❌ No ensemble predictions found")
+            logging.error("ERROR: No ensemble predictions found")
             return {}
         
         # Find the latest predictions if no timestamp specified
         if timestamp is None:
             pred_files = list(ensemble_dir.glob("*_ensemble_*.csv"))
             if not pred_files:
-                logging.error("❌ No ensemble prediction files found")
+                logging.error("ERROR: No ensemble prediction files found")
                 return {}
             
             # Get the most recent timestamp
@@ -53,7 +53,7 @@ class UltimateEnsembleBettingSystem:
             if file_path.exists():
                 df = pd.read_csv(file_path)
                 predictions[category] = df
-                logging.info(f"📊 Loaded ensemble {category}: {len(df)} predictions")
+                logging.info(f"DATA: Loaded ensemble {category}: {len(df)} predictions")
         
         return predictions
     
@@ -165,7 +165,7 @@ class UltimateEnsembleBettingSystem:
         lines = self.betting_system.load_sportsbook_lines()
         
         if not lines:
-            logging.error("❌ No sportsbook lines loaded")
+            logging.error("ERROR: No sportsbook lines loaded")
             return []
         
         opportunities = []
@@ -180,7 +180,7 @@ class UltimateEnsembleBettingSystem:
         # Sort by ensemble-adjusted edge
         opportunities.sort(key=lambda x: x.get('ensemble_adjusted_edge', 0), reverse=True)
         
-        logging.info(f"🎯 Found {len(opportunities)} ensemble opportunities")
+        logging.info(f"TARGET: Found {len(opportunities)} ensemble opportunities")
         return opportunities
     
     def _find_category_opportunities(self, category: str, pred_df: pd.DataFrame, 
@@ -368,7 +368,7 @@ class UltimateEnsembleBettingSystem:
         """Generate comprehensive ensemble betting report"""
         
         if not opportunities:
-            return "❌ No opportunities found"
+            return "ERROR: No opportunities found"
         
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
@@ -379,7 +379,7 @@ class UltimateEnsembleBettingSystem:
         
         # Generate comprehensive report
         report = []
-        report.append("🔥🔥 ULTIMATE ENSEMBLE BETTING SYSTEM REPORT 🔥🔥")
+        report.append(" ULTIMATE ENSEMBLE BETTING SYSTEM REPORT ")
         report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         report.append("="*80)
         report.append("")
@@ -391,7 +391,7 @@ class UltimateEnsembleBettingSystem:
         avg_quality = df['prediction_quality'].mean()
         total_kelly = df['kelly_quarter'].sum()
         
-        report.append("📊 ENSEMBLE PERFORMANCE METRICS:")
+        report.append("DATA: ENSEMBLE PERFORMANCE METRICS:")
         report.append("-"*60)
         report.append(f"Total Opportunities: {total_ops:,}")
         report.append(f"Average Ensemble Edge: {avg_edge:.2%}")
@@ -402,7 +402,7 @@ class UltimateEnsembleBettingSystem:
         
         # Top opportunities by confidence level
         by_confidence = df.groupby('confidence_level').size().sort_values(ascending=False)
-        report.append("🏆 OPPORTUNITIES BY CONFIDENCE LEVEL:")
+        report.append("LINEUP: OPPORTUNITIES BY CONFIDENCE LEVEL:")
         report.append("-"*60)
         for level, count in by_confidence.items():
             avg_edge_level = df[df['confidence_level'] == level]['ensemble_adjusted_edge'].mean()
@@ -410,7 +410,7 @@ class UltimateEnsembleBettingSystem:
         report.append("")
         
         # Top 15 opportunities
-        report.append("🎯 TOP 15 ENSEMBLE OPPORTUNITIES:")
+        report.append("TARGET: TOP 15 ENSEMBLE OPPORTUNITIES:")
         report.append("-"*80)
         
         for i, opp in enumerate(opportunities[:15], 1):
@@ -426,7 +426,7 @@ class UltimateEnsembleBettingSystem:
             'kelly_quarter': 'sum'
         }).round(3)
         
-        report.append("📋 CATEGORY BREAKDOWN:")
+        report.append("INFO: CATEGORY BREAKDOWN:")
         report.append("-"*60)
         for category in by_category.index:
             count = by_category.loc[category, ('ensemble_adjusted_edge', 'count')]
@@ -435,14 +435,14 @@ class UltimateEnsembleBettingSystem:
             report.append(f"{category:20s}: {count:3.0f} ops, {avg_edge:.2%} avg edge, {kelly_sum:.1%} Kelly")
         
         report.append("")
-        report.append("🚀 ENSEMBLE ADVANTAGES:")
+        report.append("START: ENSEMBLE ADVANTAGES:")
         report.append("-"*60)
-        report.append("✅ Multi-model predictions with confidence weighting")
-        report.append("✅ Dynamic model performance tracking")
-        report.append("✅ Prediction quality assessment")
-        report.append("✅ Ensemble-adjusted edge calculations")
-        report.append("✅ Sophisticated Kelly sizing with confidence factors")
-        report.append("✅ Real-time model agreement monitoring")
+        report.append("SUCCESS: Multi-model predictions with confidence weighting")
+        report.append("SUCCESS: Dynamic model performance tracking")
+        report.append("SUCCESS: Prediction quality assessment")
+        report.append("SUCCESS: Ensemble-adjusted edge calculations")
+        report.append("SUCCESS: Sophisticated Kelly sizing with confidence factors")
+        report.append("SUCCESS: Real-time model agreement monitoring")
         
         # Save report
         report_text = "\\n".join(report)
@@ -450,69 +450,69 @@ class UltimateEnsembleBettingSystem:
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report_text)
         
-        print(f"💾 Ultimate ensemble report saved: {report_file}")
-        print(f"💾 Detailed opportunities saved: {csv_file}")
+        print(f" Ultimate ensemble report saved: {report_file}")
+        print(f" Detailed opportunities saved: {csv_file}")
         
         return report_text
     
     def run_ultimate_system(self):
         """Run the complete ultimate ensemble betting system"""
         
-        print("🔥🔥🔥 ULTIMATE ENSEMBLE-POWERED BETTING SYSTEM 🔥🔥🔥")
+        print(" ULTIMATE ENSEMBLE-POWERED BETTING SYSTEM ")
         print("="*80)
-        print("🧠 Advanced ensemble learning + Sophisticated betting analytics")
-        print("🎯 Meta-learning with dynamic model weighting")
-        print("📊 Prediction quality assessment and confidence scoring")
-        print("💎 Elite-level opportunity identification")
+        print(" Advanced ensemble learning + Sophisticated betting analytics")
+        print("TARGET: Meta-learning with dynamic model weighting")
+        print("DATA: Prediction quality assessment and confidence scoring")
+        print(" Elite-level opportunity identification")
         print("="*80)
         
         # Step 1: Generate fresh ensemble predictions
-        print("\\n🔄 Step 1: Generating fresh ensemble predictions...")
+        print("\\nSWAP: Step 1: Generating fresh ensemble predictions...")
         ensemble_predictions = self.ensemble_system.generate_ensemble_predictions(
             pd.read_csv("../data/fd_hitter_features_final.csv"),
             pd.read_csv("../data/fd_pitcher_features_final.csv")
         )
         
         if not ensemble_predictions:
-            print("❌ Failed to generate ensemble predictions")
+            print("ERROR: Failed to generate ensemble predictions")
             return
         
         # Step 2: Enhance predictions with analytics
-        print("\\n⚡ Step 2: Enhancing predictions with advanced analytics...")
+        print("\\n Step 2: Enhancing predictions with advanced analytics...")
         enhanced_predictions = self.enhance_ensemble_predictions(ensemble_predictions)
         
         # Step 3: Find ultimate opportunities
-        print("\\n🎯 Step 3: Finding ultimate betting opportunities...")
+        print("\\nTARGET: Step 3: Finding ultimate betting opportunities...")
         opportunities = self.find_ensemble_opportunities(enhanced_predictions, min_edge=0.03)
         
         if not opportunities:
-            print("❌ No opportunities found")
+            print("ERROR: No opportunities found")
             return
         
         # Step 4: Generate ultimate report
-        print("\\n📊 Step 4: Generating ultimate analysis report...")
+        print("\\nDATA: Step 4: Generating ultimate analysis report...")
         report = self.generate_ultimate_report(opportunities)
         
         # Display key results
         print("\\n" + "="*80)
-        print("🏆 ULTIMATE SYSTEM RESULTS:")
+        print("LINEUP: ULTIMATE SYSTEM RESULTS:")
         print("="*80)
-        print(f"🎯 Total Elite Opportunities: {len(opportunities):,}")
+        print(f"TARGET: Total Elite Opportunities: {len(opportunities):,}")
         
         elite_ops = [opp for opp in opportunities if opp['confidence_level'] == 'ELITE']
         very_high_ops = [opp for opp in opportunities if opp['confidence_level'] == 'VERY_HIGH']
         
-        print(f"💎 ELITE Level: {len(elite_ops)} opportunities")
-        print(f"🔥 VERY_HIGH Level: {len(very_high_ops)} opportunities")
+        print(f" ELITE Level: {len(elite_ops)} opportunities")
+        print(f" VERY_HIGH Level: {len(very_high_ops)} opportunities")
         
         if elite_ops:
             avg_elite_edge = np.mean([opp['ensemble_adjusted_edge'] for opp in elite_ops])
-            print(f"💰 Average ELITE Edge: {avg_elite_edge:.2%}")
+            print(f"MONEY: Average ELITE Edge: {avg_elite_edge:.2%}")
         
         total_kelly = sum(opp['kelly_quarter'] for opp in opportunities)
-        print(f"📈 Total Kelly Allocation: {total_kelly:.1%}")
+        print(f"PROGRESS: Total Kelly Allocation: {total_kelly:.1%}")
         
-        print("\\n🔥🔥🔥 ULTIMATE ENSEMBLE SYSTEM COMPLETE! 🔥🔥🔥")
+        print("\\n ULTIMATE ENSEMBLE SYSTEM COMPLETE! ")
 
 def main():
     """Run the ultimate ensemble betting system"""

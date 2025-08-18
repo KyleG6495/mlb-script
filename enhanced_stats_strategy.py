@@ -206,33 +206,33 @@ def recommend_implementation_priority():
     return priority_recommendations
 
 def main():
-    print("🎯 ENHANCED STATS COLLECTION STRATEGY")
+    print("TARGET: ENHANCED STATS COLLECTION STRATEGY")
     print("=" * 60)
     
     current, high_value, impact = analyze_current_vs_optimal_stats()
     priorities = recommend_implementation_priority()
     
-    print("📊 CURRENT COLLECTION ASSESSMENT:")
+    print("DATA: CURRENT COLLECTION ASSESSMENT:")
     print(f"   Foundation Strength: {impact['current_coverage']}")
     print(f"   High-Value Potential: {impact['high_value_potential']}")
     print()
     
-    print("🚀 IMMEDIATE HIGH-ROI ADDITIONS:")
+    print("START: IMMEDIATE HIGH-ROI ADDITIONS:")
     for item in priorities["immediate_high_roi"]:
-        print(f"   ✅ {item}")
+        print(f"   SUCCESS: {item}")
     print()
     
-    print("📈 SHORT-TERM MEDIUM-ROI ADDITIONS:")
+    print("PROGRESS: SHORT-TERM MEDIUM-ROI ADDITIONS:")
     for item in priorities["short_term_medium_roi"]:
-        print(f"   🔄 {item}")
+        print(f"   SWAP: {item}")
     print()
     
-    print("🔬 LONG-TERM HIGH-ROI ADDITIONS:")
+    print(" LONG-TERM HIGH-ROI ADDITIONS:")
     for item in priorities["long_term_high_roi"]:
-        print(f"   🎯 {item}")
+        print(f"   TARGET: {item}")
     print()
     
-    print("💡 STRATEGIC RECOMMENDATIONS:")
+    print("TIP: STRATEGIC RECOMMENDATIONS:")
     print("   1. Your foundation is STRONG - focus on situational stats first")
     print("   2. Platoon splits and recent form give immediate edge")  
     print("   3. Advanced Statcast data is the long-term competitive moat")

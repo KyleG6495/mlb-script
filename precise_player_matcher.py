@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 PRECISE PLAYER MATCHING SYSTEM
-Strict matching to avoid false positives like Jonathan Ornelas ≠ Jonathan India
+Strict matching to avoid false positives like Jonathan Ornelas  Jonathan India
 """
 
 import pandas as pd
@@ -36,14 +36,14 @@ class PrecisePlayerMatcher:
         
         # Common last name variations
         self.last_name_variants = {
-            'perez': ['pérez', 'peres'],
-            'martinez': ['martínez'],
-            'rodriguez': ['rodríguez'],
-            'gonzalez': ['gonzález'],
-            'hernandez': ['hernández'],
-            'ramirez': ['ramírez'],
-            'jimenez': ['jiménez'],
-            'gutierrez': ['gutiérrez']
+            'perez': ['prez', 'peres'],
+            'martinez': ['martnez'],
+            'rodriguez': ['rodrguez'],
+            'gonzalez': ['gonzlez'],
+            'hernandez': ['hernndez'],
+            'ramirez': ['ramrez'],
+            'jimenez': ['jimnez'],
+            'gutierrez': ['gutirrez']
         }
     
     def normalize_name(self, name):
@@ -151,7 +151,7 @@ class PrecisePlayerMatcher:
 def test_precise_matching():
     """Test the precise matching system"""
     
-    print("🎯 PRECISE PLAYER MATCHING TEST")
+    print("TARGET: PRECISE PLAYER MATCHING TEST")
     print("=" * 50)
     
     # Load data
@@ -163,8 +163,8 @@ def test_precise_matching():
     
     matcher = PrecisePlayerMatcher()
     
-    print(f"📊 Testing {len(lineups_df)} lineup players")
-    print(f"📊 Against {len(actual_df)} actual results")
+    print(f"DATA: Testing {len(lineups_df)} lineup players")
+    print(f"DATA: Against {len(actual_df)} actual results")
     
     # Test specific problematic cases first
     test_cases = [
@@ -175,19 +175,19 @@ def test_precise_matching():
         "Carlos Perez"
     ]
     
-    print(f"\n🔍 TESTING PROBLEMATIC CASES:")
+    print(f"\n TESTING PROBLEMATIC CASES:")
     print("-" * 40)
     
     for test_name in test_cases:
         best_match, score = matcher.find_player_match(test_name, actual_df, strict_mode=True)
         
         if best_match is not None:
-            print(f"✅ {test_name:20} → {best_match['name']:20} ({score:.2f})")
+            print(f"SUCCESS: {test_name:20}  {best_match['name']:20} ({score:.2f})")
         else:
-            print(f"❌ {test_name:20} → NO MATCH FOUND")
+            print(f"ERROR: {test_name:20}  NO MATCH FOUND")
     
     # Now test all lineup players
-    print(f"\n📊 TESTING ALL LINEUP PLAYERS:")
+    print(f"\nDATA: TESTING ALL LINEUP PLAYERS:")
     print("-" * 40)
     
     matches_found = 0
@@ -220,9 +220,9 @@ def test_precise_matching():
     # Show best matches
     if match_details:
         match_details.sort(key=lambda x: x['confidence'], reverse=True)
-        print(f"\n🏆 TOP CONFIDENT MATCHES:")
+        print(f"\nLINEUP: TOP CONFIDENT MATCHES:")
         for match in match_details[:10]:
-            print(f"   {match['lineup_player']:20} → {match['matched_player']:20} "
+            print(f"   {match['lineup_player']:20}  {match['matched_player']:20} "
                   f"({match['confidence']:.2f}) [{match['actual_fppg']:.1f} FPPG]")
     
     return matcher, match_details

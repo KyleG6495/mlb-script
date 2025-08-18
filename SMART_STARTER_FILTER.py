@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 SMART STARTER FILTER
+TARGET: SMART STARTER FILTER
 Intelligently filters to only confirmed starting players using multiple signals:
 1. Batting Order (1-9 = confirmed starter)
 2. Probable Pitcher = "Yes" 
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def analyze_starter_signals(df):
     """Analyze all the signals that indicate a player is starting"""
     
-    logger.info("🔍 ANALYZING STARTER SIGNALS...")
+    logger.info(" ANALYZING STARTER SIGNALS...")
     
     # 1. Batting Order Analysis
     batting_order_starters = df[
@@ -26,24 +26,24 @@ def analyze_starter_signals(df):
         (df['Batting Order'] > 0) & 
         (df['Batting Order'] <= 9)
     ]
-    logger.info(f"   📊 Players with batting order 1-9: {len(batting_order_starters)}")
+    logger.info(f"   DATA: Players with batting order 1-9: {len(batting_order_starters)}")
     
     # 2. Probable Pitcher Analysis  
     probable_pitchers = df[
         (df['Position'] == 'P') & 
         (df['Probable Pitcher'] == 'Yes')
     ]
-    logger.info(f"   ⚾ Probable starting pitchers: {len(probable_pitchers)}")
+    logger.info(f"   BASEBALL: Probable starting pitchers: {len(probable_pitchers)}")
     
     # 3. IL Players (to exclude)
     il_players = df[df['Injury Indicator'] == 'IL']
-    logger.info(f"   🏥 IL players to exclude: {len(il_players)}")
+    logger.info(f"    IL players to exclude: {len(il_players)}")
     
     # 4. High salary players (likely starters) 
     hitters = df[df['Position'] != 'P']
     high_salary_threshold = hitters['Salary'].quantile(0.6)  # Top 40% by salary
     high_salary_hitters = hitters[hitters['Salary'] >= high_salary_threshold]
-    logger.info(f"   💰 High salary hitters (${high_salary_threshold:,.0f}+): {len(high_salary_hitters)}")
+    logger.info(f"   MONEY: High salary hitters (${high_salary_threshold:,.0f}+): {len(high_salary_hitters)}")
     
     return {
         'batting_order_starters': batting_order_starters,
@@ -55,7 +55,7 @@ def analyze_starter_signals(df):
 def create_smart_starter_slate(df):
     """Create slate with only confirmed/likely starters"""
     
-    logger.info("🎯 CREATING SMART STARTER SLATE...")
+    logger.info("TARGET: CREATING SMART STARTER SLATE...")
     
     # Get starter signals
     signals = analyze_starter_signals(df)
@@ -66,12 +66,12 @@ def create_smart_starter_slate(df):
     # 1. Add players with confirmed batting orders (1-9)
     batting_order_starters = signals['batting_order_starters']
     confirmed_starters.append(batting_order_starters)
-    logger.info(f"   ✅ Added {len(batting_order_starters)} batting order confirmed starters")
+    logger.info(f"   SUCCESS: Added {len(batting_order_starters)} batting order confirmed starters")
     
     # 2. Add probable starting pitchers
     probable_pitchers = signals['probable_pitchers']
     confirmed_starters.append(probable_pitchers)
-    logger.info(f"   ⚾ Added {len(probable_pitchers)} probable starting pitchers")
+    logger.info(f"   BASEBALL: Added {len(probable_pitchers)} probable starting pitchers")
     
     # 3. For positions without confirmed batting orders, add high-salary likely starters
     # This helps fill gaps where batting orders aren't announced yet
@@ -93,7 +93,7 @@ def create_smart_starter_slate(df):
             
             if len(high_salary_at_pos) > 0:
                 remaining_positions.append(high_salary_at_pos)
-                logger.info(f"   💰 Added {len(high_salary_at_pos)} high-salary {pos} players")
+                logger.info(f"   MONEY: Added {len(high_salary_at_pos)} high-salary {pos} players")
     
     # Combine all starter groups
     all_starters = pd.concat(confirmed_starters + remaining_positions, ignore_index=True)
@@ -105,7 +105,7 @@ def create_smart_starter_slate(df):
     smart_starters = all_starters[all_starters['Injury Indicator'] != 'IL'].copy()
     
     logger.info(f"")
-    logger.info(f"📊 SMART STARTER ANALYSIS:")
+    logger.info(f"DATA: SMART STARTER ANALYSIS:")
     logger.info(f"   Total slate players: {len(df)}")
     logger.info(f"   Confirmed/likely starters: {len(smart_starters)}")
     logger.info(f"   IL players removed: {len(all_starters) - len(smart_starters)}")
@@ -113,7 +113,7 @@ def create_smart_starter_slate(df):
     
     # Position breakdown
     logger.info(f"")
-    logger.info(f"🏟️ POSITION BREAKDOWN:")
+    logger.info(f" POSITION BREAKDOWN:")
     for pos in ['P', 'C', '1B', '2B', '3B', 'SS', 'OF']:
         pos_count = len(smart_starters[
             (smart_starters['Position'] == pos) |
@@ -128,7 +128,7 @@ def identify_problematic_players(df, smart_starters):
     """Identify players who were filtered out and might be problematic NS/PO players"""
     
     logger.info("")
-    logger.info("🚨 PROBLEMATIC PLAYERS FILTERED OUT:")
+    logger.info(" PROBLEMATIC PLAYERS FILTERED OUT:")
     
     filtered_out = df[~df['Id'].isin(smart_starters['Id'])]
     
@@ -143,14 +143,14 @@ def identify_problematic_players(df, smart_starters):
     
     # Show top problematic players by salary
     for _, player in potentially_problematic.head(20).iterrows():
-        logger.info(f"   ❌ {player['Nickname']} ({player['Position']}) - ${player['Salary']:,} - {player['Team']}")
+        logger.info(f"   ERROR: {player['Nickname']} ({player['Position']}) - ${player['Salary']:,} - {player['Team']}")
     
     return potentially_problematic
 
 def main():
     """Main smart starter filtering process"""
     
-    logger.info("🎯 SMART STARTER FILTER SYSTEM")
+    logger.info("TARGET: SMART STARTER FILTER SYSTEM")
     logger.info("="*60)
     logger.info("Intelligently filters to only confirmed starting players")
     logger.info("")
@@ -158,7 +158,7 @@ def main():
     try:
         # Load FD slate
         df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"📥 Loaded FD slate: {len(df)} players")
+        logger.info(f" Loaded FD slate: {len(df)} players")
         
         # Create smart starter slate
         smart_starters = create_smart_starter_slate(df)
@@ -182,24 +182,24 @@ def main():
         smart_starters.to_csv(easy_file, index=False)
         
         logger.info("")
-        logger.info("💾 SMART STARTER SLATE SAVED:")
-        logger.info(f"   📁 Timestamped: {smart_file}")
-        logger.info(f"   📁 Main file: {main_file}")
-        logger.info(f"   📁 Easy access: {easy_file}")
+        logger.info(" SMART STARTER SLATE SAVED:")
+        logger.info(f"    Timestamped: {smart_file}")
+        logger.info(f"    Main file: {main_file}")
+        logger.info(f"    Easy access: {easy_file}")
         
         logger.info("")
-        logger.info("🎉 SMART STARTER FILTER COMPLETE!")
+        logger.info("COMPLETE: SMART STARTER FILTER COMPLETE!")
         logger.info("="*60)
-        logger.info(f"✅ Reduced from {len(df)} to {len(smart_starters)} players")
-        logger.info(f"🚫 Filtered out {len(problematic)} potentially problematic players")
+        logger.info(f"SUCCESS: Reduced from {len(df)} to {len(smart_starters)} players")
+        logger.info(f" Filtered out {len(problematic)} potentially problematic players")
         logger.info("")
-        logger.info("🚀 NEXT STEPS:")
+        logger.info("START: NEXT STEPS:")
         logger.info("1. Use fd_slate_SMART_STARTERS.csv for lineup generation")
         logger.info("2. This should eliminate NS/PO players from your lineups")
         logger.info("3. Players are filtered using batting order + salary signals")
         
     except Exception as e:
-        logger.error(f"❌ Smart starter filter error: {e}")
+        logger.error(f"ERROR: Smart starter filter error: {e}")
         import traceback
         traceback.print_exc()
 

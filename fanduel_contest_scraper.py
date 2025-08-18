@@ -36,7 +36,7 @@ class FanDuelPublicScraper:
         if not date:
             date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
             
-        logger.info(f"🔍 Searching for public {sport} contests on {date}")
+        logger.info(f" Searching for public {sport} contests on {date}")
         
         # Try different API endpoints that might be publicly accessible
         endpoints_to_try = [
@@ -47,21 +47,21 @@ class FanDuelPublicScraper:
         
         for endpoint in endpoints_to_try:
             try:
-                logger.info(f"🌐 Trying endpoint: {endpoint}")
+                logger.info(f" Trying endpoint: {endpoint}")
                 response = self.session.get(endpoint, timeout=10)
                 
                 if response.status_code == 200:
                     data = response.json()
-                    logger.info(f"✅ Success! Found data from {endpoint}")
+                    logger.info(f"SUCCESS: Success! Found data from {endpoint}")
                     return self._parse_contest_data(data)
                 else:
-                    logger.warning(f"⚠️ {endpoint} returned status {response.status_code}")
+                    logger.warning(f"WARNING: {endpoint} returned status {response.status_code}")
                     
             except Exception as e:
-                logger.warning(f"⚠️ Error with {endpoint}: {e}")
+                logger.warning(f"WARNING: Error with {endpoint}: {e}")
                 continue
         
-        logger.warning("❌ Could not access public contest data")
+        logger.warning("ERROR: Could not access public contest data")
         return None
     
     def _parse_contest_data(self, data):
@@ -83,7 +83,7 @@ class FanDuelPublicScraper:
             return pd.DataFrame(contests)
             
         except Exception as e:
-            logger.error(f"❌ Error parsing contest data: {e}")
+            logger.error(f"ERROR: Error parsing contest data: {e}")
             return None
     
     def get_contest_leaderboard(self, contest_id):
@@ -96,11 +96,11 @@ class FanDuelPublicScraper:
                 data = response.json()
                 return self._parse_leaderboard_data(data)
             else:
-                logger.warning(f"⚠️ Leaderboard request failed: {response.status_code}")
+                logger.warning(f"WARNING: Leaderboard request failed: {response.status_code}")
                 return None
                 
         except Exception as e:
-            logger.error(f"❌ Error getting leaderboard: {e}")
+            logger.error(f"ERROR: Error getting leaderboard: {e}")
             return None
     
     def _parse_leaderboard_data(self, data):
@@ -123,12 +123,12 @@ class FanDuelPublicScraper:
             return entries
             
         except Exception as e:
-            logger.error(f"❌ Error parsing leaderboard: {e}")
+            logger.error(f"ERROR: Error parsing leaderboard: {e}")
             return None
 
 def try_alternative_sources():
     """Try alternative sources for contest results"""
-    logger.info("🔍 Trying alternative data sources...")
+    logger.info(" Trying alternative data sources...")
     
     # DFS tracking sites that might have public data
     sources = [
@@ -145,33 +145,33 @@ def try_alternative_sources():
     ]
     
     for source in sources:
-        logger.info(f"📊 Checking {source['name']}: {source['description']}")
+        logger.info(f"DATA: Checking {source['name']}: {source['description']}")
         try:
             response = requests.get(source['url'], timeout=10)
             if response.status_code == 200:
-                logger.info(f"✅ {source['name']} is accessible")
+                logger.info(f"SUCCESS: {source['name']} is accessible")
                 # Would need API key and specific endpoints
             else:
-                logger.warning(f"⚠️ {source['name']} returned {response.status_code}")
+                logger.warning(f"WARNING: {source['name']} returned {response.status_code}")
         except:
-            logger.warning(f"⚠️ Could not connect to {source['name']}")
+            logger.warning(f"WARNING: Could not connect to {source['name']}")
 
 def create_manual_entry_guide():
     """Create a guide for manual contest result entry"""
     guide = """
-📋 MANUAL CONTEST ANALYSIS GUIDE
+INFO: MANUAL CONTEST ANALYSIS GUIDE
 ================================
 
 Since FanDuel contest results are not publicly accessible via API, here's how to manually collect and analyze winning lineup data:
 
-🔍 STEP 1: Find Contest Results
+ STEP 1: Find Contest Results
 -------------------------------
 1. Log into your FanDuel account
 2. Go to "My Contests" or "Lobby"
 3. Look for completed MLB contests from last night
 4. Click on contests you're interested in analyzing
 
-🏆 STEP 2: Identify High-Scoring Lineups
+LINEUP: STEP 2: Identify High-Scoring Lineups
 ----------------------------------------
 1. Look at the leaderboard/results page
 2. Note the top 10-20 scoring lineups
@@ -182,7 +182,7 @@ Since FanDuel contest results are not publicly accessible via API, here's how to
    - Salary used
    - Player selections
 
-📝 STEP 3: Record Key Information
+ STEP 3: Record Key Information
 ---------------------------------
 For each winning lineup, note:
 - Player names and positions
@@ -191,7 +191,7 @@ For each winning lineup, note:
 - Any obvious stacking patterns
 - Salary allocation strategy
 
-🔧 STEP 4: Use the Analyzer Tool
+STEP: STEP 4: Use the Analyzer Tool
 -------------------------------
 Run the FanDuel Contest Analyzer tool:
 ```
@@ -200,7 +200,7 @@ python fanduel_contest_analyzer.py
 
 Choose option 1 for manual entry and input the winning lineup data.
 
-💡 PATTERNS TO LOOK FOR:
+TIP: PATTERNS TO LOOK FOR:
 -----------------------
 - Salary allocation (% spent on each position)
 - Stacking strategies (same team players)
@@ -208,7 +208,7 @@ Choose option 1 for manual entry and input the winning lineup data.
 - Position-specific trends
 - Contrarian vs. chalk plays
 
-🎯 ALTERNATIVE: Quick Analysis
+TARGET: ALTERNATIVE: Quick Analysis
 -----------------------------
 If you just want key insights:
 1. Note the top 3 scoring lineups
@@ -222,12 +222,12 @@ If you just want key insights:
     with open(guide_file, 'w', encoding='utf-8') as f:
         f.write(guide)
     
-    logger.info(f"📖 Saved manual analysis guide: {guide_file}")
+    logger.info(f" Saved manual analysis guide: {guide_file}")
     print(guide)
 
 def main():
     """Main function to attempt scraping or provide manual guidance"""
-    logger.info("🏆 FanDuel Contest Results Analyzer")
+    logger.info("LINEUP: FanDuel Contest Results Analyzer")
     logger.info("=" * 50)
     
     # Try automated scraping first
@@ -235,14 +235,14 @@ def main():
     results = scraper.get_public_contests()
     
     if results is not None and len(results) > 0:
-        logger.info("✅ Found public contest data!")
+        logger.info("SUCCESS: Found public contest data!")
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = BASE_DIR / f"fanduel_public_contests_{timestamp}.csv"
         results.to_csv(output_file, index=False)
-        logger.info(f"💾 Saved results: {output_file}")
+        logger.info(f" Saved results: {output_file}")
     else:
-        logger.info("❌ Public contest data not accessible")
-        logger.info("🔄 Switching to manual analysis mode...")
+        logger.info("ERROR: Public contest data not accessible")
+        logger.info("SWAP: Switching to manual analysis mode...")
         
         # Try alternative sources
         try_alternative_sources()
@@ -250,7 +250,7 @@ def main():
         # Provide manual guidance
         create_manual_entry_guide()
         
-        logger.info("\n💡 RECOMMENDATION:")
+        logger.info("\nTIP: RECOMMENDATION:")
         logger.info("Use the manual contest analyzer tool:")
         logger.info("python fanduel_contest_analyzer.py")
 

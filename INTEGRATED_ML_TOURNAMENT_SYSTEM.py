@@ -18,7 +18,7 @@ class IntegratedMLTournamentSystem:
         
     def load_ml_projections(self):
         """Load projections from your existing ML systems"""
-        print("🤖 INTEGRATED ML TOURNAMENT SYSTEM")
+        print(" INTEGRATED ML TOURNAMENT SYSTEM")
         print("Combining your ML pipeline with tournament optimization")
         print("="*70)
         
@@ -31,7 +31,7 @@ class IntegratedMLTournamentSystem:
             'game_state': list(self.slate_dir.glob("*game_state*.csv"))
         }
         
-        print(f"📊 ML SYSTEM OUTPUT DETECTED:")
+        print(f"DATA: ML SYSTEM OUTPUT DETECTED:")
         total_ml_lineups = 0
         available_systems = []
         
@@ -42,14 +42,14 @@ class IntegratedMLTournamentSystem:
                     df = pd.read_csv(latest_file)
                     total_ml_lineups += len(df)
                     available_systems.append(system)
-                    print(f"  ✅ {system.upper()}: {len(df)} lineups from {latest_file.name}")
+                    print(f"  SUCCESS: {system.upper()}: {len(df)} lineups from {latest_file.name}")
                 except:
-                    print(f"  ❌ {system.upper()}: Error reading {latest_file.name}")
+                    print(f"  ERROR: {system.upper()}: Error reading {latest_file.name}")
             else:
-                print(f"  ⏰ {system.upper()}: No files found (may need to run ML pipeline)")
+                print(f"   {system.upper()}: No files found (may need to run ML pipeline)")
         
-        print(f"\n📈 Total ML lineups available: {total_ml_lineups}")
-        print(f"🎯 Active ML systems: {len(available_systems)}")
+        print(f"\nPROGRESS: Total ML lineups available: {total_ml_lineups}")
+        print(f"TARGET: Active ML systems: {len(available_systems)}")
         
         return available_systems, total_ml_lineups
     
@@ -61,16 +61,16 @@ class IntegratedMLTournamentSystem:
         pitcher_features = self.data_dir / "fd_pitcher_features_final.csv"
         
         if hitter_features.exists() and pitcher_features.exists():
-            print(f"\n🎯 ML FEATURE ENHANCEMENT:")
-            print(f"  ✅ Found ML hitter features: {hitter_features.name}")
-            print(f"  ✅ Found ML pitcher features: {pitcher_features.name}")
+            print(f"\nTARGET: ML FEATURE ENHANCEMENT:")
+            print(f"  SUCCESS: Found ML hitter features: {hitter_features.name}")
+            print(f"  SUCCESS: Found ML pitcher features: {pitcher_features.name}")
             
             # Load your ML-enhanced features
             hitters_ml = pd.read_csv(hitter_features)
             pitchers_ml = pd.read_csv(pitcher_features)
             
-            print(f"  📊 ML hitter projections: {len(hitters_ml)} players")
-            print(f"  📊 ML pitcher projections: {len(pitchers_ml)} players")
+            print(f"  DATA: ML hitter projections: {len(hitters_ml)} players")
+            print(f"  DATA: ML pitcher projections: {len(pitchers_ml)} players")
             
             # Check if we have actual ML projections vs just features
             ml_projection_cols = ['predicted_fantasy_points', 'ml_projection', 'enhanced_projection']
@@ -78,45 +78,45 @@ class IntegratedMLTournamentSystem:
             has_ml_projections = any(col in hitters_ml.columns for col in ml_projection_cols)
             
             if has_ml_projections:
-                print(f"  🤖 ML projections detected - can enhance tournament lineups!")
+                print(f"   ML projections detected - can enhance tournament lineups!")
                 return True
             else:
-                print(f"  📊 ML features available but need projections - run your ML pipeline first")
+                print(f"  DATA: ML features available but need projections - run your ML pipeline first")
                 return False
         else:
-            print(f"\n⏰ ML FEATURES NOT FOUND:")
-            print(f"  📋 Run your 2_DFS_MODELS.bat first to generate ML features")
+            print(f"\n ML FEATURES NOT FOUND:")
+            print(f"  INFO: Run your 2_DFS_MODELS.bat first to generate ML features")
             return False
     
     def recommend_ml_pipeline_sequence(self):
         """Recommend the optimal sequence for running ML + tournament systems"""
-        print(f"\n🚀 RECOMMENDED ML + TOURNAMENT SEQUENCE:")
+        print(f"\nSTART: RECOMMENDED ML + TOURNAMENT SEQUENCE:")
         print(f"="*60)
         
         print(f"STEP 1: Run Your ML Pipeline")
-        print(f"  📋 Execute: 2_DFS_MODELS.bat")
-        print(f"  🎯 This generates ML projections and initial lineups")
-        print(f"  ⏱️ Time: ~8-12 minutes")
+        print(f"  INFO: Execute: 2_DFS_MODELS.bat")
+        print(f"  TARGET: This generates ML projections and initial lineups")
+        print(f"   Time: ~8-12 minutes")
         
         print(f"\nSTEP 2: Run Enhanced Simulation (Optional)")
-        print(f"  📋 Execute: 4_ENHANCED_MODELS.bat")
-        print(f"  🎯 This adds game state simulation and ceiling optimization")
-        print(f"  ⏱️ Time: ~10-15 minutes")
+        print(f"  INFO: Execute: 4_ENHANCED_MODELS.bat")
+        print(f"  TARGET: This adds game state simulation and ceiling optimization")
+        print(f"   Time: ~10-15 minutes")
         
         print(f"\nSTEP 3: Run Tournament Optimization")
-        print(f"  📋 Execute: python MASTER_TOURNAMENT_COMBINER.py")
-        print(f"  🎯 This combines ML lineups with tournament strategies")
-        print(f"  ⏱️ Time: ~2-3 minutes")
+        print(f"  INFO: Execute: python MASTER_TOURNAMENT_COMBINER.py")
+        print(f"  TARGET: This combines ML lineups with tournament strategies")
+        print(f"   Time: ~2-3 minutes")
         
-        print(f"\n💡 OPTIMAL APPROACH:")
-        print(f"  1. ✅ Your ML systems provide the PROJECTIONS")
-        print(f"  2. ✅ Our tournament systems provide the CONSTRUCTION STRATEGY")
-        print(f"  3. ✅ Combined = ML-powered tournament lineups")
+        print(f"\nTIP: OPTIMAL APPROACH:")
+        print(f"  1. SUCCESS: Your ML systems provide the PROJECTIONS")
+        print(f"  2. SUCCESS: Our tournament systems provide the CONSTRUCTION STRATEGY")
+        print(f"  3. SUCCESS: Combined = ML-powered tournament lineups")
         
-        print(f"\n🎯 WHY THIS WORKS BETTER:")
-        print(f"  🤖 Your ML models: Superior player projections")
-        print(f"  🏆 Our tournament system: Superior lineup construction")
-        print(f"  💥 Combined: Best of both worlds!")
+        print(f"\nTARGET: WHY THIS WORKS BETTER:")
+        print(f"   Your ML models: Superior player projections")
+        print(f"  LINEUP: Our tournament system: Superior lineup construction")
+        print(f"   Combined: Best of both worlds!")
         
     def create_ml_tournament_integration(self):
         """Create integration script for ML + tournament systems"""
@@ -142,7 +142,7 @@ def integrate_ml_with_tournaments():
         latest_ml = max(ml_files, key=lambda x: x.stat().st_mtime)
         ml_df = pd.read_csv(latest_ml)
         
-        print(f"🤖 Found ML lineups: {len(ml_df)} from {latest_ml.name}")
+        print(f" Found ML lineups: {len(ml_df)} from {latest_ml.name}")
         
         # Find tournament lineups
         tournament_files = list(slate_dir.glob("MASTER_TOURNAMENT_PORTFOLIO_*.csv"))
@@ -151,7 +151,7 @@ def integrate_ml_with_tournaments():
             latest_tournament = max(tournament_files, key=lambda x: x.stat().st_mtime)
             tournament_df = pd.read_csv(latest_tournament)
             
-            print(f"🏆 Found tournament lineups: {len(tournament_df)} from {latest_tournament.name}")
+            print(f"LINEUP: Found tournament lineups: {len(tournament_df)} from {latest_tournament.name}")
             
             # Create combined portfolio
             combined_lineups = []
@@ -182,14 +182,14 @@ def integrate_ml_with_tournaments():
                 
                 integrated_df.to_csv(filepath, index=False)
                 
-                print(f"✅ Integrated portfolio saved: {filename}")
-                print(f"📊 Total lineups: {len(integrated_df)}")
-                print(f"🤖 ML lineups: {sum(1 for l in combined_lineups if l.get('Source') == 'ML_SYSTEM')}")
-                print(f"🏆 Tournament lineups: {sum(1 for l in combined_lineups if l.get('Source') == 'TOURNAMENT_SYSTEM')}")
+                print(f"SUCCESS: Integrated portfolio saved: {filename}")
+                print(f"DATA: Total lineups: {len(integrated_df)}")
+                print(f" ML lineups: {sum(1 for l in combined_lineups if l.get('Source') == 'ML_SYSTEM')}")
+                print(f"LINEUP: Tournament lineups: {sum(1 for l in combined_lineups if l.get('Source') == 'TOURNAMENT_SYSTEM')}")
                 
                 return filepath
         
-    print("⏰ Run your ML pipeline first, then tournament optimization")
+    print(" Run your ML pipeline first, then tournament optimization")
     return None
 
 if __name__ == "__main__":
@@ -200,14 +200,14 @@ if __name__ == "__main__":
         with open(integration_file, 'w') as f:
             f.write(integration_script)
         
-        print(f"\n✅ Created integration script: {integration_file.name}")
-        print(f"📋 Run this after your ML pipeline completes")
+        print(f"\nSUCCESS: Created integration script: {integration_file.name}")
+        print(f"INFO: Run this after your ML pipeline completes")
         
         return integration_file
     
     def run_analysis(self):
         """Run the complete integration analysis"""
-        print("🤖 INTEGRATED ML TOURNAMENT ANALYSIS")
+        print(" INTEGRATED ML TOURNAMENT ANALYSIS")
         print("="*70)
         
         # Check current ML system status
@@ -217,20 +217,20 @@ if __name__ == "__main__":
         can_enhance = self.enhance_with_ml_projections()
         
         if total_lineups > 0:
-            print(f"\n🎉 EXCELLENT! You have {total_lineups} ML lineups ready!")
-            print(f"💡 Now run MASTER_TOURNAMENT_COMBINER.py to integrate with tournament strategies")
+            print(f"\nCOMPLETE: EXCELLENT! You have {total_lineups} ML lineups ready!")
+            print(f"TIP: Now run MASTER_TOURNAMENT_COMBINER.py to integrate with tournament strategies")
         else:
-            print(f"\n📋 RECOMMENDATION: Run your ML pipeline first")
+            print(f"\nINFO: RECOMMENDATION: Run your ML pipeline first")
             self.recommend_ml_pipeline_sequence()
         
         # Create integration helper
         integration_file = self.create_ml_tournament_integration()
         
-        print(f"\n🚀 INTEGRATION SUMMARY:")
-        print(f"  🤖 Your ML systems: {len(available_systems)} active")
-        print(f"  🏆 Tournament optimization: Ready")
-        print(f"  🔗 Integration script: {integration_file.name}")
-        print(f"  💥 Combined potential: ML projections + Tournament strategies")
+        print(f"\nSTART: INTEGRATION SUMMARY:")
+        print(f"   Your ML systems: {len(available_systems)} active")
+        print(f"  LINEUP: Tournament optimization: Ready")
+        print(f"   Integration script: {integration_file.name}")
+        print(f"   Combined potential: ML projections + Tournament strategies")
 
 def main():
     analyzer = IntegratedMLTournamentSystem()

@@ -25,27 +25,27 @@ logger = logging.getLogger(__name__)
 
 def load_fanduel_slate():
     """Load the updated FanDuel slate"""
-    logger.info("📊 Loading updated FanDuel slate...")
+    logger.info("DATA: Loading updated FanDuel slate...")
     try:
         df = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-        logger.info(f"✅ Loaded {len(df)} players from FanDuel slate")
+        logger.info(f"SUCCESS: Loaded {len(df)} players from FanDuel slate")
         return df
     except Exception as e:
-        logger.error(f"❌ Failed to load FanDuel slate: {e}")
+        logger.error(f"ERROR: Failed to load FanDuel slate: {e}")
         return pd.DataFrame()
 
 def fetch_rotowire_lineups():
     """Fetch confirmed starting lineups from Rotowire"""
-    logger.info("🔍 Fetching Rotowire confirmed lineups...")
+    logger.info(" Fetching Rotowire confirmed lineups...")
     
     # This is a placeholder - you'll need to implement actual Rotowire fetching
     # For now, return empty dict so we use FanDuel data
-    logger.warning("⚠️ Rotowire fetching not implemented yet - using FanDuel batting orders only")
+    logger.warning("WARNING: Rotowire fetching not implemented yet - using FanDuel batting orders only")
     return {}
 
 def validate_starting_lineups(fd_df, rotowire_data):
     """Cross-validate FanDuel vs Rotowire data"""
-    logger.info("🔍 VALIDATING STARTING LINEUPS...")
+    logger.info(" VALIDATING STARTING LINEUPS...")
     
     starting_lineups = []
     
@@ -53,10 +53,10 @@ def validate_starting_lineups(fd_df, rotowire_data):
     pitchers = fd_df[fd_df['Position'] == 'P'].copy()
     if 'Probable Pitcher' in pitchers.columns:
         confirmed_pitchers = pitchers[pitchers['Probable Pitcher'] == 'Yes']
-        logger.info(f"⚾ Confirmed starting pitchers: {len(confirmed_pitchers)}")
+        logger.info(f"BASEBALL: Confirmed starting pitchers: {len(confirmed_pitchers)}")
     else:
         confirmed_pitchers = pitchers
-        logger.warning("⚠️ No 'Probable Pitcher' column - using all pitchers")
+        logger.warning("WARNING: No 'Probable Pitcher' column - using all pitchers")
     
     # Add confirmed pitchers
     for _, pitcher in confirmed_pitchers.iterrows():
@@ -84,9 +84,9 @@ def validate_starting_lineups(fd_df, rotowire_data):
             (hitters['batting_order_num'].notna())
         ]
         
-        logger.info(f"🏏 Total hitters in slate: {len(hitters)}")
-        logger.info(f"✅ Confirmed starting hitters (batting 1-9): {len(confirmed_hitters)}")
-        logger.info(f"🚫 Non-starters filtered out: {len(hitters) - len(confirmed_hitters)}")
+        logger.info(f" Total hitters in slate: {len(hitters)}")
+        logger.info(f"SUCCESS: Confirmed starting hitters (batting 1-9): {len(confirmed_hitters)}")
+        logger.info(f" Non-starters filtered out: {len(hitters) - len(confirmed_hitters)}")
         
         # Add confirmed hitters
         for _, hitter in confirmed_hitters.iterrows():
@@ -100,18 +100,18 @@ def validate_starting_lineups(fd_df, rotowire_data):
                 'confirmed': True
             })
     else:
-        logger.error("❌ No 'Batting Order' column in FanDuel slate!")
+        logger.error("ERROR: No 'Batting Order' column in FanDuel slate!")
         return pd.DataFrame()
     
     # Convert to DataFrame
     starting_df = pd.DataFrame(starting_lineups)
     
-    logger.info(f"🎯 FINAL STARTING LINEUPS: {len(starting_df)} confirmed starters")
+    logger.info(f"TARGET: FINAL STARTING LINEUPS: {len(starting_df)} confirmed starters")
     
     # Show breakdown by position
     if len(starting_df) > 0:
         position_counts = starting_df['position'].value_counts()
-        logger.info("📊 Position breakdown:")
+        logger.info("DATA: Position breakdown:")
         for pos, count in position_counts.items():
             logger.info(f"   {pos}: {count} players")
     
@@ -120,13 +120,13 @@ def validate_starting_lineups(fd_df, rotowire_data):
 def save_starting_lineups(starting_df):
     """Save the confirmed starting lineups file"""
     if len(starting_df) == 0:
-        logger.error("❌ No starting lineups to save!")
+        logger.error("ERROR: No starting lineups to save!")
         return False
     
     # Save to data directory
     output_path = '../data/starting_lineups.csv'
     starting_df.to_csv(output_path, index=False)
-    logger.info(f"💾 Saved starting lineups: {output_path}")
+    logger.info(f" Saved starting lineups: {output_path}")
     
     # Create summary report
     summary = {
@@ -141,23 +141,23 @@ def save_starting_lineups(starting_df):
     with open('../data/starting_lineups_summary.json', 'w') as f:
         json.dump(summary, f, indent=2)
     
-    logger.info("✅ STARTING LINEUPS MASTER FILE CREATED!")
-    logger.info(f"   📊 {summary['total_starters']} confirmed starters")
-    logger.info(f"   ⚾ {summary['pitchers']} pitchers, {summary['hitters']} hitters")
-    logger.info(f"   🏟️ {summary['teams_represented']} teams")
-    logger.info("   🎯 All other scripts should now use starting_lineups.csv")
+    logger.info("SUCCESS: STARTING LINEUPS MASTER FILE CREATED!")
+    logger.info(f"   DATA: {summary['total_starters']} confirmed starters")
+    logger.info(f"   BASEBALL: {summary['pitchers']} pitchers, {summary['hitters']} hitters")
+    logger.info(f"    {summary['teams_represented']} teams")
+    logger.info("   TARGET: All other scripts should now use starting_lineups.csv")
     
     return True
 
 def main():
     """Main execution"""
-    logger.info("🚀 CREATING STARTING LINEUPS MASTER FILE")
+    logger.info("START: CREATING STARTING LINEUPS MASTER FILE")
     logger.info("=" * 50)
     
     # Step 1: Load FanDuel slate
     fd_df = load_fanduel_slate()
     if len(fd_df) == 0:
-        logger.error("❌ Cannot proceed without FanDuel slate data")
+        logger.error("ERROR: Cannot proceed without FanDuel slate data")
         return
     
     # Step 2: Fetch Rotowire data (future enhancement)
@@ -170,13 +170,13 @@ def main():
     success = save_starting_lineups(starting_df)
     
     if success:
-        logger.info("🎉 SUCCESS: starting_lineups.csv is ready!")
-        logger.info("💡 Next steps:")
+        logger.info("COMPLETE: SUCCESS: starting_lineups.csv is ready!")
+        logger.info("TIP: Next steps:")
         logger.info("   1. All lineup generators should use starting_lineups.csv")
         logger.info("   2. No more guessing about starters")
         logger.info("   3. Single source of truth for all scripts")
     else:
-        logger.error("❌ Failed to create starting lineups file")
+        logger.error("ERROR: Failed to create starting lineups file")
 
 if __name__ == "__main__":
     main()

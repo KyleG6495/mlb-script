@@ -185,7 +185,7 @@ class EnhancedDFSOptimizer:
         if len(pitchers) > 0:
             prob += lpSum([player_vars[idx] for idx in pitchers.index]) == 1
         else:
-            print("⚠️ No pitchers available!")
+            print("WARNING: No pitchers available!")
             return None
         
         # C constraint
@@ -193,7 +193,7 @@ class EnhancedDFSOptimizer:
         if len(catchers) > 0:
             prob += lpSum([player_vars[idx] for idx in catchers.index]) == 1
         else:
-            print("⚠️ No catchers available!")
+            print("WARNING: No catchers available!")
             return None
         
         # 1B constraint  
@@ -201,7 +201,7 @@ class EnhancedDFSOptimizer:
         if len(first_base) > 0:
             prob += lpSum([player_vars[idx] for idx in first_base.index]) == 1
         else:
-            print("⚠️ No first basemen available!")
+            print("WARNING: No first basemen available!")
             return None
         
         # 2B constraint
@@ -209,7 +209,7 @@ class EnhancedDFSOptimizer:
         if len(second_base) > 0:
             prob += lpSum([player_vars[idx] for idx in second_base.index]) == 1
         else:
-            print("⚠️ No second basemen available!")
+            print("WARNING: No second basemen available!")
             return None
         
         # 3B constraint
@@ -217,7 +217,7 @@ class EnhancedDFSOptimizer:
         if len(third_base) > 0:
             prob += lpSum([player_vars[idx] for idx in third_base.index]) == 1
         else:
-            print("⚠️ No third basemen available!")
+            print("WARNING: No third basemen available!")
             return None
         
         # SS constraint
@@ -225,7 +225,7 @@ class EnhancedDFSOptimizer:
         if len(shortstops) > 0:
             prob += lpSum([player_vars[idx] for idx in shortstops.index]) == 1
         else:
-            print("⚠️ No shortstops available!")
+            print("WARNING: No shortstops available!")
             return None
         
         # OF constraint (need 3)
@@ -233,7 +233,7 @@ class EnhancedDFSOptimizer:
         if len(outfielders) >= 3:
             prob += lpSum([player_vars[idx] for idx in outfielders.index]) == 3
         else:
-            print(f"⚠️ Only {len(outfielders)} outfielders available, need 3!")
+            print(f"WARNING: Only {len(outfielders)} outfielders available, need 3!")
             return None
         
         # Total lineup constraint (9 players: P + C + 1B + 2B + 3B + SS + 3OF)
@@ -243,7 +243,7 @@ class EnhancedDFSOptimizer:
         prob.solve(PULP_CBC_CMD(msg=0))
         
         if prob.status != 1:
-            print(f"❌ Optimization failed for {strategy} strategy. Status: {prob.status}")
+            print(f"ERROR: Optimization failed for {strategy} strategy. Status: {prob.status}")
             return None
         
         # Extract lineup
@@ -307,7 +307,7 @@ class EnhancedDFSOptimizer:
                     if player['salary'] >= 3500:  # Only track expensive players
                         used_players.add(player['name'])
                 
-                print(f"✅ Lineup {i+1:2d} ({strategy:>8}): {lineup_result['total_enhanced_fppg']:5.1f} FPPG, ${lineup_result['total_salary']:,}")
+                print(f"SUCCESS: Lineup {i+1:2d} ({strategy:>8}): {lineup_result['total_enhanced_fppg']:5.1f} FPPG, ${lineup_result['total_salary']:,}")
         
         return lineups
     
@@ -339,14 +339,14 @@ class EnhancedDFSOptimizer:
         
         lineup_df = pd.DataFrame(all_lineup_data)
         lineup_df.to_csv(output_file, index=False)
-        print(f"💾 Saved {len(lineups)} lineups to: {output_file}")
+        print(f" Saved {len(lineups)} lineups to: {output_file}")
         
         return lineup_df
 
 def main():
     """Generate optimized lineups for today's FanDuel slate"""
     
-    print("🏆 ENHANCED DFS OPTIMIZER - LIVE CONTEST MODE")
+    print("LINEUP: ENHANCED DFS OPTIMIZER - LIVE CONTEST MODE")
     print("=" * 60)
     print("Generating optimized lineups for today's slate")
     print()
@@ -359,8 +359,8 @@ def main():
     df = optimizer.load_fanduel_slate(slate_file)
     
     if df is None or len(df) == 0:
-        print("❌ Could not load slate data")
-        print("🔄 Make sure fd_slate_today.csv is updated with today's players!")
+        print("ERROR: Could not load slate data")
+        print("SWAP: Make sure fd_slate_today.csv is updated with today's players!")
         return
     
     # Apply enhanced projections
@@ -370,11 +370,11 @@ def main():
     lineups = optimizer.generate_multiple_lineups(df, n_lineups=20)
     
     if not lineups:
-        print("❌ No lineups generated")
+        print("ERROR: No lineups generated")
         return
     
     # Show summary
-    print(f"\n📊 LINEUP GENERATION SUMMARY:")
+    print(f"\nDATA: LINEUP GENERATION SUMMARY:")
     print("-" * 40)
     print(f"Total Lineups Generated: {len(lineups)}")
     
@@ -395,7 +395,7 @@ def main():
         print(f"  {strategy.capitalize()}: {count} lineups")
     
     # Show top 3 lineups
-    print(f"\n🏆 TOP 3 LINEUPS:")
+    print(f"\nLINEUP: TOP 3 LINEUPS:")
     print("-" * 60)
     
     # Sort by enhanced FPPG
@@ -412,8 +412,8 @@ def main():
     output_file = rf'c:\Users\kgone\OneDrive\Personal_Information\MLB\data\enhanced_lineups_today_{today_str}.csv'
     optimizer.save_lineups(lineups, output_file)
     
-    print(f"\n✅ ENHANCED LINEUP GENERATION COMPLETE!")
-    print(f"🎯 Next Steps:")
+    print(f"\nSUCCESS: ENHANCED LINEUP GENERATION COMPLETE!")
+    print(f"TARGET: Next Steps:")
     print(f"   1. Run: python convert_to_fanduel_format.py")
     print(f"   2. Upload the generated CSV to FanDuel")
     print(f"   3. Submit your optimized lineups!")

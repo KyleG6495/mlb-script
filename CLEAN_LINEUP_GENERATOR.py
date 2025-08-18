@@ -25,24 +25,24 @@ def load_yesterdays_slate():
     slate_file = BASE_DIR / "data" / "fd_slate_starters_only.csv"
     
     if not slate_file.exists():
-        logger.warning("⚠️ Starters-only file not found, using main slate")
+        logger.warning("WARNING: Starters-only file not found, using main slate")
         slate_file = BASE_DIR / "fd_current_slate" / "fd_slate_today.csv"
     
     if not slate_file.exists():
-        logger.error("❌ No slate file found")
+        logger.error("ERROR: No slate file found")
         return None
     
     slate = pd.read_csv(slate_file)
     
     if 'fd_slate_starters_only.csv' in str(slate_file):
-        logger.info(f"📊 Loaded confirmed starters: {len(slate)} players")
+        logger.info(f"DATA: Loaded confirmed starters: {len(slate)} players")
     else:
-        logger.info(f"📊 Loaded slate with {len(slate)} players")
+        logger.info(f"DATA: Loaded slate with {len(slate)} players")
     
     # Show games
     if 'Opponent' in slate.columns:
         games = slate.groupby(['Team', 'Opponent']).size().reset_index()
-        logger.info(f"🏟️ Games on slate:")
+        logger.info(f" Games on slate:")
         for _, game in games.iterrows():
             logger.info(f"   {game['Team']} vs {game['Opponent']}")
     
@@ -54,15 +54,15 @@ def load_player_projections():
     projections_file = BASE_DIR / "data" / "enhanced_predictions_latest.csv"
     
     if not projections_file.exists():
-        logger.error("❌ No enhanced predictions file found")
+        logger.error("ERROR: No enhanced predictions file found")
         return None
     
     try:
         df = pd.read_csv(projections_file)
-        logger.info(f"✅ Loaded {projections_file.name}: {len(df)} players")
+        logger.info(f"SUCCESS: Loaded {projections_file.name}: {len(df)} players")
         return df
     except Exception as e:
-        logger.error(f"❌ Error loading projections: {e}")
+        logger.error(f"ERROR: Error loading projections: {e}")
         return None
 
 def calculate_fanduel_points(row, position):
@@ -90,7 +90,7 @@ def calculate_fanduel_points(row, position):
 
 def merge_slate_with_projections(slate_df, projections_df):
     """Merge slate players with our projections"""
-    logger.info("🔗 Merging slate with projections...")
+    logger.info(" Merging slate with projections...")
     
     merged_players = []
     
@@ -157,7 +157,7 @@ def merge_slate_with_projections(slate_df, projections_df):
     merged_df = pd.DataFrame(merged_players)
     
     with_proj = len(merged_df[merged_df['has_projection'] == True])
-    logger.info(f"✅ Merged slate: {len(merged_df)} players, {with_proj} with projections")
+    logger.info(f"SUCCESS: Merged slate: {len(merged_df)} players, {with_proj} with projections")
     
     return merged_df
 
@@ -190,7 +190,7 @@ def generate_lineup(players_df, strategy='balanced', exclude_players=None):
             ].copy()
         
         if eligible.empty:
-            logger.warning(f"⚠️ No eligible players for {pos}")
+            logger.warning(f"WARNING: No eligible players for {pos}")
             return None
         
         # Apply strategy
@@ -224,7 +224,7 @@ def generate_lineup(players_df, strategy='balanced', exclude_players=None):
                     break
         
         if selected is None:
-            logger.warning(f"⚠️ Cannot fit any {pos} under salary cap")
+            logger.warning(f"WARNING: Cannot fit any {pos} under salary cap")
             return None
         
         # Add to lineup
@@ -260,7 +260,7 @@ def generate_lineup(players_df, strategy='balanced', exclude_players=None):
 
 def generate_10_unique_lineups(players_df):
     """Generate 10 unique lineups with different strategies"""
-    logger.info("🏆 Generating 10 unique lineups...")
+    logger.info("LINEUP: Generating 10 unique lineups...")
     
     strategies = [
         'max_projected',
@@ -279,7 +279,7 @@ def generate_10_unique_lineups(players_df):
     used_players = set()
     
     for i, strategy in enumerate(strategies):
-        logger.info(f"🎯 Building lineup {i+1}: {strategy}")
+        logger.info(f"TARGET: Building lineup {i+1}: {strategy}")
         
         # Force some diversity by excluding overused players
         if i > 5:
@@ -298,11 +298,11 @@ def generate_10_unique_lineups(players_df):
         
         if lineup:
             lineups.append(lineup)
-            logger.info(f"✅ Lineup {i+1}: ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} FPPG")
+            logger.info(f"SUCCESS: Lineup {i+1}: ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} FPPG")
         else:
-            logger.warning(f"❌ Failed to generate lineup {i+1}")
+            logger.warning(f"ERROR: Failed to generate lineup {i+1}")
     
-    logger.info(f"🎉 Generated {len(lineups)} unique lineups")
+    logger.info(f"COMPLETE: Generated {len(lineups)} unique lineups")
     return lineups
 
 def save_lineups(lineups):
@@ -351,7 +351,7 @@ def save_lineups(lineups):
     submission_file = BASE_DIR / "data" / f"clean_lineups_submission_{timestamp}.csv"
     pd.DataFrame(submission_data).to_csv(submission_file, index=False)
     
-    logger.info(f"💾 Saved lineups:")
+    logger.info(f" Saved lineups:")
     logger.info(f"   Details: {details_file.name}")
     logger.info(f"   Submission: {submission_file.name}")
     
@@ -359,7 +359,7 @@ def save_lineups(lineups):
 
 def main():
     """Generate clean lineups for backtesting"""
-    logger.info("🚀 CLEAN LINEUP GENERATOR - YESTERDAY'S BACKTEST")
+    logger.info("START: CLEAN LINEUP GENERATOR - YESTERDAY'S BACKTEST")
     logger.info("=" * 60)
     
     # Load yesterday's slate
@@ -383,14 +383,14 @@ def main():
         details_file, submission_file = save_lineups(lineups)
         
         logger.info("\n" + "=" * 60)
-        logger.info("🎯 LINEUP GENERATION COMPLETE")
+        logger.info("TARGET: LINEUP GENERATION COMPLETE")
         logger.info("=" * 60)
-        logger.info(f"📊 Generated {len(lineups)} unique lineups")
-        logger.info(f"💰 Salary range: ${min(l['total_salary'] for l in lineups):,} - ${max(l['total_salary'] for l in lineups):,}")
-        logger.info(f"🏆 FPPG range: {min(l['total_projected'] for l in lineups):.1f} - {max(l['total_projected'] for l in lineups):.1f}")
-        logger.info("\n🔍 Ready for backtesting against actual 8/7 results!")
+        logger.info(f"DATA: Generated {len(lineups)} unique lineups")
+        logger.info(f"MONEY: Salary range: ${min(l['total_salary'] for l in lineups):,} - ${max(l['total_salary'] for l in lineups):,}")
+        logger.info(f"LINEUP: FPPG range: {min(l['total_projected'] for l in lineups):.1f} - {max(l['total_projected'] for l in lineups):.1f}")
+        logger.info("\n Ready for backtesting against actual 8/7 results!")
     else:
-        logger.error("❌ Failed to generate any lineups")
+        logger.error("ERROR: Failed to generate any lineups")
 
 if __name__ == "__main__":
     main()

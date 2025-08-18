@@ -31,7 +31,7 @@ class MultiEntryGenerator:
                 'salary': df['Salary'].sum()
             })
         
-        print(f"✅ Loaded {len(self.lineups)} enhanced lineups")
+        print(f"SUCCESS: Loaded {len(self.lineups)} enhanced lineups")
         
     def calculate_player_exposures(self):
         """Calculate how often each player appears across lineups"""
@@ -66,35 +66,35 @@ class MultiEntryGenerator:
         
     def generate_quintuple_strategy(self):
         """Generate optimized 5-lineup strategy for GPP"""
-        print("\n🎯 QUINTUPLE STRATEGY GENERATOR")
+        print("\nTARGET: QUINTUPLE STRATEGY GENERATOR")
         print("=" * 40)
         
         # Filter to GPP lineups
         gpp_lineups = [l for l in self.lineups if l['strategy'] == 'gpp']
         
         if len(gpp_lineups) < 3:
-            print("❌ Need at least 3 GPP lineups for quintuple strategy")
+            print("ERROR: Need at least 3 GPP lineups for quintuple strategy")
             return
         
         # Use top 3 GPP lineups + create 2 variations
         base_lineups = sorted(gpp_lineups, key=lambda x: x['projection'], reverse=True)[:3]
         
-        print("📋 RECOMMENDED QUINTUPLE LINEUP SET:")
+        print("INFO: RECOMMENDED QUINTUPLE LINEUP SET:")
         print("-" * 40)
         
         for i, lineup in enumerate(base_lineups):
             print(f"Lineup {i+1}: {lineup['filename']}")
-            print(f"  💰 ${lineup['salary']:,} | 📈 {lineup['projection']:.1f} FPPG")
+            print(f"  MONEY: ${lineup['salary']:,} | PROGRESS: {lineup['projection']:.1f} FPPG")
             
             # Show key players
             top_players = lineup['players'].nlargest(3, 'Projected_FPPG')
             stars = ", ".join([f"{row['Nickname']} ({row['Primary_Position']})" 
                               for _, row in top_players.iterrows()])
-            print(f"  ⭐ Stars: {stars}")
+            print(f"   Stars: {stars}")
             print()
         
         # Create 2 contrarian variations
-        print("🎲 CONTRARIAN VARIATIONS:")
+        print(" CONTRARIAN VARIATIONS:")
         print("-" * 25)
         
         # Find lower-owned players for contrarian plays
@@ -106,50 +106,50 @@ class MultiEntryGenerator:
         contrarian_candidates.sort(key=lambda x: x[1]['avg_projection'], reverse=True)
         
         print("Lineup 4: Contrarian Stack")
-        print("  🎯 Strategy: Fade chalk, target low-owned stack")
+        print("  TARGET: Strategy: Fade chalk, target low-owned stack")
         if contrarian_candidates:
             top_contrarian = contrarian_candidates[:3]
             for name, data in top_contrarian:
-                print(f"    • {name}: {data['avg_projection']:.1f} proj, {data['exposure_rate']:.0%} owned")
+                print(f"     {name}: {data['avg_projection']:.1f} proj, {data['exposure_rate']:.0%} owned")
         
         print("\nLineup 5: Pivot Play")
-        print("  🎯 Strategy: Different game stack from main lineups")
+        print("  TARGET: Strategy: Different game stack from main lineups")
         
         return base_lineups
     
     def generate_cash_multi_entry(self):
         """Generate 2-3 lineup strategy for cash games"""
-        print("\n💰 CASH GAME MULTI-ENTRY")
+        print("\nMONEY: CASH GAME MULTI-ENTRY")
         print("=" * 30)
         
         # Filter to balanced lineups (best for cash)
         cash_lineups = [l for l in self.lineups if l['strategy'] == 'balanced']
         
         if len(cash_lineups) < 2:
-            print("❌ Need at least 2 balanced lineups for cash multi-entry")
+            print("ERROR: Need at least 2 balanced lineups for cash multi-entry")
             return
         
         # Use top 2-3 balanced lineups
         best_cash = sorted(cash_lineups, key=lambda x: x['projection'], reverse=True)[:3]
         
-        print("📋 RECOMMENDED CASH LINEUP SET:")
+        print("INFO: RECOMMENDED CASH LINEUP SET:")
         print("-" * 35)
         
         for i, lineup in enumerate(best_cash):
             print(f"Lineup {i+1}: {lineup['filename']}")
-            print(f"  💰 ${lineup['salary']:,} | 📈 {lineup['projection']:.1f} FPPG")
+            print(f"  MONEY: ${lineup['salary']:,} | PROGRESS: {lineup['projection']:.1f} FPPG")
             
             # Calculate floor score (conservative)
             min_proj = lineup['players']['Projected_FPPG'].min()
             floor_estimate = min_proj * 9 * 0.8  # Conservative floor
-            print(f"  🔒 Est. Floor: {floor_estimate:.1f} FPPG")
+            print(f"   Est. Floor: {floor_estimate:.1f} FPPG")
             print()
         
         return best_cash
     
     def analyze_correlation_opportunities(self):
         """Find optimal stack combinations across lineups"""
-        print("\n🔗 CORRELATION ANALYSIS")
+        print("\n CORRELATION ANALYSIS")
         print("=" * 25)
         
         # Find teams with multiple players across lineups
@@ -178,13 +178,13 @@ class MultiEntryGenerator:
         
         best_stacks.sort(key=lambda x: x[2], reverse=True)
         
-        print("🏟️ TOP STACKING OPPORTUNITIES:")
+        print(" TOP STACKING OPPORTUNITIES:")
         for team, unique_players, avg_proj in best_stacks[:5]:
             print(f"  {team}: {unique_players} unique players, {avg_proj:.1f} avg proj")
     
     def generate_exposure_report(self):
         """Generate player exposure report for multi-entry"""
-        print("\n📊 PLAYER EXPOSURE REPORT")
+        print("\nDATA: PLAYER EXPOSURE REPORT")
         print("=" * 30)
         
         # Sort by projection and show key players
@@ -194,19 +194,19 @@ class MultiEntryGenerator:
             reverse=True
         )
         
-        print("🌟 CORE PLAYS (High Exposure):")
+        print(" CORE PLAYS (High Exposure):")
         for name, data in sorted_players[:8]:
             if data['exposure_rate'] >= 0.5:  # 50%+ exposure
                 print(f"  {name}: {data['exposure_rate']:.0%} exposure, "
                       f"{data['avg_projection']:.1f} proj, ${data['avg_salary']:.0f}")
         
-        print("\n🎯 PIVOT PLAYS (Medium Exposure):")
+        print("\nTARGET: PIVOT PLAYS (Medium Exposure):")
         for name, data in sorted_players:
             if 0.2 <= data['exposure_rate'] < 0.5 and data['avg_projection'] >= 12:
                 print(f"  {name}: {data['exposure_rate']:.0%} exposure, "
                       f"{data['avg_projection']:.1f} proj, ${data['avg_salary']:.0f}")
         
-        print("\n🎲 CONTRARIAN PLAYS (Low Exposure, High Upside):")
+        print("\n CONTRARIAN PLAYS (Low Exposure, High Upside):")
         for name, data in sorted_players:
             if data['exposure_rate'] <= 0.33 and data['avg_projection'] >= 10:
                 print(f"  {name}: {data['exposure_rate']:.0%} exposure, "
@@ -214,7 +214,7 @@ class MultiEntryGenerator:
                 
     def run_multi_entry_analysis(self):
         """Run complete multi-entry analysis"""
-        print("🎯 MULTI-ENTRY LINEUP OPTIMIZER")
+        print("TARGET: MULTI-ENTRY LINEUP OPTIMIZER")
         print("=" * 45)
         
         self.load_enhanced_lineups()
@@ -226,8 +226,8 @@ class MultiEntryGenerator:
         self.analyze_correlation_opportunities()
         self.generate_exposure_report()
         
-        print(f"\n✅ Multi-entry analysis complete!")
-        print(f"💡 Use the recommended lineup sets for optimal coverage")
+        print(f"\nSUCCESS: Multi-entry analysis complete!")
+        print(f"TIP: Use the recommended lineup sets for optimal coverage")
 
 if __name__ == "__main__":
     generator = MultiEntryGenerator()

@@ -22,7 +22,7 @@ TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 def find_underdog_files():
     """Find Underdog Fantasy related files"""
-    logger.info("🔍 Looking for Underdog Fantasy files...")
+    logger.info(" Looking for Underdog Fantasy files...")
     
     # NEW: Look for today_pitcher_props CSV files (your new format)
     today = datetime.now().strftime('%Y-%m-%d')
@@ -46,21 +46,21 @@ def find_underdog_files():
     
     if files:
         latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-        logger.info(f"📁 Found Underdog pitcher props file: {Path(latest_file).name}")
+        logger.info(f" Found Underdog pitcher props file: {Path(latest_file).name}")
         return latest_file
     
     # Priority 2: Look for betting opportunities files (from automated system)
     betting_files = glob.glob(str(BASE_DIR.parent / "Scripts" / "betting_analysis" / "betting_opportunities_*.csv"))
     if betting_files:
         latest_file = max(betting_files, key=lambda x: Path(x).stat().st_mtime)
-        logger.info(f"📁 Found betting opportunities file: {Path(latest_file).name}")
+        logger.info(f" Found betting opportunities file: {Path(latest_file).name}")
         return latest_file
     
     # Priority 3: Legacy Underdog file patterns (fallback)
     uf_files = glob.glob(str(BASE_DIR / "uf_ev_analysis_*.csv"))
     if uf_files:
         latest_file = max(uf_files, key=lambda x: Path(x).stat().st_mtime)
-        logger.info(f"📁 Found legacy Underdog file: {Path(latest_file).name}")
+        logger.info(f" Found legacy Underdog file: {Path(latest_file).name}")
         return latest_file
     
     # Priority 4: Other Underdog patterns
@@ -78,13 +78,13 @@ def find_underdog_files():
         files.extend(pattern_files)
     
     if not files:
-        logger.warning("⚠️ No Underdog Fantasy files found")
+        logger.warning("WARNING: No Underdog Fantasy files found")
         logger.info("Expected files: today_pitcher_props_YYYY-MM-DD.csv or betting_opportunities_*.csv")
         return None
     
     # Get most recent file
     latest_file = max(files, key=lambda x: Path(x).stat().st_mtime)
-    logger.info(f"📁 Found latest Underdog file: {Path(latest_file).name}")
+    logger.info(f" Found latest Underdog file: {Path(latest_file).name}")
     return latest_file
 
 def load_actual_results():
@@ -92,11 +92,11 @@ def load_actual_results():
     actual_file = BASE_DIR / "actual_results_latest.csv"
     
     if not actual_file.exists():
-        logger.warning("⚠️ No actual results file found")
+        logger.warning("WARNING: No actual results file found")
         return None
     
     df = pd.read_csv(actual_file)
-    logger.info(f"📊 Loaded actual results for {len(df)} players")
+    logger.info(f"DATA: Loaded actual results for {len(df)} players")
     return df
 
 def load_underdog_data(file_path):
@@ -106,12 +106,12 @@ def load_underdog_data(file_path):
         
     try:
         df = pd.read_csv(file_path)
-        logger.info(f"📊 Loaded Underdog data: {len(df)} rows from {Path(file_path).name}")
+        logger.info(f"DATA: Loaded Underdog data: {len(df)} rows from {Path(file_path).name}")
         
         # Detect file format and standardize columns
         if 'player_name' in df.columns and 'stat_type' in df.columns and 'line' in df.columns:
             # NEW FORMAT: today_pitcher_props_YYYY-MM-DD.csv
-            logger.info("📊 Detected new Underdog format (today_pitcher_props)")
+            logger.info("DATA: Detected new Underdog format (today_pitcher_props)")
             df_standardized = df.rename(columns={
                 'player_name': 'player',
                 'stat_type': 'stat',
@@ -126,7 +126,7 @@ def load_underdog_data(file_path):
             
         elif 'player' in df.columns and 'category' in df.columns and 'source' in df.columns:
             # BETTING OPPORTUNITIES FORMAT: betting_opportunities_*.csv
-            logger.info("📊 Detected betting opportunities format")
+            logger.info("DATA: Detected betting opportunities format")
             # Filter for Underdog only
             df_underdog = df[df['source'] == 'underdog'].copy()
             df_standardized = df_underdog.rename(columns={
@@ -137,26 +137,26 @@ def load_underdog_data(file_path):
             
         elif 'player' in df.columns and 'stat' in df.columns:
             # LEGACY FORMAT: uf_ev_analysis_*.csv
-            logger.info("📊 Detected legacy Underdog format")
+            logger.info("DATA: Detected legacy Underdog format")
             df_standardized = df.copy()
             
         else:
-            logger.warning(f"⚠️ Unknown Underdog file format. Columns: {df.columns.tolist()}")
+            logger.warning(f"WARNING: Unknown Underdog file format. Columns: {df.columns.tolist()}")
             return None
             
-        logger.info(f"✅ Standardized Underdog data: {len(df_standardized)} entries")
+        logger.info(f"SUCCESS: Standardized Underdog data: {len(df_standardized)} entries")
         return df_standardized
         
     except Exception as e:
-        logger.error(f"❌ Error loading Underdog data: {e}")
+        logger.error(f"ERROR: Error loading Underdog data: {e}")
         return None
 
 def analyze_underdog_performance(underdog_df, actual_df):
     """Analyze Underdog Fantasy performance"""
-    logger.info("🏈 Analyzing Underdog Fantasy performance...")
+    logger.info(" Analyzing Underdog Fantasy performance...")
     
     if underdog_df is None or actual_df is None:
-        logger.warning("⚠️ Missing data for Underdog analysis")
+        logger.warning("WARNING: Missing data for Underdog analysis")
         return pd.DataFrame(), {}
     
     results = []
@@ -188,7 +188,7 @@ def analyze_underdog_performance(underdog_df, actual_df):
         'pitcher_strikeouts': 'strikeouts'
     }
     
-    logger.info(f"📊 Processing {len(underdog_df)} Underdog picks...")
+    logger.info(f"DATA: Processing {len(underdog_df)} Underdog picks...")
     
     for _, pick in underdog_df.iterrows():
         player_name = pick.get('player', '').strip()
@@ -306,17 +306,17 @@ def save_underdog_results(results_df, summary):
     # Save detailed results
     results_file = BASE_DIR / f"underdog_backtest_{timestamp}.csv"
     results_df.to_csv(results_file, index=False)
-    logger.info(f"💾 Saved Underdog results: {results_file}")
+    logger.info(f" Saved Underdog results: {results_file}")
     
     # Save summary
     summary_file = BASE_DIR / f"underdog_summary_{timestamp}.json"
     with open(summary_file, 'w') as f:
         json.dump(summary, f, indent=2)
-    logger.info(f"💾 Saved summary: {summary_file}")
+    logger.info(f" Saved summary: {summary_file}")
 
 def main():
     """Main execution function"""
-    logger.info("🏈 BACKTESTING UNDERDOG FANTASY")
+    logger.info(" BACKTESTING UNDERDOG FANTASY")
     logger.info("=" * 50)
     
     try:
@@ -325,9 +325,9 @@ def main():
         underdog_df = load_underdog_data(underdog_file)
         
         if underdog_df is not None and len(underdog_df) > 0:
-            logger.info(f"📊 Loaded {len(underdog_df)} Underdog entries")
+            logger.info(f"DATA: Loaded {len(underdog_df)} Underdog entries")
         else:
-            logger.warning("⚠️ No Underdog data found")
+            logger.warning("WARNING: No Underdog data found")
             
         # Load actual results
         actual_df = load_actual_results()
@@ -340,18 +340,18 @@ def main():
             save_underdog_results(results_df, summary)
             
             # Print insights
-            logger.info("🎯 UNDERDOG PERFORMANCE INSIGHTS:")
-            logger.info(f"📊 Total picks: {summary.get('total_picks', 0)}")
+            logger.info("TARGET: UNDERDOG PERFORMANCE INSIGHTS:")
+            logger.info(f"DATA: Total picks: {summary.get('total_picks', 0)}")
             if summary.get('picks_with_results', 0) > 0:
-                logger.info(f"✅ Hit rate: {summary.get('hit_rate_pct', 0):.1f}%")
-                logger.info(f"💰 Average edge: {summary.get('avg_edge', 0):.1%}")
-                logger.info(f"🎯 High confidence hits: {summary.get('high_confidence_hits', 0)}/{summary.get('high_confidence_total', 0)}")
+                logger.info(f"SUCCESS: Hit rate: {summary.get('hit_rate_pct', 0):.1f}%")
+                logger.info(f"MONEY: Average edge: {summary.get('avg_edge', 0):.1%}")
+                logger.info(f"TARGET: High confidence hits: {summary.get('high_confidence_hits', 0)}/{summary.get('high_confidence_total', 0)}")
             else:
-                logger.warning("⚠️ No actual results available for comparison")
+                logger.warning("WARNING: No actual results available for comparison")
             
-            logger.info("✅ UNDERDOG BACKTEST COMPLETE")
+            logger.info("SUCCESS: UNDERDOG BACKTEST COMPLETE")
         else:
-            logger.warning("⚠️ No Underdog data to analyze")
+            logger.warning("WARNING: No Underdog data to analyze")
             
             # Create placeholder results with helpful info
             placeholder_df = pd.DataFrame({
@@ -365,7 +365,7 @@ def main():
             save_underdog_results(placeholder_df, {'total_picks': 0})
     
     except Exception as e:
-        logger.error(f"❌ Error in Underdog backtest: {e}")
+        logger.error(f"ERROR: Error in Underdog backtest: {e}")
         import traceback
         traceback.print_exc()
         

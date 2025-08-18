@@ -19,7 +19,7 @@ class DiversifiedTournamentBuilder:
         
     def load_viable_slate(self):
         """Load slate with filtering for tournament play"""
-        print("🎯 DIVERSIFIED TOURNAMENT BUILDER")
+        print("TARGET: DIVERSIFIED TOURNAMENT BUILDER")
         print("Building diverse lineups with multiple team stacks")
         print("="*70)
         
@@ -42,13 +42,13 @@ class DiversifiedTournamentBuilder:
         hitters = viable[viable['Position'] != 'P'].copy()
         
         slate = pd.concat([pitchers, hitters], ignore_index=True)
-        print(f"✅ Tournament slate: {len(slate)} players ({len(pitchers)} pitchers, {len(hitters)} hitters)")
+        print(f"SUCCESS: Tournament slate: {len(slate)} players ({len(pitchers)} pitchers, {len(hitters)} hitters)")
         
         return slate
     
     def analyze_stacking_options(self, slate):
         """Analyze all possible team stacking options"""
-        print(f"\n🎯 TEAM STACKING ANALYSIS:")
+        print(f"\nTARGET: TEAM STACKING ANALYSIS:")
         
         hitters = slate[slate['Position'] != 'P']
         
@@ -68,9 +68,9 @@ class DiversifiedTournamentBuilder:
         
         stackable_teams = stackable_teams.sort_values('total_proj', ascending=False)
         
-        print(f"  🔥 TOP 10 STACKING TARGETS:")
+        print(f"   TOP 10 STACKING TARGETS:")
         for team, data in stackable_teams.head(10).iterrows():
-            print(f"    ⭐ {team:4} | {data['total_proj']:5.1f} proj | {data['avg_proj']:4.1f} avg | {data['player_count']:2.0f} players | {data['stack_value']:4.1f} val")
+            print(f"     {team:4} | {data['total_proj']:5.1f} proj | {data['avg_proj']:4.1f} avg | {data['player_count']:2.0f} players | {data['stack_value']:4.1f} val")
         
         return stackable_teams
     
@@ -237,7 +237,7 @@ class DiversifiedTournamentBuilder:
     
     def generate_diversified_lineups(self, slate, count=25):
         """Generate diversified tournament lineups"""
-        print(f"\n🎯 GENERATING {count} DIVERSIFIED TOURNAMENT LINEUPS")
+        print(f"\nTARGET: GENERATING {count} DIVERSIFIED TOURNAMENT LINEUPS")
         print("="*70)
         
         # Get stacking options
@@ -259,19 +259,19 @@ class DiversifiedTournamentBuilder:
                 lineup['strategy'] = f"{target_team}_{pitcher_strategy}"
                 lineups.append(lineup)
                 
-                print(f"✅ {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} proj | {lineup['total_ceiling']:.1f} ceil | {lineup['stack_size']}-man {lineup['stack_team']}")
+                print(f"SUCCESS: {lineup['lineup_id']} ({lineup['strategy']}): ${lineup['total_salary']:,} | {lineup['total_projected']:.1f} proj | {lineup['total_ceiling']:.1f} ceil | {lineup['stack_size']}-man {lineup['stack_team']}")
             else:
-                print(f"❌ Failed {i+1} ({target_team}_{pitcher_strategy})")
+                print(f"ERROR: Failed {i+1} ({target_team}_{pitcher_strategy})")
         
         return lineups
     
     def export_diversified_lineups(self, lineups):
         """Export diversified lineups"""
         if not lineups:
-            print("❌ No lineups to export")
+            print("ERROR: No lineups to export")
             return
         
-        print(f"\n📄 EXPORTING {len(lineups)} DIVERSIFIED LINEUPS...")
+        print(f"\n EXPORTING {len(lineups)} DIVERSIFIED LINEUPS...")
         
         # Prepare export data
         export_data = []
@@ -340,23 +340,23 @@ class DiversifiedTournamentBuilder:
         df = pd.DataFrame(export_data)
         df.to_csv(filepath, index=False)
         
-        print(f"✅ Diversified lineups exported: {filename}")
+        print(f"SUCCESS: Diversified lineups exported: {filename}")
         
         # Portfolio analysis
         projections = [l['total_projected'] for l in lineups]
         ceilings = [l['total_ceiling'] for l in lineups]
         
-        print(f"\n🏆 DIVERSIFIED PORTFOLIO ANALYSIS:")
-        print(f"  📊 Projected: {min(projections):.1f} - {max(projections):.1f} FPPG (avg: {np.mean(projections):.1f})")
-        print(f"  🚀 Ceiling: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG (avg: {np.mean(ceilings):.1f})")
+        print(f"\nLINEUP: DIVERSIFIED PORTFOLIO ANALYSIS:")
+        print(f"  DATA: Projected: {min(projections):.1f} - {max(projections):.1f} FPPG (avg: {np.mean(projections):.1f})")
+        print(f"  START: Ceiling: {min(ceilings):.1f} - {max(ceilings):.1f} FPPG (avg: {np.mean(ceilings):.1f})")
         
         # Tournament readiness
         competitive_lineups = sum(1 for c in ceilings if c >= 220)
         elite_lineups = sum(1 for c in ceilings if c >= 250)
         
-        print(f"\n🎯 TOURNAMENT COMPETITIVENESS:")
-        print(f"  💪 220+ ceiling lineups: {competitive_lineups}/{len(lineups)} ({competitive_lineups/len(lineups)*100:.0f}%)")
-        print(f"  ⭐ 250+ ceiling lineups: {elite_lineups}/{len(lineups)} ({elite_lineups/len(lineups)*100:.0f}%)")
+        print(f"\nTARGET: TOURNAMENT COMPETITIVENESS:")
+        print(f"   220+ ceiling lineups: {competitive_lineups}/{len(lineups)} ({competitive_lineups/len(lineups)*100:.0f}%)")
+        print(f"   250+ ceiling lineups: {elite_lineups}/{len(lineups)} ({elite_lineups/len(lineups)*100:.0f}%)")
         
         # Stack diversity
         stack_teams = {}
@@ -364,23 +364,23 @@ class DiversifiedTournamentBuilder:
             team = lineup['stack_team']
             stack_teams[team] = stack_teams.get(team, 0) + 1
         
-        print(f"\n🎯 STACK DIVERSIFICATION:")
-        print(f"  📊 Teams stacked: {len(stack_teams)} different teams")
+        print(f"\nTARGET: STACK DIVERSIFICATION:")
+        print(f"  DATA: Teams stacked: {len(stack_teams)} different teams")
         for team, count in sorted(stack_teams.items(), key=lambda x: x[1], reverse=True):
-            print(f"    ⭐ {team}: {count} lineups")
+            print(f"     {team}: {count} lineups")
         
         # Top lineups
-        print(f"\n🌟 TOP 5 DIVERSIFIED LINEUPS:")
+        print(f"\n TOP 5 DIVERSIFIED LINEUPS:")
         sorted_lineups = sorted(lineups, key=lambda x: x['total_ceiling'], reverse=True)
         
         for i, lineup in enumerate(sorted_lineups[:5], 1):
             upside = lineup['total_ceiling'] / lineup['total_projected']
-            print(f"  {i}. {lineup['lineup_id']} ({lineup['strategy']}): {lineup['total_projected']:.1f} → {lineup['total_ceiling']:.1f} ({upside:.1f}x) | {lineup['stack_size']}-man {lineup['stack_team']}")
+            print(f"  {i}. {lineup['lineup_id']} ({lineup['strategy']}): {lineup['total_projected']:.1f}  {lineup['total_ceiling']:.1f} ({upside:.1f}x) | {lineup['stack_size']}-man {lineup['stack_team']}")
         
         return filepath
 
 def main():
-    print("🎯 DIVERSIFIED TOURNAMENT BUILDER")
+    print("TARGET: DIVERSIFIED TOURNAMENT BUILDER")
     print("Building diverse lineups with multiple team stacks")
     print("="*70)
     
@@ -396,12 +396,12 @@ def main():
         if lineups:
             # Export lineups
             filepath = builder.export_diversified_lineups(lineups)
-            print(f"\n🎉 DIVERSIFICATION COMPLETE!")
-            print(f"🎯 Generated {len(lineups)} diversified tournament lineups")
-            print(f"💡 Strategy: Multiple team stacks, pitcher diversity")
-            print(f"🏆 Ready for tournament domination!")
+            print(f"\nCOMPLETE: DIVERSIFICATION COMPLETE!")
+            print(f"TARGET: Generated {len(lineups)} diversified tournament lineups")
+            print(f"TIP: Strategy: Multiple team stacks, pitcher diversity")
+            print(f"LINEUP: Ready for tournament domination!")
         else:
-            print("❌ Failed to generate diversified lineups")
+            print("ERROR: Failed to generate diversified lineups")
             
     except Exception as e:
         print(f"Error: {e}")

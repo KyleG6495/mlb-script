@@ -13,42 +13,42 @@ import os
 def main():
     """Run comprehensive backtest analysis"""
     
-    print("🔍 COMPREHENSIVE BACKTEST ANALYSIS")
+    print(" COMPREHENSIVE BACKTEST ANALYSIS")
     print("=" * 60)
     print("Testing conservative lineup system vs actual results")
     print()
     
     # Step 1: Load our generated lineups
-    print("1️⃣ LOADING OUR GENERATED LINEUPS...")
+    print("1 LOADING OUR GENERATED LINEUPS...")
     lineup_files = find_latest_lineup_files()
     
     if not lineup_files:
-        print("❌ No lineup files found. Run final_daily_runner.py first.")
+        print("ERROR: No lineup files found. Run final_daily_runner.py first.")
         return
     
     our_lineups = load_our_lineups(lineup_files)
     
     # Step 2: Load actual results
-    print("\n2️⃣ LOADING ACTUAL GAME RESULTS...")
+    print("\n2 LOADING ACTUAL GAME RESULTS...")
     actual_results = load_actual_results()
     
     if actual_results is None:
-        print("❌ No actual results found for validation")
+        print("ERROR: No actual results found for validation")
         return
     
     # Step 3: Analyze lineup performance
-    print("\n3️⃣ ANALYZING LINEUP PERFORMANCE...")
+    print("\n3 ANALYZING LINEUP PERFORMANCE...")
     performance_results = analyze_lineup_performance(our_lineups, actual_results)
     
     # Step 4: Analyze prop betting results (if available)
-    print("\n4️⃣ ANALYZING PROP BETTING PERFORMANCE...")
+    print("\n4 ANALYZING PROP BETTING PERFORMANCE...")
     prop_results = analyze_prop_performance()
     
     # Step 5: Generate comprehensive report
-    print("\n5️⃣ GENERATING COMPREHENSIVE REPORT...")
+    print("\n5 GENERATING COMPREHENSIVE REPORT...")
     generate_backtest_report(performance_results, prop_results)
     
-    print("\n✅ BACKTEST ANALYSIS COMPLETE!")
+    print("\nSUCCESS: BACKTEST ANALYSIS COMPLETE!")
 
 def find_latest_lineup_files():
     """Find our most recent lineup files"""
@@ -70,7 +70,7 @@ def find_latest_lineup_files():
     
     # Get the most recent file
     latest_file = max(all_files, key=os.path.getctime)
-    print(f"   📁 Using lineup file: {latest_file}")
+    print(f"    Using lineup file: {latest_file}")
     
     # Find corresponding summary file
     base_name = latest_file.replace('_details_', '_summary_')
@@ -86,14 +86,14 @@ def load_our_lineups(lineup_files):
     
     try:
         details_df = pd.read_csv(lineup_files['details'])
-        print(f"   📊 Loaded {len(details_df)} lineup entries")
-        print(f"   🏆 {details_df['lineup_id'].nunique()} unique lineups")
-        print(f"   👥 {details_df['player_name'].nunique()} unique players")
+        print(f"   DATA: Loaded {len(details_df)} lineup entries")
+        print(f"   LINEUP: {details_df['lineup_id'].nunique()} unique lineups")
+        print(f"   OWNERSHIP: {details_df['player_name'].nunique()} unique players")
         
         return details_df
         
     except Exception as e:
-        print(f"   ❌ Error loading lineups: {e}")
+        print(f"   ERROR: Error loading lineups: {e}")
         return None
 
 def load_actual_results():
@@ -111,8 +111,8 @@ def load_actual_results():
         if os.path.exists(file_path):
             try:
                 df = pd.read_csv(file_path)
-                print(f"   📁 Using results file: {file_path}")
-                print(f"   📊 {len(df)} players with actual results")
+                print(f"    Using results file: {file_path}")
+                print(f"   DATA: {len(df)} players with actual results")
                 
                 # Check for FanDuel points column
                 if 'fanduel_points' in df.columns:
@@ -134,17 +134,17 @@ def load_actual_results():
                 
                 # Show sample of data
                 if len(df) > 0 and 'FPPG' in df.columns:
-                    print(f"   📈 FPPG range: {df['FPPG'].min():.1f} - {df['FPPG'].max():.1f}")
+                    print(f"   PROGRESS: FPPG range: {df['FPPG'].min():.1f} - {df['FPPG'].max():.1f}")
                     if 'Team' in df.columns:
-                        print(f"   🏟️ Teams: {df['Team'].nunique()} teams")
+                        print(f"    Teams: {df['Team'].nunique()} teams")
                 
                 return df
                 
             except Exception as e:
-                print(f"   ⚠️ Error loading {file_path}: {e}")
+                print(f"   WARNING: Error loading {file_path}: {e}")
                 continue
     
-    print("   ❌ No valid actual results files found")
+    print("   ERROR: No valid actual results files found")
     return None
 
 def analyze_lineup_performance(our_lineups, actual_results):
@@ -153,7 +153,7 @@ def analyze_lineup_performance(our_lineups, actual_results):
     if our_lineups is None or actual_results is None:
         return None
     
-    print("   🔍 Matching players with actual results...")
+    print("    Matching players with actual results...")
     
     # Prepare actual results for matching
     actual_results['player_name_clean'] = actual_results['Name'].str.strip().str.lower()
@@ -215,7 +215,7 @@ def analyze_lineup_performance(our_lineups, actual_results):
         results.append(lineup_result)
     
     # Show summary
-    print(f"   📊 LINEUP PERFORMANCE SUMMARY:")
+    print(f"   DATA: LINEUP PERFORMANCE SUMMARY:")
     
     avg_projected = sum(r['projected_fppg'] for r in results) / len(results)
     avg_actual = sum(r['actual_fppg'] for r in results) / len(results)
@@ -231,43 +231,43 @@ def analyze_lineup_performance(our_lineups, actual_results):
     best_lineup = max(results, key=lambda x: x['accuracy_pct'])
     worst_lineup = min(results, key=lambda x: x['accuracy_pct'])
     
-    print(f"\n   🏆 BEST LINEUP: {best_lineup['lineup_id']}")
+    print(f"\n   LINEUP: BEST LINEUP: {best_lineup['lineup_id']}")
     print(f"      Accuracy: {best_lineup['accuracy_pct']:.1f}%")
-    print(f"      Projected: {best_lineup['projected_fppg']:.1f} → Actual: {best_lineup['actual_fppg']:.1f}")
+    print(f"      Projected: {best_lineup['projected_fppg']:.1f}  Actual: {best_lineup['actual_fppg']:.1f}")
     
-    print(f"\n   📉 WORST LINEUP: {worst_lineup['lineup_id']}")
+    print(f"\n    WORST LINEUP: {worst_lineup['lineup_id']}")
     print(f"      Accuracy: {worst_lineup['accuracy_pct']:.1f}%")
-    print(f"      Projected: {worst_lineup['projected_fppg']:.1f} → Actual: {worst_lineup['actual_fppg']:.1f}")
+    print(f"      Projected: {worst_lineup['projected_fppg']:.1f}  Actual: {worst_lineup['actual_fppg']:.1f}")
     
     return results
 
 def analyze_prop_performance():
     """Analyze prop betting performance if data available"""
     
-    print("   🎰 Looking for prop betting results...")
+    print("    Looking for prop betting results...")
     
     # Look for prop validation files
     prop_files = glob.glob("../data/prop_validation_*.csv")
     
     if not prop_files:
-        print("   ℹ️ No prop validation data found")
+        print("    No prop validation data found")
         return None
     
     try:
         latest_prop_file = max(prop_files, key=os.path.getctime)
         prop_df = pd.read_csv(latest_prop_file)
         
-        print(f"   📁 Using prop file: {latest_prop_file}")
-        print(f"   📊 {len(prop_df)} prop bets analyzed")
+        print(f"    Using prop file: {latest_prop_file}")
+        print(f"   DATA: {len(prop_df)} prop bets analyzed")
         
         if 'edge' in prop_df.columns:
             avg_edge = prop_df['edge'].mean()
-            print(f"   💰 Average edge: {avg_edge:.1f}%")
+            print(f"   MONEY: Average edge: {avg_edge:.1f}%")
         
         return prop_df
         
     except Exception as e:
-        print(f"   ⚠️ Error loading prop data: {e}")
+        print(f"   WARNING: Error loading prop data: {e}")
         return None
 
 def generate_backtest_report(performance_results, prop_results):
@@ -277,11 +277,11 @@ def generate_backtest_report(performance_results, prop_results):
     
     # Create comprehensive report
     report_lines = [
-        "🔍 COMPREHENSIVE BACKTEST ANALYSIS REPORT",
+        " COMPREHENSIVE BACKTEST ANALYSIS REPORT",
         "=" * 60,
         f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "",
-        "📊 EXECUTIVE SUMMARY",
+        "DATA: EXECUTIVE SUMMARY",
         "-" * 30
     ]
     
@@ -293,13 +293,13 @@ def generate_backtest_report(performance_results, prop_results):
         avg_accuracy = sum(r['accuracy_pct'] for r in performance_results) / total_lineups
         
         report_lines.extend([
-            f"• Total Lineups Tested: {total_lineups}",
-            f"• Average Projected FPPG: {avg_projected:.1f}",
-            f"• Average Actual FPPG: {avg_actual:.1f}",
-            f"• Average Players Found: {avg_found:.1f} / 9",
-            f"• Average Accuracy: {avg_accuracy:.1f}%",
+            f" Total Lineups Tested: {total_lineups}",
+            f" Average Projected FPPG: {avg_projected:.1f}",
+            f" Average Actual FPPG: {avg_actual:.1f}",
+            f" Average Players Found: {avg_found:.1f} / 9",
+            f" Average Accuracy: {avg_accuracy:.1f}%",
             "",
-            "🎯 LINEUP PERFORMANCE ANALYSIS",
+            "TARGET: LINEUP PERFORMANCE ANALYSIS",
             "-" * 40
         ])
         
@@ -310,16 +310,16 @@ def generate_backtest_report(performance_results, prop_results):
         poor = sum(1 for r in performance_results if r['accuracy_pct'] < 50)
         
         report_lines.extend([
-            f"• Excellent (90%+ accuracy): {excellent} lineups",
-            f"• Good (70-90% accuracy): {good} lineups",
-            f"• Average (50-70% accuracy): {average} lineups",
-            f"• Poor (<50% accuracy): {poor} lineups",
+            f" Excellent (90%+ accuracy): {excellent} lineups",
+            f" Good (70-90% accuracy): {good} lineups",
+            f" Average (50-70% accuracy): {average} lineups",
+            f" Poor (<50% accuracy): {poor} lineups",
             ""
         ])
         
         # Best performers
         top_3 = sorted(performance_results, key=lambda x: x['accuracy_pct'], reverse=True)[:3]
-        report_lines.append("🏆 TOP PERFORMING LINEUPS")
+        report_lines.append("LINEUP: TOP PERFORMING LINEUPS")
         for i, lineup in enumerate(top_3, 1):
             report_lines.append(f"{i}. {lineup['lineup_id']}: {lineup['accuracy_pct']:.1f}% accuracy")
         
@@ -327,37 +327,37 @@ def generate_backtest_report(performance_results, prop_results):
     
     if prop_results is not None:
         report_lines.extend([
-            "💰 PROP BETTING ANALYSIS",
+            "MONEY: PROP BETTING ANALYSIS",
             "-" * 30,
-            f"• Total Props Analyzed: {len(prop_results)}",
-            "• Prop performance data available",
+            f" Total Props Analyzed: {len(prop_results)}",
+            " Prop performance data available",
             ""
         ])
     
     # Methodology assessment
     report_lines.extend([
-        "🔧 METHODOLOGY ASSESSMENT",
+        "STEP: METHODOLOGY ASSESSMENT",
         "-" * 35,
-        "• Conservative Projections: Implemented ✓",
-        "• Player Diversification: Implemented ✓",
-        "• Salary Cap Management: Implemented ✓",
-        "• Confirmed Starters Only: Implemented ✓",
+        " Conservative Projections: Implemented ",
+        " Player Diversification: Implemented ",
+        " Salary Cap Management: Implemented ",
+        " Confirmed Starters Only: Implemented ",
         "",
-        "📈 IMPROVEMENTS FROM PREVIOUS SYSTEM",
+        "PROGRESS: IMPROVEMENTS FROM PREVIOUS SYSTEM",
         "-" * 45,
-        "• Reduced prop analysis time: 45+ min → 1.5 min (97% improvement)",
-        "• Eliminated over-optimistic projections",
-        "• Added lineup diversification logic",
-        "• Implemented realistic salary management",
-        "• Used confirmed starter filtering",
+        " Reduced prop analysis time: 45+ min  1.5 min (97% improvement)",
+        " Eliminated over-optimistic projections",
+        " Added lineup diversification logic",
+        " Implemented realistic salary management",
+        " Used confirmed starter filtering",
         "",
-        "🎯 RECOMMENDATIONS",
+        "TARGET: RECOMMENDATIONS",
         "-" * 25,
-        "• Continue using conservative projection methodology",
-        "• Monitor player matching accuracy",
-        "• Track lineup diversification effectiveness",
-        "• Validate daily slate data quality",
-        "• Maintain confirmed starter filtering"
+        " Continue using conservative projection methodology",
+        " Monitor player matching accuracy",
+        " Track lineup diversification effectiveness",
+        " Validate daily slate data quality",
+        " Maintain confirmed starter filtering"
     ])
     
     # Save report
@@ -365,26 +365,26 @@ def generate_backtest_report(performance_results, prop_results):
     with open(report_file, 'w') as f:
         f.write('\n'.join(report_lines))
     
-    print(f"   📄 Comprehensive report saved: {report_file}")
+    print(f"    Comprehensive report saved: {report_file}")
     
     # Also save detailed performance data
     if performance_results:
         performance_df = pd.DataFrame(performance_results)
         perf_file = f"../data/backtest_performance_details_{timestamp}.csv"
         performance_df.to_csv(perf_file, index=False)
-        print(f"   📊 Performance details saved: {perf_file}")
+        print(f"   DATA: Performance details saved: {perf_file}")
     
     # Print key findings
-    print(f"\n   🎯 KEY FINDINGS:")
+    print(f"\n   TARGET: KEY FINDINGS:")
     if performance_results:
-        print(f"      • Conservative approach accuracy: {avg_accuracy:.1f}%")
-        print(f"      • Player matching rate: {(avg_found/9)*100:.1f}%")
+        print(f"       Conservative approach accuracy: {avg_accuracy:.1f}%")
+        print(f"       Player matching rate: {(avg_found/9)*100:.1f}%")
         if avg_accuracy > 70:
-            print(f"      • ✅ Good performance with conservative projections")
+            print(f"       SUCCESS: Good performance with conservative projections")
         elif avg_accuracy > 50:
-            print(f"      • ⚠️ Moderate performance - room for improvement")
+            print(f"       WARNING: Moderate performance - room for improvement")
         else:
-            print(f"      • ❌ Poor performance - need methodology review")
+            print(f"       ERROR: Poor performance - need methodology review")
 
 if __name__ == "__main__":
     main()

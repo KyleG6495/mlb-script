@@ -367,19 +367,19 @@ class DFSDataIntegrator:
         """Print top DFS recommendations"""
         
         print("\n" + "="*60)
-        print("📊 ENHANCED DFS PROJECTIONS SUMMARY")
+        print("DATA: ENHANCED DFS PROJECTIONS SUMMARY")
         print("="*60)
         
         if 'value_mean' in projections.columns:
-            print("\n🏆 TOP VALUE PLAYS:")
+            print("\nLINEUP: TOP VALUE PLAYS:")
             top_value = projections.head(10)[['name', 'position', 'salary', 'mean_fppg', 'value_mean']]
             print(top_value.to_string(index=False))
         
-        print("\n🚀 TOURNAMENT UPSIDE PLAYS:")
+        print("\nSTART: TOURNAMENT UPSIDE PLAYS:")
         top_upside = projections.nlargest(10, 'ceiling_fppg')[['name', 'position', 'ceiling_fppg', 'boom_rate']]
         print(top_upside.to_string(index=False))
         
-        print("\n🛡️ SAFE CASH GAME PLAYS:")
+        print("\n SAFE CASH GAME PLAYS:")
         top_safe = projections.nlargest(10, 'floor_fppg')[['name', 'position', 'floor_fppg', 'bust_rate']]
         print(top_safe.to_string(index=False))
 
@@ -393,9 +393,9 @@ def main():
     projections = integrator.run_enhanced_projections(n_simulations=500)
     
     if not projections.empty:
-        logger.info("✅ Enhanced DFS projections completed successfully!")
+        logger.info("SUCCESS: Enhanced DFS projections completed successfully!")
     else:
-        logger.error("❌ Failed to generate projections")
+        logger.error("ERROR: Failed to generate projections")
 
 if __name__ == "__main__":
     main()

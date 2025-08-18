@@ -5,10 +5,10 @@ import os
 import datetime
 import requests
 
-# ── Setup logging ──
+#  Setup logging 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# ── Paths & URLs ──
+#  Paths & URLs 
 HITTER_FEATURES_PATH = "../data/fd_hitter_features_enriched.csv"  # Use your output file
 OUTPUT_PATH          = "../data/fd_hitter_features_with_game_pk.csv"
 SCHEDULE_URL         = "https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date}"
@@ -45,12 +45,12 @@ def fetch_schedule(date_str: str) -> pd.DataFrame:
                 rows.append({"game_pk": gp, "team": home, "date": date_str})
 
     sched = pd.DataFrame(rows)
-    logging.info(f"📅 Fetched {len(sched)} schedule rows for {date_str}")
-    # If a team has a doubleheader, it will appear twice; drop duplicates so merge is many→one
+    logging.info(f" Fetched {len(sched)} schedule rows for {date_str}")
+    # If a team has a doubleheader, it will appear twice; drop duplicates so merge is manyone
     dedup = sched.drop_duplicates(subset=["team", "date"])
     dropped = len(sched) - len(dedup)
     if dropped:
-        logging.info(f"🗂 Dropped {dropped} duplicate team/date rows (doubleheaders)")
+        logging.info(f" Dropped {dropped} duplicate team/date rows (doubleheaders)")
     return dedup
 
 def main():
@@ -58,25 +58,25 @@ def main():
     if not os.path.exists(HITTER_FEATURES_PATH):
         raise FileNotFoundError(f"Missing hitters features at {HITTER_FEATURES_PATH}")
     hitters = pd.read_csv(HITTER_FEATURES_PATH, dtype=str)
-    logging.info(f"✅ Loaded hitters: {len(hitters)} rows; columns: {list(hitters.columns)}")
+    logging.info(f"SUCCESS: Loaded hitters: {len(hitters)} rows; columns: {list(hitters.columns)}")
 
     # 2) Parse out player_id if needed
     if "player_id" not in hitters.columns and "Id" in hitters.columns:
         hitters["player_id"] = hitters["Id"].str.split("-", n=1).str[0]
-        logging.info("ℹ️ Parsed 'player_id' from FD 'Id'")
+        logging.info(" Parsed 'player_id' from FD 'Id'")
     elif "player_id" in hitters.columns:
-        logging.info("ℹ️ Using existing 'player_id'")
+        logging.info(" Using existing 'player_id'")
     else:
         raise KeyError("No 'player_id' or 'Id' column found in hitters features")
 
-    # 3) Annotate today’s date
+    # 3) Annotate todays date
     today_str = datetime.date.today().isoformat()
     hitters["date"] = today_str
 
     # 4) Fetch & dedupe schedule
     sched = fetch_schedule(today_str)
 
-    # 5) Standardize FD team codes → MLB triCodes
+    # 5) Standardize FD team codes  MLB triCodes
     if "Team" not in hitters.columns:
         raise KeyError("Hitters features missing 'Team' column")
     hitters["team_standardized"] = hitters["Team"]
@@ -116,14 +116,14 @@ def main():
         validate="many_to_one",
     )
     matched = merged["game_pk"].notna().sum()
-    logging.info(f"🧮 game_pk matched: {matched}/{len(merged)} rows")
+    logging.info(f" game_pk matched: {matched}/{len(merged)} rows")
 
     # 7) Fill missing game_pk with -1 and cast to int
     merged["game_pk"] = merged["game_pk"].fillna(-1).astype(int)
 
     # 8) Save
     merged.to_csv(OUTPUT_PATH, index=False)
-    logging.info(f"✅ Saved with game_pk → {OUTPUT_PATH}")
+    logging.info(f"SUCCESS: Saved with game_pk  {OUTPUT_PATH}")
 
 if __name__ == "__main__":
     main()

@@ -23,7 +23,7 @@ def load_starting_lineups():
     try:
         # Load the pipeline-ready file which has FPPG data
         df = pd.read_csv('../data/fd_slate_starters_only.csv')
-        logger.info(f"✅ Loaded {len(df)} confirmed starters from pipeline file")
+        logger.info(f"SUCCESS: Loaded {len(df)} confirmed starters from pipeline file")
         
         # Convert to master file format for compatibility
         master_df = df.copy()
@@ -37,22 +37,22 @@ def load_starting_lineups():
         # Show breakdown
         pitchers = len(master_df[master_df['position'] == 'P'])
         hitters = len(master_df[master_df['position'] != 'P'])
-        logger.info(f"   ⚾ {pitchers} starting pitchers")
-        logger.info(f"   🏏 {hitters} starting hitters")
+        logger.info(f"   BASEBALL: {pitchers} starting pitchers")
+        logger.info(f"    {hitters} starting hitters")
         
         return master_df
     except FileNotFoundError:
-        logger.error("❌ starting_lineups.csv not found!")
+        logger.error("ERROR: starting_lineups.csv not found!")
         logger.error("   Run create_starting_lineups.py first")
         return pd.DataFrame()
     except Exception as e:
-        logger.error(f"❌ Error loading starting lineups: {e}")
+        logger.error(f"ERROR: Error loading starting lineups: {e}")
         return pd.DataFrame()
 
 def build_lineup_from_starters(starters_df, strategy="balanced"):
     """Build lineup using only confirmed starters"""
     if len(starters_df) == 0:
-        logger.error("❌ No starters available for lineup building")
+        logger.error("ERROR: No starters available for lineup building")
         return {}
     
     lineup = {}
@@ -76,7 +76,7 @@ def build_lineup_from_starters(starters_df, strategy="balanced"):
             ].copy()
         
         if len(available) == 0:
-            logger.warning(f"⚠️ No {position} available in starting lineups")
+            logger.warning(f"WARNING: No {position} available in starting lineups")
             continue
         
         # Simple strategy: best value (FPPG/salary) but ensure reasonable salary
@@ -106,14 +106,14 @@ def build_lineup_from_starters(starters_df, strategy="balanced"):
     total_salary = 35000 - remaining_salary
     total_fppg = sum([p.get('fppg', 0) for p in lineup.values()])
     
-    logger.info(f"🏆 Lineup built: ${total_salary:,} salary, {total_fppg:.1f} FPPG")
+    logger.info(f"LINEUP: Lineup built: ${total_salary:,} salary, {total_fppg:.1f} FPPG")
     
     return lineup
 
 def save_lineup(lineup, filename_prefix="confirmed_starters_lineup"):
     """Save lineup in FanDuel format"""
     if not lineup:
-        logger.error("❌ No lineup to save")
+        logger.error("ERROR: No lineup to save")
         return
     
     # Create FanDuel submission format
@@ -135,10 +135,10 @@ def save_lineup(lineup, filename_prefix="confirmed_starters_lineup"):
     filename = f"../data/{filename_prefix}_{timestamp}.csv"
     df.to_csv(filename, index=False)
     
-    logger.info(f"💾 Saved lineup: {filename}")
+    logger.info(f" Saved lineup: {filename}")
     
     # Print lineup for review
-    logger.info("🎯 CONFIRMED STARTERS LINEUP:")
+    logger.info("TARGET: CONFIRMED STARTERS LINEUP:")
     logger.info("=" * 50)
     for pos, player in lineup.items():
         batting = f" (bats {player.get('batting_order', 'N/A')})" if player.get('batting_order') else ""
@@ -151,13 +151,13 @@ def save_lineup(lineup, filename_prefix="confirmed_starters_lineup"):
 
 def main():
     """Main execution"""
-    logger.info("🚀 BUILDING LINEUP FROM CONFIRMED STARTERS")
+    logger.info("START: BUILDING LINEUP FROM CONFIRMED STARTERS")
     logger.info("=" * 50)
     
     # Load confirmed starters
     starters_df = load_starting_lineups()
     if len(starters_df) == 0:
-        logger.error("❌ Cannot build lineup without starting lineups data")
+        logger.error("ERROR: Cannot build lineup without starting lineups data")
         logger.error("   1. Update fd_slate_today.csv with latest data")
         logger.error("   2. Run create_starting_lineups.py")
         return
@@ -168,8 +168,8 @@ def main():
     # Save lineup
     save_lineup(lineup)
     
-    logger.info("✅ Lineup built using only confirmed starters!")
-    logger.info("💡 No Drake Baldwin or other bench players included")
+    logger.info("SUCCESS: Lineup built using only confirmed starters!")
+    logger.info("TIP: No Drake Baldwin or other bench players included")
 
 if __name__ == "__main__":
     main()

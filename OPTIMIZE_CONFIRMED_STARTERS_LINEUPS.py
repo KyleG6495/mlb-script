@@ -18,11 +18,11 @@ def load_confirmed_starters_slate():
     """Load the confirmed starters slate"""
     try:
         df = pd.read_csv('../fd_current_slate/fd_slate_confirmed_starters_only.csv')
-        logger.info(f"✅ Loaded {len(df)} confirmed starters")
+        logger.info(f"SUCCESS: Loaded {len(df)} confirmed starters")
         return df
     except FileNotFoundError:
-        logger.error("❌ No confirmed starters slate found!")
-        logger.error("💡 Run GET_CONFIRMED_STARTERS.py first")
+        logger.error("ERROR: No confirmed starters slate found!")
+        logger.error("TIP: Run GET_CONFIRMED_STARTERS.py first")
         return None
 
 def load_projections_for_confirmed():
@@ -32,11 +32,11 @@ def load_projections_for_confirmed():
         hitter_proj = pd.read_csv('../data/hitter_projections.csv')
         pitcher_proj = pd.read_csv('../data/pitcher_projections.csv')
         
-        logger.info(f"📊 Loaded projections: {len(hitter_proj)} hitters, {len(pitcher_proj)} pitchers")
+        logger.info(f"DATA: Loaded projections: {len(hitter_proj)} hitters, {len(pitcher_proj)} pitchers")
         return hitter_proj, pitcher_proj
         
     except FileNotFoundError as e:
-        logger.error(f"❌ Projection files not found: {e}")
+        logger.error(f"ERROR: Projection files not found: {e}")
         return None, None
 
 def merge_slate_with_projections(slate_df, hitter_proj, pitcher_proj):
@@ -46,7 +46,7 @@ def merge_slate_with_projections(slate_df, hitter_proj, pitcher_proj):
     pitchers = slate_df[slate_df['Position'] == 'P'].copy()
     hitters = slate_df[slate_df['Position'] != 'P'].copy()
     
-    logger.info(f"📊 Confirmed players: {len(pitchers)} pitchers, {len(hitters)} hitters")
+    logger.info(f"DATA: Confirmed players: {len(pitchers)} pitchers, {len(hitters)} hitters")
     
     # Merge with projections
     if hitter_proj is not None:
@@ -69,19 +69,19 @@ def merge_slate_with_projections(slate_df, hitter_proj, pitcher_proj):
     for df in [hitters, pitchers]:
         missing_proj = df['projected_fppg'].isna().sum()
         if missing_proj > 0:
-            logger.warning(f"⚠️ {missing_proj} players missing projections - using salary estimates")
+            logger.warning(f"WARNING: {missing_proj} players missing projections - using salary estimates")
             df['projected_fppg'] = df['projected_fppg'].fillna(df['Salary'] / 1000 * 2.8)
             df['value_score'] = df['value_score'].fillna(df['projected_fppg'] / df['Salary'] * 1000)
     
     # Combine back
     confirmed_players = pd.concat([pitchers, hitters], ignore_index=True)
     
-    logger.info(f"✅ Merged slate with projections: {len(confirmed_players)} confirmed players")
+    logger.info(f"SUCCESS: Merged slate with projections: {len(confirmed_players)} confirmed players")
     return confirmed_players
 
 def optimize_confirmed_lineups(players_df, num_lineups=10):
     """Optimize lineups using only confirmed starters"""
-    logger.info(f"🎯 OPTIMIZING LINEUPS WITH {len(players_df)} CONFIRMED STARTERS")
+    logger.info(f"TARGET: OPTIMIZING LINEUPS WITH {len(players_df)} CONFIRMED STARTERS")
     
     # Position requirements for FanDuel
     position_requirements = {
@@ -101,7 +101,7 @@ def optimize_confirmed_lineups(players_df, num_lineups=10):
         lineup = optimize_single_lineup(players_df, position_requirements, existing_lineups=lineups)
         if lineup:
             lineups.append(lineup)
-            logger.info(f"✅ Lineup {lineup_num + 1}: {lineup['total_salary']:,} salary, {lineup['total_projection']:.1f} FPPG")
+            logger.info(f"SUCCESS: Lineup {lineup_num + 1}: {lineup['total_salary']:,} salary, {lineup['total_projection']:.1f} FPPG")
     
     return lineups
 
@@ -196,7 +196,7 @@ def format_lineup_for_fanduel(lineup):
 def save_confirmed_lineups(lineups):
     """Save the confirmed starters lineups"""
     if not lineups:
-        logger.error("❌ No lineups to save")
+        logger.error("ERROR: No lineups to save")
         return
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -248,39 +248,39 @@ def save_confirmed_lineups(lineups):
     detailed_df = pd.DataFrame(detailed_data)
     detailed_df.to_csv(detailed_filename, index=False)
     
-    logger.info(f"💾 SAVED CONFIRMED STARTERS LINEUPS:")
-    logger.info(f"   📁 Submission format: {filename}")
-    logger.info(f"   📁 Detailed format: {detailed_filename}")
+    logger.info(f" SAVED CONFIRMED STARTERS LINEUPS:")
+    logger.info(f"    Submission format: {filename}")
+    logger.info(f"    Detailed format: {detailed_filename}")
     
     return filename, detailed_filename
 
 def validate_confirmed_lineups(lineups):
     """Final validation that all players are confirmed starters"""
-    logger.info("🔍 FINAL VALIDATION: Checking all players are confirmed starters...")
+    logger.info(" FINAL VALIDATION: Checking all players are confirmed starters...")
     
     all_valid = True
     
     for i, lineup in enumerate(lineups, 1):
-        logger.info(f"📋 Lineup {i} validation:")
+        logger.info(f"INFO: Lineup {i} validation:")
         
         for player in lineup['players']:
             # Since we're only using confirmed starters slate, all players are confirmed
-            logger.info(f"   ✅ {player['Nickname']} ({player['Position']}) - CONFIRMED STARTER")
+            logger.info(f"   SUCCESS: {player['Nickname']} ({player['Position']}) - CONFIRMED STARTER")
         
-        logger.info(f"   💰 Total salary: ${lineup['total_salary']:,}")
-        logger.info(f"   📈 Total projection: {lineup['total_projection']:.1f} FPPG")
+        logger.info(f"   MONEY: Total salary: ${lineup['total_salary']:,}")
+        logger.info(f"   PROGRESS: Total projection: {lineup['total_projection']:.1f} FPPG")
         logger.info("")
     
     if all_valid:
-        logger.info("🎉 ALL LINEUPS VALIDATED - 100% CONFIRMED STARTERS!")
-        logger.info("🚫 ZERO chance of lineup disasters!")
+        logger.info("COMPLETE: ALL LINEUPS VALIDATED - 100% CONFIRMED STARTERS!")
+        logger.info(" ZERO chance of lineup disasters!")
     
     return all_valid
 
 def main():
     """Main function"""
-    logger.info("🎯 CONFIRMED STARTERS LINEUP OPTIMIZER")
-    logger.info("🚫 IMPOSSIBLE to have lineup disasters!")
+    logger.info("TARGET: CONFIRMED STARTERS LINEUP OPTIMIZER")
+    logger.info(" IMPOSSIBLE to have lineup disasters!")
     logger.info("=" * 60)
     
     # Step 1: Load confirmed starters slate
@@ -298,7 +298,7 @@ def main():
     lineups = optimize_confirmed_lineups(players_df, num_lineups=10)
     
     if not lineups:
-        logger.error("❌ No valid lineups found")
+        logger.error("ERROR: No valid lineups found")
         return
     
     # Step 5: Save lineups
@@ -309,16 +309,16 @@ def main():
     
     # Summary
     logger.info("=" * 60)
-    logger.info("🎉 CONFIRMED STARTERS OPTIMIZATION COMPLETE!")
-    logger.info(f"✅ Created {len(lineups)} disaster-proof lineups")
-    logger.info(f"🎯 All players: 100% confirmed starters")
-    logger.info(f"🚫 Non-playing players: 0 (impossible)")
+    logger.info("COMPLETE: CONFIRMED STARTERS OPTIMIZATION COMPLETE!")
+    logger.info(f"SUCCESS: Created {len(lineups)} disaster-proof lineups")
+    logger.info(f"TARGET: All players: 100% confirmed starters")
+    logger.info(f" Non-playing players: 0 (impossible)")
     logger.info("")
-    logger.info("📁 FILES CREATED:")
-    logger.info(f"   📊 FanDuel submission: {submission_file}")
-    logger.info(f"   📋 Detailed breakdown: {detailed_file}")
+    logger.info(" FILES CREATED:")
+    logger.info(f"   DATA: FanDuel submission: {submission_file}")
+    logger.info(f"   INFO: Detailed breakdown: {detailed_file}")
     logger.info("")
-    logger.info("🚀 YOUR LINEUPS ARE NOW DISASTER-PROOF!")
+    logger.info("START: YOUR LINEUPS ARE NOW DISASTER-PROOF!")
 
 if __name__ == "__main__":
     main()

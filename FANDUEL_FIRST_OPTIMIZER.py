@@ -17,44 +17,44 @@ logger = logging.getLogger(__name__)
 def optimize_from_fanduel_slate():
     """Start with FanDuel slate and build optimized lineups from there"""
     
-    logger.info("🎯 FANDUEL-FIRST OPTIMIZATION")
+    logger.info("TARGET: FANDUEL-FIRST OPTIMIZATION")
     logger.info("=" * 50)
     
     # START with FanDuel slate as master list
     fd_slate_file = "../fd_current_slate/fd_slate_today.csv"
     df_slate = pd.read_csv(fd_slate_file)
     
-    logger.info(f"✅ FanDuel Slate Master List: {len(df_slate)} players")
-    logger.info(f"📊 Games: {len(df_slate['Game'].unique())} games")
-    logger.info(f"📊 Positions: {df_slate['Position'].value_counts().to_dict()}")
+    logger.info(f"SUCCESS: FanDuel Slate Master List: {len(df_slate)} players")
+    logger.info(f"DATA: Games: {len(df_slate['Game'].unique())} games")
+    logger.info(f"DATA: Positions: {df_slate['Position'].value_counts().to_dict()}")
     
     # Load our enhanced ML data to match with FanDuel players
     try:
         enhanced_hitters = pd.read_csv("../data/aggregated_hitter_features_2025.csv")
-        logger.info(f"✅ Loaded enhanced hitter data: {len(enhanced_hitters)} rows")
+        logger.info(f"SUCCESS: Loaded enhanced hitter data: {len(enhanced_hitters)} rows")
     except:
-        logger.warning("⚠️ No enhanced hitter data found")
+        logger.warning("WARNING: No enhanced hitter data found")
         enhanced_hitters = pd.DataFrame()
     
     try:
         enhanced_pitchers = pd.read_csv("../data/aggregated_pitcher_features_2025.csv")
-        logger.info(f"✅ Loaded enhanced pitcher data: {len(enhanced_pitchers)} rows")
+        logger.info(f"SUCCESS: Loaded enhanced pitcher data: {len(enhanced_pitchers)} rows")
     except:
-        logger.warning("⚠️ No enhanced pitcher data found")
+        logger.warning("WARNING: No enhanced pitcher data found")
         enhanced_pitchers = pd.DataFrame()
     
     try:
         ml_projections = pd.read_csv("../data/ml_enhanced_projections_20250812.csv")
-        logger.info(f"✅ Loaded ML projections: {len(ml_projections)} rows")
+        logger.info(f"SUCCESS: Loaded ML projections: {len(ml_projections)} rows")
     except:
-        logger.warning("⚠️ No ML projections found")
+        logger.warning("WARNING: No ML projections found")
         ml_projections = pd.DataFrame()
     
     try:
         weather_data = pd.read_csv("../data/weather_park_enhanced_players_20250812.csv")
-        logger.info(f"✅ Loaded weather/park data: {len(weather_data)} rows")
+        logger.info(f"SUCCESS: Loaded weather/park data: {len(weather_data)} rows")
     except:
-        logger.warning("⚠️ No weather data found")
+        logger.warning("WARNING: No weather data found")
         weather_data = pd.DataFrame()
     
     # Create FanDuel-constrained dataset
@@ -110,10 +110,10 @@ def optimize_from_fanduel_slate():
     
     df_fanduel = pd.DataFrame(fanduel_players)
     
-    logger.info(f"✅ FanDuel-Enhanced Dataset: {len(df_fanduel)} players")
+    logger.info(f"SUCCESS: FanDuel-Enhanced Dataset: {len(df_fanduel)} players")
     
     # Show top value plays by position
-    logger.info("\n💎 TOP VALUE PLAYS BY POSITION:")
+    logger.info("\n TOP VALUE PLAYS BY POSITION:")
     for pos in ['P', 'C', '1B', '2B', '3B', 'SS', 'OF']:
         pos_players = df_fanduel[df_fanduel['position'] == pos].nlargest(3, 'value_score')
         if len(pos_players) > 0:
@@ -125,7 +125,7 @@ def optimize_from_fanduel_slate():
         lineup = optimize_single_lineup(df_fanduel, used_in_previous=lineups)
         if lineup:
             lineups.append(lineup)
-            logger.info(f"\n🏆 LINEUP {i+1}:")
+            logger.info(f"\nLINEUP: LINEUP {i+1}:")
             display_lineup(lineup, i+1)
     
     # Save all lineups
@@ -145,7 +145,7 @@ def display_lineup(lineup, lineup_num):
         total_salary += player['salary']
         total_projection += player['projected_fppg']
     
-    logger.info(f"  💰 Total: ${total_salary:,} | 📊 Projection: {total_projection:.1f} FPPG")
+    logger.info(f"  MONEY: Total: ${total_salary:,} | DATA: Projection: {total_projection:.1f} FPPG")
 
 def optimize_single_lineup(df_players, used_in_previous=[]):
     """Optimize a single lineup using advanced value-based selection"""
@@ -269,7 +269,7 @@ def save_multiple_lineups(lineups):
     output_file = f"../data/FANDUEL_ML_ENHANCED_LINEUPS_{timestamp}.csv"
     df_submission.to_csv(output_file, index=False)
     
-    logger.info(f"\n💾 Saved {len(lineups)} lineups: {output_file}")
+    logger.info(f"\n Saved {len(lineups)} lineups: {output_file}")
     return output_file
 
 def save_fanduel_lineup(lineup):
@@ -323,7 +323,7 @@ def save_fanduel_lineup(lineup):
     output_file = f"../data/FANDUEL_FIRST_OPTIMIZED_{timestamp}.csv"
     df_submission.to_csv(output_file, index=False)
     
-    logger.info(f"💾 Saved: {output_file}")
+    logger.info(f" Saved: {output_file}")
     return output_file
 
 if __name__ == "__main__":

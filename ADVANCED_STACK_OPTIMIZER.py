@@ -1,5 +1,5 @@
 """
-📊 ADVANCED STACKING OPTIMIZER
+DATA: ADVANCED STACKING OPTIMIZER
 Identifies optimal team stacks based on multiple factors
 """
 import pandas as pd
@@ -14,11 +14,11 @@ class AdvancedStackOptimizer:
         
     def load_stack_data(self):
         """Load data needed for stack optimization"""
-        self.logger.info("📊 LOADING STACK OPTIMIZATION DATA...")
+        self.logger.info("DATA: LOADING STACK OPTIMIZATION DATA...")
         
         try:
             self.slate = pd.read_csv('../fd_current_slate/fd_slate_today.csv')
-            self.logger.info(f"✅ Loaded slate: {len(self.slate)} players")
+            self.logger.info(f"SUCCESS: Loaded slate: {len(self.slate)} players")
             
             # Try to load Vegas-adjusted data if available
             try:
@@ -27,18 +27,18 @@ class AdvancedStackOptimizer:
                 if vegas_files:
                     latest_vegas = max(vegas_files)
                     self.slate = pd.read_csv(latest_vegas)
-                    self.logger.info(f"✅ Using Vegas-adjusted data: {latest_vegas}")
+                    self.logger.info(f"SUCCESS: Using Vegas-adjusted data: {latest_vegas}")
             except:
                 pass
                 
             return True
         except Exception as e:
-            self.logger.error(f"❌ Error loading data: {e}")
+            self.logger.error(f"ERROR: Error loading data: {e}")
             return False
             
     def analyze_opposing_pitchers(self):
         """Analyze quality of opposing pitchers for each team"""
-        self.logger.info("🎯 ANALYZING OPPOSING PITCHERS...")
+        self.logger.info("TARGET: ANALYZING OPPOSING PITCHERS...")
         
         pitcher_matchups = {}
         
@@ -77,11 +77,11 @@ class AdvancedStackOptimizer:
             }
             
         self.pitcher_matchups = pitcher_matchups
-        self.logger.info(f"🎯 Analyzed {len(pitcher_matchups)} pitcher matchups")
+        self.logger.info(f"TARGET: Analyzed {len(pitcher_matchups)} pitcher matchups")
         
     def calculate_team_stack_values(self):
         """Calculate the value of stacking each team"""
-        self.logger.info("📈 CALCULATING TEAM STACK VALUES...")
+        self.logger.info("PROGRESS: CALCULATING TEAM STACK VALUES...")
         
         team_stack_data = {}
         
@@ -136,11 +136,11 @@ class AdvancedStackOptimizer:
             }
             
         self.team_stack_data = team_stack_data
-        self.logger.info(f"📈 Calculated stack values for {len(team_stack_data)} teams")
+        self.logger.info(f"PROGRESS: Calculated stack values for {len(team_stack_data)} teams")
         
     def identify_optimal_stacks(self):
         """Identify the best stacking opportunities"""
-        self.logger.info("🎯 IDENTIFYING OPTIMAL STACKS...")
+        self.logger.info("TARGET: IDENTIFYING OPTIMAL STACKS...")
         
         # Convert to DataFrame for easier analysis
         stack_df = pd.DataFrame.from_dict(self.team_stack_data, orient='index')
@@ -170,11 +170,11 @@ class AdvancedStackOptimizer:
         self.value_stacks = value_stacks
         self.contrarian_stacks = contrarian_stacks
         
-        self.logger.info(f"🎯 Identified {len(elite_stacks)} elite stacks, {len(value_stacks)} value stacks, {len(contrarian_stacks)} contrarian stacks")
+        self.logger.info(f"TARGET: Identified {len(elite_stacks)} elite stacks, {len(value_stacks)} value stacks, {len(contrarian_stacks)} contrarian stacks")
         
     def generate_stack_lineups(self):
         """Generate optimal lineups using identified stacks"""
-        self.logger.info("🔨 GENERATING STACK LINEUPS...")
+        self.logger.info(" GENERATING STACK LINEUPS...")
         
         stack_lineups = []
         
@@ -200,7 +200,7 @@ class AdvancedStackOptimizer:
                 stack_lineups.append(lineup)
                 
         self.stack_lineups = stack_lineups
-        self.logger.info(f"🔨 Generated {len(stack_lineups)} stack-based lineups")
+        self.logger.info(f" Generated {len(stack_lineups)} stack-based lineups")
         
     def build_stack_lineup(self, team, stack_size=4, strategy='balanced'):
         """Build a complete lineup around a team stack"""
@@ -298,14 +298,14 @@ class AdvancedStackOptimizer:
             rec_df = pd.DataFrame(recommendations)
             rec_file = f"../data/stack_recommendations_{timestamp}.csv"
             rec_df.to_csv(rec_file, index=False)
-            self.logger.info(f"📋 Saved stack recommendations: {rec_file}")
+            self.logger.info(f"INFO: Saved stack recommendations: {rec_file}")
         
-        self.logger.info(f"💾 Saved stack analysis: {stack_file}")
+        self.logger.info(f" Saved stack analysis: {stack_file}")
         return stack_file, rec_file if recommendations else None
         
     def run_stack_optimization(self):
         """Run complete stack optimization system"""
-        self.logger.info("🚀 STARTING ADVANCED STACK OPTIMIZATION")
+        self.logger.info("START: STARTING ADVANCED STACK OPTIMIZATION")
         self.logger.info("="*60)
         
         # Load data
@@ -323,16 +323,16 @@ class AdvancedStackOptimizer:
         
         # Print summary
         self.logger.info("="*60)
-        self.logger.info("🎯 STACK OPTIMIZATION COMPLETE!")
-        self.logger.info(f"📊 Top 3 Elite Stacks:")
+        self.logger.info("TARGET: STACK OPTIMIZATION COMPLETE!")
+        self.logger.info(f"DATA: Top 3 Elite Stacks:")
         
         for i, (_, stack) in enumerate(self.elite_stacks.head(3).iterrows(), 1):
             self.logger.info(f"   {i}. {stack['team']} vs {stack['opposing_pitcher']} "
                            f"({stack['difficulty']}) - Score: {stack['stack_value_score']:.2f}")
             
-        self.logger.info(f"💾 Results saved: {stack_file}")
+        self.logger.info(f" Results saved: {stack_file}")
         if rec_file:
-            self.logger.info(f"📋 Recommendations: {rec_file}")
+            self.logger.info(f"INFO: Recommendations: {rec_file}")
             
         return True
 

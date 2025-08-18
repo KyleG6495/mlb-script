@@ -10,7 +10,7 @@ import pandas as pd
 def diagnose_fanduel_issue():
     """Diagnose why FanDuel lineups don't match our submissions"""
     
-    print("🔍 FANDUEL LINEUP DIAGNOSTIC")
+    print(" FANDUEL LINEUP DIAGNOSTIC")
     print("=" * 50)
     
     # Load our expected lineup
@@ -20,7 +20,7 @@ def diagnose_fanduel_issue():
     # Get our lineup 1 (the one FanDuel is showing wrong)
     lineup1 = df_lineups[df_lineups['lineup_id'] == 1].copy()
     
-    print("\n🎯 OUR EXPECTED LINEUP 1:")
+    print("\nTARGET: OUR EXPECTED LINEUP 1:")
     print("-" * 30)
     for _, player in lineup1.iterrows():
         # Find the player ID
@@ -33,7 +33,7 @@ def diagnose_fanduel_issue():
     print(f"Total Projection: {lineup1['ml_projected_fppg'].sum():.1f} FPPG")
     
     # What FanDuel is showing (from the user's message)
-    print("\n❌ WHAT FANDUEL IS SHOWING:")
+    print("\nERROR: WHAT FANDUEL IS SHOWING:")
     print("-" * 30)
     fanduel_showing = [
         ("P", "V. Mederos", "LAD@LAA", 5500),  # This matches!
@@ -55,18 +55,18 @@ def diagnose_fanduel_issue():
     print(f"\nFanDuel Total: ${fanduel_total:,}")
     
     # Wait... let me check the user's message again
-    print("\n🤔 ANALYSIS:")
+    print("\n ANALYSIS:")
     print("-" * 20)
     print("Looking at the user's message, lineup 4 actually shows:")
-    print("- V. Mederos (P) $5,500 ✅")
-    print("- F. Alvarez (C/1B) $2,600 ✅") 
-    print("- G. Torres (2B) $3,100 ✅")
-    print("- W. Bernabel (3B) $3,000 ✅")
-    print("- B. Witt Jr. (SS) $4,100 ✅")
-    print("- S. Ohtani (OF) $4,800 ✅")
-    print("- C. Carroll (OF) $4,300 ✅")
-    print("- J. Soto (OF) $4,000 ✅")
-    print("- P. Alonso (UTIL) $3,600 ✅")
+    print("- V. Mederos (P) $5,500 SUCCESS:")
+    print("- F. Alvarez (C/1B) $2,600 SUCCESS:") 
+    print("- G. Torres (2B) $3,100 SUCCESS:")
+    print("- W. Bernabel (3B) $3,000 SUCCESS:")
+    print("- B. Witt Jr. (SS) $4,100 SUCCESS:")
+    print("- S. Ohtani (OF) $4,800 SUCCESS:")
+    print("- C. Carroll (OF) $4,300 SUCCESS:")
+    print("- J. Soto (OF) $4,000 SUCCESS:")
+    print("- P. Alonso (UTIL) $3,600 SUCCESS:")
     print("\nThis IS our optimized lineup! It worked!")
     print("\nThe issue is that the OTHER lineups got different players.")
     print("This suggests our other lineup optimizations might have used")

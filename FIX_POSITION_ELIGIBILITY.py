@@ -16,7 +16,7 @@ def fix_position_eligibility():
     
     # Find Carson Kelly's ID that's causing issues
     kelly_id = '119385-73871'
-    print(f"🔴 PROBLEM: Carson Kelly ({kelly_id}) is a C/1B being used in OF positions")
+    print(f" PROBLEM: Carson Kelly ({kelly_id}) is a C/1B being used in OF positions")
     
     # Find suitable outfielders as replacements
     eligible_outfielders = slate_df[
@@ -26,7 +26,7 @@ def fix_position_eligibility():
         (slate_df['Salary'] <= 3000)  # Similar price range
     ].sort_values('FPPG', ascending=False)
     
-    print("🔍 AVAILABLE OUTFIELDER REPLACEMENTS:")
+    print(" AVAILABLE OUTFIELDER REPLACEMENTS:")
     for i, (_, player) in enumerate(eligible_outfielders.head(5).iterrows()):
         print(f"  {i+1}. {player['First Name']} {player['Last Name']} (${player['Salary']}, {player['FPPG']:.1f} FPPG) - {player['Roster Position']}")
     
@@ -36,7 +36,7 @@ def fix_position_eligibility():
         of2_replacement = eligible_outfielders.iloc[1] 
         of3_replacement = eligible_outfielders.iloc[2]
         
-        print(f"\n✅ REPLACEMENTS SELECTED:")
+        print(f"\nSUCCESS: REPLACEMENTS SELECTED:")
         print(f"  OF1: {of1_replacement['First Name']} {of1_replacement['Last Name']} (${of1_replacement['Salary']}, {of1_replacement['FPPG']:.1f} FPPG)")
         print(f"  OF2: {of2_replacement['First Name']} {of2_replacement['Last Name']} (${of2_replacement['Salary']}, {of2_replacement['FPPG']:.1f} FPPG)")
         print(f"  OF3: {of3_replacement['First Name']} {of3_replacement['Last Name']} (${of3_replacement['Salary']}, {of3_replacement['FPPG']:.1f} FPPG)")
@@ -70,14 +70,14 @@ def fix_position_eligibility():
         with open(lineups_file, 'w') as f:
             f.write('\n'.join(fixed_lines))
         
-        print(f"\n🔄 APPLIED FIXES:")
-        print(f"✅ Replaced Carson Kelly in OF positions with eligible outfielders")
-        print(f"✅ All failed entries should now have valid position eligibility")
-        print(f"✅ Updated lineups saved to: {lineups_file}")
-        print(f"\n🚀 FanDuel should now accept all lineups without 'invalid roster' errors!")
+        print(f"\nSWAP: APPLIED FIXES:")
+        print(f"SUCCESS: Replaced Carson Kelly in OF positions with eligible outfielders")
+        print(f"SUCCESS: All failed entries should now have valid position eligibility")
+        print(f"SUCCESS: Updated lineups saved to: {lineups_file}")
+        print(f"\nSTART: FanDuel should now accept all lineups without 'invalid roster' errors!")
         
     else:
-        print("❌ Not enough eligible outfielders found for replacement")
+        print("ERROR: Not enough eligible outfielders found for replacement")
 
 if __name__ == "__main__":
     fix_position_eligibility()

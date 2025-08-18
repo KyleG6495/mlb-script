@@ -36,9 +36,9 @@ class AdvancedModelAnalytics:
         for stat, path in model_files.items():
             try:
                 self.models[stat] = joblib.load(path)
-                print(f"✅ Loaded {stat} model")
+                print(f"SUCCESS: Loaded {stat} model")
             except:
-                print(f"⚠️ {stat} model not found")
+                print(f"WARNING: {stat} model not found")
     
     def predict_with_confidence(self, features_df, stat):
         """Generate predictions with confidence intervals"""
@@ -69,7 +69,7 @@ class AdvancedModelAnalytics:
             return predictions, confidence_lower, confidence_upper
             
         except Exception as e:
-            print(f"⚠️ Error in confidence prediction for {stat}: {e}")
+            print(f"WARNING: Error in confidence prediction for {stat}: {e}")
             return None, None, None
     
     def calculate_feature_importance_for_player(self, player_features, stat):
@@ -94,7 +94,7 @@ class AdvancedModelAnalytics:
                 return dict(sorted_importance[:5])  # Top 5 features
             
         except Exception as e:
-            print(f"⚠️ Error calculating feature importance: {e}")
+            print(f"WARNING: Error calculating feature importance: {e}")
         
         return {}
     
@@ -115,23 +115,23 @@ class AdvancedModelAnalytics:
             features_df['is_outlier'] = outlier_predictions == -1
             
             outlier_count = sum(outlier_predictions == -1)
-            print(f"🔍 Detected {outlier_count} potential outlier player profiles")
+            print(f" Detected {outlier_count} potential outlier player profiles")
             
             return features_df
             
         except Exception as e:
-            print(f"⚠️ Error in outlier detection: {e}")
+            print(f"WARNING: Error in outlier detection: {e}")
             return features_df
     
     def generate_enhanced_predictions(self, features_file="prediction_features_enhanced_real_stats.csv"):
         """Generate predictions with advanced analytics"""
         
-        print("🧠 ADVANCED MODEL ANALYTICS")
+        print(" ADVANCED MODEL ANALYTICS")
         print("=" * 50)
         
         # Load features
         features_df = pd.read_csv(f"../data/{features_file}")
-        print(f"📊 Analyzing {len(features_df)} players")
+        print(f"DATA: Analyzing {len(features_df)} players")
         
         # Detect outliers
         features_df = self.detect_prediction_outliers(features_df)
@@ -206,7 +206,7 @@ def main():
     # Find high confidence bets
     high_conf_bets = analytics.identify_high_confidence_bets(enhanced_preds)
     
-    print(f"\n🎯 HIGH CONFIDENCE BETS:")
+    print(f"\nTARGET: HIGH CONFIDENCE BETS:")
     print("-" * 40)
     
     for i, bet in enumerate(high_conf_bets[:10], 1):

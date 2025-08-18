@@ -5,7 +5,7 @@ from datetime import datetime
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-print("✅ WORKING LINEUP BUILDER")
+print("SUCCESS: WORKING LINEUP BUILDER")
 print("Building lineups with proper budget management")
 print("="*80)
 
@@ -21,16 +21,16 @@ df = df.dropna(subset=['FPPG', 'Salary'])
 df['Probable Pitcher'] = df['Probable Pitcher'].fillna('').str.strip().str.lower()
 confirmed_starters = df[(df['Position'] == 'P') & (df['Probable Pitcher'] == 'yes')].copy()
 
-logging.info(f"⚠️  CONFIRMED STARTING PITCHERS TODAY: {len(confirmed_starters)}")
+logging.info(f"WARNING:  CONFIRMED STARTING PITCHERS TODAY: {len(confirmed_starters)}")
 for pitcher in confirmed_starters.itertuples():
-    logging.info(f"   📋 {pitcher.Nickname} - ${pitcher.Salary:,} - {pitcher.FPPG:.1f} FPPG")
+    logging.info(f"   INFO: {pitcher.Nickname} - ${pitcher.Salary:,} - {pitcher.FPPG:.1f} FPPG")
 
 SALARY_CAP = 35000
 
 def build_budget_managed_lineup():
     """Build lineup with proper budget management using ONLY confirmed starting pitchers"""
     
-    logging.info("✅ BUILDING BUDGET-MANAGED LINEUP WITH CONFIRMED STARTERS")
+    logging.info("SUCCESS: BUILDING BUDGET-MANAGED LINEUP WITH CONFIRMED STARTERS")
     logging.info("="*60)
     
     # Use ONLY confirmed starting pitchers
@@ -38,14 +38,14 @@ def build_budget_managed_lineup():
     hitters = df[df['Position'] != 'P']
     
     if pitchers.empty:
-        logging.error("❌ NO CONFIRMED STARTING PITCHERS AVAILABLE!")
+        logging.error("ERROR: NO CONFIRMED STARTING PITCHERS AVAILABLE!")
         return None
     
     best_lineup = None
     
     # Try confirmed starting pitchers only
     for pitcher in pitchers.itertuples():
-        logging.info(f"\n🎯 Testing {pitcher.Nickname} (${pitcher.Salary:,} | {pitcher.FPPG:.1f} FPPG) [CONFIRMED STARTER]")
+        logging.info(f"\nTARGET: Testing {pitcher.Nickname} (${pitcher.Salary:,} | {pitcher.FPPG:.1f} FPPG) [CONFIRMED STARTER]")
         
         remaining_budget = SALARY_CAP - pitcher.Salary
         
@@ -56,7 +56,7 @@ def build_budget_managed_lineup():
             total_fppg = pitcher.FPPG + lineup['total_fppg']
             total_salary = pitcher.Salary + lineup['total_salary']
             
-            logging.info(f"   ✅ Success: {total_fppg:.1f} FPPG | ${total_salary:,}")
+            logging.info(f"   SUCCESS: Success: {total_fppg:.1f} FPPG | ${total_salary:,}")
             
             if not best_lineup or total_fppg > best_lineup['total_fppg']:
                 best_lineup = {
@@ -66,7 +66,7 @@ def build_budget_managed_lineup():
                     'total_salary': total_salary
                 }
         else:
-            logging.info(f"   ❌ Failed to build complete lineup")
+            logging.info(f"   ERROR: Failed to build complete lineup")
     
     return best_lineup
 
@@ -157,7 +157,7 @@ def optimize_lineup_swaps(lineup_data):
     if not lineup_data:
         return lineup_data
     
-    logging.info(f"\n🔄 OPTIMIZING SWAPS")
+    logging.info(f"\nSWAP: OPTIMIZING SWAPS")
     
     original_fppg = lineup_data['total_fppg']
     hitters = df[df['Position'] != 'P']
@@ -192,8 +192,8 @@ def optimize_lineup_swaps(lineup_data):
             
             if best_candidate['FPPG'] > current_fppg:
                 # Make the swap
-                logging.info(f"   🔄 Swapping {current_hitter['Nickname']} for {best_candidate['Nickname']}")
-                logging.info(f"     FPPG: {current_fppg:.1f} → {best_candidate['FPPG']:.1f} (+{best_candidate['FPPG'] - current_fppg:.1f})")
+                logging.info(f"   SWAP: Swapping {current_hitter['Nickname']} for {best_candidate['Nickname']}")
+                logging.info(f"     FPPG: {current_fppg:.1f}  {best_candidate['FPPG']:.1f} (+{best_candidate['FPPG'] - current_fppg:.1f})")
                 
                 lineup_data['hitters'][i] = {
                     'Id': best_candidate['Id'],
@@ -216,9 +216,9 @@ def optimize_lineup_swaps(lineup_data):
     
     if improved:
         improvement = lineup_data['total_fppg'] - original_fppg
-        logging.info(f"   ✅ Optimization complete: +{improvement:.1f} FPPG improvement")
+        logging.info(f"   SUCCESS: Optimization complete: +{improvement:.1f} FPPG improvement")
     else:
-        logging.info(f"   ✅ No beneficial swaps found")
+        logging.info(f"   SUCCESS: No beneficial swaps found")
     
     return lineup_data
 
@@ -226,11 +226,11 @@ def display_final_championship_lineup(lineup_data):
     """Display the championship lineup"""
     
     if not lineup_data:
-        logging.info("❌ No lineup to display")
+        logging.info("ERROR: No lineup to display")
         return
     
-    logging.info(f"\n🏆 CHAMPIONSHIP LINEUP")
-    logging.info(f"📊 Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
+    logging.info(f"\nLINEUP: CHAMPIONSHIP LINEUP")
+    logging.info(f"DATA: Projection: {lineup_data['total_fppg']:.1f} FPPG | Salary: ${lineup_data['total_salary']:,}")
     logging.info("="*80)
     
     pitcher = lineup_data['pitcher']
@@ -245,7 +245,7 @@ def display_final_championship_lineup(lineup_data):
     for pos in position_order:
         for hitter in lineup_data['hitters']:
             if hitter['Position'] == pos and pos not in displayed_positions:
-                star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+                star = "" if hitter['Salary'] >= 4000 else ""
                 logging.info(f"{pos:<3} | {hitter['Nickname']:<20} | {hitter['Team']} | {hitter['Game']:<8} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
                 displayed_positions.add(pos)
                 break
@@ -253,40 +253,40 @@ def display_final_championship_lineup(lineup_data):
     # Display OF positions
     for hitter in lineup_data['hitters']:
         if hitter['Position'] == 'OF':
-            star = "⭐" if hitter['Salary'] >= 4000 else "💎"
+            star = "" if hitter['Salary'] >= 4000 else ""
             logging.info(f"OF{of_count:<2} | {hitter['Nickname']:<20} | {hitter['Team']} | {hitter['Game']:<8} | ${hitter['Salary']:,} | {hitter['FPPG']:5.1f} {star}")
             of_count += 1
     
     # Performance analysis
-    logging.info(f"\n📊 CHAMPIONSHIP ANALYSIS:")
+    logging.info(f"\nDATA: CHAMPIONSHIP ANALYSIS:")
     logging.info("="*60)
     
     if lineup_data['total_fppg'] >= 153:
-        logging.info("🎉 EXCEEDS 153 FPPG TARGET! TOURNAMENT CHAMPION!")
+        logging.info("COMPLETE: EXCEEDS 153 FPPG TARGET! TOURNAMENT CHAMPION!")
         status = "CHAMPION"
     elif lineup_data['total_fppg'] >= 150:
-        logging.info("🏆 ELITE! Strong tournament potential")
+        logging.info("LINEUP: ELITE! Strong tournament potential")
         status = "ELITE"
     elif lineup_data['total_fppg'] >= 147:
-        logging.info("⭐ PREMIUM! Excellent tournament lineup")
+        logging.info(" PREMIUM! Excellent tournament lineup")
         status = "PREMIUM"
     elif lineup_data['total_fppg'] >= 145:
-        logging.info("✅ SOLID! Good tournament entry")
+        logging.info("SUCCESS: SOLID! Good tournament entry")
         status = "SOLID"
     else:
-        logging.info("📊 BASELINE! Competitive but needs optimization")
+        logging.info("DATA: BASELINE! Competitive but needs optimization")
         status = "BASELINE"
     
     gap_to_153 = 153 - lineup_data['total_fppg']
     if gap_to_153 > 0:
-        logging.info(f"🎯 Gap to 153 FPPG: {gap_to_153:.1f}")
+        logging.info(f"TARGET: Gap to 153 FPPG: {gap_to_153:.1f}")
     else:
-        logging.info(f"🚀 Exceeds 153 by: {-gap_to_153:.1f} FPPG!")
+        logging.info(f"START: Exceeds 153 by: {-gap_to_153:.1f} FPPG!")
     
     # Comparison to disaster
     disaster_fppg = 31.7
     improvement = ((lineup_data['total_fppg'] - disaster_fppg) / disaster_fppg) * 100
-    logging.info(f"📈 vs Disaster Performance: +{improvement:.0f}% improvement")
+    logging.info(f"PROGRESS: vs Disaster Performance: +{improvement:.0f}% improvement")
     
     return status
 
@@ -345,9 +345,9 @@ def save_championship_submission(lineup_data):
     filename = f"../data/CHAMPIONSHIP_SUBMISSION_{timestamp}.csv"
     lineup_df.to_csv(filename, index=False)
     
-    logging.info(f"\n💾 Championship submission saved: {filename}")
-    logging.info("📋 Ready for FanDuel tournament upload!")
-    logging.info(f"🎯 Format: ID:Name format for direct FanDuel upload")
+    logging.info(f"\n Championship submission saved: {filename}")
+    logging.info("INFO: Ready for FanDuel tournament upload!")
+    logging.info(f"TARGET: Format: ID:Name format for direct FanDuel upload")
     
     return filename
 
@@ -369,27 +369,27 @@ def main():
         
         # Final championship summary
         logging.info(f"\n" + "="*80)
-        logging.info("🏆 CHAMPIONSHIP LINEUP COMPLETE!")
+        logging.info("LINEUP: CHAMPIONSHIP LINEUP COMPLETE!")
         logging.info("="*80)
         
-        logging.info(f"🎯 Final Score: {optimized_lineup['total_fppg']:.1f} FPPG")
-        logging.info(f"💰 Total Salary: ${optimized_lineup['total_salary']:,}")
-        logging.info(f"📁 Submission File: {filename.split('/')[-1]}")
-        logging.info(f"🏅 Status: {status}")
+        logging.info(f"TARGET: Final Score: {optimized_lineup['total_fppg']:.1f} FPPG")
+        logging.info(f"MONEY: Total Salary: ${optimized_lineup['total_salary']:,}")
+        logging.info(f" Submission File: {filename.split('/')[-1]}")
+        logging.info(f" Status: {status}")
         
         # Reality assessment
         if optimized_lineup['total_fppg'] >= 153:
-            logging.info(f"🎉 MISSION ACCOMPLISHED! Target exceeded!")
+            logging.info(f"COMPLETE: MISSION ACCOMPLISHED! Target exceeded!")
         else:
             gap = 153 - optimized_lineup['total_fppg']
-            logging.info(f"📊 Gap to 153 target: {gap:.1f} FPPG")
-            logging.info(f"🎯 This appears to be the realistic ceiling for today's slate")
-            logging.info(f"✅ {optimized_lineup['total_fppg']:.1f} FPPG represents our maximum effort")
+            logging.info(f"DATA: Gap to 153 target: {gap:.1f} FPPG")
+            logging.info(f"TARGET: This appears to be the realistic ceiling for today's slate")
+            logging.info(f"SUCCESS: {optimized_lineup['total_fppg']:.1f} FPPG represents our maximum effort")
         
-        logging.info(f"\n🚀 READY FOR TOURNAMENT GLORY!")
+        logging.info(f"\nSTART: READY FOR TOURNAMENT GLORY!")
         
     else:
-        logging.info("❌ CRITICAL FAILURE: Unable to build championship lineup")
+        logging.info("ERROR: CRITICAL FAILURE: Unable to build championship lineup")
 
 if __name__ == "__main__":
     main()

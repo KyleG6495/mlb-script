@@ -9,7 +9,7 @@ INPUT_PATH = "../data/pitcher_boxscores_earned_runs.csv"  # Fix input filename
 OUTPUT_PATH = "../data/pitcher_features_aggregated.csv"   # Different output name
 
 # Load pitcher data
-logging.info(f"📥 Loading pitcher data from {INPUT_PATH}")
+logging.info(f" Loading pitcher data from {INPUT_PATH}")
 df = pd.read_csv(INPUT_PATH)
 
 # Rename columns for consistency
@@ -82,4 +82,4 @@ df_final = agg[final_cols]
 
 # Save output
 df_final.to_csv(OUTPUT_PATH, index=False)
-logging.info(f"✅ Saved pitcher features → {OUTPUT_PATH} with {len(df_final)} rows")
+logging.info(f"SUCCESS: Saved pitcher features  {OUTPUT_PATH} with {len(df_final)} rows")

@@ -73,13 +73,13 @@ def convert_to_fanduel_format():
     simple_path = f"../fd_current_slate/FD_SIMPLE_UPLOAD_{timestamp}.csv"
     simple_df.to_csv(simple_path, index=False)
     
-    print(f"✅ FanDuel submission files created:")
-    print(f"   📄 Full format: {fd_path}")
-    print(f"   📄 Simple format: {simple_path}")
-    print(f"   🏆 Ready to upload to FanDuel!")
+    print(f"SUCCESS: FanDuel submission files created:")
+    print(f"    Full format: {fd_path}")
+    print(f"    Simple format: {simple_path}")
+    print(f"   LINEUP: Ready to upload to FanDuel!")
     
     # Show top 5 lineups
-    print(f"\n🎯 TOP 5 LINEUPS FOR SUBMISSION:")
+    print(f"\nTARGET: TOP 5 LINEUPS FOR SUBMISSION:")
     print("="*60)
     for i, row in submission_df.head(5).iterrows():
         print(f"#{i+1} - {row['Total_FPPG']} FPPG (${row['Total_Salary']:,})")

@@ -24,7 +24,7 @@ def fix_duplicate_players():
     for line in lines:
         if line.startswith('3552555021') or line.startswith('3552555027'):
             # These entries have 119385-181797 (Warming Bernabel) in both 3B and UTIL
-            print(f"🔍 Analyzing entry: {line.split(',')[0]}")
+            print(f" Analyzing entry: {line.split(',')[0]}")
             
             parts = line.strip().split(',')
             if len(parts) >= 10:
@@ -40,7 +40,7 @@ def fix_duplicate_players():
                         duplicate_positions.append(i)
                 
                 if len(duplicate_positions) > 1:
-                    print(f"🔴 Found duplicate player {duplicate_player} in positions {duplicate_positions}")
+                    print(f" Found duplicate player {duplicate_player} in positions {duplicate_positions}")
                     
                     # Replace the UTIL position (last occurrence) with a different player
                     # Find a suitable UTIL replacement from active players
@@ -54,7 +54,7 @@ def fix_duplicate_players():
                     
                     if not util_eligible.empty:
                         replacement_player = util_eligible.iloc[0]
-                        print(f"✅ Replacing UTIL position with: {replacement_player['First Name']} {replacement_player['Last Name']} (${replacement_player['Salary']}, {replacement_player['FPPG']:.1f} FPPG)")
+                        print(f"SUCCESS: Replacing UTIL position with: {replacement_player['First Name']} {replacement_player['Last Name']} (${replacement_player['Salary']}, {replacement_player['FPPG']:.1f} FPPG)")
                         
                         # Replace the last occurrence (UTIL position)
                         parts[duplicate_positions[-1] + 4] = replacement_player['Id']
@@ -62,7 +62,7 @@ def fix_duplicate_players():
                         # Reconstruct the line
                         line = ','.join(parts) + '\n'
                     else:
-                        print("❌ No suitable replacement found")
+                        print("ERROR: No suitable replacement found")
         
         fixed_lines.append(line)
     
@@ -70,10 +70,10 @@ def fix_duplicate_players():
     with open(lineups_file, 'w') as f:
         f.writelines(fixed_lines)
     
-    print(f"\n🎯 SUMMARY:")
+    print(f"\nTARGET: SUMMARY:")
     print(f"Fixed duplicate player issues in entries 3552555021 and 3552555027")
     print(f"Updated lineups saved to: {lineups_file}")
-    print("🚀 All duplicate player issues should now be resolved!")
+    print("START: All duplicate player issues should now be resolved!")
 
 if __name__ == "__main__":
     fix_duplicate_players()

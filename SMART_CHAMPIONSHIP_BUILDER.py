@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🏆 SMART CHAMPIONSHIP LINEUP BUILDER
+LINEUP: SMART CHAMPIONSHIP LINEUP BUILDER
 Uses ONLY confirmed starting players (batting order + probable pitchers)
 Prevents NS/PO players from appearing in lineups
 """
@@ -18,34 +18,34 @@ logger = logging.getLogger(__name__)
 def load_smart_starter_slate():
     """Load the smart starter slate with only confirmed starters"""
     
-    logger.info("📥 Loading smart starter slate...")
+    logger.info(" Loading smart starter slate...")
     
     # FORCE LOAD STRICT STARTERS ONLY - CONFIRMED BATTING ORDERS ONLY
     import os
     
     strict_file = '../data/fd_slate_STRICT_STARTERS.csv'
     if not os.path.exists(strict_file):
-        logger.error(f"❌ {strict_file} not found! Run STRICT_STARTER_FILTER.py first")
+        logger.error(f"ERROR: {strict_file} not found! Run STRICT_STARTER_FILTER.py first")
         return None
     
     try:
         df = pd.read_csv(strict_file)
-        logger.info(f"✅ FORCE LOADED strict starter slate: {len(df)} CONFIRMED STARTERS ONLY")
-        logger.info(f"📍 File: {strict_file}")
+        logger.info(f"SUCCESS: FORCE LOADED strict starter slate: {len(df)} CONFIRMED STARTERS ONLY")
+        logger.info(f" File: {strict_file}")
         
         # VERIFY NO NOLAN GORMAN
         gorman_check = df[df['Nickname'].str.contains('Gorman', na=False)]
         if len(gorman_check) > 0:
-            logger.error(f"❌ NOLAN GORMAN FOUND IN STRICT SLATE! This should not happen!")
+            logger.error(f"ERROR: NOLAN GORMAN FOUND IN STRICT SLATE! This should not happen!")
             logger.error(f"Gorman entries: {gorman_check[['Nickname', 'Team', 'Batting Order']].to_dict('records')}")
             return None
         else:
-            logger.info("✅ VERIFIED: No Nolan Gorman in strict slate")
+            logger.info("SUCCESS: VERIFIED: No Nolan Gorman in strict slate")
         
         # Verify we have enough players for lineups
         positions_needed = {'P': 1, 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3, 'Util': 1}
         
-        logger.info("🏟️ Position availability check:")
+        logger.info(" Position availability check:")
         for pos, needed in positions_needed.items():
             if pos == 'Util':
                 continue  # Util can be any hitter
@@ -66,18 +66,18 @@ def load_smart_starter_slate():
             logger.info(f"   {pos}: {available} available (need {needed})")
             
             if available < needed:
-                logger.warning(f"⚠️ Limited {pos} options: only {available} available")
+                logger.warning(f"WARNING: Limited {pos} options: only {available} available")
         
         return df
         
     except Exception as e:
-        logger.error(f"❌ Error loading strict starter slate: {e}")
+        logger.error(f"ERROR: Error loading strict starter slate: {e}")
         return None
 
 def create_optimized_lineups(df, num_lineups=8):
     """Create optimized lineups using only confirmed starters"""
     
-    logger.info(f"🎯 Creating {num_lineups} optimized lineups from confirmed starters...")
+    logger.info(f"TARGET: Creating {num_lineups} optimized lineups from confirmed starters...")
     
     lineups = []
     used_combinations = set()
@@ -164,7 +164,7 @@ def create_optimized_lineups(df, num_lineups=8):
                     lineup_players.append(player)
                     used_ids.add(player['Id'])
                 else:
-                    logger.warning(f"⚠️ No available {pos_name} players")
+                    logger.warning(f"WARNING: No available {pos_name} players")
                     valid_lineup = False
                     break
             
@@ -219,19 +219,19 @@ def create_optimized_lineups(df, num_lineups=8):
             }
             
             lineups.append(lineup_info)
-            logger.info(f"✅ Lineup {len(lineups)}: ${total_salary:,} | {total_fppg:.1f} FPPG")
+            logger.info(f"SUCCESS: Lineup {len(lineups)}: ${total_salary:,} | {total_fppg:.1f} FPPG")
             
         except Exception as e:
-            logger.warning(f"⚠️ Lineup creation error: {e}")
+            logger.warning(f"WARNING: Lineup creation error: {e}")
             continue
     
-    logger.info(f"🎯 Created {len(lineups)} lineups from {attempts} attempts")
+    logger.info(f"TARGET: Created {len(lineups)} lineups from {attempts} attempts")
     return lineups
 
 def format_for_fanduel(lineups):
     """Format lineups for FanDuel submission"""
     
-    logger.info("📋 Formatting lineups for FanDuel...")
+    logger.info("INFO: Formatting lineups for FanDuel...")
     
     all_lineups = []
     
@@ -315,7 +315,7 @@ def format_for_fanduel(lineups):
 def main():
     """Main smart championship lineup builder"""
     
-    logger.info("🏆 SMART CHAMPIONSHIP LINEUP BUILDER")
+    logger.info("LINEUP: SMART CHAMPIONSHIP LINEUP BUILDER")
     logger.info("="*60)
     logger.info("Building lineups from ONLY confirmed starting players")
     logger.info("This eliminates NS/PO players from your lineups!")
@@ -325,14 +325,14 @@ def main():
         # Load smart starter slate
         df = load_smart_starter_slate()
         if df is None:
-            logger.error("❌ Cannot load smart starter slate")
+            logger.error("ERROR: Cannot load smart starter slate")
             return
         
         # Create optimized lineups
         lineups = create_optimized_lineups(df, num_lineups=8)
         
         if not lineups:
-            logger.error("❌ Could not create any lineups")
+            logger.error("ERROR: Could not create any lineups")
             return
         
         # Format for FanDuel
@@ -350,24 +350,24 @@ def main():
         
         for file_path in files_to_save:
             fd_lineups.to_csv(file_path, index=False)
-            logger.info(f"💾 Saved: {file_path}")
+            logger.info(f" Saved: {file_path}")
         
         logger.info("")
-        logger.info("📊 LINEUP SUMMARY:")
+        logger.info("DATA: LINEUP SUMMARY:")
         logger.info(f"   Lineups created: {len(fd_lineups)}")
         logger.info(f"   Salary range: ${fd_lineups['Salary'].min():,} - ${fd_lineups['Salary'].max():,}")
         logger.info(f"   FPPG range: {fd_lineups['FPPG'].min():.1f} - {fd_lineups['FPPG'].max():.1f}")
         logger.info(f"   Players used: {len(df)} confirmed starters only")
         
         logger.info("")
-        logger.info("🎉 SMART CHAMPIONSHIP LINEUPS COMPLETE!")
+        logger.info("COMPLETE: SMART CHAMPIONSHIP LINEUPS COMPLETE!")
         logger.info("="*60)
-        logger.info("✅ All lineups use ONLY confirmed starting players")
-        logger.info("🚫 NO NS/PO players should appear in these lineups")
-        logger.info("📁 Upload SMART_CHAMPIONSHIP_LINEUPS.csv to FanDuel")
+        logger.info("SUCCESS: All lineups use ONLY confirmed starting players")
+        logger.info(" NO NS/PO players should appear in these lineups")
+        logger.info(" Upload SMART_CHAMPIONSHIP_LINEUPS.csv to FanDuel")
         
     except Exception as e:
-        logger.error(f"❌ Smart championship builder error: {e}")
+        logger.error(f"ERROR: Smart championship builder error: {e}")
         import traceback
         traceback.print_exc()
 
