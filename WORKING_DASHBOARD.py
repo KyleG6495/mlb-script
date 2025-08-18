@@ -1007,6 +1007,12 @@ class WorkingDashboard:
                 projection_col = 'projected_fppg'
             elif 'enhanced_fppg' in df.columns:
                 projection_col = 'enhanced_fppg'
+            elif 'proj_points' in df.columns:
+                projection_col = 'proj_points'
+            elif 'fppg' in df.columns:
+                projection_col = 'fppg'
+            elif 'projection' in df.columns:
+                projection_col = 'projection'
             else:
                 self.debug_log("❌ No projection column found")
                 return

@@ -177,7 +177,7 @@ class ExistingWeatherIntegrator:
         
         # Get base projection column
         base_fppg_col = None
-        for col in ['enhanced_fppg', 'FPPG', 'fppg', 'projection']:
+        for col in ['enhanced_fppg', 'FPPG', 'fppg', 'projection', 'proj_points', 'ml_projected_fppg', 'projected_fppg']:
             if col in df.columns:
                 base_fppg_col = col
                 break

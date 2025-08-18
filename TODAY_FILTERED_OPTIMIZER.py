@@ -51,6 +51,21 @@ def load_and_filter_slate():
         elif 'FPPG' in df.columns:
             logger.info("WARNING: Using basic FPPG projections")
             projection_col = 'FPPG'
+        elif 'proj_points' in df.columns:
+            logger.info("Using proj_points projection column")
+            projection_col = 'proj_points'
+        elif 'ml_projected_fppg' in df.columns:
+            logger.info("Using ml_projected_fppg projection column")
+            projection_col = 'ml_projected_fppg'
+        elif 'projected_fppg' in df.columns:
+            logger.info("Using projected_fppg projection column")
+            projection_col = 'projected_fppg'
+        elif 'fppg' in df.columns:
+            logger.info("Using fppg projection column")
+            projection_col = 'fppg'
+        elif 'projection' in df.columns:
+            logger.info("Using projection column")
+            projection_col = 'projection'
         else:
             logger.error("ERROR: No valid projection column found")
             return None

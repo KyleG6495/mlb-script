@@ -177,7 +177,7 @@ def enhance_projections(df):
     logger.info("Enhancing projections...")
     
     # Base projection column (try multiple names)
-    proj_cols = ['projected_fppg', 'FPPG', 'fppg', 'projection']
+    proj_cols = ['projected_fppg', 'FPPG', 'fppg', 'projection', 'proj_points', 'ml_projected_fppg', 'enhanced_fppg']
     proj_col = None
     for col in proj_cols:
         if col in df.columns:
@@ -245,7 +245,7 @@ def prepare_optimization_data():
     # Handle missing projections - create base_fppg column if it doesn't exist
     if 'base_fppg' not in df.columns:
         # Try common projection column names
-        proj_cols = ['projected_fppg', 'FPPG', 'fppg', 'projection', 'ml_projected_fppg']
+        proj_cols = ['projected_fppg', 'FPPG', 'fppg', 'projection', 'ml_projected_fppg', 'proj_points', 'enhanced_fppg']
         proj_col = None
         for col in proj_cols:
             if col in df.columns:
