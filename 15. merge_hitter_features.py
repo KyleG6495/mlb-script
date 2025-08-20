@@ -42,15 +42,20 @@ def main():
     logging.info(f"Common columns (season  rolling): {common_season_rolling}")
     logging.info(f"Common columns (daily  rolling): {common_daily_rolling}")
     
-    # Determine merge keys based on available columns
-    if 'player_id' in common_season_rolling and 'date' in common_season_rolling:
-        season_merge_keys = ['player_id', 'date']
-    elif 'player_id' in common_season_rolling:
-        season_merge_keys = ['player_id']
+    # Season file uses names, rolling uses player_id + name
+    # Create a name column in season for matching
+    if 'Nickname' in season.columns:
+        season['name'] = season['Nickname']
+        logging.info("Created 'name' column from 'Nickname' in season data")
+    elif 'Last Name' in season.columns:
+        season['name'] = season['Last Name'] 
+        logging.info("Created 'name' column from 'Last Name' in season data")
     else:
-        logging.error("ERROR: No common merge keys found between season and rolling data")
+        logging.error("ERROR: No name columns found in season data")
         return
-        
+    
+    # Use name-based matching for season data
+    season_merge_keys = ['name']
     logging.info(f"Using merge keys for season: {season_merge_keys}")
 
     # Coerce all date columns to datetime

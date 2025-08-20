@@ -59,8 +59,7 @@ if exist "check_batting_orders.py" (
     )
 ) else (
     echo [WARNING] check_batting_orders.py not found, skipping batting order check
-)
-    echo ✅ Batting orders available - full ML optimization will run
+    echo ✅ Batting orders check complete - proceeding with optimization
     echo.
 )
 echo Press any key to start lineup optimization...

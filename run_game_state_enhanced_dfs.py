@@ -324,9 +324,9 @@ class GameStateEnhancedDFS:
             logger.error("Failed to enhance projections")
             return False
         
-        # Step 2: Generate optimized lineups
-        logger.info(f"TARGET: Generating {n_lineups} optimized lineups...")
-        lineups = self.optimizer.generate_multiple_lineups(enhanced_df, n_lineups=n_lineups)
+        # Step 2: Generate optimized lineups with correct 9-player format
+        logger.info(f"TARGET: Generating {n_lineups} optimized lineups (9 players each)...")
+        lineups = self.optimizer.generate_multiple_lineups(enhanced_df, n_lineups=n_lineups, total_players=9)
         
         if lineups:
             logger.info(f"SUCCESS: Generated {len(lineups)} lineups successfully!")

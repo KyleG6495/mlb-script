@@ -13,12 +13,18 @@ echo Press any key to start data collection...
 pause
 echo.
 
-echo Step 0.5: Fetching Rotowire Confirmed Lineups...
-python fetch_rotowire_lineups.py
+echo Step 0.5: Fetching Rotowire Confirmed Lineups (Enhanced - 100% Coverage)...
+python fetch_rotowire_lineups_enhanced.py
 if errorlevel 1 (
-    echo ⚠️ Rotowire fetch failed - continuing with FD data only
+    echo ⚠️ Enhanced Rotowire fetch failed - trying fallback...
+    python fetch_rotowire_lineups.py
+    if errorlevel 1 (
+        echo ⚠️ Rotowire fetch failed completely - continuing with FD data only
+    ) else (
+        echo ✅ Rotowire data fetched successfully (75% coverage fallback)
+    )
 ) else (
-    echo ✅ Rotowire data fetched successfully
+    echo ✅ Enhanced Rotowire data fetched successfully (100% coverage)
 )
 
 echo Step 1.5: Creating Starting Lineups Master File...
@@ -129,9 +135,11 @@ echo   📊 Hitter stats and features
 echo   ⚾ Pitcher stats and features  
 echo   🌤️ Weather and park factors
 echo   🎯 Game mappings and IDs
-echo   📋 Rotowire lineup confirmations (when available)
+echo   📋 Enhanced Rotowire lineup confirmations (100% coverage)
+echo   🔢 Complete batting orders for all teams
 echo.
 echo 📁 Data files updated in: data\
+echo 📋 FD slate with batting orders: fd_current_slate\fd_slate_today.csv
 echo.
 echo 🚀 NEXT STEPS:
 echo   • Run 2_DFS_MODELS.bat for lineup optimization

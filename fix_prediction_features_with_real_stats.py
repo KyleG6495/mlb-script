@@ -80,6 +80,11 @@ if 'sacBunts' not in real_stats.columns:
 
 # Merge with real stats
 print("   Merging with real stats...")
+
+# Fix data type mismatch - convert both columns to string
+enhanced[player_id_col] = enhanced[player_id_col].astype(str)
+real_stats[real_player_id_col] = real_stats[real_player_id_col].astype(str)
+
 enhanced = enhanced.merge(
     real_stats[[real_player_id_col] + available_stats + ['rbi', 'runs', 'strikeOuts', 'stolenBases', 'caughtStealing', 'sacFlies', 'sacBunts']],
     left_on=player_id_col, right_on=real_player_id_col, 

@@ -27,22 +27,28 @@ class StackAwareDFSBuilder:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             data_dir = os.path.join(os.path.dirname(script_dir), "data")
             
-            # Load enhanced projections
+            # Load enhanced projections - use FIXED file with complete projections
             today = datetime.now().strftime("%Y%m%d")
             import glob
-            enhanced_files = glob.glob(os.path.join(data_dir, f"game_state_enhanced_projections_{today}_*.csv"))
             
-            if enhanced_files:
-                proj_file = max(enhanced_files, key=os.path.getmtime)
-                self.players_df = pd.read_csv(proj_file)
-                logger.info(f"📊 Loaded {len(self.players_df)} enhanced projections")
+            # First try the fixed file
+            fixed_file = os.path.join(data_dir, f"game_state_enhanced_projections_{today}_103148_FIXED.csv")
+            if os.path.exists(fixed_file):
+                self.players_df = pd.read_csv(fixed_file)
+                logger.info(f"📊 Loaded {len(self.players_df)} enhanced projections (FIXED)")
             else:
-                # Fallback to FD slate
-                fd_file = os.path.join(data_dir, "..", "fd_current_slate", "fd_slate_today.csv")
-                self.players_df = pd.read_csv(fd_file)
-                # Add basic enhanced FPPG column
-                self.players_df['enhanced_fppg'] = self.players_df['FPPG'] 
-                logger.info(f"📊 Loaded {len(self.players_df)} players from FD slate")
+                enhanced_files = glob.glob(os.path.join(data_dir, f"game_state_enhanced_projections_{today}_*.csv"))
+                if enhanced_files:
+                    proj_file = max(enhanced_files, key=os.path.getmtime)
+                    self.players_df = pd.read_csv(proj_file)
+                    logger.info(f"📊 Loaded {len(self.players_df)} enhanced projections")
+                else:
+                    # Fallback to FD slate
+                    fd_file = os.path.join(data_dir, "..", "fd_current_slate", "fd_slate_today.csv")
+                    self.players_df = pd.read_csv(fd_file)
+                    # Add basic enhanced FPPG column
+                    self.players_df['enhanced_fppg'] = self.players_df['FPPG'] 
+                    logger.info(f"📊 Loaded {len(self.players_df)} players from FD slate")
             
             # Load weather data
             weather_file = os.path.join(data_dir, "weather_today.csv")

@@ -17,11 +17,12 @@ warnings.filterwarnings('ignore')
 class SimplifiedDFSOptimizer:
     def __init__(self):
         self.salary_cap = 35000
-        # Standard FanDuel MLB lineup: P + C/1B/2B/3B/SS/OF/OF/OF/Util (9 total)
+        # Standard FanDuel MLB lineup: P + C/1B/2B/3B/SS/OF/OF/OF + Util (9 total)
+        # The 9th player serves as UTIL and can be any eligible position
         self.lineup_requirements = {
             'P': 1, 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3
         }
-        # Note: Util position will be handled as the 9th player (any hitter position)
+        # UTIL position will be handled implicitly as part of total constraint
         
     def enhance_fppg_prediction(self, df):
         """Improve FPPG prediction using available stats"""
@@ -107,12 +108,19 @@ class SimplifiedDFSOptimizer:
         else:
             target_col = 'enhanced_fppg'
         
-        # Apply diversity penalty
+        # Apply diversity by excluding overused players
         df_copy = df.copy()
-        for idx, row in df_copy.iterrows():
-            player_name = f"{row.get('First Name', '')} {row.get('Last Name', '')}"
-            if player_name in used_players:
-                df_copy.loc[idx, target_col] *= 0.5  # Reduce projection for used players
+        if used_players:
+            # Remove used players from consideration entirely (for strong diversity)
+            player_names = df_copy.apply(lambda row: f"{row.get('First Name', '')} {row.get('Last Name', '')}", axis=1)
+            exclude_mask = player_names.isin(used_players)
+            df_copy = df_copy[~exclude_mask]
+            print(f"   Excluded {exclude_mask.sum()} overused players for diversity")
+        
+        if len(df_copy) < 9:
+            print(f"   Warning: Only {len(df_copy)} players available after exclusions")
+            # If too few players, reduce exclusions
+            df_copy = df.copy()
         
         # Create optimization problem
         prob = LpProblem("FanDuel_Enhanced_DFS", LpMaximize)
@@ -129,13 +137,29 @@ class SimplifiedDFSOptimizer:
             for idx, row in df_copy.iterrows()
         ])
         
-        # Salary constraint  
+        # Salary constraint - use as close to cap as possible
         prob += lpSum([
             row.get('Salary', 3000) * player_vars[idx] 
             for idx, row in df_copy.iterrows()
         ]) <= self.salary_cap
         
-        # Position constraints - FanDuel requires exactly these positions
+        # CONTRARIAN TOURNAMENT STRATEGY - Leave money on table for leverage
+        if objective == 'ceiling':
+            # Ultra-contrarian: Leave $2,000-4,000 for unique builds
+            min_salary_used = 31000  # Leave $4,000 max
+        elif objective == 'balanced':
+            # Contrarian sweet spot: Leave $1,000-2,500 
+            min_salary_used = 32500  # Leave $2,500 max
+        else:  # floor
+            # Slight contrarian: Leave $500-1,500
+            min_salary_used = 33500  # Leave $1,500 max  
+            
+        prob += lpSum([
+            row.get('Salary', 3000) * player_vars[idx] 
+            for idx, row in df_copy.iterrows()
+        ]) >= min_salary_used
+        
+        # Position constraints - FanDuel requires AT LEAST these positions
         for position, count in self.lineup_requirements.items():
             if position == 'P':
                 # Pitcher position
@@ -150,17 +174,18 @@ class SimplifiedDFSOptimizer:
                 continue
                 
             if len(eligible_players) > 0:
-                # Position-specific constraints: exactly the required count
+                # Position-specific constraints: at least the required count (allows UTIL flexibility)
                 prob += lpSum([
                     player_vars[idx] 
                     for idx in eligible_players.index
-                ]) == count
+                ]) >= count
             else:
                 print(f"Warning: No players available for position {position}")
                 return None
         
-        # Total players constraint
-        prob += lpSum([player_vars[idx] for idx in df_copy.index]) == total_players
+        # Total players constraint (9 total: minimum positions + 1 UTIL)
+        total_required = sum(self.lineup_requirements.values())
+        prob += lpSum([player_vars[idx] for idx in df_copy.index]) == total_required
         
         # Add stacking bonus for high-ceiling lineups
         if objective == 'ceiling':
@@ -214,7 +239,7 @@ class SimplifiedDFSOptimizer:
     
     def generate_multiple_lineups(self, df, n_lineups=15, total_players=9):
         """Generate diverse set of optimized lineups with improved uniqueness"""
-        print(f"Generating {n_lineups} diverse lineups...")
+        print(f"Generating {n_lineups} diverse lineups with {total_players} players each...")
         
         # Enhance FPPG predictions first
         df = self.enhance_fppg_prediction(df)
@@ -235,20 +260,51 @@ class SimplifiedDFSOptimizer:
             best_lineup = None
             best_uniqueness_score = -1
             
-            for attempt in range(10):  # Try up to 10 times
-                # Add randomness for ceiling lineups to increase diversity
-                if objective == 'ceiling':
-                    df_attempt = df.copy()
-                    # Add small random noise to break ties and create diversity
-                    df_attempt['ceiling_fppg'] += np.random.normal(0, 0.5, len(df_attempt))
-                else:
-                    df_attempt = df
+            for attempt in range(15):  # Increased attempts for better diversity
+                # Add significant randomness for ALL lineups to increase diversity
+                df_attempt = df.copy()
                 
-                # Optimize lineup with increasing diversity pressure
+                if objective == 'ceiling':
+                    # More aggressive randomness for ceiling lineups
+                    noise_factor = 1.5
+                    df_attempt['ceiling_fppg'] += np.random.normal(0, noise_factor, len(df_attempt))
+                    df_attempt['enhanced_fppg'] += np.random.normal(0, noise_factor * 0.5, len(df_attempt))
+                elif objective == 'balanced':
+                    # Moderate randomness for balanced lineups
+                    noise_factor = 1.0
+                    df_attempt['enhanced_fppg'] += np.random.normal(0, noise_factor, len(df_attempt))
+                else:  # floor lineups
+                    # Light randomness even for floor lineups to prevent duplicates
+                    noise_factor = 0.8
+                    df_attempt['floor_fppg'] += np.random.normal(0, noise_factor, len(df_attempt))
+                    df_attempt['enhanced_fppg'] += np.random.normal(0, noise_factor * 0.3, len(df_attempt))
+                
+                # Additional salary-based randomness to break ties
+                salary_noise = np.random.normal(1.0, 0.05, len(df_attempt))
+                df_attempt['salary_efficiency'] *= salary_noise
+                
+                # Use existing players as exclusions to force diversity
+                used_players_this_round = set()
+                if len(used_lineups) > 0:
+                    # Get most used players and occasionally exclude them
+                    all_used_players = []
+                    for ul in used_lineups:
+                        all_used_players.extend([p['name'] for p in ul['lineup']])
+                    
+                    from collections import Counter
+                    player_counts = Counter(all_used_players)
+                    overused_players = [player for player, count in player_counts.most_common(5) if count > 2]
+                    
+                    # Randomly exclude some overused players (25% chance per player)
+                    for player in overused_players:
+                        if np.random.random() < 0.25:
+                            used_players_this_round.add(player)
+                
+                # Optimize lineup with diversity pressure
                 lineup_result = self.optimize_lineup(
                     df_attempt, 
                     objective=objective, 
-                    used_players=set(),  # Don't use used_players for diversity
+                    used_players=used_players_this_round,
                     total_players=total_players
                 )
                 
@@ -261,7 +317,9 @@ class SimplifiedDFSOptimizer:
                         best_uniqueness_score = uniqueness_score
                     
                     # If we have sufficient uniqueness, use this lineup
-                    if uniqueness_score >= 0.4:  # At least 40% different players
+                    if uniqueness_score >= 0.25:  # Reduced from 0.4 to 0.25 - at least 25% different players
+                        break
+                    elif attempt >= 10 and uniqueness_score >= 0.15:  # After 10 attempts, accept 15% uniqueness
                         break
             
             if best_lineup:

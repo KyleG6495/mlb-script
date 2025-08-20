@@ -188,7 +188,7 @@ def main():
         'BOS': 111, 'ATL': 144, 'SD': 135, 'CIN': 113, 'MIL': 158, 'TEX': 140,
         'LAD': 119, 'SEA': 136, 'NYY': 147, 'CHC': 112, 'TOR': 141, 'ARI': 109,
         'KC': 118, 'NYM': 121, 'TB': 139, 'CWS': 145, 'LAA': 108, 'CLE': 114,
-        'STL': 138, 'COL': 115
+        'STL': 138, 'COL': 115, 'ATH': 133, 'OAK': 133, 'MIN': 142, 'SF': 137
     }
 
     # 6) Fetch weather for all FanDuel games

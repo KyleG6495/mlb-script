@@ -765,13 +765,14 @@ class AutomatedBettingSystem:
         logging.info(f"DATA: Total opportunities found: {len(opportunities)} from {total_matches_found} matches")
         return sorted(opportunities, key=lambda x: x['edge'], reverse=True)
     
-    def build_optimal_combinations(self, opportunities, target_sizes=[3, 4, 5, 6]):
+    def build_optimal_combinations(self, opportunities, target_sizes=[3, 4, 5]):
         """
         Build optimal prop combinations for multi-pick entries
+        FIXED: Removed 6-pick to prevent system hang (15M+ combinations)
         
         Args:
             opportunities: List of individual betting opportunities
-            target_sizes: List of combination sizes to build (e.g., [3, 4, 5, 6])
+            target_sizes: List of combination sizes to build (e.g., [3, 4, 5])
         """
         from itertools import combinations
         import numpy as np
@@ -789,7 +790,9 @@ class AutomatedBettingSystem:
             # Generate all possible combinations of this size
             best_combos = []
             
-            for combo in combinations(quality_opps[:50], size):  # Limit to top 50 for performance
+            # FIXED: Reduce from 50 to 20 to prevent hangs (C(20,5) = 15,504 vs C(50,6) = 15M+)
+            max_players = min(20, len(quality_opps))
+            for combo in combinations(quality_opps[:max_players], size):
                 # Calculate combination metrics
                 total_ev = sum(opp['expected_value'] for opp in combo)
                 avg_edge = total_ev / size

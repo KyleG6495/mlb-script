@@ -22,18 +22,11 @@ def show_dashboard_summary():
             print("\n📊 TOP 5 ELITE LINEUPS:")
             print("-" * 40)
             for i, row in df.head(5).iterrows():
-                print(f"\nLineup #{i+1} - {row.get('Stack_Team', 'Unknown')} Strategy:")
-                print(f"  💰 Salary: ${row.get('Total_Salary', 0):,}")
-                print(f"  📈 Projection: {row.get('Projected_Points', 0):.1f}")
-                print(f"  👥 Ownership: {row.get('Avg_Ownership', 0):.1%}")
-                print(f"  🎯 Tournament Score: {row.get('Tournament_Score', 0):.1f}")
-                
-                # Explain strategy type
-                stack_team = row.get('Stack_Team', 'Unknown')
-                if stack_team == 'Contrarian Play':
-                    print(f"  💡 Strategy: Mix of low-ownership individual players")
-                elif stack_team and len(stack_team) <= 5:
-                    print(f"  💡 Strategy: Team stack with multiple {stack_team} players")
+                print(f"\nLineup #{i+1} - {row.get('stack_team', 'Unknown')} Stack:")
+                print(f"  💰 Salary: ${row.get('total_salary', 0):,}")
+                print(f"  📈 Projection: {row.get('total_projection', 0):.1f}")
+                print(f"  👥 Ownership: {row.get('avg_ownership', 0):.1%}")
+                print(f"  🎯 Tournament Score: {row.get('tournament_score', 0):.1f}")
     
     # Show ownership highlights
     if 'ownership' in data_files:

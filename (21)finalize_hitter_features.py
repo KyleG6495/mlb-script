@@ -10,8 +10,33 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 current_year = date.today().year
 today_str = date.today().isoformat()  # 'YYYY-MM-DD'
 
-# File paths
-INPUT_PATH = "../data/today_hitter_features.csv"
+# File paths - Use the file that actually contains batting statistics
+INPUT_PATH = "../data/hitter_rolling_5game_features.csv"  # This file has real MLB batting stats
+OUTPUT_PATH = f"../data/aggregated_hitter_features_{current_year}.csv"
+
+# Load hitter data with batting statistics
+logging.info(f"📥 Loading hitter batting data from {INPUT_PATH}")
+try:
+    df = pd.read_csv(INPUT_PATH)
+    df['date'] = pd.to_datetime(df['date'])
+    
+    # Filter to recent data only (last 60 days) to get current season stats
+    from datetime import datetime, timedelta
+    cutoff_date = datetime.now() - timedelta(days=60)
+    df = df[df['date'] >= cutoff_date]
+    
+    logging.info(f"✅ Loaded {len(df)} recent batting records for {df['name'].nunique()} players")
+    
+    # Check for required columns
+    required_cols = ['player_id', 'name', 'atBats', 'hits', 'homeRuns']
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        logging.error(f"❌ Missing required columns: {missing_cols}")
+        raise ValueError(f"Required columns missing: {missing_cols}")
+        
+except FileNotFoundError:
+    logging.error(f"❌ Input file not found: {INPUT_PATH}")
+    raise
 OUTPUT_PATH = f"../data/aggregated_hitter_features_{current_year}.csv"
 
 # Load hitter data

@@ -36,16 +36,37 @@ def load_fanduel_slate():
 
 def fetch_rotowire_lineups():
     """Fetch confirmed starting lineups from Rotowire"""
-    logger.info(" Fetching Rotowire confirmed lineups...")
+    logger.info("🌐 Fetching Rotowire confirmed lineups...")
     
-    # This is a placeholder - you'll need to implement actual Rotowire fetching
-    # For now, return empty dict so we use FanDuel data
-    logger.warning("WARNING: Rotowire fetching not implemented yet - using FanDuel batting orders only")
-    return {}
+    # Run the Rotowire fetcher
+    try:
+        import subprocess
+        result = subprocess.run(['python', 'fetch_rotowire_lineups.py'], 
+                              capture_output=True, text=True, timeout=30)
+        
+        if result.returncode == 0:
+            logger.info("✅ Rotowire fetch completed successfully")
+            
+            # Load pitcher data if available
+            pitcher_data = {}
+            try:
+                with open('temp_pitcher_data.json', 'r') as f:
+                    pitcher_data = json.load(f)
+                logger.info(f"📊 Loaded {len(pitcher_data)} starting pitchers from Rotowire")
+            except:
+                logger.warning("⚠️ No pitcher data from Rotowire")
+            
+            return pitcher_data
+        else:
+            logger.warning(f"⚠️ Rotowire fetch failed: {result.stderr}")
+            return {}
+    except Exception as e:
+        logger.warning(f"⚠️ Error running Rotowire fetch: {e}")
+        return {}
 
 def validate_starting_lineups(fd_df, rotowire_data):
     """Cross-validate FanDuel vs Rotowire data"""
-    logger.info(" VALIDATING STARTING LINEUPS...")
+    logger.info("🔍 VALIDATING STARTING LINEUPS...")
     
     starting_lineups = []
     
@@ -53,7 +74,57 @@ def validate_starting_lineups(fd_df, rotowire_data):
     pitchers = fd_df[fd_df['Position'] == 'P'].copy()
     if 'Probable Pitcher' in pitchers.columns:
         confirmed_pitchers = pitchers[pitchers['Probable Pitcher'] == 'Yes']
-        logger.info(f"BASEBALL: Confirmed starting pitchers: {len(confirmed_pitchers)}")
+        logger.info(f"⚾ Confirmed starting pitchers from FanDuel: {len(confirmed_pitchers)}")
+        
+        # Check if we have all teams covered
+        slate_teams = set(fd_df['Team'].unique())
+        pitcher_teams = set(confirmed_pitchers['Team'].unique())
+        missing_teams = slate_teams - pitcher_teams
+        
+        if missing_teams:
+            logger.warning(f"⚠️ Teams missing probable pitchers in FD slate: {sorted(missing_teams)}")
+            
+            # Use Rotowire data to fill in missing pitchers
+            if rotowire_data:
+                logger.info("🌐 Using Rotowire data to identify missing starting pitchers...")
+                
+                for missing_team in missing_teams:
+                    team_pitchers = pitchers[pitchers['Team'] == missing_team]
+                    
+                    # Try to match pitchers by name with Rotowire data
+                    best_match = None
+                    best_score = 0
+                    
+                    for _, pitcher in team_pitchers.iterrows():
+                        pitcher_name = pitcher.get('Nickname', pitcher.get('Last Name', 'Unknown'))
+                        
+                        for rotowire_name, rotowire_info in rotowire_data.items():
+                            # Simple name matching
+                            if pitcher_name.lower() in rotowire_name.lower() or rotowire_name.lower() in pitcher_name.lower():
+                                # Score based on ERA (lower is better for probable starter)
+                                score = 10 - float(rotowire_info.get('era', 5.0))  # Invert ERA for scoring
+                                if score > best_score:
+                                    best_score = score
+                                    best_match = pitcher
+                    
+                    if best_match is not None:
+                        confirmed_pitchers = pd.concat([confirmed_pitchers, pd.DataFrame([best_match])], ignore_index=True)
+                        logger.info(f"✅ Added {missing_team} starting pitcher from Rotowire match")
+                    else:
+                        # Fallback: use highest salary pitcher for the missing team
+                        fallback_pitcher = team_pitchers.loc[team_pitchers['Salary'].idxmax()]
+                        confirmed_pitchers = pd.concat([confirmed_pitchers, pd.DataFrame([fallback_pitcher])], ignore_index=True)
+                        logger.info(f"💰 Added {missing_team} starting pitcher by highest salary (fallback)")
+            else:
+                # No Rotowire data - use salary fallback for missing teams
+                for missing_team in missing_teams:
+                    team_pitchers = pitchers[pitchers['Team'] == missing_team]
+                    fallback_pitcher = team_pitchers.loc[team_pitchers['Salary'].idxmax()]
+                    confirmed_pitchers = pd.concat([confirmed_pitchers, pd.DataFrame([fallback_pitcher])], ignore_index=True)
+                    logger.info(f"💰 Added {missing_team} starting pitcher by highest salary")
+        
+        logger.info(f"⚾ FINAL starting pitchers: {len(confirmed_pitchers)}")
+        
     else:
         confirmed_pitchers = pitchers
         logger.warning("WARNING: No 'Probable Pitcher' column - using all pitchers")

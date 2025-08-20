@@ -291,11 +291,19 @@ def load_and_project_players():
     
     if Path(HITTER_FEATURES).exists():
         hitters = pd.read_csv(HITTER_FEATURES)
-        hitters['player_id'] = hitters['player_id'].astype(str)
+        # Fix column name - it's 'Id' not 'player_id'
+        if 'Id' in hitters.columns:
+            hitters['player_id'] = hitters['Id'].astype(str)
+        elif 'player_id' in hitters.columns:
+            hitters['player_id'] = hitters['player_id'].astype(str)
     
     if Path(PITCHER_FEATURES).exists():
         pitchers = pd.read_csv(PITCHER_FEATURES)  
-        pitchers['player_id'] = pitchers['player_id'].astype(str)
+        # Fix column name - it's 'Id' not 'player_id'
+        if 'Id' in pitchers.columns:
+            pitchers['player_id'] = pitchers['Id'].astype(str)
+        elif 'player_id' in pitchers.columns:
+            pitchers['player_id'] = pitchers['player_id'].astype(str)
     
     # Initialize ML projection engine
     ml_engine = MLProjectionEngine()

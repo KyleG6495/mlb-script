@@ -42,20 +42,25 @@ def generate_ceiling_lineups(slate_df, num_lineups=5):
         slate_df['ceiling_weight'] = 1.0
         slate_df['tournament_exposure'] = 1.0
     
-    # Enhanced projections for ceiling (realistic multipliers)
-    slate_df['ceiling_fppg'] = slate_df['FPPG'] * slate_df['ceiling_weight'] * 1.15  # Reduced from 1.2
+    # REALISTIC ceiling projections - ignore problematic ceiling_weight file
+    # Use simple 15% boost to base FPPG for tournament upside
+    slate_df['ceiling_fppg'] = slate_df['FPPG'] * 1.15  # Simple realistic boost
+    
+    # Ensure realistic ranges (no MLB player should project over 35 FPPG)
+    slate_df['ceiling_fppg'] = slate_df['ceiling_fppg'].clip(upper=35.0)
     
     print(f"Targeting ceiling: Generating {num_lineups} high-upside lineups...")
+    print(f"REALISTIC FPPG range: {slate_df['ceiling_fppg'].min():.1f} - {slate_df['ceiling_fppg'].max():.1f}")
     
     for i in range(num_lineups):
-        # Add randomization for diversity
-        noise = np.random.normal(1, 0.03, len(slate_df))  # Reduced variance
+        # Add small randomization for diversity
+        noise = np.random.normal(1, 0.03, len(slate_df))  # Small variance for lineup diversity
         slate_df['random_ceiling'] = slate_df['ceiling_fppg'] * noise
         
         # Simple greedy selection optimized for ceiling with STRICT salary cap
         lineup = []
         remaining_salary = 35000  # STRICT limit
-        positions_needed = {'P': 1, 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3}
+        positions_needed = {'P': 1, 'C': 1, '1B': 1, '2B': 1, '3B': 1, 'SS': 1, 'OF': 3}  # 9 players total (UTIL is implicit)
         used_players = set()  # Track used players to prevent duplicates
         
         for pos, count in positions_needed.items():
@@ -85,13 +90,16 @@ def generate_ceiling_lineups(slate_df, num_lineups=5):
                 else:
                     print(f"Warning: Could not fill {pos} position in lineup {i+1}")
         
-        # Only add complete lineups that meet salary cap
+        # Only add complete lineups that meet salary cap (should be 9 players)
         if len(lineup) == 9:
             total_salary = sum(p['Salary'] for p in lineup)
             if total_salary <= 35000:
                 ceiling_lineups.extend(lineup)
+                print(f"✅ Lineup {i+1}: ${total_salary:,} salary, {sum(p['Ceiling_FPPG'] for p in lineup):.1f} ceiling FPPG")
             else:
                 print(f"Warning: Lineup {i+1} over salary cap (${total_salary:,}), skipping")
+        else:
+            print(f"Warning: Incomplete lineup {i+1} (only {len(lineup)} players), skipping")
     
     return pd.DataFrame(ceiling_lineups)
 

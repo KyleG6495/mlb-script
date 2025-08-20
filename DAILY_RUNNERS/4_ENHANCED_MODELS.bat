@@ -63,14 +63,9 @@ if errorlevel 1 (
     echo 📁 File: Enhanced_Lineups_FD_Format.csv (in fd_current_slate folder)
 )
 
-echo Step 5: Running Standard Prop Analysis...
-"C:\Users\kgone\AppData\Local\Programs\Python\Python311\python.exe" -c "
-from automated_betting_system import AutomatedBettingSystem
-from datetime import datetime
-system = AutomatedBettingSystem()
-today = datetime.now().strftime('%%Y-%%m-%%d')
-system.run_daily_analysis(today, min_edge=0.05)
-"
+echo Step 5: Running Standard Prop Analysis (Quick Mode)...
+echo Note: Limited to 3-5 pick combos to prevent system hangs
+python -c "from automated_betting_system import AutomatedBettingSystem; from datetime import datetime; system = AutomatedBettingSystem(); today = datetime.now().strftime('%%Y-%%m-%%d'); system.run_daily_analysis(today, min_edge=0.05)"
 if errorlevel 1 (
     echo ⚠️ Standard prop analysis failed - continuing with enhancements
 ) else (

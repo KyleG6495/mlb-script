@@ -1,37 +1,87 @@
 import pandas as pd
+import numpy as np
 import logging
 from datetime import date
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# File paths
-INPUT_PATH = "../data/fd_hitter_features_enriched.csv"
-OUTPUT_PATH = "../data/fd_hitter_features_final.csv"
-
-logging.info(f" Loading enriched hitter features from {INPUT_PATH}")
-# Read enriched hitter features
-df = pd.read_csv(INPUT_PATH)
-logging.info(f"SUCCESS: Loaded {len(df)} rows with {len(df.columns)} columns")
-
-# Compute current season year dynamically
+# Compute current year and today string
 current_year = date.today().year
+today_str = date.today().isoformat()  # 'YYYY-MM-DD'
 
-# Ensure Season column is present and default missing to current_year
-df['Season'] = df.get('Season', pd.Series(dtype=int)).fillna(current_year).astype(int)
+# File paths - Use the file that actually contains pitcher statistics
+INPUT_PATH = "../data/pitcher_rolling_5game_features.csv"  # This file has real MLB pitcher stats
+OUTPUT_PATH = f"../data/aggregated_pitcher_features_{current_year}.csv"
 
-# Identify weather- and park-related columns to drop
-weather_keywords = ["temperature", "wind_speed", "condition", "park_name"]
-weather_cols = [col for col in df.columns if any(kw in col.lower() for kw in weather_keywords)]
-park_cols = [col for col in ["park_factor", "park_1B", "park_2B", "park_3B", "park_HR", "park_SO", "park_BB", "park_GB", "park_FB", "park_LD", "park_IFFB", "park_FIP"] if col in df.columns]
+# Load pitcher data with pitching statistics
+logging.info(f"Loading pitcher data from {INPUT_PATH}")
+try:
+    df = pd.read_csv(INPUT_PATH)
+    df['date'] = pd.to_datetime(df['date'])
+    
+    # Filter to recent data only (last 60 days) to get current season stats
+    from datetime import datetime, timedelta
+    cutoff_date = datetime.now() - timedelta(days=60)
+    df = df[df['date'] >= cutoff_date]
+    
+    logging.info(f"Loaded {len(df)} recent pitching records for {df['name'].nunique()} pitchers")
+    
+except FileNotFoundError:
+    logging.error(f"Input file not found: {INPUT_PATH}")
+    raise
 
-to_drop = weather_cols + park_cols
-logging.info(f" Dropping columns: {to_drop}")
+# Drop rows missing key fields
+df = df.dropna(subset=["player_id", "outs"])
 
-# Drop and produce final DataFrame
-df_final = df.drop(columns=to_drop)
-logging.info(f"SUCCESS: df_final shape: {df_final.shape}")
+# Convert numeric fields safely - using actual column names from the data
+numeric_cols = [
+    "outs", "strikeOuts", "baseOnBalls", "hits", "homeRuns", "earned_run"
+]
+for col in numeric_cols:
+    if col in df.columns:
+        df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
 
-# Save the cleaned DataFrame
+# Group and aggregate
+agg_dict = {
+    "outs": "sum",
+    "strikeOuts": "sum", 
+    "baseOnBalls": "sum",
+    "hits": "sum",
+    "homeRuns": "sum",
+    "earned_run": "sum"
+}
+
+# Only aggregate columns that exist
+agg_dict = {k: v for k, v in agg_dict.items() if k in df.columns}
+
+agg = df.groupby(["player_id", "name"]).agg(agg_dict).reset_index()
+
+# Attach date and season columns
+agg["date"] = today_str
+agg["Season"] = current_year
+
+# Convert outs to innings (3 outs = 1 inning)
+agg["innings"] = agg["outs"] / 3.0
+
+# Compute advanced pitcher stats
+agg["ERA"] = (agg["earned_run"] * 9) / agg["innings"].replace({0: np.nan})
+if "baseOnBalls" in agg.columns:
+    agg["WHIP"] = (agg["baseOnBalls"] + agg["hits"]) / agg["innings"].replace({0: np.nan})
+    agg["BB_rate"] = agg["baseOnBalls"] / agg["innings"].replace({0: np.nan})
+agg["K_rate"] = agg["strikeOuts"] / agg["innings"].replace({0: np.nan})
+
+# Reorder columns
+final_cols = [
+    "player_id", "name", "date", "Season", "ERA", "WHIP", "K_rate", "BB_rate",
+    "innings", "outs", "strikeOuts", "baseOnBalls", "hits", "homeRuns", "earned_run"
+]
+
+# Only use columns that exist
+final_cols = [col for col in final_cols if col in agg.columns]
+df_final = agg[final_cols]
+
+# Save
+logging.info(f"Saving aggregated pitcher features → {OUTPUT_PATH}")
 df_final.to_csv(OUTPUT_PATH, index=False)
-logging.info(f" Saved final hitter features  {OUTPUT_PATH}")
+logging.info(f"SUCCESS: Saved pitcher features with {len(df_final)} rows")

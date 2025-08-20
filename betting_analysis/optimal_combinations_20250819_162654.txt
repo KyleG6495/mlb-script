@@ -1,0 +1,63 @@
+TARGET: OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Shohei Ohtani UNDER, Will Smith UNDER, Fernando Tatis Jr. UNDER
+    Size: 3 picks | Avg Edge: 135.6% | Win Prob: 93.4%
+    Total EV: 4.07 | Kelly: 15.0% | Diversity: 66.7%
+
+ 2. 3-pick: Shohei Ohtani UNDER, Will Smith UNDER, Freddie Freeman UNDER
+    Size: 3 picks | Avg Edge: 135.6% | Win Prob: 93.4%
+    Total EV: 4.07 | Kelly: 15.0% | Diversity: 66.7%
+
+ 3. 3-pick: Shohei Ohtani UNDER, Will Smith UNDER, Teoscar Hernandez UNDER
+    Size: 3 picks | Avg Edge: 135.6% | Win Prob: 93.4%
+    Total EV: 4.07 | Kelly: 15.0% | Diversity: 66.7%
+
+ 4. 3-pick: Shohei Ohtani UNDER, Will Smith UNDER, Andy Pages UNDER
+    Size: 3 picks | Avg Edge: 135.6% | Win Prob: 93.4%
+    Total EV: 4.07 | Kelly: 15.0% | Diversity: 66.7%
+
+ 5. 3-pick: Shohei Ohtani UNDER, Will Smith UNDER, Jo Adell UNDER
+    Size: 3 picks | Avg Edge: 135.6% | Win Prob: 93.4%
+    Total EV: 4.07 | Kelly: 15.0% | Diversity: 66.7%
+
+ 6. 4-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Fernando Tatis Jr. UNDER
+    Size: 4 picks | Avg Edge: 136.4% | Win Prob: 92.5%
+    Total EV: 5.45 | Kelly: 15.0% | Diversity: 50.0%
+
+ 7. 4-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Freddie Freeman UNDER
+    Size: 4 picks | Avg Edge: 136.4% | Win Prob: 92.5%
+    Total EV: 5.45 | Kelly: 15.0% | Diversity: 50.0%
+
+ 8. 4-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Teoscar Hernandez UNDER
+    Size: 4 picks | Avg Edge: 136.4% | Win Prob: 92.5%
+    Total EV: 5.45 | Kelly: 15.0% | Diversity: 50.0%
+
+ 9. 4-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Andy Pages UNDER
+    Size: 4 picks | Avg Edge: 136.4% | Win Prob: 92.5%
+    Total EV: 5.45 | Kelly: 15.0% | Diversity: 50.0%
+
+10. 4-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Jo Adell UNDER
+    Size: 4 picks | Avg Edge: 136.4% | Win Prob: 92.5%
+    Total EV: 5.45 | Kelly: 15.0% | Diversity: 50.0%
+
+11. 5-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Aaron Bracho UNDER, Fernando Tatis Jr. UNDER
+    Size: 5 picks | Avg Edge: 136.8% | Win Prob: 91.5%
+    Total EV: 6.84 | Kelly: 15.0% | Diversity: 40.0%
+
+12. 5-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Aaron Bracho UNDER, Freddie Freeman UNDER
+    Size: 5 picks | Avg Edge: 136.8% | Win Prob: 91.5%
+    Total EV: 6.84 | Kelly: 15.0% | Diversity: 40.0%
+
+13. 5-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Aaron Bracho UNDER, Teoscar Hernandez UNDER
+    Size: 5 picks | Avg Edge: 136.8% | Win Prob: 91.5%
+    Total EV: 6.84 | Kelly: 15.0% | Diversity: 40.0%
+
+14. 5-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Aaron Bracho UNDER, Andy Pages UNDER
+    Size: 5 picks | Avg Edge: 136.8% | Win Prob: 91.5%
+    Total EV: 6.84 | Kelly: 15.0% | Diversity: 40.0%
+
+15. 5-pick: Shohei Ohtani UNDER, Will Smith UNDER, Will Wagner UNDER, Aaron Bracho UNDER, Jo Adell UNDER
+    Size: 5 picks | Avg Edge: 136.8% | Win Prob: 91.5%
+    Total EV: 6.84 | Kelly: 15.0% | Diversity: 40.0%
+

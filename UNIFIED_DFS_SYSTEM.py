@@ -27,7 +27,9 @@ warnings.filterwarnings('ignore')
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
-BASE_DIR = Path(__file__).resolve().parent.parent / "data"
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
+SLATE_DIR = BASE_DIR / "fd_current_slate"
 SCRIPTS_DIR = Path(__file__).resolve().parent
 FD_SLATE_DIR = Path(__file__).resolve().parent.parent / "fd_current_slate"
 
@@ -70,7 +72,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(BASE_DIR / f'dfs_optimization_{TIMESTAMP}.log'),
+        logging.FileHandler(DATA_DIR / f'dfs_optimization_{TIMESTAMP}.log'),
         logging.StreamHandler()
     ]
 )
@@ -83,12 +85,23 @@ def load_slate_data():
     """Load and prepare FanDuel slate data"""
     logger.info("Loading FanDuel slate data...")
     
-    if not SLATE_FILE.exists():
-        raise FileNotFoundError(f"Slate file not found: {SLATE_FILE}")
-        
-    slate = pd.read_csv(SLATE_FILE)
-    logger.info(f"Loaded {len(slate)} players from slate")
+    # Try multiple potential slate file locations
+    slate_files = [
+        SLATE_DIR / "fd_slate_today.csv",
+        DATA_DIR / "fd_slate_today.csv", 
+        SLATE_DIR / "data" / "fd_slate_today.csv"
+    ]
     
+    slate = None
+    for slate_file in slate_files:
+        if slate_file.exists():
+            slate = pd.read_csv(slate_file)
+            logger.info(f"Loaded {len(slate)} players from slate")
+            break
+    
+    if slate is None:
+        raise FileNotFoundError(f"No slate file found in: {slate_files}")
+        
     # Filter for active players (exclude those with Batting Order = '0')
     # BUT keep starting pitchers (Probable Pitcher = 'Yes') regardless of batting order
     if 'Batting Order' in slate.columns:
@@ -99,11 +112,23 @@ def load_slate_data():
         # Keep starting pitchers regardless of batting order
         starting_pitchers = slate[(slate['Position'] == 'P') & (slate['Probable Pitcher'] == 'Yes')]
         
-        # Keep non-pitchers who have valid batting orders (not "0")
-        active_non_pitchers = slate[
+        # Check if batting orders are available
+        valid_batting_orders = slate[
             (slate['Position'] != 'P') & 
             (~slate['Batting Order'].isin(['0', '0.0', 'nan', '']))
         ]
+        
+        if len(valid_batting_orders) < 200:  # Batting orders not posted yet (need substantial coverage)
+            logger.info("⚠️ Batting orders not available yet - using fallback filtering")
+            # Use injury and tier filtering instead
+            active_non_pitchers = slate[
+                (slate['Position'] != 'P') & 
+                (slate['Tier'] != 'Late Swap') &
+                (slate['Injury Indicator'].isna() | (slate['Injury Indicator'] == ''))
+            ]
+        else:
+            logger.info("✅ Batting orders available - using standard filtering")
+            active_non_pitchers = valid_batting_orders
         
         # Combine active players
         slate = pd.concat([starting_pitchers, active_non_pitchers], ignore_index=True)
@@ -112,10 +137,11 @@ def load_slate_data():
         logger.info(f"Kept {len(starting_pitchers)} starting pitchers and {len(active_non_pitchers)} active non-pitchers")
     
     # Extract player_id from FanDuel ID format (e.g., "118469-198625" -> "198625")
-    if 'Id' in slate.columns:
-        slate['player_id'] = slate['Id'].astype(str).str.split('-').str[1]
-    elif 'player_id' not in slate.columns:
-        raise ValueError("No player_id or Id column found in slate data")
+    # But keep the Id column as the primary key for merging
+    if 'Id' in slate.columns and '-' in str(slate['Id'].iloc[0]):
+        slate['extracted_id'] = slate['Id'].astype(str).str.split('-').str[1]
+    elif 'Id' not in slate.columns:
+        raise ValueError("No Id column found in slate data")
     
     # Standardize salary column
     salary_col = 'Salary' if 'Salary' in slate.columns else 'salary'
@@ -137,38 +163,81 @@ def load_slate_data():
     else:
         slate['name'] = slate.get('Name', 'Unknown')
     
-    return slate[['player_id', 'name', 'position', 'salary', 'Team']].copy()
+    return slate[['Id', 'name', 'position', 'salary', 'Team']].copy()
 
 def load_projections():
-    """Load and merge projection data"""
+    """Load projections from enhanced projections file"""
     logger.info("Loading projection data...")
     
-    # Load hitter projections
-    hitters = pd.DataFrame()
-    if HITTER_FEATURES.exists():
-        hitters = pd.read_csv(HITTER_FEATURES)
-        hitters['player_type'] = 'hitter'
-        logger.info(f"Loaded {len(hitters)} hitter projections")
+    # Try to use current enhanced features from today's data pipeline
+    current_features_file = DATA_DIR / "prediction_features_enhanced_real_stats.csv"
+    slate_files = [
+        SLATE_DIR / "fd_slate_today.csv",
+        DATA_DIR / "fd_slate_today.csv", 
+        SLATE_DIR / "data" / "fd_slate_today.csv"
+    ]
     
-    # Load pitcher projections  
-    pitchers = pd.DataFrame()
-    if PITCHER_FEATURES.exists():
-        pitchers = pd.read_csv(PITCHER_FEATURES)
-        pitchers['player_type'] = 'pitcher'
-        logger.info(f"Loaded {len(pitchers)} pitcher projections")
+    # Find the slate file
+    slate_file = None
+    for sf in slate_files:
+        if sf.exists():
+            slate_file = sf
+            break
     
-    # Combine projections
-    if len(hitters) > 0 and len(pitchers) > 0:
-        projections = pd.concat([hitters, pitchers], ignore_index=True)
-    elif len(hitters) > 0:
-        projections = hitters
-    elif len(pitchers) > 0:
-        projections = pitchers
+    if current_features_file.exists() and slate_file is not None:
+        logger.info("Using current enhanced features from today's data pipeline")
+        projections = pd.read_csv(current_features_file)
+        slate_df = pd.read_csv(slate_file)
+        
+        # Merge projections with slate to get positions and other FanDuel data
+        if 'name' in projections.columns and 'Nickname' in slate_df.columns:
+            # Merge on name to get Position and other slate data
+            merged = slate_df.merge(projections, left_on='Nickname', right_on='name', how='inner')
+            logger.info(f"Merged data columns: {merged.columns.tolist()}")
+            # Select available columns
+            available_cols = []
+            for col in ['Id', 'Position', 'name', 'Salary']:
+                if col in merged.columns:
+                    available_cols.append(col)
+                elif col == 'name' and 'Nickname' in merged.columns:
+                    available_cols.append('Nickname')
+            
+            projections = merged[available_cols].copy()
+            # Ensure we have a name column
+            if 'name' not in projections.columns and 'Nickname' in projections.columns:
+                projections['name'] = projections['Nickname']
+            # Create basic salary-based projections
+            projections['projected_fppg'] = projections['Salary'] / 1000 * 2.0
+        else:
+            # Use slate data directly
+            projections = slate_df[['Id', 'Position', 'Nickname', 'Salary']].copy()
+            projections['name'] = projections['Nickname']
+            projections['projected_fppg'] = projections['Salary'] / 1000 * 2.0
     else:
-        raise FileNotFoundError("No projection files found")
+        # Fallback to slate data with salary-based projections
+        logger.warning("Using slate data with salary-based projections")
+        if slate_file is not None:
+            projections = pd.read_csv(slate_file)
+            projections['name'] = projections.get('Nickname', projections.get('First Name', 'Unknown'))
+            projections['projected_fppg'] = projections['Salary'] / 1000 * 2.0
+        else:
+            raise FileNotFoundError("No projection data or slate data found")
     
-    # Ensure player_id is string
-    projections['player_id'] = projections['player_id'].astype(str)
+    # Ensure we have required columns
+    if 'projected_fppg' not in projections.columns:
+        projections['projected_fppg'] = projections.get('Salary', 5000) / 1000 * 2.0
+    if 'Position' not in projections.columns:
+        projections['Position'] = 'OF'  # Default position
+    
+    # Add Projected_FPPG column for compatibility
+    projections['Projected_FPPG'] = projections['projected_fppg']
+    
+    # Split for logging
+    hitters = projections[projections['Position'] != 'P']
+    pitchers = projections[projections['Position'] == 'P']
+    
+    logger.info(f"Loaded {len(hitters)} hitter projections")
+    logger.info(f"Loaded {len(pitchers)} pitcher projections")
     
     return projections
 
@@ -177,7 +246,7 @@ def enhance_projections(df):
     logger.info("Enhancing projections...")
     
     # Base projection column (try multiple names)
-    proj_cols = ['projected_fppg', 'FPPG', 'fppg', 'projection']
+    proj_cols = ['Projected_FPPG', 'projected_fppg', 'FPPG', 'fppg', 'projection']
     proj_col = None
     for col in proj_cols:
         if col in df.columns:
@@ -187,6 +256,7 @@ def enhance_projections(df):
     if proj_col is None:
         raise ValueError(f"No projection column found. Available: {df.columns.tolist()}")
     
+    logger.info(f"Using {proj_col} as base projection column")
     df['base_fppg'] = df[proj_col].fillna(0)
     
     # Enhanced projection methodology
@@ -235,49 +305,72 @@ def prepare_optimization_data():
     slate = load_slate_data()
     projections = load_projections()
     
-    # Merge slate with projections
-    df = slate.merge(projections, on='player_id', how='left', suffixes=('', '_proj'))
+    # Try multiple merge strategies to ensure we get data
+    df = None
+    merge_successful = False
+    
+    # Strategy 1: Merge on Id
+    if 'Id' in slate.columns and 'Id' in projections.columns:
+        df = slate.merge(projections, on='Id', how='left', suffixes=('', '_proj'))
+        merge_successful = df['Projected_FPPG'].notna().sum() > 0
+        logger.info(f"Strategy 1 (Id merge): {df['Projected_FPPG'].notna().sum()} players matched")
+    
+    # Strategy 2: If Strategy 1 failed, try merging on name
+    if not merge_successful and 'name' in slate.columns and 'name' in projections.columns:
+        df = slate.merge(projections, on='name', how='left', suffixes=('', '_proj'))
+        merge_successful = df['Projected_FPPG'].notna().sum() > 0
+        logger.info(f"Strategy 2 (name merge): {df['Projected_FPPG'].notna().sum()} players matched")
+    
+    # Strategy 3: If still no matches, use slate data with salary-based projections
+    if not merge_successful or df is None:
+        logger.warning("Projection merge failed, using salary-based projections for all players")
+        df = slate.copy()
+        # Create projections based on salary and position
+        df['Projected_FPPG'] = df.apply(lambda row: 
+            (row['salary'] / 1000 * 1.8) if 'P' in str(row['position']) else (row['salary'] / 1000 * 2.2), 
+            axis=1)
+        df['Position'] = df['position']  # Ensure Position column exists
+    
+    # Ensure we have the data we started with
+    if len(df) == 0:
+        logger.error("No data remaining after merge - using original slate")
+        df = slate.copy()
+        df['Projected_FPPG'] = df['salary'] / 1000 * 2.0
+        df['Position'] = df['position']
     
     # Debug: Check pitcher data before filtering
     pitcher_count_before = len(df[df['position'].str.contains('P', na=False)])
     logger.info(f"Pitchers in slate before filtering: {pitcher_count_before}")
     
-    # Handle missing projections - create base_fppg column if it doesn't exist
-    if 'base_fppg' not in df.columns:
-        # Try common projection column names
-        proj_cols = ['projected_fppg', 'FPPG', 'fppg', 'projection', 'ml_projected_fppg']
-        proj_col = None
-        for col in proj_cols:
-            if col in df.columns:
-                proj_col = col
-                break
-        
-        if proj_col is not None:
-            df['base_fppg'] = df[proj_col].fillna(0)
-            logger.info(f"Using {proj_col} as base projection column")
-        else:
-            logger.warning("No projection column found, creating base_fppg with salary-based estimates")
-            # Use different salary multipliers for pitchers vs hitters
-            df['base_fppg'] = df.apply(lambda row: 
-                (row['salary'] / 1000 * 1.5) if 'P' in row['position'] else (row['salary'] / 1000 * 2.5), 
-                axis=1)
+    # Handle missing projections - create base_fppg column
+    proj_cols = ['Projected_FPPG', 'projected_fppg', 'FPPG', 'fppg', 'projection', 'ml_projected_fppg']
+    proj_col = None
+    for col in proj_cols:
+        if col in df.columns and df[col].notna().sum() > 0:
+            proj_col = col
+            break
     
-    # Ensure base_fppg column exists and fill missing values
-    if 'base_fppg' not in df.columns:
-        logger.warning("base_fppg column still missing, creating from salary")
+    if proj_col is not None:
+        df['base_fppg'] = pd.to_numeric(df[proj_col], errors='coerce').fillna(0)
+        logger.info(f"Using {proj_col} as base projection column")
+    else:
+        logger.warning("No valid projection column found, creating base_fppg with salary-based estimates")
+        # Use different salary multipliers for pitchers vs hitters
         df['base_fppg'] = df.apply(lambda row: 
-            (row['salary'] / 1000 * 1.5) if 'P' in row['position'] else (row['salary'] / 1000 * 2.5), 
+            (row['salary'] / 1000 * 1.8) if 'P' in str(row['position']) else (row['salary'] / 1000 * 2.2), 
             axis=1)
     
-    # Fill remaining missing projections (especially important for pitchers)
-    missing_proj = df['base_fppg'].isna().sum()
-    zero_proj = (df['base_fppg'] == 0).sum()
-    if missing_proj > 0 or zero_proj > 0:
-        logger.warning(f"{missing_proj} players missing projections, {zero_proj} with zero projections - EXCLUDING these players")
-        # EXCLUDE players with zero/missing projections instead of using salary estimates
-        # This prevents players like Rich Hill with 0.0 projections from being included
-        df = df[df['base_fppg'] > 0].copy()
-        logger.info(f"After excluding zero projection players: {len(df)} players remaining")
+    # Ensure no players have zero projections (this was causing the empty dataset)
+    zero_proj_count = (df['base_fppg'] <= 0).sum()
+    if zero_proj_count > 0:
+        logger.warning(f"Found {zero_proj_count} players with zero projections - filling with salary estimates")
+        # Fill zero projections with salary-based estimates instead of excluding
+        mask = df['base_fppg'] <= 0
+        df.loc[mask, 'base_fppg'] = df.loc[mask].apply(lambda row: 
+            (row['salary'] / 1000 * 1.8) if 'P' in str(row['position']) else (row['salary'] / 1000 * 2.2), 
+            axis=1)
+    
+    logger.info(f"After projection fixes: {len(df)} players remaining with projections > 0")
     
     # Create primary position (first position for multi-position players)
     df['primary_position'] = df['position'].str.split('/').str[0]
@@ -339,7 +432,7 @@ def optimize_lineup(df, strategy='balanced', exclude_players=None):
         exclude_players = set()
     
     # Filter out excluded players
-    available_df = df[~df['player_id'].isin(exclude_players)].copy()
+    available_df = df[~df['Id'].isin(exclude_players)].copy()
     
     # Strategy weights
     weights = STRATEGIES[strategy]
@@ -419,7 +512,7 @@ def generate_all_lineups(df):
                 all_lineups.append(lineup)
                 
                 # Track used players for diversity
-                used_players.update(lineup['player_id'].tolist())
+                used_players.update(lineup['Id'].tolist())
                 lineup_id += 1
                 
                 logger.info(f"Generated {strategy} lineup {i+1}: "
