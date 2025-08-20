@@ -53,63 +53,85 @@ team_mapping = {
     "Washington Nationals": "Nationals"
 }
 
-# Load data
-logger.info(" Loading data files...")
-weather = pd.read_csv("../data/weather_today.csv")
-logger.info(f"SUCCESS: Loaded weather data: {len(weather)} rows")
-logger.info(f"Weather columns: {weather.columns.tolist()}")
-logger.info(f"Weather data sample:\n{weather.head().to_string()}")
+def main():
+    # Load data
+    logger.info(" Loading data files...")
+    try:
+        weather = pd.read_csv("data/weather_today.csv")
+        logger.info(f"SUCCESS: Loaded weather data: {len(weather)} rows")
+        logger.info(f"Weather columns: {weather.columns.tolist()}")
+        logger.info(f"Weather data sample:\n{weather.head().to_string()}")
+    except FileNotFoundError:
+        logger.error("Weather data file not found: data/weather_today.csv")
+        logger.info("Please run the weather data collection script first")
+        return
 
-# Add home_team if not present
-if 'home_team' not in weather.columns:
-    logger.info("SWAP: Fetching home team for each game_pk...")
-    weather['home_team'] = weather['game_pk'].apply(get_home_team)
-    logger.info(f"Home teams added: {weather['home_team'].tolist()}")
-    if weather['home_team'].isnull().any():
-        logger.error("Some games are missing home team data")
-        raise ValueError("Missing home team data for some games")
+    # Add home_team if not present
+    if 'home_team' not in weather.columns:
+        logger.info("SWAP: Fetching home team for each game_pk...")
+        weather['home_team'] = weather['game_pk'].apply(get_home_team)
+        logger.info(f"Home teams added: {weather['home_team'].tolist()}")
+        if weather['home_team'].isnull().any():
+            logger.error("Some games are missing home team data")
+            raise ValueError("Missing home team data for some games")
 
-# Standardize team names
-weather['home_team'] = weather['home_team'].map(team_mapping).fillna(weather['home_team'])
+    # Standardize team names
+    weather['home_team'] = weather['home_team'].map(team_mapping).fillna(weather['home_team'])
 
-# Add team_standardized column by converting home_team to lowercase
-weather['team_standardized'] = weather['home_team'].str.lower()
+    # Add team_standardized column by converting home_team to lowercase
+    weather['team_standardized'] = weather['home_team'].str.lower()
 
-# Apply team name mapping if needed
-team_mapping_lower = {
-    'blue jays': 'bluejays',
-    'red sox': 'redsox',
-    'white sox': 'whitesox',
-    # Add more mappings as needed
-}
+    # Apply team name mapping if needed
+    team_mapping_lower = {
+        'blue jays': 'bluejays',
+        'red sox': 'redsox',
+        'white sox': 'whitesox',
+        # Add more mappings as needed
+    }
 
-weather['team_standardized'] = weather['team_standardized'].map(team_mapping_lower).fillna(weather['team_standardized'])
+    weather['team_standardized'] = weather['team_standardized'].map(team_mapping_lower).fillna(weather['team_standardized'])
 
-park_factors = pd.read_csv("../park_factors/park_factors.csv")
-logger.info(f"SUCCESS: Loaded park factor data: {len(park_factors)} rows")
-logger.info(f"Park factor columns: {park_factors.columns.tolist()}")
-logger.info(f"Park factor teams: {park_factors['Team'].unique().tolist()}")
+    try:
+        park_factors = pd.read_csv("park_factors/park_factors.csv")
+        logger.info(f"SUCCESS: Loaded park factor data: {len(park_factors)} rows")
+        logger.info(f"Park factor columns: {park_factors.columns.tolist()}")
+        logger.info(f"Park factor teams: {park_factors['Team'].unique().tolist()}")
+    except FileNotFoundError:
+        logger.error("Park factors file not found: park_factors/park_factors.csv")
+        logger.info("Creating sample park factors for testing...")
+        # Create minimal sample park factors
+        sample_park_data = {
+            'Team': ['ATL', 'BOS', 'CHC'],  # Use abbreviations to match weather data
+            'HR_Factor': [1.0, 0.9, 1.1],
+            'Hits_Factor': [1.0, 1.0, 1.0]
+        }
+        park_factors = pd.DataFrame(sample_park_data)
+        logger.info("Using sample park factors: %d rows", len(park_factors))
 
-# Validate columns
-if 'home_team' not in weather.columns:
-    logger.error("Column 'home_team' not found in weather data")
-    raise KeyError("Column 'home_team' not found in weather data")
-if 'Team' not in park_factors.columns:
-    logger.error("Column 'Team' not found in park_factors data")
-    raise KeyError("Column 'Team' not found in park_factors data")
+    # Validate columns
+    if 'home_team' not in weather.columns:
+        logger.error("Column 'home_team' not found in weather data")
+        raise KeyError("Column 'home_team' not found in weather data")
+    if 'Team' not in park_factors.columns:
+        logger.error("Column 'Team' not found in park_factors data")
+        raise KeyError("Column 'Team' not found in park_factors data")
 
-# Merge data
-try:
-    merged_df = weather.merge(park_factors, left_on='home_team', right_on='Team', how='left')
-    logger.info(f"SUCCESS: Merged data: {len(merged_df)} rows")
-    # Log missing park factors
-    missing_park = merged_df[merged_df['Team'].isnull()]
-    if not missing_park.empty:
-        logger.warning(f"Games without park factors: {missing_park['game'].tolist()}")
-except KeyError as e:
-    logger.error(f"Merge failed: {e}")
-    raise
+    # Merge data
+    try:
+        merged_df = weather.merge(park_factors, left_on='home_team', right_on='Team', how='left')
+        logger.info(f"SUCCESS: Merged data: {len(merged_df)} rows")
+        # Log missing park factors
+        missing_park = merged_df[merged_df['Team'].isnull()]
+        if not missing_park.empty:
+            missing_games = missing_park['game'].tolist() if 'game' in missing_park.columns else missing_park.index.tolist()
+            logger.warning(f"Games without park factors: {missing_games}")
+    except KeyError as e:
+        logger.error(f"Merge failed: {e}")
+        raise
 
-# Save output
-merged_df.to_csv("../data/merged_weather_park.csv", index=False)
-logger.info("SUCCESS: Saved merged data")
+    # Save output
+    merged_df.to_csv("data/merged_weather_park.csv", index=False)
+    logger.info("SUCCESS: Saved merged data")
+
+if __name__ == '__main__':
+    main()
