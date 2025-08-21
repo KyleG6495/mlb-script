@@ -5,16 +5,16 @@ import pandas as pd
 import os
 
 #  Paths 
-BASE_DIR    = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SLATE_FILE  = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\fd_current_slate\fd_slate_today.csv"
+BASE_DIR    = os.path.dirname(__file__)  # Current directory instead of parent
+SLATE_FILE  = os.path.join(BASE_DIR, "data", "fd_slate_today.csv")  # Use relative path
 DATA_DIR    = os.path.join(BASE_DIR, "data")
 OUTPUT_FILE = os.path.join(DATA_DIR, "hitter_games.csv")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
-#  1) Load FD slate with batting orders 
+#  1) Load & filter the FanDuel slate ──
 df = pd.read_csv(SLATE_FILE)
-hitters = df[df["Position"] != "P"].copy()
+hitters = df[df["Roster Position"].str.upper() != "P"].copy()  # Use Roster Position instead of Position
 
 #  2) Generate target_name and extract player_id from Id column 
 # Use Nickname (which is actually the display name) instead of duplicated names
@@ -22,7 +22,8 @@ hitters["target_name"] = hitters["Nickname"].str.strip()
 
 # Extract player_id from Id column (format: player_id-position or just player_id)
 if "Id" in hitters.columns:
-    hitters["player_id"] = hitters["Id"].astype(str).str.split("-").str[-1].astype(int)
+    # Split by dash and take the first part as player_id (before the position)
+    hitters["player_id"] = hitters["Id"].astype(str).str.split("-").str[0].astype(int)
 else:
     # If no Id column, set to None - will be filled by assign_hitter_ids.py
     hitters["player_id"] = None

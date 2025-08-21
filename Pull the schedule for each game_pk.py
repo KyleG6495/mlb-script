@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 import pandas as pd
 import requests
+import time
 
 # Configure logging
 time_format = "%Y-%m-%d %H:%M:%S"
@@ -43,31 +44,38 @@ def fetch_schedule(game_pk: str) -> dict | None:
     Returns a dict with game_pk, game_date, home_team, away_team, venue.
     """
     params = {"sportId": 1, "gamePk": game_pk}
-    resp = requests.get(API_URL, params=params)
-    resp.raise_for_status()
-    data = resp.json()
+    try:
+        resp = requests.get(API_URL, params=params, timeout=10)  # Add 10 second timeout
+        resp.raise_for_status()
+        data = resp.json()
 
-    dates = data.get("dates", [])
-    if not dates:
+        dates = data.get("dates", [])
+        if not dates:
+            return None
+        games = dates[0].get("games", [])
+        if not games:
+            return None
+
+        game = games[0]
+        game_date = game.get("gameDate")
+        teams = game.get("teams", {})
+        home = teams.get("home", {}).get("team", {}).get("name")
+        away = teams.get("away", {}).get("team", {}).get("name")
+        venue = game.get("venue", {}).get("name")
+
+        return {
+            "game_pk": game_pk,
+            "game_date": game_date,
+            "home_team": home,
+            "away_team": away,
+            "venue": venue,
+        }
+    except requests.exceptions.Timeout:
+        logging.error(f"Timeout fetching schedule for game_pk={game_pk}")
         return None
-    games = dates[0].get("games", [])
-    if not games:
+    except Exception as e:
+        logging.error(f"Error fetching schedule for game_pk={game_pk}: {e}")
         return None
-
-    game = games[0]
-    game_date = game.get("gameDate")
-    teams = game.get("teams", {})
-    home = teams.get("home", {}).get("team", {}).get("name")
-    away = teams.get("away", {}).get("team", {}).get("name")
-    venue = game.get("venue", {}).get("name")
-
-    return {
-        "game_pk": game_pk,
-        "game_date": game_date,
-        "home_team": home,
-        "away_team": away,
-        "venue": venue,
-    }
 
 
 def main():
@@ -84,6 +92,9 @@ def main():
                 logging.warning(f"No schedule entry for game_pk={pk}")
         except Exception as e:
             logging.error(f"Error fetching schedule for {pk}: {e}")
+        
+        # Add rate limiting to avoid overwhelming the API
+        time.sleep(0.5)  # 500ms delay between requests
 
     # Build DataFrame and save
     df_schedules = pd.DataFrame(schedules)

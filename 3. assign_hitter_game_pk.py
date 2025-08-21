@@ -11,11 +11,12 @@ import datetime
 import requests
 from tqdm import tqdm
 import json
+import time
 
 # ----------------------------
 # Configuration
 # ----------------------------
-DATA_DIR        = Path(__file__).resolve().parent.parent / "data"
+DATA_DIR        = Path(__file__).resolve().parent / "data"  # Use current directory
 HITTERS_FILE    = DATA_DIR / "hitter_games.csv"
 OUTPUT_MAP      = DATA_DIR / "hitter_games_with_game_pk.csv"
 FAILED_IDS_FILE = DATA_DIR / "failed_hitter_ids.json"
@@ -43,22 +44,29 @@ def fetch_game_pk(player_id: str, season: int) -> int | None:
         f"https://statsapi.mlb.com/api/v1/people/{pid}/stats"
         f"?stats=gameLog&season={season}"
     )
-    resp = requests.get(url)
-    if resp.status_code != 200:
-        logging.error(f"{resp.status_code} for player {pid}; skipping.")
+    try:
+        resp = requests.get(url, timeout=10)  # Add 10 second timeout
+        if resp.status_code != 200:
+            logging.error(f"{resp.status_code} for player {pid}; skipping.")
+            return None
+        data = resp.json()
+        stats = data.get("stats", [])
+        if not stats or not stats[0].get("splits"):
+            return None
+        splits = stats[0]["splits"]
+        if not splits:
+            return None
+        latest = splits[-1]
+        # splits[-1] might have 'stats' dict or 'game' dict
+        if "stats" in latest and "gamePk" in latest["stats"]:
+            return latest["stats"]["gamePk"]
+        return latest.get("game", {}).get("gamePk")
+    except requests.exceptions.Timeout:
+        logging.error(f"Timeout for player {pid}; skipping.")
         return None
-    data = resp.json()
-    stats = data.get("stats", [])
-    if not stats or not stats[0].get("splits"):
+    except Exception as e:
+        logging.error(f"Error fetching data for player {pid}: {e}")
         return None
-    splits = stats[0]["splits"]
-    if not splits:
-        return None
-    latest = splits[-1]
-    # splits[-1] might have 'stats' dict or 'game' dict
-    if "stats" in latest and "gamePk" in latest["stats"]:
-        return latest["stats"]["gamePk"]
-    return latest.get("game", {}).get("gamePk")
 
 
 def main():
@@ -93,6 +101,9 @@ def main():
             })
         else:
             failed.append(row["player_id"])
+        
+        # Add rate limiting to avoid overwhelming the API
+        time.sleep(0.5)  # 500ms delay between requests
 
     # 4) Save failures
     logging.info(f"WARNING: {len(failed)} rows have no game_pk")
