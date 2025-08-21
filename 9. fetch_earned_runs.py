@@ -13,7 +13,7 @@ INPUT_FILE = "../data/pitcher_games.csv"
 OUTPUT_FILE = "../data/pitcher_boxscores_earned_runs.csv"
 
 # Date range for scraping
-START_DATE = "2025-03-27"  # Season start
+START_DATE = "2024-03-27"  # Start with 2024 season data
 END_DATE = date.today().strftime("%Y-%m-%d")  # Up to today
 
 # Load pitcher names and IDs
@@ -37,7 +37,7 @@ def get_pitcher_game_logs(player_id, start_date=START_DATE, end_date=END_DATE):
         f"&startDate={start_date}&endDate={end_date}"
     )
     try:
-        res = requests.get(url)
+        res = requests.get(url, timeout=10)  # Add 10 second timeout
         if res.status_code != 200:
             logging.warning(f"Failed to fetch data for player_id {player_id}: HTTP {res.status_code}")
             return None
@@ -46,6 +46,9 @@ def get_pitcher_game_logs(player_id, start_date=START_DATE, end_date=END_DATE):
             logging.warning(f"No game logs for player_id {player_id}")
             return None
         return stats[0]["splits"]
+    except requests.exceptions.Timeout:
+        logging.error(f"Timeout fetching game logs for player_id {player_id}")
+        return None
     except Exception as e:
         logging.error(f"Error fetching game logs for player_id {player_id}: {str(e)}")
         return None

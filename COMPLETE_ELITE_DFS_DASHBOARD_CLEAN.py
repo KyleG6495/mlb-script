@@ -330,172 +330,47 @@ class WorkingEliteDFSDashboard:
             self.ownership_data = {}
             
     def load_stack_data(self):
-        """Enhanced stack generation with weather, park factors, and opposing pitcher analysis"""
+        """Generate stack data from available files"""
         try:
-            # Load base ownership projections
+            # Find lineup files for stack analysis
             data_dir = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\data"
-            ownership_files = []
+            proj_files = []
             
             if os.path.exists(data_dir):
                 for file in os.listdir(data_dir):
-                    if 'ownership' in file.lower() and file.endswith('.csv'):
-                        ownership_files.append(os.path.join(data_dir, file))
+                    if any(keyword in file.lower() for keyword in ['enhanced_projection', 'game_state_enhanced']) and file.endswith('.csv'):
+                        proj_files.append(os.path.join(data_dir, file))
                 
-                if ownership_files:
-                    # Get most recent ownership file
-                    ownership_files.sort(key=os.path.getmtime, reverse=True)
-                    ownership_file = ownership_files[0]
+                if proj_files:
+                    # Get most recent projection file
+                    proj_files.sort(key=os.path.getmtime, reverse=True)
+                    proj_file = proj_files[0]
                     
-                    print(f"⚡ Analyzing stacks from: {os.path.basename(ownership_file)}")
-                    df = safe_read_csv(ownership_file)
-                    
-                    # Load additional enhancement data
-                    weather_data = self.load_weather_data(data_dir)
-                    pitcher_data = self.load_pitcher_data(data_dir)
-                    park_data = self.load_park_data(data_dir)
+                    print(f"⚡ Analyzing stacks from: {os.path.basename(proj_file)}")
+                    df = safe_read_csv(proj_file)
                     
                     if df is not None and len(df) > 0:
-                        # Use actual column names from ownership file
-                        team_col = 'team'
-                        proj_col = 'projection'
-                        salary_col = 'salary'
-                        name_col = 'player_name'
+                        # Simple stack analysis
+                        teams = {}
+                        if 'Team' in df.columns:
+                            teams = df['Team'].value_counts().head(10).to_dict()
+                        elif 'team' in df.columns:
+                            teams = df['team'].value_counts().head(10).to_dict()
                         
-                        if all(col in df.columns for col in [team_col, proj_col, salary_col, name_col]):
-                            # Filter out pitchers for hitting stacks
-                            hitters = df[df['position'] != 'P'].copy() if 'position' in df.columns else df.copy()
-                            
-                            # Enhanced stack generation with multiple factors
-                            self.stack_data = []
-                            
-                            # Define team categories based on backtest analysis
-                            explosive_teams = {'PHI', 'SD', 'NYY', 'ATH', 'COL', 'KC', 'TEX'}
-                            conservative_teams = {'CIN', 'ATL', 'CWS', 'SF'}
-                            
-                            for i, team in enumerate(hitters[team_col].value_counts().head(10).index):
-                                team_players = hitters[hitters[team_col] == team]
-                                
-                                # Get top 4 hitters for this team
-                                if len(team_players) >= 4:
-                                    top_players = team_players.nlargest(4, proj_col)
-                                    
-                                    # Base projection calculation
-                                    base_proj = top_players[proj_col].sum()
-                                    
-                                    # Apply team-specific multipliers based on backtest insights
-                                    if team in explosive_teams:
-                                        historical_multiplier = 1.35 + (0.1 if team in ['PHI', 'SD', 'NYY'] else 0)
-                                        team_type = "🔥 Explosive"
-                                    elif team in conservative_teams:
-                                        historical_multiplier = 0.95
-                                        team_type = "📉 Conservative"
-                                    else:
-                                        historical_multiplier = 1.20
-                                        team_type = "⚖️ Standard"
-                                    
-                                    # Apply weather enhancement
-                                    weather_multiplier = self.get_weather_multiplier(team, weather_data)
-                                    
-                                    # Apply opposing pitcher factor
-                                    pitcher_multiplier = self.get_pitcher_multiplier(team, pitcher_data)
-                                    
-                                    # Apply park factor
-                                    park_multiplier = self.get_park_multiplier(team, park_data, weather_data)
-                                    
-                                    # Combined multiplier
-                                    total_multiplier = historical_multiplier * weather_multiplier * pitcher_multiplier * park_multiplier
-                                    
-                                    # Enhanced projection
-                                    total_proj = round(base_proj * total_multiplier, 1)
-                                    total_salary = int(top_players[salary_col].sum())
-                                    
-                                    # Dynamic ownership based on team type and enhancements
-                                    base_ownership = 12 if team in explosive_teams else 7
-                                    weather_ownership_boost = (weather_multiplier - 1) * 5  # Weather adds ownership
-                                    pitcher_ownership_boost = (pitcher_multiplier - 1) * 3  # Good matchup adds ownership
-                                    park_ownership_boost = (park_multiplier - 1) * 4  # Hitter-friendly parks add ownership
-                                    
-                                    avg_ownership = round(base_ownership + (i * 0.3) + weather_ownership_boost + pitcher_ownership_boost + park_ownership_boost, 1)
-                                    
-                                    value_score = round(total_proj / (total_salary / 1000), 2)
-                                    
-                                    # Enhanced player display with context
-                                    context_factors = []
-                                    if weather_multiplier > 1.05:
-                                        context_factors.append("🌤️ Weather")
-                                    if pitcher_multiplier > 1.1:
-                                        context_factors.append("⚾ Weak Pitching")
-                                    if park_multiplier > 1.03:
-                                        context_factors.append("🏟️ Hitter Park")
-                                    
-                                    context_text = " + ".join(context_factors)
-                                    if context_text:
-                                        team_type = f"{team_type} + {context_text}"
-                                    
-                                    # Get actual player names for the stack
-                                    player_names = []
-                                    for _, player in top_players.iterrows():
-                                        name = player[name_col]
-                                        proj = player[proj_col]
-                                        player_names.append(f"{name} ({proj:.1f})")
-                                    
-                                    players_text = f"{team_type} | " + " | ".join(player_names)
-                                else:
-                                    # Fallback if not enough players - still apply enhanced multipliers
-                                    count = len(team_players)
-                                    base_proj = count * 15.5
-                                    
-                                    # Apply same enhancement logic
-                                    if team in explosive_teams:
-                                        historical_multiplier = 1.35
-                                        team_type = "🔥 Explosive"
-                                    elif team in conservative_teams:
-                                        historical_multiplier = 0.95
-                                        team_type = "📉 Conservative"
-                                    else:
-                                        historical_multiplier = 1.20
-                                        team_type = "⚖️ Standard"
-                                    
-                                    weather_multiplier = self.get_weather_multiplier(team, weather_data)
-                                    pitcher_multiplier = self.get_pitcher_multiplier(team, pitcher_data)
-                                    park_multiplier = self.get_park_multiplier(team, park_data, weather_data)
-                                    total_multiplier = historical_multiplier * weather_multiplier * pitcher_multiplier * park_multiplier
-                                    
-                                    total_proj = round(base_proj * total_multiplier, 1)
-                                    total_salary = count * 4500
-                                    
-                                    base_ownership = 12 if team in explosive_teams else 7
-                                    weather_ownership_boost = (weather_multiplier - 1) * 5
-                                    pitcher_ownership_boost = (pitcher_multiplier - 1) * 3
-                                    park_ownership_boost = (park_multiplier - 1) * 4
-                                    avg_ownership = round(base_ownership + (i * 0.3) + weather_ownership_boost + pitcher_ownership_boost + park_ownership_boost, 1)
-                                    
-                                    value_score = round(total_proj / (total_salary / 1000), 2)
-                                    
-                                    context_factors = []
-                                    if weather_multiplier > 1.05:
-                                        context_factors.append("🌤️ Weather")
-                                    if pitcher_multiplier > 1.1:
-                                        context_factors.append("⚾ Weak Pitching")
-                                    
-                                    context_text = " + ".join(context_factors)
-                                    if context_text:
-                                        team_type = f"{team_type} + {context_text}"
-                                    
-                                    players_text = f"{team_type} | {count} players available"
-                                
-                                stack_info = {
-                                    'rank': i + 1,
-                                    'team': team,
-                                    'projection': total_proj,
-                                    'salary': total_salary,
-                                    'ownership': avg_ownership,
-                                    'value': value_score,
-                                    'players': players_text
-                                }
-                                self.stack_data.append(stack_info)
-                            
-                            print(f"✅ Generated {len(self.stack_data)} enhanced team stacks")
+                        self.stack_data = []
+                        for i, (team, count) in enumerate(teams.items()):
+                            stack_info = {
+                                'rank': i + 1,
+                                'team': team, 
+                                'projection': round(count * 15.5, 1),
+                                'salary': count * 4500,
+                                'ownership': 8.5,  # Default
+                                'value': round((count * 15.5) / ((count * 4500) / 1000), 2),
+                                'players': f"{count} top players"
+                            }
+                            self.stack_data.append(stack_info)
+                        
+                        print(f"✅ Generated {len(self.stack_data)} team stacks")
                     else:
                         print("⚠️ Projection file is empty")
                         self.stack_data = []
@@ -509,248 +384,6 @@ class WorkingEliteDFSDashboard:
         except Exception as e:
             print(f"❌ Error loading stack data: {e}")
             self.stack_data = []
-    
-    def load_weather_data(self, data_dir):
-        """Load weather data for game enhancement"""
-        try:
-            weather_file = os.path.join(data_dir, 'weather_today.csv')
-            if os.path.exists(weather_file):
-                weather_df = safe_read_csv(weather_file)
-                print(f"🌤️ Loaded weather data: {len(weather_df)} games")
-                return weather_df
-        except Exception as e:
-            print(f"⚠️ Weather data not available: {e}")
-        return None
-    
-    def load_pitcher_data(self, data_dir):
-        """Load opposing pitcher data for matchup analysis"""
-        try:
-            pitcher_file = os.path.join(data_dir, 'today_pitcher_features.csv')
-            if os.path.exists(pitcher_file):
-                pitcher_df = safe_read_csv(pitcher_file)
-                print(f"⚾ Loaded pitcher data: {len(pitcher_df)} pitcher stats")
-                return pitcher_df
-        except Exception as e:
-            print(f"⚠️ Pitcher data not available: {e}")
-        return None
-    
-    def load_park_data(self, data_dir):
-        """Load ballpark factors for venue analysis"""
-        try:
-            park_file = os.path.join(data_dir, 'mlb_park_factors_database.csv')
-            if os.path.exists(park_file):
-                park_df = safe_read_csv(park_file)
-                print(f"🏟️ Loaded park factors: {len(park_df)} ballparks")
-                return park_df
-        except Exception as e:
-            print(f"⚠️ Park factors not available: {e}")
-        return None
-    
-    def get_weather_multiplier(self, team, weather_data):
-        """Calculate weather-based projection multiplier"""
-        if weather_data is None or len(weather_data) == 0:
-            return 1.0
-        
-        try:
-            # Find team's game in weather data
-            team_weather = weather_data[weather_data['home_team'] == team]
-            if len(team_weather) == 0:
-                # Try to find as visiting team (would need game schedule data)
-                return 1.0
-            
-            game_weather = team_weather.iloc[0]
-            
-            # Weather scoring factors
-            multiplier = 1.0
-            
-            # Temperature factor (ideal 70-85°F)
-            temp = game_weather.get('temperature', 75)
-            if 70 <= temp <= 85:
-                multiplier += 0.05  # Ideal hitting weather
-            elif temp > 90:
-                multiplier += 0.02  # Hot weather, ball carries
-            elif temp < 60:
-                multiplier -= 0.03  # Cold weather hurts offense
-            
-            # Wind factor
-            wind_speed = game_weather.get('wind_speed', 0)
-            wind_deg = game_weather.get('wind_deg', 0)
-            
-            # Wind direction: 90-270 degrees is roughly out to the outfield
-            if 90 <= wind_deg <= 270 and wind_speed > 10:
-                multiplier += 0.08  # Wind blowing out
-            elif (wind_deg < 90 or wind_deg > 270) and wind_speed > 15:
-                multiplier -= 0.05  # Strong wind blowing in
-            
-            # Humidity factor (lower humidity = ball carries better)
-            humidity = game_weather.get('humidity', 50)
-            if humidity < 40:
-                multiplier += 0.03
-            elif humidity > 80:
-                multiplier -= 0.02
-            
-            # Condition factor
-            condition = game_weather.get('condition', '').lower()
-            if 'clear' in condition or 'sunny' in condition:
-                multiplier += 0.02
-            elif 'rain' in condition or 'storm' in condition:
-                multiplier -= 0.10  # Rain significantly hurts offense
-            
-            return max(0.8, min(1.3, multiplier))  # Cap between 0.8-1.3x
-            
-        except Exception as e:
-            print(f"⚠️ Weather calculation error for {team}: {e}")
-            return 1.0
-    
-    def get_pitcher_multiplier(self, team, pitcher_data):
-        """Calculate opposing pitcher quality multiplier"""
-        if pitcher_data is None or len(pitcher_data) == 0:
-            return 1.0
-        
-        try:
-            # Find opposing pitcher for this team
-            opposing_pitcher = pitcher_data[pitcher_data['opponent'] == team]
-            if len(opposing_pitcher) == 0:
-                return 1.0
-            
-            pitcher = opposing_pitcher.iloc[0]
-            
-            # Pitcher quality factors
-            multiplier = 1.0
-            
-            # ERA-based factor (if available in aggregated stats)
-            # Note: Using basic stats available in the pitcher features
-            
-            # Strikeout rate factor
-            strikeouts = pitcher.get('strikeOuts', 0)
-            innings = pitcher.get('outs', 0) / 3.0  # Outs to innings
-            if innings > 0:
-                k_per_inning = strikeouts / innings
-                if k_per_inning > 1.2:  # High strikeout pitcher
-                    multiplier -= 0.08
-                elif k_per_inning < 0.7:  # Low strikeout pitcher
-                    multiplier += 0.10
-            
-            # Walk rate factor
-            walks = pitcher.get('baseOnBalls', 0)
-            if innings > 0:
-                bb_per_inning = walks / innings
-                if bb_per_inning > 0.5:  # Wild pitcher
-                    multiplier += 0.08
-                elif bb_per_inning < 0.2:  # Control pitcher
-                    multiplier -= 0.05
-            
-            # Home run rate factor
-            hrs = pitcher.get('homeRuns', 0)
-            if innings > 0:
-                hr_per_inning = hrs / innings
-                if hr_per_inning > 0.15:  # Homer prone
-                    multiplier += 0.12
-                elif hr_per_inning < 0.05:  # Stingy with HRs
-                    multiplier -= 0.06
-            
-            # WHIP approximation
-            hits = pitcher.get('hits', 0)
-            if innings > 0:
-                whip = (hits + walks) / innings
-                if whip > 1.5:  # High WHIP - poor pitcher
-                    multiplier += 0.15
-                elif whip < 1.0:  # Low WHIP - excellent pitcher
-                    multiplier -= 0.12
-            
-            return max(0.7, min(1.4, multiplier))  # Cap between 0.7-1.4x
-            
-        except Exception as e:
-            print(f"⚠️ Pitcher calculation error for {team}: {e}")
-            return 1.0
-    
-    def get_park_multiplier(self, team, park_data, weather_data):
-        """Calculate ballpark factor multiplier"""
-        if park_data is None or len(park_data) == 0:
-            return 1.0
-        
-        try:
-            # Find ballpark for this team (either home or away)
-            home_team = None
-            if weather_data is not None and len(weather_data) > 0:
-                # Check if team is playing at home
-                home_games = weather_data[weather_data['home_team'] == team]
-                if len(home_games) > 0:
-                    home_team = team  # Team is at home
-                else:
-                    # Team is away - find which park they're playing at
-                    for _, game in weather_data.iterrows():
-                        if pd.notna(game['home_team']):
-                            home_team = game['home_team']
-                            break
-            
-            if home_team is None:
-                return 1.0
-            
-            # Find park factors for the venue
-            park_info = None
-            
-            # Try to match team name to park data
-            team_mappings = {
-                'CHC': 'Cubs', 'NYY': 'Yankees', 'COL': 'Rockies', 'PHI': 'Phillies',
-                'SD': 'Padres', 'LAA': 'Angels', 'ATL': 'Braves', 'TEX': 'Rangers',
-                'MIN': 'Twins', 'KC': 'Royals', 'TB': 'Rays', 'CIN': 'Reds',
-                'LAD': 'Dodgers', 'SF': 'Giants', 'CWS': 'White Sox', 'ATH': 'Athletics',
-                'MIL': 'Brewers', 'WSH': 'Nationals', 'NYM': 'Mets', 'DET': 'Tigers',
-                'MIA': 'Marlins', 'BAL': 'Orioles', 'BOS': 'Red Sox', 'SEA': 'Mariners',
-                'TOR': 'Blue Jays', 'CLE': 'Guardians', 'HOU': 'Astros', 'ARI': 'Diamondbacks',
-                'PIT': 'Pirates', 'STL': 'Cardinals'
-            }
-            
-            full_team_name = team_mappings.get(home_team, home_team)
-            park_matches = park_data[park_data['team'].str.contains(full_team_name, case=False, na=False)]
-            
-            if len(park_matches) > 0:
-                park_info = park_matches.iloc[0]
-            else:
-                return 1.0
-            
-            # Calculate park multiplier based on factors
-            multiplier = 1.0
-            
-            # Runs factor (primary offensive metric)
-            runs_factor = park_info.get('runs_factor', 1.0)
-            multiplier *= runs_factor
-            
-            # Home run factor (important for power)
-            hr_factor = park_info.get('hr_factor', 1.0)
-            hr_weight = 0.3  # 30% weight on HR factor
-            multiplier *= (1 + (hr_factor - 1) * hr_weight)
-            
-            # Hits factor
-            hits_factor = park_info.get('hits_factor', 1.0)
-            hits_weight = 0.2  # 20% weight on hits factor
-            multiplier *= (1 + (hits_factor - 1) * hits_weight)
-            
-            # Altitude factor (Coors Field effect)
-            altitude = park_info.get('altitude', 0)
-            if altitude > 3000:  # High altitude parks
-                multiplier *= 1.08  # 8% boost for high altitude
-            
-            # Wind impact consideration
-            wind_impact = park_info.get('wind_impact', 'neutral').lower()
-            if wind_impact == 'helps offense':
-                multiplier *= 1.05
-            elif wind_impact == 'hurts offense':
-                multiplier *= 0.96
-            
-            # Foul territory factor
-            foul_territory = park_info.get('foul_territory', 'medium').lower()
-            if foul_territory == 'small':  # Less foul territory = more fair balls
-                multiplier *= 1.03
-            elif foul_territory == 'large':  # More foul territory = more outs
-                multiplier *= 0.97
-            
-            return max(0.85, min(1.25, multiplier))  # Cap between 0.85-1.25x
-            
-        except Exception as e:
-            print(f"⚠️ Park calculation error for {team}: {e}")
-            return 1.0
             
     def load_lineup_files(self):
         """Load lineup file inventory"""
