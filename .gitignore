@@ -1,0 +1,26 @@
+# Temporary data files (sample data used for testing)
+data/fd_slate_today.csv
+data/fd_slate_starters_only.csv
+data/hitter_games.csv
+data/pitcher_games.csv
+data/hitter_games_with_game_pk.csv
+data/failed_hitter_ids.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+data/*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
