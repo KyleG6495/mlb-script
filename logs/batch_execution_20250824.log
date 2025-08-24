@@ -1,0 +1,42 @@
+[SUCCESS] Sun 08/24/2025 11:51:28.74 - Enhanced Rotowire Fetch completed 
+[SUCCESS] Sun 08/24/2025 11:51:32.14 - Create Starting Lineups completed 
+[SUCCESS] Sun 08/24/2025 11:51:41.12 - Create Pipeline-Ready Starters completed 
+[SUCCESS] Sun 08/24/2025 11:51:41.84 - Generate Hitter Games completed 
+[SUCCESS] Sun 08/24/2025 11:52:10.18 - Assign Hitter IDs completed 
+[SUCCESS] Sun 08/24/2025 11:54:13.56 - Assign Hitter Game PKs completed 
+[SUCCESS] Sun 08/24/2025 11:54:14.28 - Generate Pitcher Games completed 
+[SUCCESS] Sun 08/24/2025 11:54:46.41 - Assign Pitcher IDs completed 
+[SUCCESS] Sun 08/24/2025 11:56:52.12 - Assign Pitcher Game PKs completed 
+[SUCCESS] Sun 08/24/2025 11:59:57.58 - Scrape Hitter Stats completed 
+[SUCCESS] Sun 08/24/2025 12:05:26.45 - Scrape Pitcher Stats completed 
+[SUCCESS] Sun 08/24/2025 12:10:50.54 - Fetch Earned Runs completed 
+[SUCCESS] Sun 08/24/2025 12:10:51.30 - Aggregate Pitcher Stats completed 
+[SUCCESS] Sun 08/24/2025 12:10:52.17 - Build Today Pitcher Features completed 
+[SUCCESS] Sun 08/24/2025 12:10:53.37 - Build Rolling Hitter Features completed 
+[SUCCESS] Sun 08/24/2025 12:10:54.63 - Build Rolling Pitcher Features completed 
+[ERROR] Sun 08/24/2025 12:10:55.67 - Build Today Hitter Features failed with code 1 
+[SUCCESS] Sun 08/24/2025 12:14:36.47 - Enhanced Rotowire Fetch completed 
+[SUCCESS] Sun 08/24/2025 12:14:40.01 - Create Starting Lineups completed 
+[SUCCESS] Sun 08/24/2025 12:14:48.00 - Create Pipeline-Ready Starters completed 
+[SUCCESS] Sun 08/24/2025 12:14:48.73 - Generate Hitter Games completed 
+[SUCCESS] Sun 08/24/2025 12:15:16.41 - Assign Hitter IDs completed 
+[SUCCESS] Sun 08/24/2025 12:17:03.77 - Assign Hitter Game PKs completed 
+[SUCCESS] Sun 08/24/2025 12:17:04.36 - Generate Pitcher Games completed 
+[SUCCESS] Sun 08/24/2025 12:17:36.22 - Assign Pitcher IDs completed 
+[SUCCESS] Sun 08/24/2025 12:22:04.70 - Enhanced Rotowire Fetch completed 
+[SUCCESS] Sun 08/24/2025 12:22:07.86 - Create Starting Lineups completed 
+[SUCCESS] Sun 08/24/2025 12:22:15.84 - Create Pipeline-Ready Starters completed 
+[SUCCESS] Sun 08/24/2025 12:22:16.45 - Generate Hitter Games completed 
+[SUCCESS] Sun 08/24/2025 12:22:44.22 - Assign Hitter IDs completed 
+[ERROR] Sun 08/24/2025 12:23:16.91 - Assign Hitter Game PKs failed with code -1073741510 
+[SUCCESS] Sun 08/24/2025 12:23:22.60 - Generate Pitcher Games completed 
+[SUCCESS] Sun 08/24/2025 12:23:54.71 - Assign Pitcher IDs completed 
+[SUCCESS] Sun 08/24/2025 12:26:02.14 - Assign Pitcher Game PKs completed 
+[SUCCESS] Sun 08/24/2025 12:28:48.22 - Scrape Hitter Stats completed 
+[SUCCESS] Sun 08/24/2025 12:34:31.74 - Scrape Pitcher Stats completed 
+[SUCCESS] Sun 08/24/2025 12:40:17.39 - Fetch Earned Runs completed 
+[SUCCESS] Sun 08/24/2025 12:40:18.51 - Aggregate Pitcher Stats completed 
+[SUCCESS] Sun 08/24/2025 12:40:19.72 - Build Today Pitcher Features completed 
+[SUCCESS] Sun 08/24/2025 12:40:21.32 - Build Rolling Hitter Features completed 
+[SUCCESS] Sun 08/24/2025 12:40:22.81 - Build Rolling Pitcher Features completed 
+[ERROR] Sun 08/24/2025 12:40:24.01 - Build Today Hitter Features failed with code 1 

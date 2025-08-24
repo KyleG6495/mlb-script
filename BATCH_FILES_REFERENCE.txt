@@ -1,0 +1,144 @@
+================================================================================
+BATCH FILES REFERENCE - SIMPLIFIED
+================================================================================
+
+1_DATA_PIPELINE.bat
+├── python fetch_rotowire_lineups_enhanced.py
+│   └── OUTPUT: temp_lineup_data.json → Scripts/
+├── python create_starting_lineups.py  
+│   └── OUTPUT: starting_lineups.csv → data/
+├── python create_pipeline_ready_starters.py
+│   └── OUTPUT: pipeline_ready_starters.csv → data/
+├── python "1. generate_hitter_games.py"
+│   └── OUTPUT: hitter_games_today.csv → data/
+├── python "2. assign_hitter_ids.py"
+│   └── OUTPUT: Updates hitter_games_today.csv → data/
+├── python "3. assign_hitter_game_pk.py"
+│   └── OUTPUT: Updates hitter_games_today.csv → data/
+├── python "4. generate_pitcher_games.py"
+│   └── OUTPUT: pitcher_games_today.csv → data/
+├── python "5. assign_player_ids.py"
+│   └── OUTPUT: Updates pitcher_games_today.csv → data/
+├── python "6. assign_pitcher_game_pk.py"
+│   └── OUTPUT: Updates pitcher_games_today.csv → data/
+└── python "7. scrape_hitter_stats.py"
+    └── OUTPUT: Updates hitter_games_today.csv → data/
+
+2_DFS_MODELS.bat
+├── python "(21)finalize_hitter_features.py"
+│   └── OUTPUT: hitter_features_finalized.csv → data/
+├── python "(22)finalize_pitcher_features.py"
+│   └── OUTPUT: pitcher_features_finalized.csv → data/
+├── python add_pitcher_features.py
+│   └── OUTPUT: enhanced_pitcher_features.csv → data/
+├── python fix_prediction_features_with_real_stats.py
+│   └── OUTPUT: prediction_features_real_stats.csv → data/
+├── python ENHANCED_ML_DFS_SYSTEM.py
+│   └── OUTPUT: enhanced_ml_dfs_lineups_[timestamp].csv → fd_current_slate/
+├── python ML_POWERED_DFS_SYSTEM.py
+│   └── OUTPUT: ml_dfs_lineups_[timestamp].csv → fd_current_slate/
+├── python UNIFIED_DFS_SYSTEM.py
+│   └── OUTPUT: unified_dfs_lineups_[timestamp].csv → fd_current_slate/
+├── python "24. create_fanduel_submission.py"
+│   └── OUTPUT: fanduel_submission_[timestamp].csv → fd_current_slate/
+└── python generate_quintuple_lineups.py
+    └── OUTPUT: quintuple_lineups_combined_[timestamp].csv → fd_current_slate/
+
+2B_ENHANCED_DFS.bat
+├── python VEGAS_ODDS_INTEGRATOR.py
+│   └── OUTPUT: vegas_odds_today.csv → data/
+├── python ADVANCED_OWNERSHIP_PROJECTIONS.py
+│   └── OUTPUT: advanced_ownership_projections_[timestamp].csv → data/
+├── python ELITE_TOURNAMENT_WITH_OWNERSHIP.py
+│   └── OUTPUT: elite_tournament_lineups_[timestamp].csv → fd_current_slate/
+├── python FINAL_LINEUP_OPTIMIZER.py
+│   └── OUTPUT: optimized_lineups_[timestamp].csv → data/
+├── python ELITE_LINEUP_SELECTOR.py
+│   └── OUTPUT: selected_lineups_[timestamp].csv → fd_current_slate/
+└── python EXPORT_SELECTED_LINEUPS.py
+    └── OUTPUT: RECOMMENDED_cash_games_[timestamp].csv → fd_current_slate/
+    └── OUTPUT: RECOMMENDED_small_tournaments_[timestamp].csv → fd_current_slate/
+    └── OUTPUT: RECOMMENDED_large_tournaments_[timestamp].csv → fd_current_slate/
+
+COMPLETE_DAILY_WORKFLOW.bat
+├── python DAILY_DATA_VALIDATOR.py
+│   └── OUTPUT: data_validation_report.txt → data/
+├── Calls: 1_DATA_PIPELINE.bat (see above)
+├── Calls: 2_DFS_MODELS.bat (see above)
+├── Calls: 2B_ENHANCED_DFS.bat (see above)
+├── python ADVANCED_DFS_INTEGRATOR.py
+│   └── OUTPUT: integrated_lineups_[timestamp].csv → fd_current_slate/
+├── python LINEUP_WORKFLOW_SUMMARY.py
+│   └── OUTPUT: Console summary display
+└── python HOW_TO_GET_LINEUPS.py
+    └── OUTPUT: Console instructions display
+
+ENHANCED_DAILY_WORKFLOW.bat
+├── python fetch_weather_data.py
+│   └── OUTPUT: weather_updates_today.json → Scripts/
+├── python fetch_rotowire_lineups_enhanced.py
+│   └── OUTPUT: temp_lineup_data.json → Scripts/
+├── python ADVANCED_STACK_OPTIMIZER.py
+│   └── OUTPUT: team_stack_analysis_[timestamp].csv → data/
+└── python COMPLETE_ELITE_DFS_DASHBOARD.py
+    └── OUTPUT: Interactive GUI Dashboard
+
+CHAMPIONSHIP_LINEUP_BUILDER.bat
+├── python ELITE_TOURNAMENT_WITH_OWNERSHIP.py
+│   └── OUTPUT: elite_tournament_lineups_[timestamp].csv → fd_current_slate/
+├── python ADVANCED_CORRELATION_ANALYZER.py
+│   └── OUTPUT: correlation_analysis_[timestamp].csv → data/
+├── python CHAMPIONSHIP_LINEUP_CONSTRUCTOR.py
+│   └── OUTPUT: championship_lineups_[timestamp].csv → fd_current_slate/
+└── python EXPORT_SELECTED_LINEUPS.py
+    └── OUTPUT: ELITE_TOURNAMENT_LINEUPS_[timestamp].csv → fd_current_slate/
+
+COMPLETE_TOURNAMENT_PIPELINE.bat
+├── python VEGAS_ODDS_INTEGRATOR.py
+│   └── OUTPUT: vegas_odds_today.csv → data/
+├── python ADVANCED_OWNERSHIP_PROJECTIONS.py
+│   └── OUTPUT: advanced_ownership_projections_[timestamp].csv → data/
+├── python ownership_leverage_analyzer.py
+│   └── OUTPUT: leverage_analysis_[timestamp].csv → data/
+├── python ENHANCED_GPP_STACKING_STRATEGY.py
+│   └── OUTPUT: gpp_strategy_[timestamp].csv → data/
+├── python ELITE_TOURNAMENT_WITH_OWNERSHIP.py
+│   └── OUTPUT: elite_tournament_lineups_[timestamp].csv → fd_current_slate/
+└── python tournament_lineup_exporter.py
+    └── OUTPUT: TOURNAMENT_READY_[timestamp].csv → fd_current_slate/
+
+QUICK_WEATHER_UPDATE.bat
+├── python fetch_weather_data.py
+│   └── OUTPUT: weather_updates_today.json → Scripts/
+└── python update_projections_with_weather.py
+    └── OUTPUT: weather_adjusted_projections.csv → data/
+
+LAUNCH_ELITE_DASHBOARD.bat
+└── python COMPLETE_ELITE_DFS_DASHBOARD.py
+    └── OUTPUT: Interactive GUI with 7 tabs
+
+SYSTEM_STATUS_CHECK.bat
+├── python SYSTEM_STATUS_CHECK.py
+│   └── OUTPUT: system_status_[timestamp].csv → data/
+├── python WORKFLOW_SUMMARY.py
+│   └── OUTPUT: Console workflow summary
+└── python file_status_checker.py
+    └── OUTPUT: Console file status report
+
+BACKTEST_ANALYSIS.bat
+├── python BACKTEST_VALIDATOR.py
+│   └── OUTPUT: backtest_results_[timestamp].csv → data/
+├── python QUALITY_VS_QUANTITY_ANALYSIS.py
+│   └── OUTPUT: quality_analysis_[timestamp].csv → data/
+└── python performance_analyzer.py
+    └── OUTPUT: performance_metrics_[timestamp].csv → data/
+
+================================================================================
+DIRECTORY REFERENCE:
+================================================================================
+Scripts/           - All Python files run from here
+data/             - Data files and analysis outputs
+fd_current_slate/ - FanDuel-ready lineup files  
+DAILY_RUNNERS/    - All batch files located here
+
+TIMESTAMP FORMAT: YYYYMMDD_HHMMSS (e.g., 20250822_143000)

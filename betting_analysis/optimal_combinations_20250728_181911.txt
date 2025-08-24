@@ -1,0 +1,63 @@
+🎯 OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+
+ 2. 3-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+
+ 3. 3-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+
+ 4. 3-pick: Chris Sale UNDER, Jacob deGrom UNDER, Spencer Schwellenbach UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+
+ 5. 3-pick: Chris Sale UNDER, Jacob deGrom UNDER, Spencer Schwellenbach UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+
+ 6. 4-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 25.0%
+
+ 7. 4-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 25.0%
+
+ 8. 4-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Yoshinobu Yamamoto UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 25.0%
+
+ 9. 4-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Yoshinobu Yamamoto UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 25.0%
+
+10. 4-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Yoshinobu Yamamoto UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 25.0%
+
+11. 5-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER, Yoshinobu Yamamoto UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 20.0%
+
+12. 5-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER, Yoshinobu Yamamoto UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 20.0%
+
+13. 5-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER, Yoshinobu Yamamoto UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 20.0%
+
+14. 5-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER, Yoshinobu Yamamoto UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 20.0%
+
+15. 5-pick: Chris Sale UNDER, Jacob deGrom UNDER, Framber Valdez UNDER, Spencer Schwellenbach UNDER, Yoshinobu Yamamoto UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 20.0%
+

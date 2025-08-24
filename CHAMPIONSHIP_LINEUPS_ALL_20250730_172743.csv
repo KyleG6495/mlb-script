@@ -1,0 +1,91 @@
+Id,Position,First Name,Nickname,Last Name,FPPG,Played,Salary,Game,Team,Opponent,Injury Indicator,Injury Details,Tier,Rostership %,Probable Pitcher,lineup_id,strategy
+119048-13233,P,Nathan,Nathan Eovaldi,Eovaldi,37.11764706,17,10500,TEX@LAA,TEX,LAA,,,,,Yes,1,balanced
+119048-102554,C,Cal,Cal Raleigh,Raleigh,14.54476144,105,4300,SEA@ATH,SEA,ATH,,,,,,1,balanced
+119048-222794,1B,Nick,Nick Kurtz,Kurtz,13.95507282,69,4100,SEA@ATH,ATH,SEA,,,,,,1,balanced
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,1,balanced
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,1,balanced
+119048-165513,SS,Elly,Elly De La Cruz,De La Cruz,13.09814792,108,4000,LAD@CIN,CIN,LAD,,,,,,1,balanced
+119048-60643,OF,Aaron,Aaron Judge,Judge,16.08252427,103,4400,TB@NYY,NYY,TB,IL,Elbow,,,,1,balanced
+119048-79159,OF/1B,Cody,Cody Bellinger,Bellinger,11.70101991,98,3500,TB@NYY,NYY,TB,,,,,,1,balanced
+119048-81953,OF,Austin,Austin Hays,Hays,11.55689634,58,3300,LAD@CIN,CIN,LAD,,,,,,1,balanced
+119048-187194,P,Bryan,Bryan Woo,Woo,36.7,20,10200,SEA@ATH,SEA,ATH,,,,,Yes,2,balanced
+119048-102554,C,Cal,Cal Raleigh,Raleigh,14.54476144,105,4300,SEA@ATH,SEA,ATH,,,,,,2,balanced
+119048-222794,1B,Nick,Nick Kurtz,Kurtz,13.95507282,69,4100,SEA@ATH,ATH,SEA,,,,,,2,balanced
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,2,balanced
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,2,balanced
+119048-165513,SS,Elly,Elly De La Cruz,De La Cruz,13.09814792,108,4000,LAD@CIN,CIN,LAD,,,,,,2,balanced
+119048-60643,OF,Aaron,Aaron Judge,Judge,16.08252427,103,4400,TB@NYY,NYY,TB,IL,Elbow,,,,2,balanced
+119048-79159,OF/1B,Cody,Cody Bellinger,Bellinger,11.70101991,98,3500,TB@NYY,NYY,TB,,,,,,2,balanced
+119048-81953,OF,Austin,Austin Hays,Hays,11.55689634,58,3300,LAD@CIN,CIN,LAD,,,,,,2,balanced
+119048-102345,P,Jose,Jose Soriano,Soriano,28.77272727,22,8400,TEX@LAA,LAA,TEX,,,,,Yes,3,balanced
+119048-102554,C,Cal,Cal Raleigh,Raleigh,14.54476144,105,4300,SEA@ATH,SEA,ATH,,,,,,3,balanced
+119048-222794,1B,Nick,Nick Kurtz,Kurtz,13.95507282,69,4100,SEA@ATH,ATH,SEA,,,,,,3,balanced
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,3,balanced
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,3,balanced
+119048-165513,SS,Elly,Elly De La Cruz,De La Cruz,13.09814792,108,4000,LAD@CIN,CIN,LAD,,,,,,3,balanced
+119048-60643,OF,Aaron,Aaron Judge,Judge,16.08252427,103,4400,TB@NYY,NYY,TB,IL,Elbow,,,,3,balanced
+119048-79159,OF/1B,Cody,Cody Bellinger,Bellinger,11.70101991,98,3500,TB@NYY,NYY,TB,,,,,,3,balanced
+119048-81953,OF,Austin,Austin Hays,Hays,11.55689634,58,3300,LAD@CIN,CIN,LAD,,,,,,3,balanced
+119048-13233,P,Nathan,Nathan Eovaldi,Eovaldi,37.11764706,17,10500,TEX@LAA,TEX,LAA,,,,,Yes,4,ceiling
+119048-102554,C,Cal,Cal Raleigh,Raleigh,14.54476144,105,4300,SEA@ATH,SEA,ATH,,,,,,4,ceiling
+119048-222794,1B,Nick,Nick Kurtz,Kurtz,13.95507282,69,4100,SEA@ATH,ATH,SEA,,,,,,4,ceiling
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,4,ceiling
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,4,ceiling
+119048-165513,SS,Elly,Elly De La Cruz,De La Cruz,13.09814792,108,4000,LAD@CIN,CIN,LAD,,,,,,4,ceiling
+119048-60643,OF,Aaron,Aaron Judge,Judge,16.08252427,103,4400,TB@NYY,NYY,TB,IL,Elbow,,,,4,ceiling
+119048-79159,OF/1B,Cody,Cody Bellinger,Bellinger,11.70101991,98,3500,TB@NYY,NYY,TB,,,,,,4,ceiling
+119048-81953,OF,Austin,Austin Hays,Hays,11.55689634,58,3300,LAD@CIN,CIN,LAD,,,,,,4,ceiling
+119048-187194,P,Bryan,Bryan Woo,Woo,36.7,20,10200,SEA@ATH,SEA,ATH,,,,,Yes,5,ceiling
+119048-102554,C,Cal,Cal Raleigh,Raleigh,14.54476144,105,4300,SEA@ATH,SEA,ATH,,,,,,5,ceiling
+119048-222794,1B,Nick,Nick Kurtz,Kurtz,13.95507282,69,4100,SEA@ATH,ATH,SEA,,,,,,5,ceiling
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,5,ceiling
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,5,ceiling
+119048-165513,SS,Elly,Elly De La Cruz,De La Cruz,13.09814792,108,4000,LAD@CIN,CIN,LAD,,,,,,5,ceiling
+119048-60643,OF,Aaron,Aaron Judge,Judge,16.08252427,103,4400,TB@NYY,NYY,TB,IL,Elbow,,,,5,ceiling
+119048-79159,OF/1B,Cody,Cody Bellinger,Bellinger,11.70101991,98,3500,TB@NYY,NYY,TB,,,,,,5,ceiling
+119048-81953,OF,Austin,Austin Hays,Hays,11.55689634,58,3300,LAD@CIN,CIN,LAD,,,,,,5,ceiling
+119048-102345,P,Jose,Jose Soriano,Soriano,28.77272727,22,8400,TEX@LAA,LAA,TEX,,,,,Yes,6,ceiling
+119048-102554,C,Cal,Cal Raleigh,Raleigh,14.54476144,105,4300,SEA@ATH,SEA,ATH,,,,,,6,ceiling
+119048-222794,1B,Nick,Nick Kurtz,Kurtz,13.95507282,69,4100,SEA@ATH,ATH,SEA,,,,,,6,ceiling
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,6,ceiling
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,6,ceiling
+119048-165513,SS,Elly,Elly De La Cruz,De La Cruz,13.09814792,108,4000,LAD@CIN,CIN,LAD,,,,,,6,ceiling
+119048-60643,OF,Aaron,Aaron Judge,Judge,16.08252427,103,4400,TB@NYY,NYY,TB,IL,Elbow,,,,6,ceiling
+119048-79159,OF/1B,Cody,Cody Bellinger,Bellinger,11.70101991,98,3500,TB@NYY,NYY,TB,,,,,,6,ceiling
+119048-81953,OF,Austin,Austin Hays,Hays,11.55689634,58,3300,LAD@CIN,CIN,LAD,,,,,,6,ceiling
+119048-13233,P,Nathan,Nathan Eovaldi,Eovaldi,37.11764706,17,10500,TEX@LAA,TEX,LAA,,,,,Yes,7,value
+119048-119303,C,Shea,Shea Langeliers,Langeliers,10.26025625,78,2900,SEA@ATH,ATH,SEA,,,,,,7,value
+119048-163662,1B,Jonathan,Jonathan Aranda,Aranda,9.961385897,101,2900,TB@NYY,TB,NYY,,,,,,7,value
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,7,value
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,7,value
+119048-185300,SS,Zach,Zach Neto,Neto,11.93707893,89,3200,TEX@LAA,LAA,TEX,,,,,,7,value
+119048-181806,OF,Jonny,Jonny DeLuca,DeLuca,8.691666921,12,2100,TB@NYY,TB,NYY,,,,,,7,value
+119048-79151,OF,Taylor,Taylor Ward,Ward,11.34528279,106,3000,TEX@LAA,LAA,TEX,,,,,,7,value
+119048-119363,OF,JJ,JJ Bleday,Bleday,7.774193548,62,2100,SEA@ATH,ATH,SEA,,,,,,7,value
+119048-187194,P,Bryan,Bryan Woo,Woo,36.7,20,10200,SEA@ATH,SEA,ATH,,,,,Yes,8,value
+119048-119303,C,Shea,Shea Langeliers,Langeliers,10.26025625,78,2900,SEA@ATH,ATH,SEA,,,,,,8,value
+119048-163662,1B,Jonathan,Jonathan Aranda,Aranda,9.961385897,101,2900,TB@NYY,TB,NYY,,,,,,8,value
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,8,value
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,8,value
+119048-185300,SS,Zach,Zach Neto,Neto,11.93707893,89,3200,TEX@LAA,LAA,TEX,,,,,,8,value
+119048-181806,OF,Jonny,Jonny DeLuca,DeLuca,8.691666921,12,2100,TB@NYY,TB,NYY,,,,,,8,value
+119048-79151,OF,Taylor,Taylor Ward,Ward,11.34528279,106,3000,TEX@LAA,LAA,TEX,,,,,,8,value
+119048-119363,OF,JJ,JJ Bleday,Bleday,7.774193548,62,2100,SEA@ATH,ATH,SEA,,,,,,8,value
+119048-102345,P,Jose,Jose Soriano,Soriano,28.77272727,22,8400,TEX@LAA,LAA,TEX,,,,,Yes,9,value
+119048-119303,C,Shea,Shea Langeliers,Langeliers,10.26025625,78,2900,SEA@ATH,ATH,SEA,,,,,,9,value
+119048-163662,1B,Jonathan,Jonathan Aranda,Aranda,9.961385897,101,2900,TB@NYY,TB,NYY,,,,,,9,value
+119048-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2200,TB@NYY,TB,NYY,IL,Knee,,,,9,value
+119048-181797,3B,Warming,Warming Bernabel,Bernabel,16.27499962,4,2400,COL@CLE,COL,CLE,,,,,,9,value
+119048-185300,SS,Zach,Zach Neto,Neto,11.93707893,89,3200,TEX@LAA,LAA,TEX,,,,,,9,value
+119048-181806,OF,Jonny,Jonny DeLuca,DeLuca,8.691666921,12,2100,TB@NYY,TB,NYY,,,,,,9,value
+119048-79151,OF,Taylor,Taylor Ward,Ward,11.34528279,106,3000,TEX@LAA,LAA,TEX,,,,,,9,value
+119048-119363,OF,JJ,JJ Bleday,Bleday,7.774193548,62,2100,SEA@ATH,ATH,SEA,,,,,,9,value
+119048-13233,P,Nathan,Nathan Eovaldi,Eovaldi,37.11764706,17,10500,TEX@LAA,TEX,LAA,,,,,Yes,10,contrarian
+119048-102584,C,Tres,Tres Barrera,Barrera,,0,2000,TB@NYY,TB,NYY,,,,,,10,contrarian
+119048-226041,OF/1B,Matt,Matt Gorski,Gorski,4.760000102,15,2000,LAD@CIN,LAD,CIN,O,Hand,,,,10,contrarian
+119048-135207,2B,Alex,Alex De Goti,De Goti,,0,2000,TEX@LAA,TEX,LAA,,,,,,10,contrarian
+119048-119440,3B/2B,Davis,Davis Wendzel,Wendzel,1.871428626,28,2000,LAD@CIN,CIN,LAD,,,,,,10,contrarian
+119048-119304,SS/2B,Braden,Braden Shewmake,Shewmake,3.406896657,29,2000,TB@NYY,NYY,TB,,,,,,10,contrarian
+119048-146671,OF,Austin,Austin Hendrick,Hendrick,,0,2000,LAD@CIN,CIN,LAD,,,,,,10,contrarian
+119048-146693,OF,Alexander,Alexander Ramirez,Ramirez,,0,2000,TEX@LAA,LAA,TEX,,,,,,10,contrarian
+119048-197917,OF,Victor,Victor Mesa Jr.,Mesa Jr.,3.924999952,4,2000,MIA@STL,MIA,STL,,,,,,10,contrarian

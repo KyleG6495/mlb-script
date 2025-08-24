@@ -1,0 +1,21 @@
+2025-08-05 18:19:50,472 - INFO -     ... and 172 more injured pitchers
+2025-08-05 18:19:50,502 - INFO -     ... and 63 more injured hitters
+2025-08-05 18:19:50,561 - INFO - ==================================================
+2025-08-05 18:19:50,564 - INFO -   Total players in slate: 1402
+2025-08-05 18:19:50,564 - INFO -   Pitchers: 769
+2025-08-05 18:19:50,565 - INFO -   Hitters: 633
+2025-08-05 18:19:50,565 - INFO - 
+2025-08-05 18:19:50,568 - INFO -   Injured players (IL/O/Q/D): 255
+2025-08-05 18:19:50,568 - INFO -   Low salary/FPPG: 508
+2025-08-05 18:19:50,568 - INFO -   Unconfirmed pitchers: 292
+2025-08-05 18:19:50,569 - INFO - 
+2025-08-05 18:19:50,571 - INFO -   Clean pitchers: 19
+2025-08-05 18:19:50,571 - INFO -   Clean hitters: 328
+2025-08-05 18:19:50,571 - INFO -   Total clean players: 347
+2025-08-05 18:19:50,571 - INFO - 
+2025-08-05 18:19:50,573 - INFO -   Player removal rate: 54.4%
+2025-08-05 18:19:50,573 - INFO -   Data quality improvement: SIGNIFICANT
+2025-08-05 18:19:50,574 - INFO - ==================================================
+2025-08-05 18:19:50,586 - INFO -    - Shane Bieber and all injured players eliminated
+2025-08-05 18:19:50,586 - INFO -    - Only confirmed, high-quality players remain
+2025-08-05 18:19:50,586 - INFO -    - Ready for enhanced DFS lineup generation

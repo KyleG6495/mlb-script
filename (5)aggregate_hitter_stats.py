@@ -8,17 +8,18 @@ weather, and park factors.
 import logging
 from pathlib import Path
 import pandas as pd
+from config import FilePaths
 
 # ----------------------------
-# Configuration
+# Configuration from config.py
 # ----------------------------
-BASE_DIR = Path(__file__).resolve().parent.parent / "data"
+BASE_DIR = FilePaths.DATA_DIR
 
-INPUT_FD_SLATE = BASE_DIR / "fd_hitter_features_today.csv"
-INPUT_ID_MAP   = BASE_DIR / "hitter_games_with_gamepk.csv"
-INPUT_WEATHER  = BASE_DIR / "weather_today.csv"
-INPUT_PARK     = BASE_DIR / "merged_weather_park.csv"  # adjust if needed
-OUTPUT_FILE    = BASE_DIR / "fd_hitter_features_enriched.csv"
+INPUT_FD_SLATE = FilePaths.FD_HITTER_FEATURES_TODAY
+INPUT_ID_MAP   = FilePaths.HITTER_GAMES_WITH_GAMEPK
+INPUT_WEATHER  = FilePaths.WEATHER_TODAY
+INPUT_PARK     = FilePaths.MERGED_WEATHER_PARK  # adjust if needed
+OUTPUT_FILE    = FilePaths.FD_HITTER_FEATURES_ENRICHED
 
 # ----------------------------
 # Setup logging

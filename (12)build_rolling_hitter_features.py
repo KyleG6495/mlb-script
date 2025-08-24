@@ -1,11 +1,18 @@
 import pandas as pd
 import logging
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Import centralized configuration
+from config import FilePaths, LoggingConfig
 
-INPUT_PATH = "../data/hitter_boxscores_full.csv"
-OUTPUT_PATH = "../data/hitter_rolling_5game_features.csv"
+# Setup logging from centralized config
+logging.basicConfig(
+    level=getattr(logging, LoggingConfig.LEVEL),
+    format=LoggingConfig.FORMAT,
+    datefmt=LoggingConfig.DATE_FORMAT
+)
+
+INPUT_PATH = FilePaths.HITTER_BOXSCORES
+OUTPUT_PATH = FilePaths.HITTER_ROLLING_5GAME_FEATURES
 
 # Load hitter game logs
 logging.info(f"📥 Loading hitter box scores from {INPUT_PATH}")

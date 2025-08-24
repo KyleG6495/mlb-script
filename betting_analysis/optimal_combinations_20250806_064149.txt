@@ -1,0 +1,7 @@
+🎯 OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+

@@ -1,0 +1,147 @@
+{
+  "timestamp": "2025-08-20T12:56:23.638920",
+  "target_date": "20250820",
+  "file_validation": {
+    "INPUT_FILES": {
+      "fd_slate_today.csv": {
+        "file_name": "fd_slate_today.csv",
+        "file_time": "2025-08-20 09:55",
+        "is_fresh": true,
+        "status": "Fresh (3.0 hours old)",
+        "required": true,
+        "description": "Today's FanDuel slate"
+      }
+    },
+    "DFS_OUTPUT_FILES": {
+      "Enhanced_Lineups_FD_Format_*.csv": {
+        "file_name": "Enhanced_Lineups_FD_Format_20250820_103753.csv",
+        "file_time": "2025-08-20 10:37",
+        "is_fresh": true,
+        "status": "Fresh (2.3 hours old)",
+        "required": true,
+        "description": "Enhanced DFS lineups"
+      },
+      "enhanced_ml_dfs_lineups_*.csv": {
+        "file_name": "NOT FOUND",
+        "file_time": "N/A",
+        "is_fresh": false,
+        "status": "File not found",
+        "required": false,
+        "description": "ML DFS lineups"
+      }
+    },
+    "PROPS_OUTPUT_FILES": {
+      "enhanced_prop_predictions_*.csv": {
+        "file_name": "enhanced_prop_predictions_20250820_103805.csv",
+        "file_time": "2025-08-20 10:38",
+        "is_fresh": true,
+        "status": "Fresh (2.3 hours old)",
+        "required": true,
+        "description": "Prop predictions"
+      },
+      "betting_opportunities_*.csv": {
+        "file_name": "NOT FOUND",
+        "file_time": "N/A",
+        "is_fresh": false,
+        "status": "File not found",
+        "required": false,
+        "description": "Betting opportunities"
+      }
+    },
+    "OWNERSHIP_FILES": {
+      "advanced_ownership_projections_*.csv": {
+        "file_name": "advanced_ownership_projections_20250820_103637.csv",
+        "file_time": "2025-08-20 10:36",
+        "is_fresh": true,
+        "status": "Fresh (2.3 hours old)",
+        "required": true,
+        "description": "Ownership projections"
+      }
+    },
+    "STACK_FILES": {
+      "team_stack_analysis_*.csv": {
+        "file_name": "team_stack_analysis_20250820_114908.csv",
+        "file_time": "2025-08-20 11:49",
+        "is_fresh": true,
+        "status": "Fresh (1.1 hours old)",
+        "required": true,
+        "description": "Team stack analysis"
+      },
+      "stack_recommendations_*.csv": {
+        "file_name": "stack_recommendations_20250820_114908.csv",
+        "file_time": "2025-08-20 11:49",
+        "is_fresh": true,
+        "status": "Fresh (1.1 hours old)",
+        "required": true,
+        "description": "Stack recommendations"
+      }
+    }
+  },
+  "pipeline_status": {
+    "1. DATA_COLLECTION": {
+      "ready": true,
+      "missing_inputs": [],
+      "scripts": [
+        "1_CONFIRMED_generate_hitter_games.py"
+      ],
+      "outputs": [
+        "hitter_games_*.csv"
+      ]
+    },
+    "2. DFS_OPTIMIZATION": {
+      "ready": true,
+      "missing_inputs": [],
+      "scripts": [
+        "2_DFS_MODELS.bat",
+        "2B_ENHANCED_DFS.bat"
+      ],
+      "outputs": [
+        "Enhanced_Lineups_FD_Format_*.csv"
+      ]
+    },
+    "3. PROPS_ANALYSIS": {
+      "ready": true,
+      "missing_inputs": [],
+      "scripts": [
+        "3_PROP_MODELS.bat"
+      ],
+      "outputs": [
+        "enhanced_prop_predictions_*.csv"
+      ]
+    },
+    "4. OWNERSHIP_ANALYSIS": {
+      "ready": true,
+      "missing_inputs": [],
+      "scripts": [
+        "ownership_analysis.py"
+      ],
+      "outputs": [
+        "advanced_ownership_projections_*.csv"
+      ]
+    },
+    "5. STACK_OPTIMIZATION": {
+      "ready": true,
+      "missing_inputs": [],
+      "scripts": [
+        "ADVANCED_STACK_OPTIMIZER.py"
+      ],
+      "outputs": [
+        "team_stack_analysis_*.csv",
+        "stack_recommendations_*.csv"
+      ]
+    }
+  },
+  "overall_status": true,
+  "checklist": [
+    "\u2610 1. Check fd_slate_today.csv is downloaded and current",
+    "\u2610 2. Run data collection scripts (1_CONFIRMED_generate_hitter_games.py)",
+    "\u2610 3. Run DFS optimization (2_DFS_MODELS.bat, 2B_ENHANCED_DFS.bat)",
+    "\u2610 4. Run prop models (3_PROP_MODELS.bat)",
+    "\u2610 5. Generate ownership projections",
+    "\u2610 6. Run stack optimizer (ADVANCED_STACK_OPTIMIZER.py)",
+    "\u2610 7. Validate all outputs with this script",
+    "\u2610 8. Check dashboard loads correctly (real_data_dashboard.py)",
+    "\u2610 9. Verify no old players (like Shane Bieber) in lineups",
+    "\u2610 10. Export final lineups for submission"
+  ]
+}

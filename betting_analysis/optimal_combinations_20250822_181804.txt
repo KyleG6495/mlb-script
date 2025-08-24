@@ -1,0 +1,63 @@
+TARGET: OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Matt Olson UNDER, Josh Naylor UNDER, Cal Raleigh UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 66.7%
+
+ 2. 3-pick: Matt Olson UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 66.7%
+
+ 3. 3-pick: Matt Olson UNDER, Matt McLain UNDER, Cal Raleigh UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 66.7%
+
+ 4. 3-pick: Matt Olson UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 66.7%
+
+ 5. 3-pick: Matt Olson UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 66.7%
+
+ 6. 4-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 50.0%
+
+ 7. 4-pick: Matt Olson UNDER, Josh Naylor UNDER, Matt McLain UNDER, Cal Raleigh UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 50.0%
+
+ 8. 4-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 50.0%
+
+ 9. 4-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 50.0%
+
+10. 4-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Jung UNDER, Cal Raleigh UNDER
+    Size: 4 picks | Avg Edge: 138.6% | Win Prob: 96.1%
+    Total EV: 5.54 | Kelly: 15.0% | Diversity: 50.0%
+
+11. 5-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Matt McLain UNDER, Cal Raleigh UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 40.0%
+
+12. 5-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Josh Jung UNDER, Cal Raleigh UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 40.0%
+
+13. 5-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Matt McLain UNDER, Cal Raleigh UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 40.0%
+
+14. 5-pick: Matt Olson UNDER, Josh Naylor UNDER, Josh Smith UNDER, Wyatt Langford UNDER, Cal Raleigh UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 40.0%
+
+15. 5-pick: Matt Olson UNDER, Josh Naylor UNDER, Matt McLain UNDER, Josh Smith UNDER, Cal Raleigh UNDER
+    Size: 5 picks | Avg Edge: 138.6% | Win Prob: 95.1%
+    Total EV: 6.93 | Kelly: 15.0% | Diversity: 40.0%
+

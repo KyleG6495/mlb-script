@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-28 18:19:12
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Chris Sale                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   4.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Chris Sale                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   2.8 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:  10.5 | Prediction:   5.6 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.7 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:  10.5 | Prediction:   3.7 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:  10.5 | Prediction:   4.5 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Framber Valdez            | pitcher_strikeouts | prizepicks
+    Line:   9.5 | Prediction:   5.7 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Framber Valdez            | pitcher_strikeouts | prizepicks
+    Line:   9.5 | Prediction:   3.9 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 9. Framber Valdez            | pitcher_strikeouts | prizepicks
+    Line:   9.5 | Prediction:   4.3 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+10. Spencer Schwellenbach     | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   5.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 12696
+Average Edge: 79.91%
+Total Expected Value: $10145.60
+
+By Confidence Level:
+  HIGH: 972
+  LOW: 19
+  MEDIUM: 30
+  VERY_HIGH: 11675
+
+By Category:
+  hits: 1380
+  hitter_strikeouts: 1575
+  home_runs: 960
+  pitcher_strikeouts: 2998
+  rbi: 1942
+  runs: 1921
+  total_bases: 1920
+
+By Sportsbook:
+  prizepicks: 6350
+  underdog: 6346

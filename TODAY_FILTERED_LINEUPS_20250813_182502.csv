@@ -1,0 +1,46 @@
+Strategy,Position,Name,Salary,FPPG
+Filtered Base,C,Ryan Jeffers,2800,11.872457944275268
+Filtered Base,1B,Pete Alonso,3600,17.19254812887758
+Filtered Base,2B,Luke Keaschall,3300,20.291664951448578
+Filtered Base,3B,Max Muncy,3200,15.84436493404137
+Filtered Base,SS,Jeremy Pena,3200,16.60820196749467
+Filtered Base,OF1,Jose Altuve,3200,15.761599898495586
+Filtered Base,OF2,Byron Buxton,3900,19.60178878951816
+Filtered Base,OF3,Cedric Mullins,2800,14.155677220447515
+Filtered Base,P,David Peterson,9000,31.86363636
+Filtered Value Focus,C,Francisco Alvarez,2600,11.53480263141117
+Filtered Value Focus,1B,Ramon Urias,2500,11.2068786793794
+Filtered Value Focus,2B,Luke Keaschall,3300,20.291664951448578
+Filtered Value Focus,3B,Max Muncy,3200,15.84436493404137
+Filtered Value Focus,SS,Jeremy Pena,3200,16.60820196749467
+Filtered Value Focus,OF1,Cedric Mullins,2800,14.155677220447515
+Filtered Value Focus,OF2,Byron Buxton,3900,19.60178878951816
+Filtered Value Focus,OF3,Jose Altuve,3200,15.761599898495586
+Filtered Value Focus,P,Hunter Brown,10300,38.47826087
+Filtered Anti-Chalk,C,Francisco Alvarez,2600,11.53480263141117
+Filtered Anti-Chalk,1B,Freddie Freeman,3400,15.588702316195103
+Filtered Anti-Chalk,2B,Luke Keaschall,3300,20.291664951448578
+Filtered Anti-Chalk,3B,Max Muncy,3200,15.84436493404137
+Filtered Anti-Chalk,SS,Jeremy Pena,3200,16.60820196749467
+Filtered Anti-Chalk,OF1,Cedric Mullins,2800,14.155677220447515
+Filtered Anti-Chalk,OF2,Jose Altuve,3200,15.761599898495586
+Filtered Anti-Chalk,OF3,Brandon Nimmo,3000,14.839099277601791
+Filtered Anti-Chalk,P,Hunter Brown,10300,38.47826087
+Filtered Upside,C,Will Smith,3400,15.556987180897108
+Filtered Upside,1B,Pete Alonso,3600,17.19254812887758
+Filtered Upside,2B,Luke Keaschall,3300,20.291664951448578
+Filtered Upside,3B,Junior Caminero,3600,16.079675786786595
+Filtered Upside,SS,Jeremy Pena,3200,16.60820196749467
+Filtered Upside,OF1,Jose Altuve,3200,15.761599898495586
+Filtered Upside,OF2,Brandon Nimmo,3000,14.839099277601791
+Filtered Upside,OF3,Byron Buxton,3900,19.60178878951816
+Filtered Upside,P,Drew Rasmussen,7800,26.13043478
+Filtered Balanced,C,Victor Caratini,2700,11.039250521627745
+Filtered Balanced,1B,Yandy Diaz,3100,14.78880086143201
+Filtered Balanced,2B,Mookie Betts,3200,14.023955209426108
+Filtered Balanced,3B,Ramon Urias,2500,11.2068786793794
+Filtered Balanced,SS,Bo Bichette,3200,11.78466175971
+Filtered Balanced,OF1,Jose Altuve,3200,15.761599898495586
+Filtered Balanced,OF2,Byron Buxton,3900,19.60178878951816
+Filtered Balanced,OF3,Juan Soto,4200,18.272632773415264
+Filtered Balanced,P,David Peterson,9000,31.86363636

@@ -1,0 +1,91 @@
+Id,Position,First Name,Nickname,Last Name,FPPG,Played,Salary,Game,Team,Opponent,Injury Indicator,Injury Details,Tier,Rostership %,Probable Pitcher,lineup_id,strategy
+119486-198872,P,Hurston,Hurston Waldrep,Waldrep,37.5,2,7600,ATL@CLE,ATL,CLE,,,,,Yes,1,balanced
+119486-102554,C,Cal,Cal Raleigh,Raleigh,14.00084013,119,4400,SEA@NYM,SEA,NYM,,,,,,1,balanced
+119486-222794,1B,Nick,Nick Kurtz,Kurtz,13.22469076,81,4000,LAA@ATH,ATH,LAA,,,,,,1,balanced
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,1,balanced
+119486-38976,3B,Jose,Jose Ramirez,Ramirez,13.25470127,117,4100,ATL@CLE,CLE,ATL,,,,,,1,balanced
+119486-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.35416667,120,4000,CWS@KC,KC,CWS,,,,,,1,balanced
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,1,balanced
+119486-60643,OF,Aaron,Aaron Judge,Judge,15.59279323,111,4700,NYY@STL,NYY,STL,,,,,,1,balanced
+119486-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@CLE,ATL,CLE,IL,Calf,,,,1,balanced
+119486-85599,P,Framber,Framber Valdez,Valdez,37.30434783,23,9900,BAL@HOU,HOU,BAL,,,,,Yes,2,balanced
+119486-102554,C,Cal,Cal Raleigh,Raleigh,14.00084013,119,4400,SEA@NYM,SEA,NYM,,,,,,2,balanced
+119486-222794,1B,Nick,Nick Kurtz,Kurtz,13.22469076,81,4000,LAA@ATH,ATH,LAA,,,,,,2,balanced
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,2,balanced
+119486-38976,3B,Jose,Jose Ramirez,Ramirez,13.25470127,117,4100,ATL@CLE,CLE,ATL,,,,,,2,balanced
+119486-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.35416667,120,4000,CWS@KC,KC,CWS,,,,,,2,balanced
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,2,balanced
+119486-60643,OF,Aaron,Aaron Judge,Judge,15.59279323,111,4700,NYY@STL,NYY,STL,,,,,,2,balanced
+119486-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@CLE,ATL,CLE,IL,Calf,,,,2,balanced
+119486-52859,P,Jacob,Jacob deGrom,deGrom,35.56521739,23,10400,TEX@TOR,TEX,TOR,,,,,Yes,3,balanced
+119486-102554,C,Cal,Cal Raleigh,Raleigh,14.00084013,119,4400,SEA@NYM,SEA,NYM,,,,,,3,balanced
+119486-222794,1B,Nick,Nick Kurtz,Kurtz,13.22469076,81,4000,LAA@ATH,ATH,LAA,,,,,,3,balanced
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,3,balanced
+119486-38976,3B,Jose,Jose Ramirez,Ramirez,13.25470127,117,4100,ATL@CLE,CLE,ATL,,,,,,3,balanced
+119486-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.35416667,120,4000,CWS@KC,KC,CWS,,,,,,3,balanced
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,3,balanced
+119486-60643,OF,Aaron,Aaron Judge,Judge,15.59279323,111,4700,NYY@STL,NYY,STL,,,,,,3,balanced
+119486-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@CLE,ATL,CLE,IL,Calf,,,,3,balanced
+119486-198872,P,Hurston,Hurston Waldrep,Waldrep,37.5,2,7600,ATL@CLE,ATL,CLE,,,,,Yes,4,ceiling
+119486-102554,C,Cal,Cal Raleigh,Raleigh,14.00084013,119,4400,SEA@NYM,SEA,NYM,,,,,,4,ceiling
+119486-222794,1B,Nick,Nick Kurtz,Kurtz,13.22469076,81,4000,LAA@ATH,ATH,LAA,,,,,,4,ceiling
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,4,ceiling
+119486-38976,3B,Jose,Jose Ramirez,Ramirez,13.25470127,117,4100,ATL@CLE,CLE,ATL,,,,,,4,ceiling
+119486-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.35416667,120,4000,CWS@KC,KC,CWS,,,,,,4,ceiling
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,4,ceiling
+119486-60643,OF,Aaron,Aaron Judge,Judge,15.59279323,111,4700,NYY@STL,NYY,STL,,,,,,4,ceiling
+119486-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@CLE,ATL,CLE,IL,Calf,,,,4,ceiling
+119486-85599,P,Framber,Framber Valdez,Valdez,37.30434783,23,9900,BAL@HOU,HOU,BAL,,,,,Yes,5,ceiling
+119486-102554,C,Cal,Cal Raleigh,Raleigh,14.00084013,119,4400,SEA@NYM,SEA,NYM,,,,,,5,ceiling
+119486-222794,1B,Nick,Nick Kurtz,Kurtz,13.22469076,81,4000,LAA@ATH,ATH,LAA,,,,,,5,ceiling
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,5,ceiling
+119486-38976,3B,Jose,Jose Ramirez,Ramirez,13.25470127,117,4100,ATL@CLE,CLE,ATL,,,,,,5,ceiling
+119486-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.35416667,120,4000,CWS@KC,KC,CWS,,,,,,5,ceiling
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,5,ceiling
+119486-60643,OF,Aaron,Aaron Judge,Judge,15.59279323,111,4700,NYY@STL,NYY,STL,,,,,,5,ceiling
+119486-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@CLE,ATL,CLE,IL,Calf,,,,5,ceiling
+119486-52859,P,Jacob,Jacob deGrom,deGrom,35.56521739,23,10400,TEX@TOR,TEX,TOR,,,,,Yes,6,ceiling
+119486-102554,C,Cal,Cal Raleigh,Raleigh,14.00084013,119,4400,SEA@NYM,SEA,NYM,,,,,,6,ceiling
+119486-222794,1B,Nick,Nick Kurtz,Kurtz,13.22469076,81,4000,LAA@ATH,ATH,LAA,,,,,,6,ceiling
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,6,ceiling
+119486-38976,3B,Jose,Jose Ramirez,Ramirez,13.25470127,117,4100,ATL@CLE,CLE,ATL,,,,,,6,ceiling
+119486-119349,SS,Bobby,Bobby Witt Jr.,Witt Jr.,12.35416667,120,4000,CWS@KC,KC,CWS,,,,,,6,ceiling
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,6,ceiling
+119486-60643,OF,Aaron,Aaron Judge,Judge,15.59279323,111,4700,NYY@STL,NYY,STL,,,,,,6,ceiling
+119486-79756,OF,Ronald,Ronald Acuna Jr.,Acuna Jr.,13.33818137,55,4000,ATL@CLE,ATL,CLE,IL,Calf,,,,6,ceiling
+119486-198872,P,Hurston,Hurston Waldrep,Waldrep,37.5,2,7600,ATL@CLE,ATL,CLE,,,,,Yes,7,value
+119486-197886,C,Agustin,Agustin Ramirez,Ramirez,10.29895846,96,2900,MIA@BOS,MIA,BOS,,,,,,7,value
+119486-222798,OF/1B,C.J.,C.J. Kayfus,Kayfus,8.836363359,11,2300,ATL@CLE,CLE,ATL,,,,,,7,value
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,7,value
+119486-82574,3B,Isaac,Isaac Paredes,Paredes,10.65106396,94,3000,BAL@HOU,HOU,BAL,IL,Hamstring,,,,7,value
+119486-174963,SS,Charles,Charles Leblanc,Leblanc,8.290908813,11,2000,ATL@CLE,ATL,CLE,,,,,,7,value
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,7,value
+119486-82533,OF,Daulton,Daulton Varsho,Varsho,12.47941141,34,3100,TEX@TOR,TOR,TEX,,,,,,7,value
+119486-226686,OF,Rhylan,Rhylan Thomas,Thomas,7.46666654,3,2000,SEA@NYM,SEA,NYM,,,,,,7,value
+119486-85599,P,Framber,Framber Valdez,Valdez,37.30434783,23,9900,BAL@HOU,HOU,BAL,,,,,Yes,8,value
+119486-197886,C,Agustin,Agustin Ramirez,Ramirez,10.29895846,96,2900,MIA@BOS,MIA,BOS,,,,,,8,value
+119486-222798,OF/1B,C.J.,C.J. Kayfus,Kayfus,8.836363359,11,2300,ATL@CLE,CLE,ATL,,,,,,8,value
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,8,value
+119486-82574,3B,Isaac,Isaac Paredes,Paredes,10.65106396,94,3000,BAL@HOU,HOU,BAL,IL,Hamstring,,,,8,value
+119486-174963,SS,Charles,Charles Leblanc,Leblanc,8.290908813,11,2000,ATL@CLE,ATL,CLE,,,,,,8,value
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,8,value
+119486-82533,OF,Daulton,Daulton Varsho,Varsho,12.47941141,34,3100,TEX@TOR,TOR,TEX,,,,,,8,value
+119486-226686,OF,Rhylan,Rhylan Thomas,Thomas,7.46666654,3,2000,SEA@NYM,SEA,NYM,,,,,,8,value
+119486-52859,P,Jacob,Jacob deGrom,deGrom,35.56521739,23,10400,TEX@TOR,TEX,TOR,,,,,Yes,9,value
+119486-197886,C,Agustin,Agustin Ramirez,Ramirez,10.29895846,96,2900,MIA@BOS,MIA,BOS,,,,,,9,value
+119486-222798,OF/1B,C.J.,C.J. Kayfus,Kayfus,8.836363359,11,2300,ATL@CLE,CLE,ATL,,,,,,9,value
+119486-163668,OF/2B/3B,Richie,Richie Palacios,Palacios,21.20000076,1,2300,TB@SF,TB,SF,IL,Knee,,,,9,value
+119486-82574,3B,Isaac,Isaac Paredes,Paredes,10.65106396,94,3000,BAL@HOU,HOU,BAL,IL,Hamstring,,,,9,value
+119486-174963,SS,Charles,Charles Leblanc,Leblanc,8.290908813,11,2000,ATL@CLE,ATL,CLE,,,,,,9,value
+119486-231559,OF,Jakob,Jakob Marsee,Marsee,16.86428615,14,3500,MIA@BOS,MIA,BOS,,,,,,9,value
+119486-82533,OF,Daulton,Daulton Varsho,Varsho,12.47941141,34,3100,TEX@TOR,TOR,TEX,,,,,,9,value
+119486-226686,OF,Rhylan,Rhylan Thomas,Thomas,7.46666654,3,2000,SEA@NYM,SEA,NYM,,,,,,9,value
+119486-198872,P,Hurston,Hurston Waldrep,Waldrep,37.5,2,7600,ATL@CLE,ATL,CLE,,,,,Yes,10,contrarian
+119486-222799,C,Cooper,Cooper Ingle,Ingle,,0,2000,ATL@CLE,CLE,ATL,,,,,,10,contrarian
+119486-222800,1B,Ralphy,Ralphy Velazquez,Velazquez,,0,2000,ATL@CLE,CLE,ATL,,,,,,10,contrarian
+119486-165704,2B,Cooper,Cooper Kinney,Kinney,,0,2000,TB@SF,TB,SF,,,,,,10,contrarian
+119486-102488,3B/1B,Emmanuel,Emmanuel Rivera,Rivera,3.855555499,27,2000,BAL@HOU,BAL,HOU,,,,,,10,contrarian
+119486-135288,SS/2B/3B,Alan,Alan Trejo,Trejo,3.07857132,14,2000,TEX@TOR,TEX,TOR,,,,,,10,contrarian
+119486-102390,OF,Travis,Travis Swaggerty,Swaggerty,,0,2000,SEA@NYM,NYM,SEA,,,,,,10,contrarian
+119486-102360,OF,Connor,Connor Scott,Scott,,0,2000,CWS@KC,KC,CWS,IL,Undisclosed,,,,10,contrarian
+119486-157797,OF,Bryan,Bryan De La Cruz,De La Cruz,3.012500048,16,2000,NYY@STL,NYY,STL,,,,,,10,contrarian

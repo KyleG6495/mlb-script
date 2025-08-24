@@ -1,0 +1,46 @@
+Strategy,Position,Name,Salary,FPPG
+Filtered Base,C,Dillon Dingler,2600,11.189997017111793
+Filtered Base,1B,Pete Alonso,3600,17.27507939423258
+Filtered Base,2B,Ronny Mauricio,2500,10.29400125060311
+Filtered Base,3B,Kyle Karros,3200,16.375000005
+Filtered Base,SS,Francisco Lindor,3300,16.310957101982055
+Filtered Base,OF1,Wenceel Perez,2800,13.177989206617232
+Filtered Base,OF2,Jakob Marsee,3100,18.6729678662688
+Filtered Base,OF3,Cedric Mullins,2800,14.064942036863936
+Filtered Base,P,Tarik Skubal,11000,43.69565217
+Filtered Value Focus,C,Dillon Dingler,2600,11.189997017111793
+Filtered Value Focus,1B,Hunter Goodman,3500,16.1377362
+Filtered Value Focus,2B,Brett Baty,2500,10.586672904854607
+Filtered Value Focus,3B,Kyle Karros,3200,16.375000005
+Filtered Value Focus,SS,Francisco Lindor,3300,16.310957101982055
+Filtered Value Focus,OF1,Cedric Mullins,2800,14.064942036863936
+Filtered Value Focus,OF2,Brandon Nimmo,3000,14.900506167648317
+Filtered Value Focus,OF3,Jakob Marsee,3100,18.6729678662688
+Filtered Value Focus,P,Tarik Skubal,11000,43.69565217
+Filtered Anti-Chalk,C,Francisco Alvarez,2600,11.31297950448739
+Filtered Anti-Chalk,1B,Hunter Goodman,3500,16.1377362
+Filtered Anti-Chalk,2B,Brett Baty,2500,10.586672904854607
+Filtered Anti-Chalk,3B,Kyle Karros,3200,16.375000005
+Filtered Anti-Chalk,SS,Francisco Lindor,3300,16.310957101982055
+Filtered Anti-Chalk,OF1,Cedric Mullins,2800,14.064942036863936
+Filtered Anti-Chalk,OF2,Jakob Marsee,3100,18.6729678662688
+Filtered Anti-Chalk,OF3,Brandon Nimmo,3000,14.900506167648317
+Filtered Anti-Chalk,P,Tarik Skubal,11000,43.69565217
+Filtered Upside,C,Dillon Dingler,2600,11.189997017111793
+Filtered Upside,1B,Pete Alonso,3600,17.27507939423258
+Filtered Upside,2B,Jeff McNeil,2700,11.74682370461073
+Filtered Upside,3B,Kyle Karros,3200,16.375000005
+Filtered Upside,SS,Zach McKinstry,2900,12.913264457547118
+Filtered Upside,OF1,Brandon Nimmo,3000,14.900506167648317
+Filtered Upside,OF2,Jakob Marsee,3100,18.6729678662688
+Filtered Upside,OF3,Cedric Mullins,2800,14.064942036863936
+Filtered Upside,P,Tarik Skubal,11000,43.69565217
+Filtered Balanced,C,Hunter Goodman,3500,16.1377362
+Filtered Balanced,1B,Spencer Torkelson,3200,14.751624045592848
+Filtered Balanced,2B,Gleyber Torres,3100,13.970426456511465
+Filtered Balanced,3B,Kyle Karros,3200,16.375000005
+Filtered Balanced,SS,Francisco Lindor,3300,16.310957101982055
+Filtered Balanced,OF1,Jakob Marsee,3100,18.6729678662688
+Filtered Balanced,OF2,Brandon Nimmo,3000,14.900506167648317
+Filtered Balanced,OF3,Juan Soto,4200,18.46101616255658
+Filtered Balanced,P,Tanner Bibee,8400,27.47826087

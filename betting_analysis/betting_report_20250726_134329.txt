@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 13:43:29
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   7.0 | Prediction:   1.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 2. Hunter Brown              | pitcher_strikeouts | underdog  
+    Line:   7.5 | Prediction:   1.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 3. Hunter Brown              | pitcher_strikeouts | underdog  
+    Line:   7.5 | Prediction:   3.8 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 4. Hunter Brown              | pitcher_strikeouts | underdog  
+    Line:   7.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 5. Robbie Ray                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.9 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 6. Robbie Ray                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   1.4 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 7. Robbie Ray                | pitcher_strikeouts | underdog  
+    Line:   6.5 | Prediction:   1.4 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 8. Robbie Ray                | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+ 9. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.0 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+10. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:   7.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 107.90% | EV: $ +1.08 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 15924
+Average Edge: 89.66%
+Total Expected Value: $14276.84
+
+By Confidence Level:
+  HIGH: 70
+  LOW: 83
+  MEDIUM: 96
+  VERY_HIGH: 15675
+
+By Category:
+  hits: 1593
+  hitter_strikeouts: 380
+  home_runs: 927
+  pitcher_strikeouts: 7118
+  rbi: 1988
+  runs: 1962
+  total_bases: 1956
+
+By Sportsbook:
+  prizepicks: 7896
+  underdog: 8028

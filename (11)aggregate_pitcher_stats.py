@@ -2,11 +2,18 @@ import pandas as pd
 import numpy as np
 import logging
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Import centralized configuration
+from config import FilePaths, LoggingConfig
 
-INPUT_PATH = "../data/pitcher_boxscores_with_earned.csv"  # Make sure this path is correct
-OUTPUT_PATH = "../data/today_pitcher_features.csv"
+# Setup logging from centralized config
+logging.basicConfig(
+    level=getattr(logging, LoggingConfig.LEVEL),
+    format=LoggingConfig.FORMAT,
+    datefmt=LoggingConfig.DATE_FORMAT
+)
+
+INPUT_PATH = FilePaths.PITCHER_BOXSCORES_WITH_EARNED
+OUTPUT_PATH = FilePaths.TODAY_PITCHER_FEATURES
 
 # Load pitcher data
 logging.info(f"📥 Loading pitcher data from {INPUT_PATH}")

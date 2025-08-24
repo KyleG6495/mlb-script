@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 17:09:03
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   1.9 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.0 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   3.8 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Hunter Brown              | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Robbie Ray                | pitcher_strikeouts | prizepicks
+    Line:   6.0 | Prediction:   1.4 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Kris Bubic                | pitcher_strikeouts | prizepicks
+    Line:   5.5 | Prediction:   1.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 9. Kris Bubic                | pitcher_strikeouts | prizepicks
+    Line:   5.5 | Prediction:   1.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+10. Kris Bubic                | pitcher_strikeouts | prizepicks
+    Line:   5.5 | Prediction:   1.6 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 15355
+Average Edge: 92.12%
+Total Expected Value: $14145.32
+
+By Confidence Level:
+  HIGH: 847
+  LOW: 69
+  MEDIUM: 81
+  VERY_HIGH: 14358
+
+By Category:
+  hits: 1351
+  hitter_strikeouts: 1363
+  home_runs: 826
+  pitcher_strikeouts: 6522
+  rbi: 1766
+  runs: 1770
+  total_bases: 1757
+
+By Sportsbook:
+  prizepicks: 7818
+  underdog: 7537

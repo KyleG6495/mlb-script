@@ -1,13 +1,20 @@
-# (7)build_rolling_pitcher_features.py
+# (13)build_rolling_pitcher_features.py
 
 import pandas as pd
 import logging
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Import centralized configuration
+from config import FilePaths, LoggingConfig
 
-INPUT_PATH = "../data/pitcher_boxscores_with_earned.csv"
-OUTPUT_PATH = "../data/pitcher_rolling_5game_features.csv"
+# Setup logging from centralized config
+logging.basicConfig(
+    level=getattr(logging, LoggingConfig.LEVEL),
+    format=LoggingConfig.FORMAT,
+    datefmt=LoggingConfig.DATE_FORMAT
+)
+
+INPUT_PATH = FilePaths.PITCHER_BOXSCORES_WITH_EARNED
+OUTPUT_PATH = FilePaths.PITCHER_ROLLING_FEATURES
 
 # Load pitcher game logs
 logging.info(f"📥 Loading pitcher box scores from {INPUT_PATH}")

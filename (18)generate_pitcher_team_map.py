@@ -4,17 +4,18 @@ import pandas as pd
 import sys
 from pathlib import Path
 import unicodedata
+from config import FilePaths
 
 # ┌──────────────────────────────────────────────────────────────────────────┐
-# │            CONFIGURE YOUR FILE PATHS HERE                               │
+# │            CONFIGURE YOUR FILE PATHS FROM CONFIG.PY                     │
 # └──────────────────────────────────────────────────────────────────────────┘
-DATA_DIR = Path(__file__).parent.parent / "data"
-SLATE_DIR = Path(__file__).parent.parent / "fd_current_slate"
+DATA_DIR = FilePaths.DATA_DIR
+SLATE_DIR = FilePaths.FD_CURRENT_SLATE_DIR
 
-STATS_FILE = DATA_DIR / "today_hitter_features_merged.csv"
-SLATE_FILE = SLATE_DIR / "fd_slate_today.csv"
-MAP_FILE = DATA_DIR / "pitcher_games_with_gamepk.csv"
-OUT_FILE = DATA_DIR / "pitcher_team_map.csv"
+STATS_FILE = FilePaths.TODAY_HITTER_FEATURES_MERGED
+SLATE_FILE = FilePaths.FD_SLATE_TODAY
+MAP_FILE = FilePaths.PITCHER_GAMES_WITH_GAMEPK
+OUT_FILE = FilePaths.PITCHER_TEAM_MAP
 
 # ┌──────────────────────────────────────────────────────────────────────────┐
 # │            LOGGING SETUP                                               │
@@ -46,7 +47,7 @@ def normalize_name(s) -> str:
 def main():
     # 1) Load stats
     logging.info(f"📥 Loading stats from {STATS_FILE}")
-    df_stats = pd.read_csv(STATS_FILE, parse_dates=False)
+    df_stats = pd.read_csv(STATS_FILE, parse_dates=False, encoding='utf-8')
     logging.info(f"✅ Loaded {len(df_stats)} pitcher‐feature rows")
 
     # Ensure there's no leftover game_pk from a previous run
@@ -64,7 +65,7 @@ def main():
 
     # 2) Load FD slate and parse the 'Id' field
     logging.info(f"📥 Loading FD slate from {SLATE_FILE}")
-    df_slate = pd.read_csv(SLATE_FILE)
+    df_slate = pd.read_csv(SLATE_FILE, encoding='utf-8')
     df_slate[["site_prefix", "player_id"]] = (
         df_slate["Id"]
         .astype(str)
@@ -122,7 +123,7 @@ def main():
 
     # 3) Load mapping of pitcher → game_pk
     logging.info(f"📥 Loading map from {MAP_FILE}")
-    map_df = pd.read_csv(MAP_FILE, dtype={"player_id": str})
+    map_df = pd.read_csv(MAP_FILE, dtype={"player_id": str}, encoding='utf-8')
     map_df["player_id"] = map_df["player_id"].str.strip()
     logging.info(f"✅ Loaded {len(map_df)} map‐rows; columns: {map_df.columns.tolist()}")
 

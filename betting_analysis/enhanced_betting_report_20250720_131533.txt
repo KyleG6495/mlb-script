@@ -1,0 +1,131 @@
+🎯 ENHANCED BETTING RECOMMENDATIONS
+Generated: 2025-07-20 13:15:33
+================================================================================
+
+🎲 SINGLE PROP RECOMMENDATIONS:
+--------------------------------------------------
+ 1. 🟢 YES OVER - Aaron Judge
+    📊 RUNS: Model predicts 5.3, line is 0.5
+    💰 Expected Value: $0.91 | Edge: 90.6%
+    🎯 Win Probability: 99.9% | 🔥 VERY HIGH
+
+ 2. 🟢 YES OVER - Juan Soto
+    📊 RUNS: Model predicts 6.4, line is 0.5
+    💰 Expected Value: $0.91 | Edge: 90.6%
+    🎯 Win Probability: 99.9% | 🔥 VERY HIGH
+
+ 3. 🟢 YES OVER - Mike Trout
+    📊 TOTAL_BASES: Model predicts 20.5, line is 2.5
+    💰 Expected Value: $0.91 | Edge: 90.5%
+    🎯 Win Probability: 99.8% | 🔥 VERY HIGH
+
+ 4. 🟢 YES OVER - Mookie Betts
+    📊 TOTAL_BASES: Model predicts 21.0, line is 2.5
+    💰 Expected Value: $0.91 | Edge: 90.5%
+    🎯 Win Probability: 99.8% | 🔥 VERY HIGH
+
+ 5. 🟢 YES OVER - Aaron Judge
+    📊 HITS: Model predicts 5.6, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.4%
+    🎯 Win Probability: 99.3% | 🔥 VERY HIGH
+
+ 6. 🟢 YES OVER - Shohei Ohtani
+    📊 HITS: Model predicts 6.0, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.6%
+    🎯 Win Probability: 99.4% | 🔥 VERY HIGH
+
+ 7. 🟢 YES OVER - Vladimir Guerrero Jr.
+    📊 HITS: Model predicts 5.7, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.5%
+    🎯 Win Probability: 99.3% | 🔥 VERY HIGH
+
+ 8. 🟢 YES OVER - Juan Soto
+    📊 HITS: Model predicts 6.0, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.6%
+    🎯 Win Probability: 99.4% | 🔥 VERY HIGH
+
+ 9. 🟢 YES OVER - Mike Trout
+    📊 HITS: Model predicts 5.8, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.5%
+    🎯 Win Probability: 99.3% | 🔥 VERY HIGH
+
+10. 🟢 YES OVER - Shohei Ohtani
+    📊 HOME_RUNS: Model predicts 2.9, line is 0.5
+    💰 Expected Value: $0.90 | Edge: 90.3%
+    🎯 Win Probability: 99.7% | 🔥 VERY HIGH
+
+11. 🟢 YES OVER - Freddie Freeman
+    📊 RBI: Model predicts 7.1, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 90.0%
+    🎯 Win Probability: 99.6% | 🔥 VERY HIGH
+
+12. 🟢 YES OVER - Aaron Judge
+    📊 TOTAL_BASES: Model predicts 14.7, line is 2.5
+    💰 Expected Value: $0.90 | Edge: 90.3%
+    🎯 Win Probability: 99.7% | 🔥 VERY HIGH
+
+13. 🟢 YES OVER - Freddie Freeman
+    📊 HITS: Model predicts 5.8, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.5%
+    🎯 Win Probability: 99.3% | 🔥 VERY HIGH
+
+14. 🟢 YES OVER - Mookie Betts
+    📊 HITS: Model predicts 6.0, line is 1.5
+    💰 Expected Value: $0.90 | Edge: 89.6%
+    🎯 Win Probability: 99.4% | 🔥 VERY HIGH
+
+15. 🟢 YES OVER - Ronald Acuna Jr.
+    📊 STOLEN_BASES: Model predicts 2.1, line is 0.5
+    💰 Expected Value: $0.90 | Edge: 89.8%
+    🎯 Win Probability: 99.4% | 🔥 VERY HIGH
+
+
+🎰 COMBO PROP OPPORTUNITIES:
+--------------------------------------------------
+ 1. Aaron Judge - HIGH CONFIDENCE
+    📈 Strong in: hits: 5.6 + total_bases: 14.7 + runs: 5.3
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 2. Byron Buxton - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 20.9 + runs: 6.1
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 3. Shohei Ohtani - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 21.0 + runs: 6.4
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 4. Cal Raleigh - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 21.0 + runs: 6.4
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 5. Ronald Acuna Jr. - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 21.0 + runs: 6.4
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 6. Corbin Carroll - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 20.9 + runs: 6.1
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 7. Elly De La Cruz - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 20.9 + runs: 6.1
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 8. Bobby Witt Jr. - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 21.0 + runs: 6.4
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+ 9. Pete Alonso - HIGH CONFIDENCE
+    📈 Strong in: hits: 5.6 + total_bases: 14.8 + runs: 5.9
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+10. Jose Ramirez - HIGH CONFIDENCE
+    📈 Strong in: hits: 6.0 + total_bases: 20.9 + runs: 6.1
+    💡 Suggested combos: 1+ Hits + 2+ Total Bases | 1+ Runs + 1+ RBI | 1+ Hits + 1+ Runs
+
+
+📈 ANALYSIS SUMMARY:
+------------------------------
+Single prop opportunities: 18
+Combo opportunities: 704
+Players analyzed: 704
+Average expected value: $0.90

@@ -1,0 +1,74 @@
+{
+  "timestamp": "2025-08-22 18:30",
+  "total_teams": 26,
+  "elite_stacks": [
+    {
+      "team": "TOR",
+      "projection": 52.8,
+      "salary": 16000,
+      "ownership": 1.3,
+      "weather_score": 3.4,
+      "vegas_total": 10.2,
+      "stack_value": 2.51,
+      "player_count": 5
+    },
+    {
+      "team": "CIN",
+      "projection": 52.4,
+      "salary": 16000,
+      "ownership": 1.3,
+      "weather_score": 3.5,
+      "vegas_total": 8.9,
+      "stack_value": 2.44,
+      "player_count": 5
+    },
+    {
+      "team": "CWS",
+      "projection": 47.2,
+      "salary": 15100,
+      "ownership": 1.4,
+      "weather_score": 3.7,
+      "vegas_total": 11.0,
+      "stack_value": 2.3,
+      "player_count": 5
+    }
+  ],
+  "good_stacks": [
+    {
+      "team": "MIL",
+      "projection": 52.6,
+      "salary": 15800,
+      "ownership": 1.9,
+      "weather_score": 3.2,
+      "vegas_total": 9.4,
+      "stack_value": 1.74,
+      "player_count": 5
+    }
+  ],
+  "weather_advantages": [
+    {
+      "team": "SEA",
+      "temp": "85\u00b0F",
+      "score": "4/4"
+    },
+    {
+      "team": "LAA",
+      "temp": "91\u00b0F",
+      "score": "4/4"
+    },
+    {
+      "team": "TEX",
+      "temp": "94\u00b0F",
+      "score": "4/4"
+    }
+  ],
+  "implementation_strategy": {
+    "primary_focus": "TOR",
+    "lineup_construction": [
+      "40% elite stack lineups",
+      "30% good stack lineups",
+      "20% contrarian lineups",
+      "10% mini-stack diversification"
+    ]
+  }
+}

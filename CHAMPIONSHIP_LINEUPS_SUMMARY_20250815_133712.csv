@@ -1,0 +1,11 @@
+lineup_id,strategy,pitcher,total_salary,total_fppg,summary
+1,balanced,Hurston Waldrep,38600,157.32966034000003,"$38,600 - 157.3 FPPG"
+2,balanced,Framber Valdez,40900,157.13400817000002,"$40,900 - 157.1 FPPG"
+3,balanced,Jacob deGrom,41400,155.39487773,"$41,400 - 155.4 FPPG"
+4,ceiling,Hurston Waldrep,38600,157.32966034000003,"$38,600 - 157.3 FPPG"
+5,ceiling,Framber Valdez,40900,157.13400817000002,"$40,900 - 157.1 FPPG"
+6,ceiling,Jacob deGrom,41400,155.39487773,"$41,400 - 155.4 FPPG"
+7,value,Hurston Waldrep,28700,133.587659452,"$28,700 - 133.6 FPPG"
+8,value,Framber Valdez,31000,133.39200728199998,"$31,000 - 133.4 FPPG"
+9,value,Jacob deGrom,31500,131.65287684199998,"$31,500 - 131.7 FPPG"
+10,contrarian,Hurston Waldrep,23600,,"$23,600 - nan FPPG"

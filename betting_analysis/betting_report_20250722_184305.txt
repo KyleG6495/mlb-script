@@ -1,0 +1,76 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-22 18:43:05
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Will Wagner               | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.8 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. Will Holland              | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. Freddy Fermin             | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. Logan Driscoll            | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. Will Brennan              | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. Nick Loftin               | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -1.8 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. Nick Madrigal             | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -1.8 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. Will Smith                | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.4 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. Will Benson               | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.4 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. Logan Davidson            | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.4 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 4285
+Average Edge: 88.10%
+Total Expected Value: $3775.18
+
+By Confidence Level:
+  MEDIUM: 3
+  VERY_HIGH: 4282
+
+By Category:
+  hits: 932
+  home_runs: 750
+  rbi: 806
+  runs: 806
+  strikeouts: 73
+  total_bases: 918
+
+By Sportsbook:
+  prizepicks: 4285

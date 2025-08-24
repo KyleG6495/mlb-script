@@ -1,0 +1,80 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-28 12:37:41
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:  10.5 | Prediction:   4.6 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:   6.5 | Prediction:   3.0 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:  10.5 | Prediction:   3.0 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Jacob deGrom              | pitcher_strikeouts | prizepicks
+    Line:  10.5 | Prediction:   3.6 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Yoshinobu Yamamoto        | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   1.7 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Yoshinobu Yamamoto        | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.8 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Yoshinobu Yamamoto        | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.7 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Yoshinobu Yamamoto        | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   5.0 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 9. Yoshinobu Yamamoto        | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   1.6 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+10. Yoshinobu Yamamoto        | pitcher_strikeouts | prizepicks
+    Line:   8.5 | Prediction:   4.0 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 9027
+Average Edge: 77.04%
+Total Expected Value: $6954.12
+
+By Confidence Level:
+  HIGH: 931
+  LOW: 42
+  MEDIUM: 46
+  VERY_HIGH: 8008
+
+By Category:
+  hits: 1261
+  hitter_strikeouts: 1182
+  home_runs: 403
+  pitcher_strikeouts: 1657
+  rbi: 1529
+  runs: 1487
+  total_bases: 1508
+
+By Sportsbook:
+  prizepicks: 6675
+  underdog: 2352
