@@ -1,0 +1,11 @@
+lineup_id,strategy,pitcher,total_salary,total_fppg,summary
+1,balanced,Nathan Eovaldi,38700,155.53107014000003,"$38,700 - 155.5 FPPG"
+2,balanced,Bryan Woo,38400,155.11342308000005,"$38,400 - 155.1 FPPG"
+3,balanced,Jose Soriano,36600,147.18615035000002,"$36,600 - 147.2 FPPG"
+4,ceiling,Nathan Eovaldi,38700,155.53107014000003,"$38,700 - 155.5 FPPG"
+5,ceiling,Bryan Woo,38400,155.11342308000005,"$38,400 - 155.1 FPPG"
+6,ceiling,Jose Soriano,36600,147.18615035000002,"$36,600 - 147.2 FPPG"
+7,value,Nathan Eovaldi,31300,134.562511776,"$31,300 - 134.6 FPPG"
+8,value,Bryan Woo,31000,134.144864716,"$31,000 - 134.1 FPPG"
+9,value,Jose Soriano,29200,126.217591986,"$29,200 - 126.2 FPPG"
+10,contrarian,Nathan Eovaldi,26500,,"$26,500 - nan FPPG"

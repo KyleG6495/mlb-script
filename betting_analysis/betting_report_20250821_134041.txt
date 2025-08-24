@@ -1,0 +1,76 @@
+TARGET: AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-21 13:40:41
+================================================================================
+
+LINEUP: TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Mookie Betts              | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 2. Andy Pages                | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 3. Jo Adell                  | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 4. Bo Bichette               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 5. Tyler Heineman            | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 6. Michael Conforto          | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 7. Miguel Andujar            | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 8. Miguel Rojas              | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 9. Michael Stefanic          | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+10. Tyler Wade                | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+DATA: SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 531
+Average Edge: 63.75%
+Total Expected Value: $338.52
+
+By Confidence Level:
+  HIGH: 51
+  LOW: 14
+  VERY_HIGH: 466
+
+By Category:
+  hits: 108
+  hitter_strikeouts: 104
+  rbi: 105
+  runs: 105
+  total_bases: 109
+
+By Sportsbook:
+  prizepicks: 531

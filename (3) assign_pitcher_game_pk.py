@@ -11,14 +11,15 @@ import datetime
 import requests
 from tqdm import tqdm
 import json
+from config import FilePaths, MLBApiConfig
 
 # ----------------------------
-# Configuration
+# Configuration from config.py
 # ----------------------------
-DATA_DIR        = Path(__file__).resolve().parent.parent / "data"
-PITCHERS_FILE   = DATA_DIR / "pitcher_games.csv"
-OUTPUT_MAP      = DATA_DIR / "pitcher_games_with_gamepk.csv"
-FAILED_IDS_FILE = DATA_DIR / "failed_pitcher_ids.json"
+DATA_DIR        = FilePaths.DATA_DIR
+PITCHERS_FILE   = FilePaths.PITCHER_GAMES
+OUTPUT_MAP      = FilePaths.PITCHER_GAMES_WITH_GAMEPK
+FAILED_IDS_FILE = FilePaths.FAILED_PITCHER_IDS
 
 # ----------------------------
 # Setup logging
@@ -40,10 +41,10 @@ def fetch_game_pk(player_id: str, season: int) -> int | None:
         return None
 
     url = (
-        f"https://statsapi.mlb.com/api/v1/people/{pid}/stats"
+        f"{MLBApiConfig.BASE_URL}/people/{pid}/stats"
         f"?stats=gameLog&season={season}&group=pitching"
     )
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=MLBApiConfig.TIMEOUT)
     if resp.status_code != 200:
         logging.error(f"{resp.status_code} for player {pid}; skipping.")
         return None

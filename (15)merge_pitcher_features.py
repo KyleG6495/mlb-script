@@ -4,55 +4,28 @@ import os
 import re
 from fuzzywuzzy import process
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Import centralized configuration
+from config import FilePaths, LoggingConfig, TEAM_STANDARDIZED_MAP
+from player_data_config import TEAM_CORRECTIONS
 
-# File paths
-SEASON_FILE = "../data/today_pitcher_features.csv"
-ROLLING_FILE = "../data/pitcher_rolling_5game_features.csv"
-TEAM_FILE = "../data/fd_pitcher_features_enriched.csv"
-ID_MAP_FILE = "../data/pitcher_games_with_gamepk.csv"
-TEAM_MAP_FILE = "../data/team_name_map.csv"
-OUTPUT_FILE = "../data/pitcher_features_merged.csv"
+# Setup logging from centralized config
+logging.basicConfig(
+    level=getattr(logging, LoggingConfig.LEVEL),
+    format=LoggingConfig.FORMAT,
+    datefmt=LoggingConfig.DATE_FORMAT
+)
 
-# Team name normalization mapping
-team_standardized_map = {
-    'minnesota twins': 'twins',
-    'los angeles dodgers': 'dodgers',
-    'houston astros': 'astros',
-    'atlanta braves': 'braves',
-    'kansas city royals': 'royals',
-    'san francisco giants': 'giants',
-    'los angeles angels': 'angels',
-    'colorado rockies': 'rockies',
-    'detroit tigers': 'tigers',
-    'cincinnati reds': 'reds',
-    'arizona diamondbacks': 'diamondbacks',
-    'new york mets': 'mets',
-    'san diego padres': 'padres',
-    'cleveland guardians': 'guardians',
-    'oakland athletics': 'athletics',
-    'boston red sox': 'redsox',
-    'chicago white sox': 'whitesox',
-    'toronto blue jays': 'bluejays',
-    'tor': 'bluejays',
-    'miami marlins': 'marlins',
-    'seattle mariners': 'mariners',
-    'washington nationals': 'nationals',
-    'milwaukee brewers': 'brewers',
-    'tampa bay rays': 'rays',
-    'texas rangers': 'rangers',
-    'baltimore orioles': 'orioles'
-}
+# File paths from centralized config
+SEASON_FILE = FilePaths.TODAY_PITCHER_FEATURES
+ROLLING_FILE = FilePaths.PITCHER_ROLLING_FEATURES
+TEAM_FILE = FilePaths.PITCHER_FEATURES_ENRICHED
+ID_MAP_FILE = FilePaths.PITCHER_GAMES_WITH_GAMEPK
+TEAM_MAP_FILE = FilePaths.DATA_DIR / "team_name_map.csv"
+OUTPUT_FILE = FilePaths.DATA_DIR / "pitcher_features_merged.csv"
 
-# Manual team corrections for 2025
-team_corrections = {
-    '669203': 'guardians',  # Shane Bieber
-    '605151': 'dodgers',    # Clayton Kershaw
-    '656302': 'phillies',   # Zack Wheeler
-    '669373': 'astros',     # Hunter Brown
-    '669145': 'mariners'    # Logan Gilbert
-}
+# Use team mappings from centralized configuration
+team_standardized_map = TEAM_STANDARDIZED_MAP
+team_corrections = TEAM_CORRECTIONS
 
 # Normalize names
 def normalize_name(name):
@@ -226,11 +199,17 @@ season_duplicates = season_df.duplicated(subset=['player_id']).sum()
 logging.info(f"Duplicate rows in season_df: {season_duplicates}")
 
 logging.info(f"Rows in rolling_df before deduplication: {len(rolling_df)}")
-rolling_duplicates = rolling_df.duplicated(subset=['player_id', 'date']).sum()
-if rolling_duplicates > 0:
-    logging.warning(f"Duplicate rows in rolling_df: {rolling_duplicates}")
-    logging.info(f"Sample duplicates:\n{rolling_df[rolling_df.duplicated(subset=['player_id', 'date'], keep=False)][['player_id', 'date']].head().to_string()}")
-rolling_df = rolling_df.drop_duplicates(subset=['player_id', 'date'])
+if 'date' in rolling_df.columns:
+    rolling_duplicates = rolling_df.duplicated(subset=['player_id', 'date']).sum()
+    if rolling_duplicates > 0:
+        logging.warning(f"Duplicate rows in rolling_df: {rolling_duplicates}")
+        logging.info(f"Sample duplicates:\n{rolling_df[rolling_df.duplicated(subset=['player_id', 'date'], keep=False)][['player_id', 'date']].head().to_string()}")
+    rolling_df = rolling_df.drop_duplicates(subset=['player_id', 'date'])
+else:
+    rolling_duplicates = rolling_df.duplicated(subset=['player_id']).sum()
+    if rolling_duplicates > 0:
+        logging.warning(f"Duplicate rows in rolling_df (by player_id only): {rolling_duplicates}")
+    rolling_df = rolling_df.drop_duplicates(subset=['player_id'])
 logging.info(f"Rows in rolling_df after deduplication: {len(rolling_df)}")
 
 # Merge season and rolling features
@@ -250,16 +229,33 @@ bieber_in_merged = merged_df[merged_df['player_id'] == '669203']
 if bieber_in_merged.empty:
     logging.warning("Shane Bieber (player_id 669203) not found in merged_df after season+rolling merge")
 else:
-    cols = ['player_id', name_col, 'date'] if name_col in merged_df.columns else ['player_id', 'date']
-    logging.info(f"Shane Bieber in merged_df:\n{bieber_in_merged[cols].head().to_string()}")
+    available_cols = []
+    if 'player_id' in merged_df.columns:
+        available_cols.append('player_id')
+    if name_col in merged_df.columns:
+        available_cols.append(name_col)
+    if 'date' in merged_df.columns:
+        available_cols.append('date')
+    
+    if available_cols:
+        logging.info(f"Shane Bieber in merged_df:\n{bieber_in_merged[available_cols].head().to_string()}")
+    else:
+        logging.info(f"Shane Bieber in merged_df: {len(bieber_in_merged)} rows found")
 
-# Remove duplicates by player_id and date
+# Remove duplicates by player_id and date (if date column exists)
 logging.info(f"Rows before removing duplicates: {len(merged_df)}")
-duplicates = merged_df.duplicated(subset=['player_id', 'date']).sum()
-if duplicates > 0:
-    logging.warning(f"Duplicate rows in merged_df: {duplicates}")
-    logging.info(f"Sample duplicates:\n{merged_df[merged_df.duplicated(subset=['player_id', 'date'], keep=False)][['player_id', 'date']].head().to_string()}")
-merged_df = merged_df.drop_duplicates(subset=['player_id', 'date'])
+if 'date' in merged_df.columns:
+    duplicates = merged_df.duplicated(subset=['player_id', 'date']).sum()
+    if duplicates > 0:
+        logging.warning(f"Duplicate rows in merged_df: {duplicates}")
+        logging.info(f"Sample duplicates:\n{merged_df[merged_df.duplicated(subset=['player_id', 'date'], keep=False)][['player_id', 'date']].head().to_string()}")
+    merged_df = merged_df.drop_duplicates(subset=['player_id', 'date'])
+else:
+    duplicates = merged_df.duplicated(subset=['player_id']).sum()
+    if duplicates > 0:
+        logging.warning(f"Duplicate rows in merged_df (by player_id only): {duplicates}")
+        logging.info(f"Sample duplicates:\n{merged_df[merged_df.duplicated(subset=['player_id'], keep=False)][['player_id']].head().to_string()}")
+    merged_df = merged_df.drop_duplicates(subset=['player_id'])
 logging.info(f"Rows after removing duplicates: {len(merged_df)}")
 
 # Merge with team data to add team_standardized and game_pk
@@ -280,11 +276,17 @@ else:
     logging.info(f"Shane Bieber after team merge:\n{bieber_after_team_merge[cols].head().to_string()}")
 
 # Deduplicate merged_df after team merge
-duplicates_after_team = merged_df.duplicated(subset=['player_id', 'date']).sum()
-if duplicates_after_team > 0:
-    logging.warning(f"Duplicate rows after team merge: {duplicates_after_team}")
-    logging.info(f"Sample duplicates:\n{merged_df[merged_df.duplicated(subset=['player_id', 'date'], keep=False)][['player_id', 'date']].to_string()}")
-merged_df = merged_df.drop_duplicates(subset=['player_id', 'date'])
+if 'date' in merged_df.columns:
+    duplicates_after_team = merged_df.duplicated(subset=['player_id', 'date']).sum()
+    if duplicates_after_team > 0:
+        logging.warning(f"Duplicate rows after team merge: {duplicates_after_team}")
+        logging.info(f"Sample duplicates:\n{merged_df[merged_df.duplicated(subset=['player_id', 'date'], keep=False)][['player_id', 'date']].to_string()}")
+    merged_df = merged_df.drop_duplicates(subset=['player_id', 'date'])
+else:
+    duplicates_after_team = merged_df.duplicated(subset=['player_id']).sum()
+    if duplicates_after_team > 0:
+        logging.warning(f"Duplicate rows after team merge (by player_id only): {duplicates_after_team}")
+    merged_df = merged_df.drop_duplicates(subset=['player_id'])
 logging.info(f"Rows after removing duplicates post-team merge: {len(merged_df)}")
 
 # Log merge results
@@ -298,11 +300,18 @@ if matched_game_pk_rows < len(merged_df):
 
 # Log unique teams and dates for debugging
 logging.info(f"Unique teams in merged_df: {merged_df['team_standardized'].unique().tolist()}")
-logging.info(f"Unique dates in merged_df: {sorted(merged_df['date'].dropna().unique().tolist())[:10]} (first 10)")
+if 'date' in merged_df.columns:
+    logging.info(f"Unique dates in merged_df: {sorted(merged_df['date'].dropna().unique().tolist())[:10]} (first 10)")
+else:
+    logging.info("No date column found in merged_df")
 
 # Filter out rows with NaN dates
 logging.info(f"Rows before filtering NaN dates: {len(merged_df)}")
-merged_df = merged_df.dropna(subset=['date'])
+if 'date' in merged_df.columns:
+    merged_df = merged_df.dropna(subset=['date'])
+    logging.info(f"Rows after filtering NaN dates: {len(merged_df)}")
+else:
+    logging.info("No date column found - skipping date filtering")
 logging.info(f"Rows after filtering NaN dates: {len(merged_df)}")
 
 # Save merged output

@@ -1,0 +1,63 @@
+TARGET: OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER
+    Size: 3 picks | Avg Edge: 138.2% | Win Prob: 96.6%
+    Total EV: 4.15 | Kelly: 15.0% | Diversity: 66.7%
+
+ 2. 3-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Teodosio UNDER
+    Size: 3 picks | Avg Edge: 138.2% | Win Prob: 96.6%
+    Total EV: 4.15 | Kelly: 15.0% | Diversity: 66.7%
+
+ 3. 3-pick: Jo Adell UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER
+    Size: 3 picks | Avg Edge: 138.2% | Win Prob: 96.6%
+    Total EV: 4.15 | Kelly: 15.0% | Diversity: 66.7%
+
+ 4. 3-pick: Jo Adell UNDER, Bryce Johnson UNDER, Eugenio Suarez UNDER
+    Size: 3 picks | Avg Edge: 137.7% | Win Prob: 96.0%
+    Total EV: 4.13 | Kelly: 15.0% | Diversity: 66.7%
+
+ 5. 3-pick: Jo Adell UNDER, Bryce Johnson UNDER, Fernando Tatis Jr. UNDER
+    Size: 3 picks | Avg Edge: 137.7% | Win Prob: 96.0%
+    Total EV: 4.13 | Kelly: 15.0% | Diversity: 66.7%
+
+ 6. 4-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER
+    Size: 4 picks | Avg Edge: 138.2% | Win Prob: 95.4%
+    Total EV: 5.53 | Kelly: 15.0% | Diversity: 50.0%
+
+ 7. 4-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Eugenio Suarez UNDER
+    Size: 4 picks | Avg Edge: 137.8% | Win Prob: 94.8%
+    Total EV: 5.51 | Kelly: 15.0% | Diversity: 50.0%
+
+ 8. 4-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Fernando Tatis Jr. UNDER
+    Size: 4 picks | Avg Edge: 137.8% | Win Prob: 94.8%
+    Total EV: 5.51 | Kelly: 15.0% | Diversity: 50.0%
+
+ 9. 4-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Nick Kurtz UNDER
+    Size: 4 picks | Avg Edge: 137.8% | Win Prob: 94.8%
+    Total EV: 5.51 | Kelly: 15.0% | Diversity: 50.0%
+
+10. 4-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Will Smith UNDER
+    Size: 4 picks | Avg Edge: 137.8% | Win Prob: 94.8%
+    Total EV: 5.51 | Kelly: 15.0% | Diversity: 50.0%
+
+11. 5-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER, Eugenio Suarez UNDER
+    Size: 5 picks | Avg Edge: 137.8% | Win Prob: 93.6%
+    Total EV: 6.89 | Kelly: 15.0% | Diversity: 40.0%
+
+12. 5-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER, Fernando Tatis Jr. UNDER
+    Size: 5 picks | Avg Edge: 137.8% | Win Prob: 93.6%
+    Total EV: 6.89 | Kelly: 15.0% | Diversity: 40.0%
+
+13. 5-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER, Nick Kurtz UNDER
+    Size: 5 picks | Avg Edge: 137.8% | Win Prob: 93.6%
+    Total EV: 6.89 | Kelly: 15.0% | Diversity: 40.0%
+
+14. 5-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER, Will Smith UNDER
+    Size: 5 picks | Avg Edge: 137.8% | Win Prob: 93.6%
+    Total EV: 6.89 | Kelly: 15.0% | Diversity: 40.0%
+
+15. 5-pick: Jo Adell UNDER, Bryce Johnson UNDER, Bryce Eldridge UNDER, Bryce Teodosio UNDER, Mookie Betts UNDER
+    Size: 5 picks | Avg Edge: 137.8% | Win Prob: 93.6%
+    Total EV: 6.89 | Kelly: 15.0% | Diversity: 40.0%
+

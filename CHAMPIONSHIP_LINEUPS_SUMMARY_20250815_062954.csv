@@ -1,0 +1,11 @@
+lineup_id,strategy,pitcher,total_salary,total_fppg,summary
+1,balanced,Tarik Skubal,39100,154.38799839,"$39,100 - 154.4 FPPG"
+2,balanced,Jesus Luzardo,38200,143.35901289,"$38,200 - 143.4 FPPG"
+3,balanced,Edward Cabrera,37000,141.44234622000002,"$37,000 - 141.4 FPPG"
+4,ceiling,Tarik Skubal,39100,154.38799839,"$39,100 - 154.4 FPPG"
+5,ceiling,Jesus Luzardo,38200,143.35901289,"$38,200 - 143.4 FPPG"
+6,ceiling,Edward Cabrera,37000,141.44234622000002,"$37,000 - 141.4 FPPG"
+7,value,Tarik Skubal,30800,134.81080609100002,"$30,800 - 134.8 FPPG"
+8,value,Jesus Luzardo,29900,123.78182059100001,"$29,900 - 123.8 FPPG"
+9,value,Edward Cabrera,28700,121.86515392100002,"$28,700 - 121.9 FPPG"
+10,contrarian,Tarik Skubal,27000,,"$27,000 - nan FPPG"

@@ -1,0 +1,75 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-20 12:18:36
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Will Holland              | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. Freddy Fermin             | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. Logan Driscoll            | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. Will Brennan              | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. Mike Yastrzemski          | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. Logan Driscoll            | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. Matt Olson                | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. Matt Vierling             | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. Matt Thaiss               | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. Nick Martini              | strikeouts   | prizepicks
+    Line:   5.5 | Prediction:  -1.5 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 4288
+Average Edge: 89.68%
+Total Expected Value: $3845.45
+
+By Confidence Level:
+  VERY_HIGH: 4288
+
+By Category:
+  hits: 932
+  home_runs: 753
+  rbi: 806
+  runs: 806
+  strikeouts: 73
+  total_bases: 918
+
+By Sportsbook:
+  prizepicks: 4288

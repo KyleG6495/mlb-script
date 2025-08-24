@@ -1,0 +1,63 @@
+TARGET: OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Mookie Betts UNDER, Andy Pages UNDER, Fernando Tatis Jr. UNDER
+    Size: 3 picks | Avg Edge: 129.5% | Win Prob: 86.4%
+    Total EV: 3.89 | Kelly: 15.0% | Diversity: 66.7%
+
+ 2. 3-pick: Mookie Betts UNDER, Andy Pages UNDER, Will Smith UNDER
+    Size: 3 picks | Avg Edge: 129.5% | Win Prob: 86.4%
+    Total EV: 3.89 | Kelly: 15.0% | Diversity: 66.7%
+
+ 3. 3-pick: Mookie Betts UNDER, Andy Pages UNDER, Freddie Freeman UNDER
+    Size: 3 picks | Avg Edge: 129.5% | Win Prob: 86.4%
+    Total EV: 3.89 | Kelly: 15.0% | Diversity: 66.7%
+
+ 4. 3-pick: Mookie Betts UNDER, Andy Pages UNDER, Will Wagner UNDER
+    Size: 3 picks | Avg Edge: 129.5% | Win Prob: 86.4%
+    Total EV: 3.89 | Kelly: 15.0% | Diversity: 66.7%
+
+ 5. 3-pick: Mookie Betts UNDER, Andy Pages UNDER, Brandon Lockridge UNDER
+    Size: 3 picks | Avg Edge: 129.5% | Win Prob: 86.4%
+    Total EV: 3.89 | Kelly: 15.0% | Diversity: 66.7%
+
+ 6. 4-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Fernando Tatis Jr. UNDER
+    Size: 4 picks | Avg Edge: 129.6% | Win Prob: 82.3%
+    Total EV: 5.18 | Kelly: 15.0% | Diversity: 50.0%
+
+ 7. 4-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Will Smith UNDER
+    Size: 4 picks | Avg Edge: 129.6% | Win Prob: 82.3%
+    Total EV: 5.18 | Kelly: 15.0% | Diversity: 50.0%
+
+ 8. 4-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Freddie Freeman UNDER
+    Size: 4 picks | Avg Edge: 129.6% | Win Prob: 82.3%
+    Total EV: 5.18 | Kelly: 15.0% | Diversity: 50.0%
+
+ 9. 4-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Will Wagner UNDER
+    Size: 4 picks | Avg Edge: 129.6% | Win Prob: 82.3%
+    Total EV: 5.18 | Kelly: 15.0% | Diversity: 50.0%
+
+10. 4-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Brandon Lockridge UNDER
+    Size: 4 picks | Avg Edge: 129.6% | Win Prob: 82.3%
+    Total EV: 5.18 | Kelly: 15.0% | Diversity: 50.0%
+
+11. 5-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Bo Bichette UNDER, Fernando Tatis Jr. UNDER
+    Size: 5 picks | Avg Edge: 129.6% | Win Prob: 78.5%
+    Total EV: 6.48 | Kelly: 15.0% | Diversity: 40.0%
+
+12. 5-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Bo Bichette UNDER, Will Smith UNDER
+    Size: 5 picks | Avg Edge: 129.6% | Win Prob: 78.5%
+    Total EV: 6.48 | Kelly: 15.0% | Diversity: 40.0%
+
+13. 5-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Bo Bichette UNDER, Freddie Freeman UNDER
+    Size: 5 picks | Avg Edge: 129.6% | Win Prob: 78.5%
+    Total EV: 6.48 | Kelly: 15.0% | Diversity: 40.0%
+
+14. 5-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Bo Bichette UNDER, Will Wagner UNDER
+    Size: 5 picks | Avg Edge: 129.6% | Win Prob: 78.5%
+    Total EV: 6.48 | Kelly: 15.0% | Diversity: 40.0%
+
+15. 5-pick: Mookie Betts UNDER, Andy Pages UNDER, Jo Adell UNDER, Bo Bichette UNDER, Brandon Lockridge UNDER
+    Size: 5 picks | Avg Edge: 129.6% | Win Prob: 78.5%
+    Total EV: 6.48 | Kelly: 15.0% | Diversity: 40.0%
+

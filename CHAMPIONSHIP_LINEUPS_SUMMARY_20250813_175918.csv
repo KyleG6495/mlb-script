@@ -1,0 +1,11 @@
+lineup_id,strategy,pitcher,total_salary,total_fppg,summary
+1,balanced,Hunter Brown,39600,155.05866434999996,"$39,600 - 155.1 FPPG"
+2,balanced,Trevor Rogers,39900,154.68040347999997,"$39,900 - 154.7 FPPG"
+3,balanced,Joe Ryan,39300,152.49344695999997,"$39,300 - 152.5 FPPG"
+4,ceiling,Hunter Brown,40600,155.15970527,"$40,600 - 155.2 FPPG"
+5,ceiling,Trevor Rogers,40900,154.7814444,"$40,900 - 154.8 FPPG"
+6,ceiling,Joe Ryan,40300,152.59448788,"$40,300 - 152.6 FPPG"
+7,value,Hunter Brown,30700,131.373805135,"$30,700 - 131.4 FPPG"
+8,value,Trevor Rogers,31000,130.995544265,"$31,000 - 131.0 FPPG"
+9,value,Joe Ryan,30400,128.80858774499998,"$30,400 - 128.8 FPPG"
+10,contrarian,Hunter Brown,26300,,"$26,300 - nan FPPG"

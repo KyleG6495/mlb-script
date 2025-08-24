@@ -1,0 +1,286 @@
+ELITE DFS WORKFLOW REFERENCE GUIDE
+==================================
+
+Created: August 22, 2025
+Purpose: Complete reference for all scripts, file locations, and outputs
+
+
+TABLE OF CONTENTS
+================
+1. COMPLETE_DAILY_WORKFLOW.bat - Main Process
+2. ENHANCED_DAILY_WORKFLOW.bat - Optional Enhancements  
+3. File Locations and Output Directory Structure
+4. Quick Reference Commands
+
+
+═══════════════════════════════════════════════════════════════════════════════
+1. COMPLETE_DAILY_WORKFLOW.bat - MAIN DAILY PROCESS
+═══════════════════════════════════════════════════════════════════════════════
+
+File Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\COMPLETE_DAILY_WORKFLOW.bat
+
+STEP 1: CORE DATA PIPELINE
+--------------------------
+Script: 1_DATA_PIPELINE.bat
+Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\DAILY_RUNNERS\
+Purpose: Downloads and processes base MLB data
+Output Files:
+  • ../data/hitter_games_today.csv
+  • ../data/pitcher_games_today.csv
+  • ../data/team_stats_today.csv
+  • ../data/weather_today.csv
+
+STEP 2: BASE DFS MODELS
+-----------------------
+Script: 2_DFS_MODELS.bat
+Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\DAILY_RUNNERS\
+Purpose: Builds initial projections and models
+Output Files:
+  • ../data/hitter_projections_today.csv
+  • ../data/pitcher_projections_today.csv
+  • ../data/base_lineups_today.csv
+
+STEP 3: VEGAS INTEGRATION
+-------------------------
+Script: VEGAS_ODDS_INTEGRATOR.py
+Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\
+Purpose: Integrates Vegas odds and game totals
+Output Files:
+  • data/vegas_odds_today.csv
+  • data/game_totals_today.csv
+  • data/enhanced_projections_with_vegas.csv
+
+STEP 4: OWNERSHIP PROJECTIONS
+-----------------------------
+Script: ADVANCED_OWNERSHIP_PROJECTIONS.py
+Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\
+Purpose: Generates sophisticated ownership modeling
+Output Files:
+  • data/advanced_ownership_projections_[timestamp].csv
+  • data/ownership_leverage_analysis.csv
+  • data/chalk_fade_opportunities.csv
+
+STEP 5: ELITE LINEUP GENERATION
+-------------------------------
+Script: ELITE_TOURNAMENT_WITH_OWNERSHIP.py
+Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\
+Purpose: Creates tournament-focused lineups with ownership consideration
+Output Files:
+  • fd_current_slate/elite_tournament_lineups_[timestamp].csv
+  • data/tournament_strategy_analysis.csv
+  • data/lineup_construction_log.csv
+
+STEP 6: ENHANCED MODELS & OPTIMIZATION
+--------------------------------------
+Script: 4_ENHANCED_MODELS.bat
+Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\DAILY_RUNNERS\
+Purpose: Advanced modeling and optimization
+Output Files:
+  • ../data/enhanced_projections_[timestamp].csv
+  • ../data/correlation_matrix_today.csv
+
+Additional Scripts in Step 6:
+  • ADVANCED_STACK_OPTIMIZER.py
+    Output: data/team_stack_analysis_[timestamp].csv
+  
+  • advanced_correlation_analyzer.py
+    Output: data/correlation_analysis_[timestamp].csv
+  
+  • ownership_leverage_analyzer.py
+    Output: data/leverage_analysis_[timestamp].csv
+  
+  • ENHANCED_GPP_STACKING_STRATEGY.py
+    Output: data/gpp_strategy_[timestamp].csv
+
+STEP 7: REAL-TIME DATA INTEGRATION
+----------------------------------
+Scripts:
+  • fetch_weather_data.py
+    Output: data/weather_updates_today.json
+  
+  • fetch_rotowire_lineups_enhanced.py
+    Output: temp_lineup_data.json, confirmed_lineups_today.csv
+  
+  • fetch_live_scores.py
+    Output: live_scores_today.json
+
+STEP 8: UMPIRE & EDGE ANALYSIS
+------------------------------
+Scripts:
+  • umpire_impact_analyzer.py
+    Output: data/umpire_analysis_today.csv
+  
+  • PARK_FACTOR_INTEGRATION.py
+    Output: data/park_factors_today.csv
+
+STEP 9: FINAL LINEUP OPTIMIZATION
+---------------------------------
+Scripts:
+  • FINAL_LINEUP_OPTIMIZER.py
+    Output: data/optimized_lineups_[timestamp].csv
+  
+  • ELITE_LINEUP_SELECTOR.py
+    Output: fd_current_slate/selected_lineups_[timestamp].csv
+
+STEP 10: ADVANCED DFS INTEGRATION
+---------------------------------
+Script: ADVANCED_DFS_INTEGRATOR.py
+Output: 
+  • fd_current_slate/integrated_lineups_[timestamp].csv
+  • data/integration_summary_[timestamp].csv
+
+STEP 11: CONTEST-SPECIFIC EXPORT
+--------------------------------
+Script: EXPORT_SELECTED_LINEUPS.py
+Output Files (FanDuel Ready):
+  • fd_current_slate/RECOMMENDED_cash_games_[timestamp].csv
+  • fd_current_slate/RECOMMENDED_small_tournaments_[timestamp].csv
+  • fd_current_slate/RECOMMENDED_large_tournaments_[timestamp].csv
+
+STEP 12: LAUNCH ELITE DASHBOARD
+-------------------------------
+Script: COMPLETE_ELITE_DFS_DASHBOARD.py
+Purpose: Interactive dashboard for analysis and management
+Features: 7-tab interface with file management and export capabilities
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2. ENHANCED_DAILY_WORKFLOW.bat - OPTIONAL ENHANCEMENTS
+═══════════════════════════════════════════════════════════════════════════════
+
+File Location: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\ENHANCED_DAILY_WORKFLOW.bat
+
+ENHANCED 1: VALIDATION & ANALYSIS
+---------------------------------
+Scripts:
+  • BACKTEST_VALIDATOR.py
+    Output: data/backtest_results_[timestamp].csv
+  
+  • QUALITY_VS_QUANTITY_ANALYSIS.py
+    Output: data/quality_analysis_[timestamp].csv
+  
+  • LINEUP_WORKFLOW_SUMMARY.py
+    Output: Console summary of lineup generation process
+
+ENHANCED 2: COMPETITIVE INTELLIGENCE
+------------------------------------
+Scripts:
+  • SABERSIM_COMPARISON.py
+    Output: Console analysis of competitive positioning
+  
+  • DFS_INDUSTRY_TRUTH.py
+    Output: Console analysis of industry practices
+
+ENHANCED 3: EXPANSION PLANNING
+-----------------------------
+Script: LINEUP_EXPANSION_ENGINE.py
+Output: 
+  • data/expansion_analysis_[timestamp].csv
+  • Console recommendations for lineup scaling
+
+ENHANCED 4: FINAL SYSTEM CHECK
+------------------------------
+Script: SYSTEM_STATUS_CHECK.py
+Output: 
+  • data/system_status_[timestamp].csv
+  • Console system health report
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3. FILE LOCATIONS AND DIRECTORY STRUCTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+Main Directories:
+-----------------
+Scripts: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\
+Data: C:\Users\kgone\OneDrive\Personal_Information\MLB\data\
+FanDuel Slate: C:\Users\kgone\OneDrive\Personal_Information\MLB\fd_current_slate\
+Daily Runners: C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts\DAILY_RUNNERS\
+
+Key Output Files by Category:
+-----------------------------
+
+PROJECTIONS & MODELS:
+  • data/hitter_projections_today.csv
+  • data/pitcher_projections_today.csv
+  • data/enhanced_projections_[timestamp].csv
+  • data/vegas_odds_today.csv
+
+OWNERSHIP & STRATEGY:
+  • data/advanced_ownership_projections_[timestamp].csv
+  • data/ownership_leverage_analysis.csv
+  • data/chalk_fade_opportunities.csv
+
+LINEUPS & EXPORTS:
+  • fd_current_slate/elite_tournament_lineups_[timestamp].csv
+  • fd_current_slate/RECOMMENDED_cash_games_[timestamp].csv
+  • fd_current_slate/RECOMMENDED_small_tournaments_[timestamp].csv
+  • fd_current_slate/RECOMMENDED_large_tournaments_[timestamp].csv
+
+ANALYSIS & VALIDATION:
+  • data/correlation_analysis_[timestamp].csv
+  • data/team_stack_analysis_[timestamp].csv
+  • data/umpire_analysis_today.csv
+  • data/backtest_results_[timestamp].csv
+
+REAL-TIME DATA:
+  • temp_lineup_data.json
+  • live_scores_today.json
+  • data/weather_updates_today.json
+  • confirmed_lineups_today.csv
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4. QUICK REFERENCE COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+To Run Complete Daily Process:
+------------------------------
+cd "C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts"
+.\COMPLETE_DAILY_WORKFLOW.bat
+
+To Run Enhanced Validation:
+---------------------------
+cd "C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts"
+.\ENHANCED_DAILY_WORKFLOW.bat
+
+To Launch Dashboard Only:
+-------------------------
+cd "C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts"
+python COMPLETE_ELITE_DFS_DASHBOARD.py
+
+To Export Lineups Only:
+-----------------------
+cd "C:\Users\kgone\OneDrive\Personal_Information\MLB\Scripts"
+python EXPORT_SELECTED_LINEUPS.py
+
+To Check Latest Files:
+---------------------
+cd "C:\Users\kgone\OneDrive\Personal_Information\MLB\fd_current_slate"
+dir *.csv /O:D
+
+Important Notes:
+---------------
+• All timestamps use format: YYYYMMDD_HHMMSS
+• FanDuel CSV files are ready for direct upload
+• Dashboard provides file management and preview capabilities
+• Enhanced workflow is optional but recommended for validation
+• Scripts automatically create output directories if needed
+
+System Requirements:
+-------------------
+• Python 3.8+ with required packages
+• Internet connection for real-time data
+• Minimum 2GB free disk space for daily files
+• Windows PowerShell for batch file execution
+
+Support Files Created:
+---------------------
+• WORKFLOW_SUMMARY.py - Displays process overview
+• HOW_TO_GET_LINEUPS.py - Step-by-step lineup access guide
+• SABERSIM_COMPARISON.py - Competitive analysis
+• DFS_INDUSTRY_TRUTH.py - Industry insight analysis
+
+═══════════════════════════════════════════════════════════════════════════════
+END OF REFERENCE GUIDE
+═══════════════════════════════════════════════════════════════════════════════

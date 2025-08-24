@@ -1,0 +1,74 @@
+TARGET: AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-22 14:06:00
+================================================================================
+
+LINEUP: TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Tyler Stephenson          | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Noelvi Marte              | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 9. Josh Jung                 | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+10. Josh Jung                 | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+DATA: SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 320
+Average Edge: 105.28%
+Total Expected Value: $336.91
+
+By Confidence Level:
+  VERY_HIGH: 320
+
+By Category:
+  hits: 64
+  hitter_strikeouts: 64
+  rbi: 64
+  runs: 64
+  total_bases: 64
+
+By Sportsbook:
+  prizepicks: 320

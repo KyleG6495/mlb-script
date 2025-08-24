@@ -3,12 +3,13 @@
 
 import pandas as pd
 import os
+from config import FilePaths
 
-# ── Paths ──
-BASE_DIR    = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SLATE_FILE  = r"C:\Users\kgone\OneDrive\Personal_Information\MLB\fd_current_slate\fd_slate_today.csv"
-DATA_DIR    = os.path.join(BASE_DIR, "data")
-OUTPUT_FILE = os.path.join(DATA_DIR, "hitter_games.csv")
+# ── Paths from Configuration ──
+BASE_DIR    = FilePaths.BASE_DIR
+SLATE_FILE  = FilePaths.FD_SLATE_TODAY
+DATA_DIR    = FilePaths.DATA_DIR
+OUTPUT_FILE = FilePaths.HITTER_GAMES
 
 os.makedirs(DATA_DIR, exist_ok=True)
 

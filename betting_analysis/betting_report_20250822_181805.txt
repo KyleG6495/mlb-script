@@ -1,0 +1,74 @@
+TARGET: AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-22 18:18:05
+================================================================================
+
+LINEUP: TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Matt Olson                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Josh Naylor               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Matt McLain               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 6. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 7. Josh Jung                 | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 8. Matt McLain               | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 9. Josh Smith                | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+10. Wyatt Langford            | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.2 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+DATA: SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 385
+Average Edge: 105.38%
+Total Expected Value: $405.72
+
+By Confidence Level:
+  VERY_HIGH: 385
+
+By Category:
+  hits: 77
+  hitter_strikeouts: 77
+  rbi: 77
+  runs: 77
+  total_bases: 77
+
+By Sportsbook:
+  prizepicks: 385

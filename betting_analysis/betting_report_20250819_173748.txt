@@ -1,0 +1,76 @@
+TARGET: AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-19 17:37:48
+================================================================================
+
+LINEUP: TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Shohei Ohtani             | total_bases  | prizepicks
+    Line:   7.5 | Prediction:   2.0 | Bet: UNDER
+    Edge: 138.59% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Freddie Freeman           | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   2.0 | Bet: UNDER
+    Edge: 138.57% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Bryce Johnson             | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   2.0 | Bet: UNDER
+    Edge: 138.57% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 4. Bryce Teodosio            | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   2.0 | Bet: UNDER
+    Edge: 138.57% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 5. Will Smith                | rbi          | prizepicks
+    Line:   2.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 135.82% | EV: $ +1.36 | Confidence: VERY_HIGH
+    Model Prob:  2.1% | Implied Prob: 58.5%
+
+ 6. Will Wagner               | rbi          | prizepicks
+    Line:   2.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 135.82% | EV: $ +1.36 | Confidence: VERY_HIGH
+    Model Prob:  2.1% | Implied Prob: 58.5%
+
+ 7. Fernando Tatis Jr.        | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 8. Freddie Freeman           | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 9. Jo Adell                  | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+10. Bo Bichette               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+DATA: SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 950
+Average Edge: 68.51%
+Total Expected Value: $650.86
+
+By Confidence Level:
+  HIGH: 48
+  LOW: 28
+  VERY_HIGH: 874
+
+By Category:
+  hits: 192
+  hitter_strikeouts: 188
+  rbi: 194
+  runs: 189
+  total_bases: 187
+
+By Sportsbook:
+  prizepicks: 950

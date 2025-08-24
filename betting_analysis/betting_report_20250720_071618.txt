@@ -1,0 +1,74 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-20 07:16:18
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. brett wisely              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. brett harris              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. brett auerbach            | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. shohei ohtani             | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. kyle schwarber            | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. corbin carroll            | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. eugenio suarez            | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. tyler soderstrom          | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. jo adell                  | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. matt chapman              | total_bases  | prizepicks
+    Line:   4.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 1331
+Average Edge: 72.53%
+Total Expected Value: $965.38
+
+By Confidence Level:
+  VERY_HIGH: 1331
+
+By Category:
+  hits: 332
+  home_runs: 270
+  rbi: 295
+  runs: 106
+  total_bases: 328
+
+By Sportsbook:
+  prizepicks: 1331

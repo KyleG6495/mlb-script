@@ -1,0 +1,63 @@
+🎯 OPTIMAL PROP COMBINATIONS REPORT
+================================================================================
+
+ 1. 3-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER
+    Size: 3 picks | Avg Edge: 138.6% | Win Prob: 97.0%
+    Total EV: 4.16 | Kelly: 15.0% | Diversity: 33.3%
+
+ 2. 3-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER
+    Size: 3 picks | Avg Edge: 137.1% | Win Prob: 97.0%
+    Total EV: 4.11 | Kelly: 15.0% | Diversity: 33.3%
+
+ 3. 3-pick: Tyler Glasnow UNDER, Jonathan Cannon UNDER, Michael Soroka UNDER
+    Size: 3 picks | Avg Edge: 137.1% | Win Prob: 97.0%
+    Total EV: 4.11 | Kelly: 15.0% | Diversity: 33.3%
+
+ 4. 3-pick: Michael Soroka UNDER, Jonathan Cannon UNDER, Tyler Glasnow UNDER
+    Size: 3 picks | Avg Edge: 137.1% | Win Prob: 97.0%
+    Total EV: 4.11 | Kelly: 15.0% | Diversity: 33.3%
+
+ 5. 3-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER
+    Size: 3 picks | Avg Edge: 135.7% | Win Prob: 97.0%
+    Total EV: 4.07 | Kelly: 15.0% | Diversity: 33.3%
+
+ 6. 4-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER
+    Size: 4 picks | Avg Edge: 124.3% | Win Prob: 96.1%
+    Total EV: 4.97 | Kelly: 15.0% | Diversity: 50.0%
+
+ 7. 4-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER
+    Size: 4 picks | Avg Edge: 124.3% | Win Prob: 96.1%
+    Total EV: 4.97 | Kelly: 15.0% | Diversity: 50.0%
+
+ 8. 4-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER
+    Size: 4 picks | Avg Edge: 124.3% | Win Prob: 96.1%
+    Total EV: 4.97 | Kelly: 15.0% | Diversity: 50.0%
+
+ 9. 4-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER
+    Size: 4 picks | Avg Edge: 124.3% | Win Prob: 96.1%
+    Total EV: 4.97 | Kelly: 15.0% | Diversity: 50.0%
+
+10. 4-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Cal Raleigh OVER
+    Size: 4 picks | Avg Edge: 124.3% | Win Prob: 96.1%
+    Total EV: 4.97 | Kelly: 15.0% | Diversity: 50.0%
+
+11. 5-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER, Cal Raleigh OVER
+    Size: 5 picks | Avg Edge: 115.8% | Win Prob: 95.1%
+    Total EV: 5.79 | Kelly: 15.0% | Diversity: 40.0%
+
+12. 5-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER, Cal Raleigh OVER
+    Size: 5 picks | Avg Edge: 115.8% | Win Prob: 95.1%
+    Total EV: 5.79 | Kelly: 15.0% | Diversity: 40.0%
+
+13. 5-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER, Sean Murphy OVER
+    Size: 5 picks | Avg Edge: 115.8% | Win Prob: 95.1%
+    Total EV: 5.79 | Kelly: 15.0% | Diversity: 40.0%
+
+14. 5-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER, Tyler Stephenson OVER
+    Size: 5 picks | Avg Edge: 115.8% | Win Prob: 95.1%
+    Total EV: 5.79 | Kelly: 15.0% | Diversity: 40.0%
+
+15. 5-pick: Tyler Glasnow UNDER, Michael Soroka UNDER, Jonathan Cannon UNDER, Andrew Abbott OVER, Tyler Stephenson OVER
+    Size: 5 picks | Avg Edge: 115.8% | Win Prob: 95.1%
+    Total EV: 5.79 | Kelly: 15.0% | Diversity: 40.0%
+

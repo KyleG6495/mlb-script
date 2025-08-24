@@ -1,0 +1,46 @@
+Strategy,Position,Name,Salary,FPTS
+Filtered Base,C,Dillon Dingler,2600,25.4
+Filtered Base,1B,Andrew Vaughn,2900,25.7
+Filtered Base,2B,Ernie Clement,2700,25.7
+Filtered Base,3B,Jonathan India,2800,25.2
+Filtered Base,SS,Luis Rengifo,2400,12.4
+Filtered Base,OF,Lawrence Butler,2900,19.2
+Filtered Base,OF,Shohei Ohtani,4800,27.9
+Filtered Base,OF,Christian Yelich,3400,37.9
+Filtered Base,P,Jacob Lopez,8700,58.0
+Filtered Value Focus,C,Edgar Quero,2500,34.9
+Filtered Value Focus,1B,Ernie Clement,2700,33.988249999999994
+Filtered Value Focus,2B,Jose Iglesias,2500,35.231399999999994
+Filtered Value Focus,3B,Jose Iglesias,2500,35.231399999999994
+Filtered Value Focus,SS,Alex Freeland,2200,7.13
+Filtered Value Focus,OF,Aaron Judge,4700,44.279999999999994
+Filtered Value Focus,OF,Jonathan India,2800,34.775999999999996
+Filtered Value Focus,OF,Taylor Ward,3200,37.92
+Filtered Value Focus,P,Nestor Cortes,6600,19.32
+Filtered Anti-Chalk,C,Francisco Alvarez,2600,69.68
+Filtered Anti-Chalk,1B,Vinnie Pasquantino,3100,42.57000000000001
+Filtered Anti-Chalk,2B,Curtis Mead,2300,20.988000000000003
+Filtered Anti-Chalk,3B,Abraham Toro,2600,12.804
+Filtered Anti-Chalk,SS,Nacho Alvarez Jr.,2200,23.04
+Filtered Anti-Chalk,OF,Shohei Ohtani,4800,27.9
+Filtered Anti-Chalk,OF,Riley Greene,3600,15.0
+Filtered Anti-Chalk,OF,Brenton Doyle,2800,6.2
+Filtered Anti-Chalk,P,Freddy Peralta,10300,39.2
+Filtered Upside,C,Francisco Alvarez,2600,53.6
+Filtered Upside,1B,Pete Alonso,3600,50.1
+Filtered Upside,2B,Mookie Betts,3300,11.284
+Filtered Upside,3B,Blaze Alexander,2600,31.602999999999998
+Filtered Upside,SS,Ceddanne Rafaela,2800,11.284
+Filtered Upside,OF,Giancarlo Stanton,3100,52.78
+Filtered Upside,OF,Brandon Nimmo,3000,44.66
+Filtered Upside,OF,Roman Anthony,2900,64.82
+Filtered Upside,P,Robbie Ray,9900,10.799999999999999
+Filtered Balanced,C,Dalton Rushing,2400,27.720000000000002
+Filtered Balanced,1B,Vinnie Pasquantino,3100,38.7
+Filtered Balanced,2B,Caleb Durbin,2800,24.42
+Filtered Balanced,3B,Casey Schmitt,2600,22.022000000000002
+Filtered Balanced,SS,Anthony Volpe,3000,31.57
+Filtered Balanced,OF,Roman Anthony,2900,50.93
+Filtered Balanced,OF,Mike Tauchman,2900,13.42
+Filtered Balanced,OF,Jurickson Profar,3100,20.57
+Filtered Balanced,P,Kyle Freeland,6800,33.57

@@ -1,0 +1,76 @@
+TARGET: AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-08-21 13:52:44
+================================================================================
+
+LINEUP: TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Mookie Betts              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   2.0 | Bet: UNDER
+    Edge: 138.57% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 2. Andy Pages                | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   2.0 | Bet: UNDER
+    Edge: 138.57% | EV: $ +1.39 | Confidence: VERY_HIGH
+    Model Prob:  1.0% | Implied Prob: 58.5%
+
+ 3. Michael Conforto          | rbi          | prizepicks
+    Line:   2.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 135.82% | EV: $ +1.36 | Confidence: VERY_HIGH
+    Model Prob:  2.1% | Implied Prob: 58.5%
+
+ 4. Michael Stefanic          | rbi          | prizepicks
+    Line:   2.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 135.82% | EV: $ +1.36 | Confidence: VERY_HIGH
+    Model Prob:  2.1% | Implied Prob: 58.5%
+
+ 5. Michael Perez             | rbi          | prizepicks
+    Line:   2.5 | Prediction:   0.5 | Bet: UNDER
+    Edge: 135.82% | EV: $ +1.36 | Confidence: VERY_HIGH
+    Model Prob:  2.1% | Implied Prob: 58.5%
+
+ 6. Will Smith                | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 7. Mookie Betts              | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 8. Bo Bichette               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+ 9. Tyler Heineman            | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+10. Will Wagner               | hits         | prizepicks
+    Line:   2.5 | Prediction:   0.8 | Bet: UNDER
+    Edge: 129.67% | EV: $ +1.30 | Confidence: VERY_HIGH
+    Model Prob:  4.7% | Implied Prob: 58.5%
+
+DATA: SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 535
+Average Edge: 66.96%
+Total Expected Value: $358.25
+
+By Confidence Level:
+  HIGH: 37
+  LOW: 15
+  VERY_HIGH: 483
+
+By Category:
+  hits: 110
+  hitter_strikeouts: 104
+  rbi: 105
+  runs: 105
+  total_bases: 111
+
+By Sportsbook:
+  prizepicks: 535

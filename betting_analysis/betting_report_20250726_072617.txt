@@ -1,0 +1,76 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-26 07:26:17
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Shohei Ohtani             | total_bases  | prizepicks
+    Line:   6.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. Aaron Judge               | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. Cal Raleigh               | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. Jonathan Aranda           | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. Jonathan India            | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. Nathan Lukes              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. Aaron Schunk              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. Aaron Sabato              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. Aaron Bracho              | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. Jonathan Ornelas          | total_bases  | prizepicks
+    Line:   5.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.97% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 8522
+Average Edge: 64.39%
+Total Expected Value: $5487.23
+
+By Confidence Level:
+  VERY_HIGH: 8522
+
+By Category:
+  hits: 1257
+  hitter_strikeouts: 1382
+  home_runs: 875
+  rbi: 1678
+  runs: 1661
+  total_bases: 1669
+
+By Sportsbook:
+  prizepicks: 3939
+  underdog: 4583

@@ -1,0 +1,99 @@
+UNIFIED DFS SYSTEM - COMPLETE WORKFLOW GUIDE
+==============================================
+
+🎯 THE PROBLEM WE SOLVED:
+- You had multiple overlapping DFS scripts causing confusion
+- Different systems with inconsistent results
+- Complex pipelines that were hard to manage
+- Unclear which script to use when
+
+✅ THE SOLUTION:
+- ONE unified DFS system that replaces ALL others
+- Simple 2-step process for daily optimization
+- Consistent, validated results every time
+- Clear file naming and organization
+
+📋 DAILY WORKFLOW (2 STEPS):
+============================
+
+STEP 1: Update Today's Slate
+----------------------------
+1. Download today's FanDuel slate as CSV
+2. Save it as: data/fd_slate_today.csv
+3. Make sure your projection files are current:
+   - data/fd_hitter_features_final.csv
+   - data/fd_pitcher_features_final.csv
+
+STEP 2: Run Optimization  
+------------------------
+1. Double-click: Scripts/RUN_UNIFIED_DFS.bat
+2. Wait 2-5 minutes for completion
+3. Find your files in data/ folder (timestamped)
+
+🎯 OUTPUT FILES:
+===============
+- fanduel_submission_YYYYMMDD_HHMMSS.csv ← UPLOAD THIS TO FANDUEL
+- unified_dfs_lineups_YYYYMMDD_HHMMSS.csv (detailed view)
+- unified_dfs_summary_YYYYMMDD_HHMMSS.csv (quick overview)
+
+📊 LINEUP STRATEGY:
+==================
+- 3 FLOOR lineups: Safe plays, high floor (cash games)
+- 14 BALANCED lineups: All-purpose (most contests)  
+- 3 CEILING lineups: High upside (tournaments)
+- Total: 20 unique, optimized lineups
+
+🔧 TECHNICAL DETAILS:
+====================
+- Proper FanDuel constraints: P + C + 1B + 2B + 3B + SS + 3OF = 9 players
+- $35,000 salary cap enforcement
+- Enhanced projections with weather/park/matchup factors
+- Automatic lineup diversity (no duplicate builds)
+- Value optimization across salary tiers
+- Position scarcity adjustments
+
+🗂️ FILE ORGANIZATION:
+=====================
+NEW (USE THESE):
+- Scripts/UNIFIED_DFS_SYSTEM.py ← The main system
+- Scripts/RUN_UNIFIED_DFS.bat ← Simple launcher
+
+DEPRECATED (DON'T USE):
+- enhanced_dfs_optimizer.py
+- enhanced_fanduel_optimizer.py  
+- optimize_fanduel_lineup.py
+- All other DFS optimizer scripts
+
+📝 TROUBLESHOOTING:
+==================
+Q: "No player_id column found"
+A: Your fd_slate_today.csv needs an 'Id' column or 'player_id' column
+
+Q: "No projection files found"  
+A: Make sure fd_hitter_features_final.csv and fd_pitcher_features_final.csv exist
+
+Q: "Optimization failed"
+A: Check that your slate has players in all required positions (P, C, 1B, 2B, 3B, SS, OF)
+
+Q: "Which lineups should I submit?"
+A: Start with BALANCED lineups. Use FLOOR for cash games, CEILING for GPPs.
+
+🚀 QUICK START:
+==============
+1. Put today's FanDuel slate CSV in data/fd_slate_today.csv
+2. Run Scripts/RUN_UNIFIED_DFS.bat
+3. Upload the fanduel_submission_*.csv file to FanDuel
+4. Done!
+
+💡 BENEFITS OF NEW SYSTEM:
+==========================
+✅ Single source of truth (no confusion)
+✅ Validated constraints (no more broken lineups)
+✅ Enhanced projections (better performance)
+✅ Automatic diversity (unique lineups)
+✅ Simple workflow (2 steps)
+✅ Clear outputs (timestamped files)
+✅ Strategic variety (floor/balanced/ceiling)
+
+This system consolidates everything into one reliable, easy-to-use tool.
+No more guessing which script to run - just use the unified system!

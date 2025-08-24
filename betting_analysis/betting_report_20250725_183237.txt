@@ -1,0 +1,78 @@
+🎯 AUTOMATED BETTING SYSTEM REPORT
+Generated: 2025-07-25 18:32:37
+================================================================================
+
+🏆 TOP 10 BETTING OPPORTUNITIES:
+--------------------------------------------------------------------------------
+ 1. Will Wagner               | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -1.8 | Bet: UNDER
+    Edge: 110.00% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 2. Eric Yang                 | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 109.99% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 3. Eric Wagaman              | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.4 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 4. Eric Haase                | strikeouts   | prizepicks
+    Line:   7.5 | Prediction:   0.4 | Bet: UNDER
+    Edge: 109.96% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 5. Zac Veen                  | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 109.91% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 6. Will Holland              | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 109.91% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 7. Zack Gelof                | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 109.91% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 8. Logan Driscoll            | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 109.91% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+ 9. Will Brennan              | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:  -0.1 | Bet: UNDER
+    Edge: 109.91% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.0% | Implied Prob: 52.4%
+
+10. Zack Short                | strikeouts   | prizepicks
+    Line:   6.5 | Prediction:   0.1 | Bet: UNDER
+    Edge: 109.84% | EV: $ +1.10 | Confidence: VERY_HIGH
+    Model Prob:  0.1% | Implied Prob: 52.4%
+
+📊 SUMMARY STATISTICS:
+----------------------------------------
+Total Opportunities: 3860
+Average Edge: 86.30%
+Total Expected Value: $3331.03
+
+By Confidence Level:
+  HIGH: 2
+  LOW: 2
+  VERY_HIGH: 3856
+
+By Category:
+  hits: 542
+  home_runs: 770
+  rbi: 859
+  runs: 839
+  strikeouts: 33
+  total_bases: 817
+
+By Sportsbook:
+  prizepicks: 1903
+  underdog: 1957
