@@ -120,7 +120,10 @@ except FileNotFoundError:
 if 'team_standardized' in df_weather_park.columns:
     df_weather_park['team_standardized'] = df_weather_park['team_standardized'].str.lower().map(team_standardized_map).fillna(df_weather_park['team_standardized'])
     logging.info("Normalized team_standardized in df_weather_park")
-logging.info(f"Unique teams in df_weather_park: {df_weather_park['team_standardized'].unique().tolist()}")
+    logging.info(f"Unique teams in df_weather_park: {df_weather_park['team_standardized'].unique().tolist()}")
+else:
+    logging.info(f"Available columns in df_weather_park: {df_weather_park.columns.tolist()}")
+    logging.warning("team_standardized column not found in df_weather_park")
 
 # Check for missing teams
 if 'opponent_standardized' in df_hitters.columns and 'team_standardized' in df_weather_park.columns:
@@ -132,7 +135,8 @@ else:
 
 # Merge hitters with weather and park data
 logging.info("🔄 Merging hitters with weather and park data")
-if 'team_standardized' in df_hitters.columns and 'game_pk' in df_hitters.columns:
+if ('team_standardized' in df_hitters.columns and 'team_standardized' in df_weather_park.columns and 
+    'game_pk' in df_hitters.columns and 'game_pk' in df_weather_park.columns):
     df_final = pd.merge(
         df_hitters,
         df_weather_park,
@@ -141,8 +145,8 @@ if 'team_standardized' in df_hitters.columns and 'game_pk' in df_hitters.columns
         how='left',
         suffixes=('', '_weather')
     )
-    logging.info(f"✅ Final merged: {len(df_final)} rows")
-elif 'game_pk' in df_hitters.columns:
+    logging.info(f"✅ Final merged on team_standardized and game_pk: {len(df_final)} rows")
+elif 'game_pk' in df_hitters.columns and 'game_pk' in df_weather_park.columns:
     df_final = pd.merge(
         df_hitters,
         df_weather_park,
